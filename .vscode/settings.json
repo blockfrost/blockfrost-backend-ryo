@@ -1,0 +1,24 @@
+{
+  "cSpell.words": [
+    "bech",
+    "blockfrost",
+    "cardano",
+    "cbor",
+    "delegators",
+    "fastify",
+    "milkomeda",
+    "nutlink",
+    "openapi",
+    "preprod",
+    "ts",
+    "utxo"
+  ],
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "eslint.nodePath": ".yarn/sdks",
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "prettier.prettierPath": ".yarn/sdks/prettier/index.js"
+}

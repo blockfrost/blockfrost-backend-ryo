@@ -1,0 +1,14 @@
+node_modules
+*.swp
+dist
+result
+coverage
+yarn-error.log
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.yarn/build-state.yml

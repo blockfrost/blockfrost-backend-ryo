@@ -1,0 +1,14 @@
+export default {
+  server: {
+    port: 3000,
+    debug: true,
+  },
+  dbSync: {
+    host: 'cdbsync-testnet.mydomain.com',
+    user: 'cexplorer',
+    database: 'cdbsync',
+    maxConnections: 10,
+  },
+  network: 'testnet',
+  tokenRegistryUrl: 'https://metadata.cardano-testnet.iohkdev.io',
+};
