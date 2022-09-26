@@ -35,6 +35,8 @@ The system requirements for the basic Blockfrost backend stack (which means `blo
 
 There are several configuration files in `config` directory. Config file is picked based on a value in an environment variable `NODE_ENV` (value set in `NODE_ENV` must match the name of the config file). This environment variable is set automatically while running the backend via prepared `yarn` scripts.
 
+If you are using an authenticated db connection that requires a password, you'd need to provide a `PGPASSWORD` environment variable and the postgres library will automatically pick it up.
+
 #### Schema
 
 ```ts
