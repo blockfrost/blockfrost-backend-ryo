@@ -1,5 +1,6 @@
 export default {
   server: {
+    listenAddress: 'localhost',
     port: 3000,
     debug: true,
   },
