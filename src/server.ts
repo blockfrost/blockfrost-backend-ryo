@@ -2,6 +2,7 @@ import app from './app';
 import { getConfig } from './config';
 
 const port = getConfig().server.port;
+const address = getConfig().server.listenAddress;
 const debug = getConfig().server.debug;
 
 const server = app({
@@ -25,7 +26,7 @@ const server = app({
   maxParamLength: 32_768,
 });
 
-server.listen({ port }, error => {
+server.listen(port, address, error => {
   if (error) {
     console.error(error);
     // eslint-disable-next-line unicorn/no-process-exit

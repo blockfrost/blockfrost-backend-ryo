@@ -43,6 +43,8 @@ If you are using an authenticated db connection that requires a password, you'd 
 {
   // Blockfrost backend settings
   server: {
+    // Server listen address, you need to set this to 0.0.0.0 if running within docker
+    listenAddress: 'localhost',
     // Server port
     port: 3000,
     // Whether to enable verbose logging, when disabled only ERRORs are printed to a console
@@ -82,7 +84,8 @@ We are hosting latest release of this software on Dockerhub. To run it using Doc
 docker run --rm \
   --name blockfrost-ryo \
   -p 3000:3000 \
-  -v ./config:/app/config \
+  -e BLOCKFROST_CONFIG_SERVER_LISTEN_ADDRESS=0.0.0.0 \
+  -v $PWD/config:/app/config \
   blockfrost/backend-ryo:latest
  ```
 

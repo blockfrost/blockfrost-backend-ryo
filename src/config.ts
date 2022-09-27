@@ -3,6 +3,8 @@ import { CARDANO_NETWORKS, Network } from './types/common';
 
 export const loadConfig = () => {
   // server
+  const listenAddress = process.env.BLOCKFROST_CONFIG_SERVER_LISTEN_ADDRESS
+    ?? config.get<string>('server.listenAddress');
   const port = process.env.BLOCKFROST_CONFIG_SERVER_PORT
     ? Number(process.env.BLOCKFROST_CONFIG_SERVER_PORT)
     : config.get<number>('server.port');
@@ -36,6 +38,7 @@ export const loadConfig = () => {
 
   return {
     server: {
+      listenAddress,
       port,
       debug,
       prometheusMetrics,
