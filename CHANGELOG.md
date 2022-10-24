@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Behaviour of `paymentCred` to improve performance with default indexes
 
+### Fixed
+
+- test coverage
 
 ## [1.0.0] - 2022-09-23
 
