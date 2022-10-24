@@ -8,8 +8,10 @@ WITH queried_metadata AS (
       FROM tx_out txo
         JOIN tx_metadata txm ON (txo.tx_id = txm.tx_id)
       WHERE (
-          txo.address = $1
-          OR txo.payment_cred = $2
+          CASE
+            WHEN $2::BYTEA IS NOT NULL THEN txo.payment_cred = $2
+            ELSE txo.address = $1
+          END
         )
         AND txm.key = 1967
     )
@@ -17,8 +19,12 @@ WITH queried_metadata AS (
 SELECT (
     SELECT address
     FROM tx_out txo
-    WHERE txo.address = $1
-      OR txo.payment_cred = $2
+    WHERE (
+        CASE
+          WHEN $2::BYTEA IS NOT NULL THEN txo.payment_cred = $2
+          ELSE txo.address = $1
+        END
+      )
     LIMIT 1
   ) AS "address",
   (

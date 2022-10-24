@@ -10,8 +10,10 @@ FROM (
           AND txo.index = txi.tx_out_index
         )
       WHERE (
-          txo.address = $4
-          OR txo.payment_cred = $5
+          CASE
+            WHEN $5::BYTEA IS NOT NULL THEN txo.payment_cred = $5
+            ELSE txo.address = $4
+          END
         )
     )
     UNION
@@ -22,8 +24,10 @@ FROM (
       FROM tx
         JOIN tx_out txo ON (txo.tx_id = tx.id)
       WHERE (
-          txo.address = $4
-          OR txo.payment_cred = $5
+          CASE
+            WHEN $5::BYTEA IS NOT NULL THEN txo.payment_cred = $5
+            ELSE txo.address = $4
+          END
         )
     )
   ) AS "unique_txs"

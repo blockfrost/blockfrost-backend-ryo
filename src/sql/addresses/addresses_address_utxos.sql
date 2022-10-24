@@ -1,7 +1,8 @@
 SELECT encode(tx.hash, 'hex') AS "tx_hash",
   txo.index AS "tx_index",
   txo.index AS "output_index",
-  txo.value::TEXT AS "amount_lovelace", -- cast to TEXT to avoid number overflow
+  txo.value::TEXT AS "amount_lovelace",
+  -- cast to TEXT to avoid number overflow
   (
     SELECT json_agg(
         json_build_object(
@@ -28,8 +29,10 @@ FROM tx
   LEFT JOIN script scr ON (txo.reference_script_id = scr.id)
 WHERE txi.tx_in_id IS NULL
   AND (
-    txo.address = $4
-    OR txo.payment_cred = $5
+    CASE
+      WHEN $5::BYTEA IS NOT NULL THEN txo.payment_cred = $5
+      ELSE txo.address = $4
+    END
   )
 ORDER BY CASE
     WHEN LOWER($1) = 'desc' THEN txo.id
