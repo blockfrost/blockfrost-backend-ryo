@@ -40,7 +40,7 @@ async function addresses(fastify: FastifyInstance) {
         );
 
         // if paymentCred is used we have to convert it back to bech32
-        if (paymentCred !== '') {
+        if (paymentCred) {
           const bech32paymentCred = paymentCredToBech32Address(rows[0].address);
 
           if (bech32paymentCred) rows[0].address = bech32paymentCred;
@@ -118,7 +118,7 @@ async function addresses(fastify: FastifyInstance) {
         clientDbSync.release();
 
         // if paymentCred is used we have to convert it back to bech32
-        if (paymentCred !== '') {
+        if (paymentCred) {
           const bech32paymentCred = paymentCredToBech32Address(rows[0].address);
 
           if (bech32paymentCred) rows[0].address = bech32paymentCred;
@@ -214,7 +214,7 @@ async function addresses(fastify: FastifyInstance) {
         clientDbSync.release();
 
         // if paymentCred is used we have to convert it back to bech32
-        if (paymentCred !== '') {
+        if (paymentCred) {
           const bech32paymentCred = paymentCredToBech32Address(rows[0].address);
 
           if (bech32paymentCred) rows[0].address = bech32paymentCred;

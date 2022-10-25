@@ -20,8 +20,10 @@ FROM (
         )
         JOIN block b ON (b.id = tx.block_id)
       WHERE (
-          txo.address = $4
-          OR txo.payment_cred = $5
+          CASE
+            WHEN $5::BYTEA IS NOT NULL THEN txo.payment_cred = $5
+            ELSE txo.address = $4
+          END
         )
         AND (
           (
@@ -57,7 +59,8 @@ FROM (
           )
         )
     )
-    UNION  -- remove duplicate from SELF TXs via UNION
+    UNION
+    -- remove duplicate from SELF TXs via UNION
     (
       SELECT tx.id,
         tx.hash,
@@ -68,8 +71,10 @@ FROM (
         JOIN tx_out txo ON (txo.tx_id = tx.id)
         JOIN block b ON (b.id = tx.block_id)
       WHERE (
-          txo.address = $4
-          OR txo.payment_cred = $5
+          CASE
+            WHEN $5::BYTEA IS NOT NULL THEN txo.payment_cred = $5
+            ELSE txo.address = $4
+          END
         )
         AND (
           (

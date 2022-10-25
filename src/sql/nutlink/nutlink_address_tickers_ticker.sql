@@ -7,8 +7,10 @@ FROM tx_out txo
   JOIN tx ON (tx.id = txm.tx_id)
   JOIN block b ON (b.id = tx.block_id)
 WHERE (
-    txo.address = $4
-    OR txo.payment_cred = $5
+    CASE
+      WHEN $5::BYTEA IS NOT NULL THEN txo.payment_cred = $5
+      ELSE txo.address = $4
+    END
   )
   AND txm.key = 1968
   AND (txm.json->$6) IS NOT NULL

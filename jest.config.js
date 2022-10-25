@@ -5,7 +5,7 @@ const { rules } = require('eslint-config-prettier');
 let collectCoveragePaths = [];
 
 collectCoveragePaths = [
-  '<rootDir>/src/services/**/*.ts',
+  '<rootDir>/src/routes/**/*.ts',
   '<rootDir>/src/utils/**/*.ts',
   '!**/node_modules/**',
 ];

@@ -6,7 +6,7 @@ import { getDbSync } from '../../utils/database';
 import axios from 'axios';
 import * as Sentry from '@sentry/node';
 import { handle404, handleInvalidAddress } from '../../utils/error-handler';
-import { getAddressTypeAndPaymentCred } from '../../utils/validation';
+import { getAddressTypeAndPaymentCred, paymentCredToBech32Address } from '../../utils/validation';
 import { SQLQuery } from '../../sql';
 
 async function nutlink(fastify: FastifyInstance) {
@@ -40,6 +40,13 @@ async function nutlink(fastify: FastifyInstance) {
           ]);
 
         clientDbSync.release();
+
+        // if paymentCred is used we have to convert it back to bech32
+        if (paymentCred) {
+          const bech32paymentCred = paymentCredToBech32Address(rows[0].address);
+
+          if (bech32paymentCred) rows[0].address = bech32paymentCred;
+        }
 
         //rows[0].metadata = null;
         //metadata is already set to null by SQL, so we don't have to do it here

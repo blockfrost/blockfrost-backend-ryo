@@ -10,8 +10,10 @@ WITH queried_outputs AS (
     )
     LEFT JOIN ma_tx_out mto ON (mto.tx_out_id = txo.id)
   WHERE (
-      txo.address = $1
-      OR txo.payment_cred = $2
+      CASE
+        WHEN $2::BYTEA IS NOT NULL THEN txo.payment_cred = $2
+        ELSE txo.address = $1
+      END
     )
   GROUP BY txo.id
 ),
@@ -23,14 +25,16 @@ queried_inputs AS (
     JOIN tx_out txo ON (txo.tx_id = tx.id)
     LEFT JOIN ma_tx_out mto ON (mto.tx_out_id = txo.id)
   WHERE (
-      txo.address = $1
-      OR txo.payment_cred = $2
+      CASE
+        WHEN $2::BYTEA IS NOT NULL THEN txo.payment_cred = $2
+        ELSE txo.address = $1
+      END
     )
   GROUP BY txo.id
 )
 SELECT (
     SELECT CASE
-        WHEN $2 <> '' THEN encode($2, 'hex')
+        WHEN $2::BYTEA IS NOT NULL THEN encode($2, 'hex')
         ELSE (
           SELECT address
           FROM tx_out txo

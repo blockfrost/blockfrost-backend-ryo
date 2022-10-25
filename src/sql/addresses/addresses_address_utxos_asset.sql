@@ -30,8 +30,10 @@ FROM tx
   LEFT JOIN script scr ON (txo.reference_script_id = scr.id)
 WHERE txi.tx_in_id IS NULL
   AND (
-    txo.address = $4
-    OR txo.payment_cred = $5
+    CASE
+      WHEN $5::BYTEA IS NOT NULL THEN txo.payment_cred = $5
+      ELSE txo.address = $4
+    END
   )
   AND (
     CASE

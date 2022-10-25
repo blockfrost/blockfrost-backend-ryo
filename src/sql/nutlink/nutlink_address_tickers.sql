@@ -14,8 +14,10 @@ FROM (
     FROM tx_out txo
       JOIN tx_metadata txm ON (txo.tx_id = txm.tx_id)
     WHERE (
-        txo.address = $4
-        OR txo.payment_cred = $5
+        CASE
+          WHEN $5::BYTEA IS NOT NULL THEN txo.payment_cred = $5
+          ELSE txo.address = $4
+        END
       )
       AND txm.key = 1968
     GROUP BY name
