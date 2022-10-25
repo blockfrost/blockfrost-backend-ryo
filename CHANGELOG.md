@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2022-10-25
+
 ### Changed
 
 - Behaviour of `paymentCred` to improve performance with default indexes
