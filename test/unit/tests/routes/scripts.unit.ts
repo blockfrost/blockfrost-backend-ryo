@@ -3,10 +3,7 @@ import sinon from 'sinon';
 import supertest from 'supertest';
 import fixtures from '../../fixtures/scripts.fixtures';
 import buildFastify from '../../../../src/app';
-import jestOpenAPI from 'jest-openapi';
-import path from 'path';
-
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
+import { describe, expect, test } from 'vitest';
 
 describe('scripts service', () => {
   fixtures.map(fixture => {

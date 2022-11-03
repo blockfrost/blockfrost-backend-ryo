@@ -4,10 +4,7 @@ import * as tokenRegistryUtils from '../../../../src/utils/token-registry';
 import supertest from 'supertest';
 import fixtures from '../../fixtures/assets.fixtures';
 import buildFastify from '../../../../src/app';
-import jestOpenAPI from 'jest-openapi';
-import path from 'path';
-
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
+import { describe, expect, test } from 'vitest';
 
 describe('assets service', () => {
   sinon.stub(tokenRegistryUtils, 'fetchAssetMetadata').callsFake((asset: string) => {

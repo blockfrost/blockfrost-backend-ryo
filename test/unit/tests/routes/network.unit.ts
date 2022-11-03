@@ -3,11 +3,8 @@ import sinon from 'sinon';
 import supertest from 'supertest';
 import fixtures from '../../fixtures/network.fixtures';
 import buildFastify from '../../../../src/app';
-import jestOpenAPI from 'jest-openapi';
-import path from 'path';
 import * as config from '../../../../src/config';
-
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
+import { describe, expect, test } from 'vitest';
 
 describe('network service', () => {
   fixtures.map(fixture => {

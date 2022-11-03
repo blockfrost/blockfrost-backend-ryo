@@ -3,10 +3,7 @@ import supertest from 'supertest';
 import * as databaseUtils from '../../../../src/utils/database';
 import fixtures from '../../fixtures/epochs.fixtures';
 import buildFastify from '../../../../src/app';
-import jestOpenAPI from 'jest-openapi';
-import path from 'path';
-
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
+import { describe, expect, test } from 'vitest';
 
 describe('epochs service', () => {
   fixtures.map(fixture => {

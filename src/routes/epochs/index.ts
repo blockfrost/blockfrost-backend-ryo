@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../types/queries/epochs';
 import * as ResponseTypes from '../../types/responses/epochs';
 import { getDbSync } from '../../utils/database';
-import { getSchemaForEndpoint } from '../../utils/open-api';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { handle400Custom, handle404 } from '../../utils/error-handler';
 import { validateAndConvertPool, validatePositiveInRangeSignedInt } from '../../utils/validation';
 import { SQLQuery } from '../../sql';

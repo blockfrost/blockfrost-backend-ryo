@@ -1,18 +1,20 @@
 import sinon from 'sinon';
-import {
-  validateStakeAddressFixture,
-  convertStakeAddressFixture,
-  validateAndConvertPoolFixture,
-  validateDerivationXpubFixture,
-  validateInRangeUnsignedIntFixture,
-  validatePositiveInRangeSignedIntFixture,
-  validatePositiveInRangeSignedBigIntFixture,
-  validateBlockHashFixture,
-  validateHexFixture,
-  isNumber,
-} from '../../fixtures/validation-format-utils.fixtures';
+import { describe, expect, test } from 'vitest';
+
 import * as config from '../../../../src/config';
 import * as validationUtils from '../../../../src/utils/validation';
+import {
+  convertStakeAddressFixture,
+  isNumber,
+  validateAndConvertPoolFixture,
+  validateBlockHashFixture,
+  validateDerivationXpubFixture,
+  validateHexFixture,
+  validateInRangeUnsignedIntFixture,
+  validatePositiveInRangeSignedBigIntFixture,
+  validatePositiveInRangeSignedIntFixture,
+  validateStakeAddressFixture,
+} from '../../fixtures/validation-format-utils.fixtures';
 
 describe('validation-format-utils', () => {
   validateStakeAddressFixture.map(fixture => {

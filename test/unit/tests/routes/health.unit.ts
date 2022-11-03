@@ -1,11 +1,8 @@
 import buildFastify from '../../../../src/app';
 import sinon from 'sinon';
 import supertest from 'supertest';
-import jestOpenAPI from 'jest-openapi';
 import * as databaseUtils from '../../../../src/utils/database';
-import path from 'path';
-
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
+import { describe, expect, test } from 'vitest';
 
 describe('health endpoints tests', () => {
   test('responds with success on request /health', async () => {

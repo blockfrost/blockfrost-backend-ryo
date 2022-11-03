@@ -3,11 +3,9 @@ import sinon from 'sinon';
 import supertest from 'supertest';
 import fixtures from '../../fixtures/addresses.fixtures';
 import buildFastify from '../../../../src/app';
-import jestOpenAPI from 'jest-openapi';
-import path from 'path';
-import * as config from '../../../../src/config';
+import { describe, expect, test } from 'vitest';
 
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
+import * as config from '../../../../src/config';
 
 describe('address service', () => {
   fixtures.map(fixture => {

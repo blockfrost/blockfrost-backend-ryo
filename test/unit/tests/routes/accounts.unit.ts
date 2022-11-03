@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import sinon from 'sinon';
 import supertest from 'supertest';
+import { describe, expect, test } from 'vitest';
 import fixtures from '../../fixtures/accounts.fixtures';
 import buildFastify from '../../../../src/app';
-import jestOpenAPI from 'jest-openapi';
-import path from 'path';
 import * as config from '../../../../src/config';
 import * as databaseUtils from '../../../../src/utils/database';
-
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
 
 describe('accounts service', () => {
   fixtures.map(fixture => {

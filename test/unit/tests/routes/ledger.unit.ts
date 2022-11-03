@@ -1,11 +1,8 @@
 import supertest from 'supertest';
 import buildFastify from '../../../../src/app';
-import jestOpenAPI from 'jest-openapi';
-import path from 'path';
 import sinon from 'sinon';
 import * as config from '../../../../src/config';
-
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
+import { describe, expect, test } from 'vitest';
 
 describe('ledger service', () => {
   test('network - Mainnet', async () => {

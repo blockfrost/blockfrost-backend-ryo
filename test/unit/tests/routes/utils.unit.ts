@@ -1,12 +1,10 @@
 import sinon from 'sinon';
-import fixtures from '../../fixtures/utils.fixtures';
-import * as config from '../../../../src/config';
 import supertest from 'supertest';
-import buildFastify from '../../../../src/app';
-import jestOpenAPI from 'jest-openapi';
-import path from 'path';
+import { describe, expect, test } from 'vitest';
 
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
+import buildFastify from '../../../../src/app';
+import * as config from '../../../../src/config';
+import fixtures from '../../fixtures/utils.fixtures';
 
 describe('utils', () => {
   fixtures.map(fixture => {

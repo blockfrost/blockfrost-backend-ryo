@@ -1,5 +1,6 @@
 import { transformTokenRegistryAssetFixture } from '../../fixtures/token-registry.fixtures';
 import * as tokenRegistryUtils from '../../../../src/utils/token-registry';
+import { describe, expect, test } from 'vitest';
 
 describe('validation-format-utils', () => {
   transformTokenRegistryAssetFixture.map(fixture => {

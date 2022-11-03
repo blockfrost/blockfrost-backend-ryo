@@ -1,3 +1,5 @@
+import { describe, expect, test } from 'vitest';
+
 import { getSchemaForEndpoint } from '../../../../src/utils/open-api';
 
 describe('open api utils', () => {
