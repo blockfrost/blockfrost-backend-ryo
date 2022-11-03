@@ -4,20 +4,20 @@ import { getConfig } from './config';
 const port = getConfig().server.port;
 const address = getConfig().server.listenAddress;
 const debug = getConfig().server.debug;
-const logger = {
-  transport:
-    process.env.NODE_ENV === 'development' || debug
-      ? {
+const logger =
+  process.env.NODE_ENV === 'production' && !debug
+    ? false
+    : {
+        transport: {
           target: 'pino-pretty',
           options: {
             translateTime: 'HH:MM:ss Z',
           },
-        }
-      : undefined,
-};
+        },
+      };
 
 const server = app({
-  logger: process.env.NODE_ENV === 'production' ? false : logger,
+  logger,
   ignoreTrailingSlash: true,
 
   // https://www.fastify.io/docs/latest/Server/#maxparamlength
