@@ -8,6 +8,8 @@ import { handle400Custom, handle404, handleInvalidAddress } from '../../utils/er
 import { getAddressTypeAndPaymentCred, paymentCredToBech32Address } from '../../utils/validation';
 import { SQLQuery } from '../../sql';
 import { fetchAssetMetadata } from '../../utils/token-registry';
+import { handleInvalidAsset } from '@blockfrost/blockfrost-utils/lib/fastify';
+import { validateAsset } from '@blockfrost/blockfrost-utils/lib/validation';
 
 async function addresses(fastify: FastifyInstance) {
   fastify.route({
@@ -479,15 +481,31 @@ async function addresses(fastify: FastifyInstance) {
         return handleInvalidAddress(reply);
       }
 
+      const isAssetValid = validateAsset(request.params.asset);
+
+      if (!isAssetValid) {
+        return handleInvalidAsset(reply);
+      }
+
       const clientDbSync = await getDbSync(fastify);
 
       try {
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404_address = await clientDbSync.query<QueryTypes.ResultFound>(
           SQLQuery.get('addresses_404'),
           [request.params.address, paymentCred],
         );
 
-        if (query404.rows.length === 0) {
+        if (query404_address.rows.length === 0) {
+          clientDbSync.release();
+          return handle404(reply);
+        }
+
+        const query404_asset = await clientDbSync.query<QueryTypes.ResultFound>(
+          SQLQuery.get('assets_404'),
+          [request.params.asset],
+        );
+
+        if (query404_asset.rows.length === 0) {
           clientDbSync.release();
           return handle404(reply);
         }

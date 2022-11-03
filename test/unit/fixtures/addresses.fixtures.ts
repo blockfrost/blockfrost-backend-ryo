@@ -1,4 +1,4 @@
-const query_addresses_found = [{ result: 1 }];
+const query_found = [{ result: 1 }];
 
 const query_address_regular_1 = {
   address:
@@ -79,8 +79,7 @@ const response_address_testnet_1 = {
 };
 
 const query_address_vkh_testnet_1 = {
-  address:
-    'addr_vkh1epr2wj5sg6x66gr650nlrlk9eahlrynxag3hjye6xctfvmdduge',
+  address: 'addr_vkh1epr2wj5sg6x66gr650nlrlk9eahlrynxag3hjye6xctfvmdduge',
   amount_lovelace: '136420772',
   amount: [
     {
@@ -105,8 +104,7 @@ const query_address_vkh_testnet_1 = {
 };
 
 const response_address_vkh_testnet_1 = {
-  address:
-    'addr_vkh1epr2wj5sg6x66gr650nlrlk9eahlrynxag3hjye6xctfvmdduge',
+  address: 'addr_vkh1epr2wj5sg6x66gr650nlrlk9eahlrynxag3hjye6xctfvmdduge',
   amount: [
     { unit: 'lovelace', quantity: '136420772' },
     { unit: '34250edd1e9836f5378702fbf9416b709bc140e04f668cc355208518', quantity: '3' },
@@ -177,8 +175,7 @@ const response_address_total_regular_1 = {
 };
 
 const query_address_vkh_total_regular_1 = {
-  address:
-    'addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt',
+  address: 'addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt',
   sent_amount_lovelace: '2922441943583',
   sent_amount: null,
   received_amount_lovelace: '2922441943583',
@@ -187,8 +184,7 @@ const query_address_vkh_total_regular_1 = {
 };
 
 const response_address_vkh_total_regular_1 = {
-  address:
-    'addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt',
+  address: 'addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt',
   received_sum: [{ unit: 'lovelace', quantity: '2922441943583' }],
   sent_sum: [{ unit: 'lovelace', quantity: '2922441943583' }],
   tx_count: 39,
@@ -307,8 +303,7 @@ const response_address_testnet_total_1 = {
 };
 
 const query_address_vkh_testnet_total_1 = {
-  address:
-    'addr_vkh1epr2wj5sg6x66gr650nlrlk9eahlrynxag3hjye6xctfvmdduge',
+  address: 'addr_vkh1epr2wj5sg6x66gr650nlrlk9eahlrynxag3hjye6xctfvmdduge',
   sent_amount_lovelace: '7891093472',
   sent_amount: [
     {
@@ -375,8 +370,7 @@ const query_address_vkh_testnet_total_1 = {
 };
 
 const response_address_vkh_testnet_total_1 = {
-  address:
-    'addr_vkh1epr2wj5sg6x66gr650nlrlk9eahlrynxag3hjye6xctfvmdduge',
+  address: 'addr_vkh1epr2wj5sg6x66gr650nlrlk9eahlrynxag3hjye6xctfvmdduge',
   received_sum: [
     { unit: 'lovelace', quantity: '8436776560' },
     { unit: '34250edd1e9836f5378702fbf9416b709bc140e04f668cc355208518', quantity: '169' },
@@ -417,8 +411,6 @@ const response_address_vkh_testnet_total_1 = {
   ],
   tx_count: 49,
 };
-
-
 
 const query_address_total_byron_1 = {
   address:
@@ -779,6 +771,12 @@ const response_400 = {
   status_code: 400,
 };
 
+const response_400_asset = {
+  error: 'Bad Request',
+  message: 'Invalid or malformed asset format.',
+  status_code: 400,
+};
+
 const response_400_2 = {
   error: 'Bad Request',
   message: 'Invalid (malformed or out of range) from/to parameter(s).',
@@ -803,7 +801,7 @@ export default [
     endpoint:
       '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: [query_address_regular_1],
@@ -814,7 +812,7 @@ export default [
     name: 'respond with success and data on /addresses/:address',
     endpoint: '/addresses/addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: [query_address_regular_vkh_1],
@@ -827,7 +825,7 @@ export default [
     endpoint:
       '/addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: [query_address_byron_1],
@@ -839,7 +837,7 @@ export default [
     endpoint:
       '/addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: [query_address_haxxxor_1],
@@ -851,7 +849,7 @@ export default [
     endpoint:
       '/addresses/addr_test1qryydf62jprgmtfq02370u07ch8kluvjvm4zx7gn8gmpd9snea2aza02sj9c0h4nay20a0t7q28zhajng36a2taec0gqeywmev',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: [query_address_testnet_1],
@@ -863,7 +861,7 @@ export default [
     name: 'TESTNET: respond with success and data on /addresses/:address',
     endpoint: '/addresses/addr_vkh1epr2wj5sg6x66gr650nlrlk9eahlrynxag3hjye6xctfvmdduge',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: [query_address_vkh_testnet_1],
@@ -877,7 +875,7 @@ export default [
     endpoint:
       '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/total',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: [query_address_total_regular_1],
@@ -888,7 +886,7 @@ export default [
     name: 'respond with success and data on /addresses/:address/total',
     endpoint: '/addresses/addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt/total',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: [query_address_vkh_total_regular_1],
@@ -900,7 +898,7 @@ export default [
     endpoint:
       '/addresses/addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w/extended',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: [query_address_extended_1],
@@ -912,7 +910,7 @@ export default [
     endpoint:
       '/addresses/addr_test1qryydf62jprgmtfq02370u07ch8kluvjvm4zx7gn8gmpd9snea2aza02sj9c0h4nay20a0t7q28zhajng36a2taec0gqeywmev/total',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: [query_address_testnet_total_1],
@@ -924,7 +922,7 @@ export default [
     name: 'TESTNET: respond with success and data on /addresses/:address/total',
     endpoint: '/addresses/addr_vkh1epr2wj5sg6x66gr650nlrlk9eahlrynxag3hjye6xctfvmdduge/total',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: [query_address_vkh_testnet_total_1],
@@ -938,7 +936,7 @@ export default [
     endpoint:
       '/addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT/total',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: [query_address_total_byron_1],
@@ -950,7 +948,7 @@ export default [
     endpoint:
       '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/txs',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: query_address_tx_regular_1,
@@ -962,7 +960,7 @@ export default [
     endpoint:
       '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/transactions',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: query_address_transactions_regular_1,
@@ -973,7 +971,7 @@ export default [
     name: 'PAYMENT_CRED: respond with success and data on /addresses/:address/txs',
     endpoint: '/addresses/addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt/txs',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: query_address_tx_regular_1,
@@ -985,7 +983,7 @@ export default [
     endpoint:
       '/addresses/addr1q93xdt5kd5839z8yhf6vn23y3vxp7q3v75xlpt7uw7rhxs4re5df3pzwwmyq946axfcejy5n4x0y99wqpgtp2gd0k09qtp66wa/txs',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: [],
@@ -997,7 +995,7 @@ export default [
     endpoint:
       '/addresses/addr_test1qryydf62jprgmtfq02370u07ch8kluvjvm4zx7gn8gmpd9snea2aza02sj9c0h4nay20a0t7q28zhajng36a2taec0gqeywmev/txs',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: query_address_tx_regular_testnet_1,
@@ -1009,7 +1007,7 @@ export default [
     name: 'TESTNET: respond with success and data on /addresses/:address/txs',
     endpoint: '/addresses/addr_vkh1epr2wj5sg6x66gr650nlrlk9eahlrynxag3hjye6xctfvmdduge/txs', // 0 txs
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: query_address_tx_regular_testnet_1,
@@ -1022,7 +1020,7 @@ export default [
     endpoint:
       '/addresses/addr1qyw8xfunw6lhzzzsdrx5ze6j8ayxjhecv4ty5jtaey5jvwquwvnexa4lwyy9q6xdg9n4y06gd90nse2kffyhmjffycuq405jv6/utxos',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: query_addresses_utxos_regular_1,
@@ -1033,7 +1031,7 @@ export default [
     name: 'respond with success and data on /addresses/:address/utxos',
     endpoint: '/addresses/addr_vkh1r3ej0ymkhacss5rge4qkw53lfp547wr92e9yjlwf9ynrsk5q93m/utxos',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: query_addresses_utxos_regular_1,
@@ -1045,7 +1043,7 @@ export default [
     endpoint:
       '/addresses/addr_test1qryydf62jprgmtfq02370u07ch8kluvjvm4zx7gn8gmpd9snea2aza02sj9c0h4nay20a0t7q28zhajng36a2taec0gqeywmev/utxos',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: query_addresses_utxos_regular_testnet_1,
@@ -1057,7 +1055,7 @@ export default [
     name: 'TESTNET: respond with success and data on /addresses/:address/utxos',
     endpoint: '/addresses/addr_vkh1epr2wj5sg6x66gr650nlrlk9eahlrynxag3hjye6xctfvmdduge/utxos',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
       rows: query_addresses_utxos_regular_testnet_1,
@@ -1070,9 +1068,12 @@ export default [
     endpoint:
       '/addresses/addr_vkh1r3ej0ymkhacss5rge4qkw53lfp547wr92e9yjlwf9ynrsk5q93m/utxos/6b8d07d69639e9413dd637a1a815a7323c69c86abbafb66dbfdb1aa7',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     sqlQueryMock2: {
+      rows: query_found,
+    },
+    sqlQueryMock3: {
       rows: query_addresses_utxos_asset_regular_1,
     },
     response: response_addresses_utxos_asset_regular_1,
@@ -1111,7 +1112,7 @@ export default [
     endpoint:
       '/addresses/Ae2tdPwUPEZ3Lb6Rh44ZQtFPegVYyhhJa58MQeeVNgDcsYw2YTq8ERT2RqE/transactions?from=-1&to=8789894849848',
     sqlQueryMock: {
-      rows: query_addresses_found,
+      rows: query_found,
     },
     response: response_400_2,
   },
@@ -1125,6 +1126,12 @@ export default [
     endpoint:
       '/addresses/stonks_address/utxos/6b8d07d69639e9413dd637a1a815a7323c69c86abbafb66dbfdb1aa7',
     response: response_400,
+  },
+  {
+    name: 'respond with 400 on /addresses/:address/utxos/:asset',
+    endpoint:
+      '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/utxos/stonks_asset',
+    response: response_400_asset,
   },
   /*
       404s
@@ -1183,6 +1190,18 @@ export default [
     endpoint:
       '/addresses/Ae2tdPwUPEZ3Lb6Rh44ZQtFPegVYyhhJa58MQeeVNgDcsYw2YTq8ERT2RqE/utxos/6b8d07d69639e9413dd637a1a815a7323c69c86abbafb66dbfdb1aa7',
     sqlQueryMock: {
+      rows: [],
+    },
+    response: response_404,
+  },
+  {
+    name: 'respond with 404 and empty data on /addresses/:address/utxos/:asset',
+    endpoint:
+      '/addresses/Ae2tdPwUPEZ3Lb6Rh44ZQtFPegVYyhhJa58MQeeVNgDcsYw2YTq8ERT2RqE/utxos/6b8d07d69639e9413dd637a1a815a7323c69c86abbafb66dbfdb1aaa',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
       rows: [],
     },
     response: response_404,

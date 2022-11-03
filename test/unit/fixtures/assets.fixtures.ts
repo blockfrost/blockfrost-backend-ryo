@@ -334,6 +334,18 @@ const response_assets_policy_policy_id_regular_1 = [
   },
 ];
 
+const response_400_asset = {
+  error: 'Bad Request',
+  message: 'Invalid or malformed asset format.',
+  status_code: 400,
+};
+
+const response_400_policy = {
+  error: 'Bad Request',
+  message: 'Invalid or malformed policy format.',
+  status_code: 400,
+};
+
 const response_404 = {
   error: 'Not Found',
   message: 'The requested component has not been found.',
@@ -477,13 +489,67 @@ export default [
     },
     response: [],
   },
+
+  /*
+     400s
+  */
+
+  {
+    name: 'respond with 400 and empty data on /assets/:asset',
+    endpoint: '/assets/asset1_stonks',
+    sqlQueryMock: {
+      rows: [],
+    },
+    response: response_400_asset,
+  },
+  {
+    name: 'respond with 400 and empty data on /assets/:asset/history',
+    endpoint: '/assets/asset1_stonks/history',
+    sqlQueryMock: {
+      rows: [],
+    },
+    response: response_400_asset,
+  },
+  {
+    name: 'respond with 400 and empty data on /assets/:asset/txs',
+    endpoint: '/assets/asset1_stonks/txs',
+    sqlQueryMock: {
+      rows: [],
+    },
+    response: response_400_asset,
+  },
+  {
+    name: 'respond with 400 and empty data on /assets/:asset/transactions',
+    endpoint: '/assets/asset1_stonks/transactions',
+    sqlQueryMock: {
+      rows: [],
+    },
+    response: response_400_asset,
+  },
+  {
+    name: 'respond with 400 and empty data on /assets/:asset/addresses',
+    endpoint: '/assets/asset1_stonks/addresses',
+    sqlQueryMock: {
+      rows: [],
+    },
+    response: response_400_asset,
+  },
+  {
+    name: 'respond with 400 and empty data on /assets/policy/:policy_id',
+    endpoint: '/assets/policy/policy_stonks',
+    sqlQueryMock: {
+      rows: [],
+    },
+    response: response_400_policy,
+  },
+
   /*
       404s
   */
 
   {
     name: 'respond with 404 and empty data on /assets/:asset',
-    endpoint: '/assets/asset1_stonks',
+    endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe',
     sqlQueryMock: {
       rows: [],
     },
@@ -491,7 +557,7 @@ export default [
   },
   {
     name: 'respond with 404 and empty data on /assets/:asset/history',
-    endpoint: '/assets/asset1_stonks/history',
+    endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/history',
     sqlQueryMock: {
       rows: [],
     },
@@ -499,7 +565,7 @@ export default [
   },
   {
     name: 'respond with 404 and empty data on /assets/:asset/txs',
-    endpoint: '/assets/asset1_stonks/txs',
+    endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/txs',
     sqlQueryMock: {
       rows: [],
     },
@@ -507,7 +573,7 @@ export default [
   },
   {
     name: 'respond with 404 and empty data on /assets/:asset/transactions',
-    endpoint: '/assets/asset1_stonks/transactions',
+    endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/transactions',
     sqlQueryMock: {
       rows: [],
     },
@@ -515,7 +581,7 @@ export default [
   },
   {
     name: 'respond with 404 and empty data on /assets/:asset/addresses',
-    endpoint: '/assets/asset1_stonks/addresses',
+    endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/addresses',
     sqlQueryMock: {
       rows: [],
     },
@@ -523,7 +589,7 @@ export default [
   },
   {
     name: 'respond with 404 and empty data on /assets/policy/:policy_id',
-    endpoint: '/assets/policy/policy_stonks',
+    endpoint: '/assets/policy/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aa',
     sqlQueryMock: {
       rows: [],
     },
@@ -543,7 +609,7 @@ export default [
   },
   {
     name: 'respond with 500 and null on /assets/:asset',
-    endpoint: '/assets/asset1_stonks',
+    endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe',
     sqlQueryMock: {
       rows: null,
     },
@@ -551,7 +617,7 @@ export default [
   },
   {
     name: 'respond with 500 and null on /assets/:asset/history',
-    endpoint: '/assets/asset1_stonks/history',
+    endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/history',
     sqlQueryMock: {
       rows: null,
     },
@@ -559,7 +625,7 @@ export default [
   },
   {
     name: 'respond with 500 and null on /assets/:asset/txs',
-    endpoint: '/assets/asset1_stonks/txs',
+    endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/txs',
     sqlQueryMock: {
       rows: null,
     },
@@ -567,7 +633,7 @@ export default [
   },
   {
     name: 'respond with 500 and null on /assets/:asset/transactions',
-    endpoint: '/assets/asset1_stonks/transactions',
+    endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/transactions',
     sqlQueryMock: {
       rows: null,
     },
@@ -575,7 +641,7 @@ export default [
   },
   {
     name: 'respond with 500 and null on /assets/:asset/addresses',
-    endpoint: '/assets/asset1_stonks/addresses',
+    endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/addresses',
     sqlQueryMock: {
       rows: null,
     },
@@ -583,7 +649,7 @@ export default [
   },
   {
     name: 'respond with 500 and null on /assets/policy/:policy_id',
-    endpoint: '/assets/policy/policy_stonks',
+    endpoint: '/assets/policy/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e8789',
     sqlQueryMock: {
       rows: null,
     },
