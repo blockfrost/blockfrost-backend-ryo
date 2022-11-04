@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../types/queries/utils';
 import * as ResponseTypes from '../../types/responses/utils';
 import { handle400Custom } from '../../utils/error-handler';
-import { getSchemaForEndpoint } from '../../utils/open-api';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { isTestnet } from '../../utils/validation';
 import { validateDerivationXpub, validateInRangeUnsignedInt } from '../../utils/validation';
 import { deriveAddress } from '@blockfrost/blockfrost-js';

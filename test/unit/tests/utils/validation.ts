@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 
 import * as config from '../../../../src/config';
 import * as validationUtils from '../../../../src/utils/validation';
@@ -19,13 +19,13 @@ import {
 describe('validation-format-utils', () => {
   validateStakeAddressFixture.map(fixture => {
     test(fixture.name, async () => {
-      const sinonConfigStub = sinon.stub(config, 'getConfig').returns({
+      vi.spyOn(config, 'getConfig').mockReturnValue({
         ...config.mainConfig,
         network: fixture.network,
       });
+
       const result = validationUtils.validateStakeAddress(fixture.input);
 
-      sinonConfigStub.restore();
       expect(result).toBe(fixture.response);
     });
   });
@@ -88,13 +88,13 @@ describe('validation-format-utils', () => {
 
   convertStakeAddressFixture.map(fixture => {
     test(fixture.name, async () => {
-      const sinonConfigStub = sinon.stub(config, 'getConfig').returns({
+      vi.spyOn(config, 'getConfig').mockReturnValue({
         ...config.mainConfig,
         network: fixture.network,
       });
+
       const result = validationUtils.convertStakeAddress(fixture.input);
 
-      sinonConfigStub.restore();
       expect(result).toBe(fixture.response);
     });
   });

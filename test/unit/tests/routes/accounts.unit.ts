@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import sinon from 'sinon';
 import supertest from 'supertest';
-import { describe, expect, test } from 'vitest';
+import sinon from 'sinon';
+import { describe, expect, test, vi } from 'vitest';
 import fixtures from '../../fixtures/accounts.fixtures';
 import buildFastify from '../../../../src/app';
 import * as config from '../../../../src/config';
@@ -13,17 +12,15 @@ describe('accounts service', () => {
       const fastify = buildFastify({ maxParamLength: 32_768 });
       const queryMock = sinon.stub();
 
-      // @ts-ignore
-      const database = sinon.stub(databaseUtils, 'getDbSync').resolves({
+      vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
+        // @ts-expect-error test
         release: () => null,
         query: queryMock,
       });
 
       await fastify.ready();
 
-      let sinonConfigStub = null;
-
-      sinonConfigStub = sinon.stub(config, 'getConfig').returns({
+      vi.spyOn(config, 'getConfig').mockReturnValue({
         ...config.mainConfig,
         network: fixture.network === 'testnet' ? 'testnet' : 'mainnet',
       });
@@ -36,8 +33,6 @@ describe('accounts service', () => {
       expect(response).toSatisfyApiSpec();
       expect(response.body).toEqual(fixture.response);
 
-      sinonConfigStub.restore();
-      database.restore();
       fastify.close();
     });
   });

@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../types/queries/network';
 import * as ResponseTypes from '../../types/responses/network';
-import { getSchemaForEndpoint } from '../../utils/open-api';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { getDbSync } from '../../utils/database';
 import { SQLQuery } from '../../sql';
 

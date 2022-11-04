@@ -1,15 +1,15 @@
 import supertest from 'supertest';
 import buildFastify from '../../../../src/app';
-import sinon from 'sinon';
 import * as config from '../../../../src/config';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 
 describe('ledger service', () => {
   test('network - Mainnet', async () => {
-    const sinonConfigStub = sinon.stub(config, 'getConfig').returns({
+    vi.spyOn(config, 'getConfig').mockReturnValue({
       ...config.mainConfig,
       network: 'mainnet',
     });
+
     const fastify = buildFastify();
 
     await fastify.ready();
@@ -29,12 +29,11 @@ describe('ledger service', () => {
       security_param: 2160,
     });
 
-    sinonConfigStub.restore();
     fastify.close();
   });
 
   test('network - Testnet', async () => {
-    const sinonConfigStub = sinon.stub(config, 'getConfig').returns({
+    vi.spyOn(config, 'getConfig').mockReturnValue({
       ...config.mainConfig,
       network: 'testnet',
     });
@@ -57,7 +56,6 @@ describe('ledger service', () => {
       security_param: 2160,
     });
 
-    sinonConfigStub.restore();
     fastify.close();
   });
 });

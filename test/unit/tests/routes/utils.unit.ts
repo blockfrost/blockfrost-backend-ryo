@@ -1,6 +1,5 @@
-import sinon from 'sinon';
 import supertest from 'supertest';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 
 import buildFastify from '../../../../src/app';
 import * as config from '../../../../src/config';
@@ -13,7 +12,7 @@ describe('utils', () => {
 
       await fastify.ready();
 
-      const sinonConfigStub = sinon.stub(config, 'getConfig').returns({
+      vi.spyOn(config, 'getConfig').mockReturnValue({
         ...config.mainConfig,
         network: fixture.network,
       });
@@ -22,8 +21,6 @@ describe('utils', () => {
 
       expect(response).toSatisfyApiSpec();
       expect(response.body).toEqual(fixture.response);
-
-      sinonConfigStub.restore();
     });
   });
 });

@@ -2,15 +2,15 @@ import buildFastify from '../../../../src/app';
 import sinon from 'sinon';
 import supertest from 'supertest';
 import * as databaseUtils from '../../../../src/utils/database';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 
 describe('health endpoints tests', () => {
   test('responds with success on request /health', async () => {
     const queryMock = sinon.stub();
     const fastify = buildFastify();
 
-    // @ts-ignore
-    const database = sinon.stub(databaseUtils, 'getDbSync').resolves({
+    vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
+      // @ts-expect-error test
       release: () => null,
       query: queryMock,
     });
@@ -21,7 +21,6 @@ describe('health endpoints tests', () => {
     expect(response.body).toEqual({ is_healthy: true });
     expect(response).toSatisfyApiSpec();
 
-    database.restore();
     fastify.close();
   });
 

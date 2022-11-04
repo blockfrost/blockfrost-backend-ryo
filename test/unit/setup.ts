@@ -19,7 +19,6 @@ const openAPIMatcher = (filepathOrObject: string) => {
 
   return {
     toSatisfyApiSpec(received: unknown) {
-      // @ts-expect-error idk
       return toSatisfyApiSpecFunc(received, openApiSpec);
     },
   };

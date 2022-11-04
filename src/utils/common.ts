@@ -1,6 +1,7 @@
+import { FastifyInstance } from 'fastify';
+
 export const registerRoute = (app: FastifyInstance, routeHandler: any) => {
-  app.register({
-    dir: path.join(__dirname, 'routes/'),
+  app.register(routeHandler, {
     dirNameRoutePrefix: false,
   });
 };
