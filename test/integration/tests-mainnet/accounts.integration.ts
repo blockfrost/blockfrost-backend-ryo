@@ -1,29 +1,25 @@
-import { getApiUrl } from '../utils';
 import fixtures from '../fixtures/fixtures-mainnet/accounts';
-import axios from 'axios';
+import { getInstance } from '../utils';
+import { describe, test, expect } from 'vitest';
 
 describe('accounts endpoint', () => {
   fixtures.map(fixture => {
     fixture.endpoints.map(async endpoint => {
-      it(fixture.testName, async () => {
-        const endpointUrl = getApiUrl(endpoint);
-        const response = await axios.get(endpointUrl);
-        const responseJson = response.data;
+      test(fixture.testName, async () => {
+        const client = getInstance();
+        const response = await client.get(endpoint);
 
-        expect(responseJson).toMatchObject(fixture.response);
+        expect(response).toMatchObject(fixture.response);
       });
     });
   });
 
-  it('/accounts/:stake_address/addresses/assets', async () => {
-    const endpointUrl = getApiUrl(
-      '/accounts/stake1u96ath3x32v7t4wp6vwf3nhpqmktatv5ews2w9rdalz25xs84d46c/addresses/assets',
-    );
-    const response = await axios.get(endpointUrl);
-    const responseJson = response.data;
+  test('/accounts/:stake_address/addresses/assets', async () => {
+    const client = getInstance();
+    const response = await client.get(endpoint);
 
-    if (responseJson.length > 0) {
-      expect(responseJson).toStrictEqual(
+    if (response.length > 0) {
+      expect(response).toStrictEqual(
         expect.arrayContaining([
           {
             unit: expect.any(String),

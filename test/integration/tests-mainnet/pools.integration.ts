@@ -1,21 +1,21 @@
-import { getApiUrl } from '../utils';
+import { getInstance } from '../utils';
 import fixtures from '../fixtures/fixtures-mainnet/pools';
 import axios from 'axios';
+import { describe, test, expect } from 'vitest';
 
 describe('pools endpoint', () => {
   fixtures.map(fixture => {
     fixture.endpoints.map(async endpoint => {
-      it(fixture.testName, async () => {
-        const endpointUrl = getApiUrl(endpoint);
-        const response = await axios.get(endpointUrl);
-        const responseJson = response.data;
+      test(fixture.testName, async () => {
+        const client = getInstance();
+        const response = await client.get(endpoint).json();
 
-        expect(responseJson).toMatchObject(fixture.response);
+        expect(response).toStrictEqual(fixture.response);
       });
     });
   });
 
-  it('/pools/retiring', async () => {
+  test('/pools/retiring', async () => {
     const endpointUrl = getApiUrl('/pools/retiring');
     const response = await axios.get(endpointUrl);
     const responseJson = response.data;
@@ -27,7 +27,7 @@ describe('pools endpoint', () => {
     } else expect(responseJson).toMatchObject([]);
   });
 
-  it('/pools/delegators', async () => {
+  test('/pools/delegators', async () => {
     const endpointUrl = getApiUrl(
       '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/delegators',
     );

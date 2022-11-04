@@ -1,3 +1,5 @@
+import { expect } from 'vitest';
+
 export default [
   {
     testName: 'addresses/:address generic shelley address',

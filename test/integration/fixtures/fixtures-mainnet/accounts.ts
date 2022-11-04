@@ -1,3 +1,5 @@
+import { expect } from 'vitest';
+
 export default [
   {
     testName: 'accounts/:stake_address generic stake address',
@@ -5,7 +7,7 @@ export default [
     response: {
       stake_address: 'stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk',
       active: expect.any(Boolean),
-      active_epoch: expect.toBeTypeOrNull(Number),
+      active_epoch: expect().toBeTypeOrNull(Number),
       controlled_amount: expect.any(String),
       rewards_sum: expect.any(String),
       withdrawals_sum: expect.any(String),

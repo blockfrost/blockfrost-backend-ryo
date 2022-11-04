@@ -1,3 +1,5 @@
+import { expect } from 'vitest';
+
 export default [
   {
     testName: 'pools?queryparams - we are not there yet',

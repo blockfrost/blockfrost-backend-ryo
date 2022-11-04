@@ -1,20 +1,14 @@
-import { jest } from '@jest/globals';
-import axios from 'axios';
-
-jest.setTimeout(120_000);
-
-axios.interceptors.request.use(function (config) {
-  config.timeout = 30_000;
-  return config;
-});
-
-const sleep = (ms: number) => {
-  return new Promise(resolve => setTimeout(resolve, ms));
-};
-
-beforeEach(async () => {
-  await sleep(500);
-});
+import { expect } from 'vitest';
+export interface Matchers {
+  toBeTypeOrNull(): void;
+}
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Vi {
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+    interface Assertion<T = any> extends Matchers {}
+  }
+}
 
 expect.extend({
   toBeTypeOrNull(received, classTypeOrNull) {
@@ -37,6 +31,3 @@ expect.extend({
     }
   },
 });
-
-// danger this should be last in this code
-import 'jest-extended';

@@ -1,3 +1,5 @@
+import { expect } from 'vitest';
+
 export default [
   {
     testName: 'blocks/latest',
@@ -2622,9 +2624,7 @@ export default [
   },
   {
     testName: 'Invalid path',
-    endpoints: [
-      '/blocks/',
-    ],
+    endpoints: ['/blocks/'],
     response: {
       error: 'Bad Request',
       message: 'Invalid path. Please check https://docs.blockfrost.io/',

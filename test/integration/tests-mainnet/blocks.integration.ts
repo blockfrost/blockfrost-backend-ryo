@@ -1,11 +1,12 @@
 import { getApiUrl } from '../utils';
 import fixtures from '../fixtures/fixtures-mainnet/blocks';
 import axios from 'axios';
+import { describe, test, expect } from 'vitest';
 
 describe('blocks endpoint', () => {
   fixtures.map(fixture => {
     fixture.endpoints.map(async endpoint => {
-      it(fixture.testName, async () => {
+      test(fixture.testName, async () => {
         const endpointUrl = getApiUrl(endpoint);
 
         if ('error' in fixture.response) {
@@ -27,7 +28,7 @@ describe('blocks endpoint', () => {
     });
   });
 
-  it('/blocks/latest/txs', async () => {
+  test('/blocks/latest/txs', async () => {
     const endpointUrl = getApiUrl('/blocks/latest/txs');
     const response = await axios.get(endpointUrl);
     const responseJson = response.data;

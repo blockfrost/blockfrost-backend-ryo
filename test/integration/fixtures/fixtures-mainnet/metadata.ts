@@ -1,3 +1,5 @@
+import { expect } from 'vitest';
+
 export default [
   {
     testName: 'metadata/txs/labels',

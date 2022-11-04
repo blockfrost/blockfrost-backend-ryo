@@ -1,11 +1,12 @@
 import { getApiUrl } from '../utils';
 import fixtures from '../fixtures/fixtures-mainnet/addresses';
 import axios from 'axios';
+import { describe, test, expect } from 'vitest';
 
 describe('addresses endpoint', () => {
   fixtures.map(fixture => {
     fixture.endpoints.map(async endpoint => {
-      it(fixture.testName, async () => {
+      test(fixture.testName, async () => {
         const endpointUrl = getApiUrl(endpoint);
         const response = await axios.get(endpointUrl, { timeout: 120_000 });
         const responseJson = response.data;
@@ -15,7 +16,7 @@ describe('addresses endpoint', () => {
     });
   });
 
-  it('/addresses/:address/utxos', async () => {
+  test('/addresses/:address/utxos', async () => {
     const endpointUrl = getApiUrl(
       '/addresses/addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w/utxos',
     );

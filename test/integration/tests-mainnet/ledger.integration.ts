@@ -1,16 +1,15 @@
-import { getApiUrl } from '../utils';
+import { getInstance } from '../utils';
 import fixtures from '../fixtures/fixtures-mainnet/ledger';
-import axios from 'axios';
+import { describe, test, expect } from 'vitest';
 
 describe('ledger endpoint', () => {
   fixtures.map(fixture => {
     fixture.endpoints.map(async endpoint => {
-      it(fixture.testName, async () => {
-        const endpointUrl = getApiUrl(endpoint);
-        const response = await axios.get(endpointUrl);
-        const responseJson = response.data;
+      test(fixture.testName, async () => {
+        const client = getInstance();
+        const response = await client.get(endpoint).json();
 
-        expect(responseJson).toMatchObject(fixture.response);
+        expect(response).toStrictEqual(fixture.response);
       });
     });
   });
