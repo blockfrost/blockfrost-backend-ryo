@@ -1,8 +1,8 @@
-import { getInstance } from '../utils';
-import fixtures from '../fixtures/fixtures-mainnet/metadata';
+import { getInstance } from '../../utils';
+import fixtures from '../../fixtures/mainnet/epochs';
 import { describe, test, expect } from 'vitest';
 
-describe('metadata endpoint', () => {
+describe('epochs endpoint', () => {
   fixtures.map(fixture => {
     fixture.endpoints.map(async endpoint => {
       test(fixture.testName, async () => {

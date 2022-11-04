@@ -4,12 +4,13 @@ export default [
   {
     testName: 'addresses/:address generic shelley address',
     endpoints: [
-      '/addresses/addr1q8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkw9etpkygj5x4kjpym5h35cvj5zw83s6nvw5fnrnck4cmvshkfm4y',
+      'addresses/addr1q8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkw9etpkygj5x4kjpym5h35cvj5zw83s6nvw5fnrnck4cmvshkfm4y',
     ],
     response: {
       address:
         'addr1q8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkw9etpkygj5x4kjpym5h35cvj5zw83s6nvw5fnrnck4cmvshkfm4y',
       amount: [{ unit: 'lovelace', quantity: expect.any(String) }],
+      // @ts-expect-error test
       stake_address: expect.toBeTypeOrNull(String),
       type: 'shelley',
       script: false,
@@ -17,10 +18,11 @@ export default [
   },
   {
     testName: 'addresses/:address generic shelley address payment cred',
-    endpoints: ['/addresses/addr_vkh1ch9vxc3z2s6k6gynwj7xnpj2sfc7xr2d363xvw0z6hrdjxyfmju'],
+    endpoints: ['addresses/addr_vkh1ch9vxc3z2s6k6gynwj7xnpj2sfc7xr2d363xvw0z6hrdjxyfmju'],
     response: {
       address: 'addr_vkh1ch9vxc3z2s6k6gynwj7xnpj2sfc7xr2d363xvw0z6hrdjxyfmju',
       amount: [{ unit: 'lovelace', quantity: expect.any(String) }],
+      // @ts-expect-error test
       stake_address: expect.toBeTypeOrNull(String),
       type: 'shelley',
       script: false,
@@ -29,7 +31,7 @@ export default [
   {
     testName: 'addresses/:address/total generic shelley address',
     endpoints: [
-      '/addresses/addr1q8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkw9etpkygj5x4kjpym5h35cvj5zw83s6nvw5fnrnck4cmvshkfm4y/total',
+      'addresses/addr1q8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkw9etpkygj5x4kjpym5h35cvj5zw83s6nvw5fnrnck4cmvshkfm4y/total',
     ],
     response: {
       address:
@@ -41,7 +43,7 @@ export default [
   },
   {
     testName: 'addresses/:address/total generic shelley address payment cred',
-    endpoints: ['/addresses/addr_vkh1ch9vxc3z2s6k6gynwj7xnpj2sfc7xr2d363xvw0z6hrdjxyfmju/total'],
+    endpoints: ['addresses/addr_vkh1ch9vxc3z2s6k6gynwj7xnpj2sfc7xr2d363xvw0z6hrdjxyfmju/total'],
     response: {
       address: 'addr_vkh1ch9vxc3z2s6k6gynwj7xnpj2sfc7xr2d363xvw0z6hrdjxyfmju',
       received_sum: [{ unit: 'lovelace', quantity: expect.any(String) }],
@@ -52,12 +54,13 @@ export default [
   {
     testName: 'addresses/:address generic dormant exchange byron address',
     endpoints: [
-      '/addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT',
+      'addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT',
     ],
     response: {
       address:
         'DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT',
       amount: [{ unit: 'lovelace', quantity: expect.any(String) }],
+      // @ts-expect-error test
       stake_address: expect.toBeTypeOrNull(String),
       type: 'byron',
       script: false,
@@ -66,17 +69,17 @@ export default [
   {
     testName: 'addresses/:address/utxos generic dormant exchange byron address',
     endpoints: [
-      '/addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT/utxos',
+      'addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT/utxos',
     ],
     response: [],
   },
   {
     testName: 'addresses/:address/txs generic shelley address',
     endpoints: [
-      '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/txs?count=5&page=2',
-      '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/txs?count=5&page=2&order=asc',
-      '/addresses/addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt/txs?count=5&page=2',
-      '/addresses/addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt/txs?count=5&page=2&order=asc',
+      'addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/txs?count=5&page=2',
+      'addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/txs?count=5&page=2&order=asc',
+      'addresses/addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt/txs?count=5&page=2',
+      'addresses/addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt/txs?count=5&page=2&order=asc',
     ],
     response: [
       '197102e656d9d0e65f03d27c7bab18593f96592f5d08933d268bea4cc7aa83d7',
@@ -89,10 +92,10 @@ export default [
   {
     testName: 'addresses/:address/transactions generic shelley address',
     endpoints: [
-      '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/transactions?count=5&page=2',
-      '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/transactions?count=5&page=2&order=asc',
-      '/addresses/addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt/transactions?count=5&page=2',
-      '/addresses/addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt/transactions?count=5&page=2&order=asc',
+      'addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/transactions?count=5&page=2',
+      'addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/transactions?count=5&page=2&order=asc',
+      'addresses/addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt/transactions?count=5&page=2',
+      'addresses/addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt/transactions?count=5&page=2&order=asc',
     ],
     response: [
       {
@@ -130,10 +133,10 @@ export default [
   {
     testName: 'addresses/:address/transactions?queryparams generic shelley address ',
     endpoints: [
-      '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/transactions?from=5018666&to=5431295&order=desc&count=2&page=2',
-      '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/transactions?from=5018666:3&to=5431295&order=desc&count=2&page=2',
-      '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/transactions?from=5018666&to=5431295:999&order=desc&count=2&page=2',
-      '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/transactions?from=5018666:3&to=5431295:999&order=desc&count=2&page=2',
+      'addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/transactions?from=5018666&to=5431295&order=desc&count=2&page=2',
+      'addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/transactions?from=5018666:3&to=5431295&order=desc&count=2&page=2',
+      'addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/transactions?from=5018666&to=5431295:999&order=desc&count=2&page=2',
+      'addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/transactions?from=5018666:3&to=5431295:999&order=desc&count=2&page=2',
     ],
     response: [
       {
@@ -153,8 +156,8 @@ export default [
   {
     testName: 'addresses/:address/txs generic dormant exchange byron address',
     endpoints: [
-      '/addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT/txs?count=5&page=2',
-      '/addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT/txs?count=5&page=2&order=asc',
+      'addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT/txs?count=5&page=2',
+      'addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT/txs?count=5&page=2&order=asc',
     ],
     response: [
       '5663e4bee226c57862716b6d6fef259d5b2924553a2ee7d6eaa440a3bffada78',
@@ -167,7 +170,7 @@ export default [
   {
     testName: 'addresses/:address/extended address with nutcoin',
     endpoints: [
-      '/addresses/addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w/extended',
+      'addresses/addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w/extended',
     ],
     response: {
       address:
@@ -217,7 +220,7 @@ export default [
 
   // {
   //   testName: 'addresses/:address - biggest address with most assets',
-  //   endpoints: ['/addresses/addr1w999n67e86jn6xal07pzxtrmqynspgx0fwmcmpua4wc6yzsxpljz3'],
+  //   endpoints: ['addresses/addr1w999n67e86jn6xal07pzxtrmqynspgx0fwmcmpua4wc6yzsxpljz3'],
   //   response: {
   //     address: 'addr1w999n67e86jn6xal07pzxtrmqynspgx0fwmcmpua4wc6yzsxpljz3',
   //     amount: [{ unit: 'lovelace', quantity: expect.any(String) }],
@@ -229,7 +232,7 @@ export default [
   // {
   //   testName: 'addresses/:address/total generic dormant exchange byron address',
   //   endpoints: [
-  //     '/addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT/total',
+  //     'addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT/total',
   //   ],
   //   response: {
   //     address:

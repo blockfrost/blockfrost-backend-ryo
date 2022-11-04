@@ -3,26 +3,11 @@ import { expect } from 'vitest';
 export default [
   {
     testName: 'accounts/:stake_address generic stake address',
-    endpoints: ['/accounts/stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk'],
+    endpoints: ['accounts/stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk'],
     response: {
       stake_address: 'stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk',
       active: expect.any(Boolean),
-      active_epoch: expect().toBeTypeOrNull(Number),
-      controlled_amount: expect.any(String),
-      rewards_sum: expect.any(String),
-      withdrawals_sum: expect.any(String),
-      reserves_sum: expect.any(String),
-      treasury_sum: expect.any(String),
-      withdrawable_amount: expect.any(String),
-      pool_id: expect.toBeTypeOrNull(String),
-    },
-  },
-  {
-    testName: 'accounts/:stake_address generic stake address',
-    endpoints: ['/accounts/stake1u8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkgs46q0w'],
-    response: {
-      stake_address: 'stake1u8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkgs46q0w',
-      active: expect.any(Boolean),
+      // @ts-expect-error test
       active_epoch: expect.toBeTypeOrNull(Number),
       controlled_amount: expect.any(String),
       rewards_sum: expect.any(String),
@@ -30,6 +15,25 @@ export default [
       reserves_sum: expect.any(String),
       treasury_sum: expect.any(String),
       withdrawable_amount: expect.any(String),
+      // @ts-expect-error test
+      pool_id: expect.toBeTypeOrNull(String),
+    },
+  },
+  {
+    testName: 'accounts/:stake_address generic stake address',
+    endpoints: ['accounts/stake1u8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkgs46q0w'],
+    response: {
+      stake_address: 'stake1u8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkgs46q0w',
+      active: expect.any(Boolean),
+      // @ts-expect-error test
+      active_epoch: expect.toBeTypeOrNull(Number),
+      controlled_amount: expect.any(String),
+      rewards_sum: expect.any(String),
+      withdrawals_sum: expect.any(String),
+      reserves_sum: expect.any(String),
+      treasury_sum: expect.any(String),
+      withdrawable_amount: expect.any(String),
+      // @ts-expect-error test
       pool_id: expect.toBeTypeOrNull(String),
     },
   },
@@ -42,7 +46,7 @@ export default [
   */
   {
     testName: 'accounts/:stake_address reward account for deregistered pool ',
-    endpoints: ['/accounts/stake1uyluup0rh6r2cc7kcw8nudqz990ezf5ltagxmw3u8deukvqwq7etq'],
+    endpoints: ['accounts/stake1uyluup0rh6r2cc7kcw8nudqz990ezf5ltagxmw3u8deukvqwq7etq'],
     response: {
       stake_address: 'stake1uyluup0rh6r2cc7kcw8nudqz990ezf5ltagxmw3u8deukvqwq7etq',
       active: true,
@@ -58,7 +62,7 @@ export default [
   },
   {
     testName: 'accounts/:stake_address reward account for 2 pools deregistered pools',
-    endpoints: ['/accounts/stake1u8fne2lfh3a8v33y8splqc5gr5r8gjea2wvrsgch39emnvqny8wlm'],
+    endpoints: ['accounts/stake1u8fne2lfh3a8v33y8splqc5gr5r8gjea2wvrsgch39emnvqny8wlm'],
     response: {
       stake_address: 'stake1u8fne2lfh3a8v33y8splqc5gr5r8gjea2wvrsgch39emnvqny8wlm',
       active: true,
@@ -74,7 +78,7 @@ export default [
   },
   {
     testName: 'accounts/:stake_address reward account for pool deregistered 2 times',
-    endpoints: ['/accounts/stake1uxzjdz34g596yt9dyprjse0yr775xszuyal3ltyqsx2k9wcjhvvke'],
+    endpoints: ['accounts/stake1uxzjdz34g596yt9dyprjse0yr775xszuyal3ltyqsx2k9wcjhvvke'],
     response: {
       stake_address: 'stake1uxzjdz34g596yt9dyprjse0yr775xszuyal3ltyqsx2k9wcjhvvke',
       active: true,
@@ -91,7 +95,7 @@ export default [
   {
     testName:
       'accounts/:stake_address reward account for 3 pools, 2 of them retired in the same epoch',
-    endpoints: ['/accounts/stake1u80x0vdf8kwvptk7nar24d805p7wnlj4vm22cl0q8jngs9q5k2suq'],
+    endpoints: ['accounts/stake1u80x0vdf8kwvptk7nar24d805p7wnlj4vm22cl0q8jngs9q5k2suq'],
     response: {
       stake_address: 'stake1u80x0vdf8kwvptk7nar24d805p7wnlj4vm22cl0q8jngs9q5k2suq',
       active: true,
@@ -108,8 +112,8 @@ export default [
   {
     testName: 'accounts/:stake_address?queryparams generic stake address rewards',
     endpoints: [
-      '/accounts/stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk/rewards?count=3&page=2',
-      '/accounts/stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk/rewards?count=3&page=2&order=asc',
+      'accounts/stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk/rewards?count=3&page=2',
+      'accounts/stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk/rewards?count=3&page=2&order=asc',
     ],
     response: [
       {
@@ -136,8 +140,8 @@ export default [
     testName:
       'accounts/:stake_address?queryparams generic stake address rewards with multiple types',
     endpoints: [
-      '/accounts/stake1uxa6lm0x9ezhywczl8rs048mmvn396qtk0w4z2tzu2cytuqs0e38d/rewards?count=4&page=38',
-      '/accounts/stake1uxa6lm0x9ezhywczl8rs048mmvn396qtk0w4z2tzu2cytuqs0e38d/rewards?count=4&page=38&order=asc',
+      'accounts/stake1uxa6lm0x9ezhywczl8rs048mmvn396qtk0w4z2tzu2cytuqs0e38d/rewards?count=4&page=38',
+      'accounts/stake1uxa6lm0x9ezhywczl8rs048mmvn396qtk0w4z2tzu2cytuqs0e38d/rewards?count=4&page=38&order=asc',
     ],
     response: [
       {
@@ -170,8 +174,8 @@ export default [
     testName:
       'accounts/:stake_address?queryparams generic stake address rewards with multiple types',
     endpoints: [
-      '/accounts/stake1uyr7kdys3kmruysratwqzjpx0ya8rjsh8t68d2573yp3g0cr05y2r/rewards?count=1&page=11',
-      '/accounts/stake1uyr7kdys3kmruysratwqzjpx0ya8rjsh8t68d2573yp3g0cr05y2r/rewards?count=1&page=11&order=asc',
+      'accounts/stake1uyr7kdys3kmruysratwqzjpx0ya8rjsh8t68d2573yp3g0cr05y2r/rewards?count=1&page=11',
+      'accounts/stake1uyr7kdys3kmruysratwqzjpx0ya8rjsh8t68d2573yp3g0cr05y2r/rewards?count=1&page=11&order=asc',
     ],
     response: [
       {
@@ -185,8 +189,8 @@ export default [
   {
     testName: 'accounts/:stake_address?queryparams generic stake address history',
     endpoints: [
-      '/accounts/stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk/history?count=3&page=2',
-      '/accounts/stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk/history?count=3&page=2&order=asc',
+      'accounts/stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk/history?count=3&page=2',
+      'accounts/stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk/history?count=3&page=2&order=asc',
     ],
     response: [
       {
@@ -209,8 +213,8 @@ export default [
   {
     testName: 'accounts/:stake_address?queryparams generic stake address withdrawals',
     endpoints: [
-      '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/withdrawals?count=4&page=2',
-      '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/withdrawals?count=4&page=2&order=asc',
+      'accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/withdrawals?count=4&page=2',
+      'accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/withdrawals?count=4&page=2&order=asc',
     ],
     response: [
       {
@@ -234,8 +238,8 @@ export default [
   {
     testName: 'accounts/:stake_address?queryparams generic stake address mirs',
     endpoints: [
-      '/accounts/stake1uyq7039vutuw8v7femqtktdu9zlhnqh3mkvvhdazft9ga2q8zdfkp/mirs?count=1&page=1',
-      '/accounts/stake1uyq7039vutuw8v7femqtktdu9zlhnqh3mkvvhdazft9ga2q8zdfkp/mirs?count=1&page=1&order=asc',
+      'accounts/stake1uyq7039vutuw8v7femqtktdu9zlhnqh3mkvvhdazft9ga2q8zdfkp/mirs?count=1&page=1',
+      'accounts/stake1uyq7039vutuw8v7femqtktdu9zlhnqh3mkvvhdazft9ga2q8zdfkp/mirs?count=1&page=1&order=asc',
     ],
     response: [
       {
@@ -247,8 +251,8 @@ export default [
   {
     testName: 'accounts/:stake_address?queryparams generic stake address delegations',
     endpoints: [
-      '/accounts/stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk/delegations?count=2&page=1',
-      '/accounts/stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk/delegations?count=2&page=1&order=asc',
+      'accounts/stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk/delegations?count=2&page=1',
+      'accounts/stake1u9fzg77vrgfqlplkjqe9hntdcvsurpvxd60yp2fhn73002qsv9pdk/delegations?count=2&page=1&order=asc',
     ],
     response: [
       {
@@ -268,8 +272,8 @@ export default [
   {
     testName: 'accounts/:stake_address?queryparams generic stake address registrations',
     endpoints: [
-      '/accounts/stake1u8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkgs46q0w/registrations?count=2&page=1',
-      '/accounts/stake1u8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkgs46q0w/registrations?count=2&page=1&order=asc',
+      'accounts/stake1u8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkgs46q0w/registrations?count=2&page=1',
+      'accounts/stake1u8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkgs46q0w/registrations?count=2&page=1&order=asc',
     ],
     response: [
       {
@@ -284,12 +288,12 @@ export default [
   },
   {
     testName: 'accounts/:stake_address generic empty list',
-    endpoints: ['/accounts/stake1u8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkgs46q0w/rewards'],
+    endpoints: ['accounts/stake1u8zu4smzyf2r2mfqjd6tc6vxf2p8rccdfk82ye3eut2udkgs46q0w/rewards'],
     response: [],
   },
   {
     testName: 'accounts/:stake_address generic dormant stake address with one address',
-    endpoints: ['/accounts/stake1uyluup0rh6r2cc7kcw8nudqz990ezf5ltagxmw3u8deukvqwq7etq/addresses'],
+    endpoints: ['accounts/stake1uyluup0rh6r2cc7kcw8nudqz990ezf5ltagxmw3u8deukvqwq7etq/addresses'],
     response: [
       {
         address:
@@ -299,17 +303,17 @@ export default [
   },
   {
     testName: 'accounts/:stake_address generic stake address with zero addresses',
-    endpoints: ['/accounts/stake1u9q7y25vy0l4jan6k8r0g2zn2ranezmmk0jnprvvmxqns9cvnhhkl/addresses'],
+    endpoints: ['accounts/stake1u9q7y25vy0l4jan6k8r0g2zn2ranezmmk0jnprvvmxqns9cvnhhkl/addresses'],
     response: [],
   },
   {
     testName: 'accounts/:stake_address/addresses/assets nutcoin stake address',
     endpoints: [
-      '/accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets',
-      '/accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=asc',
-      '/accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=asc&page=1',
-      '/accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=asc&count=6',
-      '/accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=asc&page=1&count=6',
+      'accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets',
+      'accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=asc',
+      'accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=asc&page=1',
+      'accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=asc&count=6',
+      'accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=asc&page=1&count=6',
     ],
     response: [
       {
@@ -341,10 +345,10 @@ export default [
   {
     testName: 'accounts/:stake_address/addresses/assets nutcoin stake address',
     endpoints: [
-      '/accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=desc',
-      '/accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=desc&page=1',
-      '/accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=desc&count=6',
-      '/accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=desc&page=1&count=6',
+      'accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=desc',
+      'accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=desc&page=1',
+      'accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=desc&count=6',
+      'accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/assets?order=desc&page=1&count=6',
     ],
     response: [
       {
@@ -376,14 +380,14 @@ export default [
   {
     testName: 'accounts/:stake_address/addresses/assets generic stake address without tokens',
     endpoints: [
-      '/accounts/stake1uyfckx3mk6rqy6epdfqswhw3p6kpfad83mgcmyez2vacuws8yppkw/addresses/assets',
+      'accounts/stake1uyfckx3mk6rqy6epdfqswhw3p6kpfad83mgcmyez2vacuws8yppkw/addresses/assets',
     ],
     response: [],
   },
   {
     testName: 'accounts/:stake_address/addresses/total nutcoin stake address',
     endpoints: [
-      '/accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/total',
+      'accounts/stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja/addresses/total',
     ],
     response: {
       stake_address: 'stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja',

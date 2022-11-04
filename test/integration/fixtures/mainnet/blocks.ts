@@ -3,7 +3,7 @@ import { expect } from 'vitest';
 export default [
   {
     testName: 'blocks/latest',
-    endpoints: ['/blocks/latest'],
+    endpoints: ['blocks/latest'],
     response: {
       time: expect.any(Number),
       height: expect.any(Number),
@@ -14,7 +14,9 @@ export default [
       slot_leader: expect.any(String),
       size: expect.any(Number),
       tx_count: expect.any(Number),
+      // @ts-expect-error test
       output: expect.toBeTypeOrNull(String),
+      // @ts-expect-error test
       fees: expect.toBeTypeOrNull(String),
       block_vrf: expect.any(String),
       previous_block: expect.any(String),
@@ -24,7 +26,7 @@ export default [
   },
   {
     testName: 'blocks/:hash_or_number - hash - genesis',
-    endpoints: ['/blocks/5f20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb'],
+    endpoints: ['blocks/5f20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb'],
     response: {
       time: 1506203091,
       height: null,
@@ -46,8 +48,8 @@ export default [
   {
     testName: 'blocks/:hash_or_number - hash - generic byron (no txs)',
     endpoints: [
-      '/blocks/31db1dd17442bd2109d50c8f997edaba3047b2bd57c6e7685d835e4ca0768780',
-      '/blocks/3058570',
+      'blocks/31db1dd17442bd2109d50c8f997edaba3047b2bd57c6e7685d835e4ca0768780',
+      'blocks/3058570',
     ],
     response: {
       time: 1567405171,
@@ -70,8 +72,8 @@ export default [
   {
     testName: 'blocks/:hash_or_number - hash - generic shelley',
     endpoints: [
-      '/blocks/7474d633ece405cec979714186a72b5a1221cebf356831dbe568aaa1f6c3b077',
-      '/blocks/5358023',
+      'blocks/7474d633ece405cec979714186a72b5a1221cebf356831dbe568aaa1f6c3b077',
+      'blocks/5358023',
     ],
     response: {
       time: 1613643972,
@@ -94,8 +96,8 @@ export default [
   {
     testName: 'blocks/:hash_or_number - generic shelley (no txs)',
     endpoints: [
-      '/blocks/21af53d104f1f75581dbd146bd61c5a94b1c10664093c6e15c2e207aa465da28',
-      '/blocks/5368625',
+      'blocks/21af53d104f1f75581dbd146bd61c5a94b1c10664093c6e15c2e207aa465da28',
+      'blocks/5368625',
     ],
     response: {
       time: 1613857449,
@@ -117,7 +119,7 @@ export default [
   },
   {
     testName: 'blocks/:hash_or_number - hash - first boundary',
-    endpoints: ['/blocks/89d9b5a5b8ddc8d7e5a6795e9774d97faf1efea59b2caf7eaf9f8c5b32059df4'],
+    endpoints: ['blocks/89d9b5a5b8ddc8d7e5a6795e9774d97faf1efea59b2caf7eaf9f8c5b32059df4'],
     response: {
       time: 1506203091,
       height: null,
@@ -138,7 +140,7 @@ export default [
   },
   {
     testName: 'blocks/:hash_or_number - hash - generic boundary',
-    endpoints: ['/blocks/471ee59bee5cadc22ec85c4519acd4ee6f843eb30b34793db6ba1a9eb0426afb'],
+    endpoints: ['blocks/471ee59bee5cadc22ec85c4519acd4ee6f843eb30b34793db6ba1a9eb0426afb'],
     response: {
       time: 1516571091,
       height: null,
@@ -160,7 +162,7 @@ export default [
   {
     testName:
       'blocks/slot/:slot_number and blocks/epoch/:epoch_number/slot/:slot_number - generic shelley',
-    endpoints: ['/blocks/slot/16019999', '/blocks/epoch/234/slot/295199'],
+    endpoints: ['blocks/slot/16019999', 'blocks/epoch/234/slot/295199'],
     response: {
       time: 1607586290,
       height: 5058628,
@@ -182,10 +184,10 @@ export default [
   {
     testName: 'blocks/:hash_or_number/next-previous - generic shelley',
     endpoints: [
-      '/blocks/8d9309b0aa8faf0f4df797efb4e3af9b88072bef3f8177bd159befc186944649/next',
-      '/blocks/5058570/next',
-      '/blocks/f74fe59538d1c3a68842d0072e3aa68818e681d0ba45fd993a8bc9051fc4af3a/previous',
-      '/blocks/5058671/previous',
+      'blocks/8d9309b0aa8faf0f4df797efb4e3af9b88072bef3f8177bd159befc186944649/next',
+      'blocks/5058570/next',
+      'blocks/f74fe59538d1c3a68842d0072e3aa68818e681d0ba45fd993a8bc9051fc4af3a/previous',
+      'blocks/5058671/previous',
     ],
     response: [
       {
@@ -1893,10 +1895,10 @@ export default [
   {
     testName: 'blocks/:hash_or_number/next-previous?queryparams - generic shelley',
     endpoints: [
-      '/blocks/8d9309b0aa8faf0f4df797efb4e3af9b88072bef3f8177bd159befc186944649/next?count=2&page=2',
-      '/blocks/5058570/next?count=2&page=2',
-      '/blocks/5058577/previous?count=2&page=2',
-      '/blocks/d323bf6587d92da6d61e6a3adcfef81f7598fbf5fe52ab7de19d09a933e30c1a/previous?count=2&page=2',
+      'blocks/8d9309b0aa8faf0f4df797efb4e3af9b88072bef3f8177bd159befc186944649/next?count=2&page=2',
+      'blocks/5058570/next?count=2&page=2',
+      'blocks/5058577/previous?count=2&page=2',
+      'blocks/d323bf6587d92da6d61e6a3adcfef81f7598fbf5fe52ab7de19d09a933e30c1a/previous?count=2&page=2',
     ],
     response: [
       {
@@ -1938,7 +1940,7 @@ export default [
   {
     testName: 'blocks/:hash_or_number/next?queryparams - generic boundary',
     endpoints: [
-      '/blocks/471ee59bee5cadc22ec85c4519acd4ee6f843eb30b34793db6ba1a9eb0426afb/next?count=2',
+      'blocks/471ee59bee5cadc22ec85c4519acd4ee6f843eb30b34793db6ba1a9eb0426afb/next?count=2',
     ],
     response: [
       {
@@ -1980,10 +1982,10 @@ export default [
   {
     testName: 'blocks/:hash_or_number/next-previous?queryparams - generic boundary inside',
     endpoints: [
-      '/blocks/7c2ebce8fc7f1c539c20373484c629af675e15d182f66adfc602fa4a962b144b/next?count=3',
-      '/blocks/518333/next?count=3',
-      '/blocks/232b18231c885fd09ff7d643fd2536a64b07d4566860535f5bea7034d30cb630/previous?count=3',
-      '/blocks/518336/previous?count=3',
+      'blocks/7c2ebce8fc7f1c539c20373484c629af675e15d182f66adfc602fa4a962b144b/next?count=3',
+      'blocks/518333/next?count=3',
+      'blocks/232b18231c885fd09ff7d643fd2536a64b07d4566860535f5bea7034d30cb630/previous?count=3',
+      'blocks/518336/previous?count=3',
     ],
     response: [
       {
@@ -2042,10 +2044,10 @@ export default [
   {
     testName: 'blocks/:hash_or_number/next-previous?queryparams - generic boundary inside',
     endpoints: [
-      '/blocks/4009725/previous?page=398832&count=10',
-      '/blocks/23dae10eef453b6978b94f3dcc58dfea8f8a39fc720bd0f4c84c87c73f488ca8/previous?page=398832&count=10',
-      '/blocks/21579/next?count=10',
-      '/blocks/d8bbdc12fc56d7b3fa9de6de325f8f139beaf5962ee147a0107bd19b931b1eba/next?count=10',
+      'blocks/4009725/previous?page=398832&count=10',
+      'blocks/23dae10eef453b6978b94f3dcc58dfea8f8a39fc720bd0f4c84c87c73f488ca8/previous?page=398832&count=10',
+      'blocks/21579/next?count=10',
+      'blocks/d8bbdc12fc56d7b3fa9de6de325f8f139beaf5962ee147a0107bd19b931b1eba/next?count=10',
     ],
     response: [
       {
@@ -2223,8 +2225,8 @@ export default [
   {
     testName: 'blocks/:hash_or_number/next-previous?queryparams - generic boundary',
     endpoints: [
-      '/blocks/fd509e014462437d1786934ec6b622a705aab62318c87107a0f245b4cb404a83/previous?page=298020&count=5',
-      '/blocks/3/next?page=15&count=5',
+      'blocks/fd509e014462437d1786934ec6b622a705aab62318c87107a0f245b4cb404a83/previous?page=298020&count=5',
+      'blocks/3/next?page=15&count=5',
     ],
     response: [
       {
@@ -2317,10 +2319,10 @@ export default [
   {
     testName: 'blocks/:hash_or_number/next-previous?queryparams - generic boundary edge',
     endpoints: [
-      '/blocks/4009732/previous?page=797664&count=5',
-      '/blocks/476c64be0d3dea51073beaf4efe02a355ebac1c484aed54ceeb662b4696e8b63/previous?page=797664&count=5',
-      '/blocks/21586/next?count=5',
-      '/blocks/3bd04916b6bc2ad849d519cfae4ffe3b1a1660c098dbcd3e884073dd54bc8911/next?count=5',
+      'blocks/4009732/previous?page=797664&count=5',
+      'blocks/476c64be0d3dea51073beaf4efe02a355ebac1c484aed54ceeb662b4696e8b63/previous?page=797664&count=5',
+      'blocks/21586/next?count=5',
+      'blocks/3bd04916b6bc2ad849d519cfae4ffe3b1a1660c098dbcd3e884073dd54bc8911/next?count=5',
     ],
     response: [
       {
@@ -2413,8 +2415,8 @@ export default [
   {
     testName: 'blocks/:hash_or_number/txs - generic shelley',
     endpoints: [
-      '/blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b320/txs',
-      '/blocks/5360435/txs',
+      'blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b320/txs',
+      'blocks/5360435/txs',
     ],
     response: [
       '055f9d4c86733997a9b8b12e3422feee8ef95d79ccbde20abdb6ff9222bb79c6',
@@ -2446,8 +2448,8 @@ export default [
   {
     testName: 'blocks/:hash_or_number/txs?queryparams - generic shelley',
     endpoints: [
-      '/blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b320/txs?order=desc&count=2&page=2',
-      '/blocks/5360435/txs?order=desc&count=2&page=2',
+      'blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b320/txs?order=desc&count=2&page=2',
+      'blocks/5360435/txs?order=desc&count=2&page=2',
     ],
     response: [
       'b29bd7a9e79345639d359f549bbf0b668d6177c90a105c66186d8b98835d187f',
@@ -2457,10 +2459,10 @@ export default [
   {
     testName: 'blocks/:hash_or_number/txs?queryparams - generic shelley',
     endpoints: [
-      '/blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b320/txs?order=asc&count=2&page=11',
-      '/blocks/5360435/txs?order=asc&count=2&page=11',
-      '/blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b320/txs?count=2&page=11',
-      '/blocks/5360435/txs?count=2&page=11',
+      'blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b320/txs?order=asc&count=2&page=11',
+      'blocks/5360435/txs?order=asc&count=2&page=11',
+      'blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b320/txs?count=2&page=11',
+      'blocks/5360435/txs?count=2&page=11',
     ],
     response: [
       '2a6bb221aac6192e3fdb05a1c82c1c2236fc6b226363021ec8036ff6f9475ed0',
@@ -2470,8 +2472,8 @@ export default [
   {
     testName: 'blocks/:hash_or_number/addresses - generic shelley',
     endpoints: [
-      '/blocks/5426a586eede6ae6e24e6795ea4bba816185ab3decf69602ee87ed7b35406543/addresses',
-      '/blocks/6602319/addresses',
+      'blocks/5426a586eede6ae6e24e6795ea4bba816185ab3decf69602ee87ed7b35406543/addresses',
+      'blocks/6602319/addresses',
     ],
     response: [
       {
@@ -2548,8 +2550,8 @@ export default [
   {
     testName: 'blocks/:hash_or_number/addresses?queryparams - generic shelley',
     endpoints: [
-      '/blocks/5426a586eede6ae6e24e6795ea4bba816185ab3decf69602ee87ed7b35406543/addresses?count=2&page=2',
-      '/blocks/6602319/addresses?count=2&page=2',
+      'blocks/5426a586eede6ae6e24e6795ea4bba816185ab3decf69602ee87ed7b35406543/addresses?count=2&page=2',
+      'blocks/6602319/addresses?count=2&page=2',
     ],
     response: [
       {
@@ -2571,16 +2573,16 @@ export default [
   {
     testName: 'blocks - Missing, out of range or malformed block number.',
     endpoints: [
-      '/blocks/53604351654465',
-      '/blocks/-5',
-      '/blocks/53604351654465/next',
-      '/blocks/-5/next',
-      '/blocks/53604351654465/previous',
-      '/blocks/-5/previous',
-      '/blocks/53604351654465/txs',
-      '/blocks/-5/txs',
-      '/blocks/53604351654465/addresses',
-      '/blocks/-5/addresses',
+      'blocks/53604351654465',
+      'blocks/-5',
+      'blocks/53604351654465/next',
+      'blocks/-5/next',
+      'blocks/53604351654465/previous',
+      'blocks/-5/previous',
+      'blocks/53604351654465/txs',
+      'blocks/-5/txs',
+      'blocks/53604351654465/addresses',
+      'blocks/-5/addresses',
     ],
     response: {
       error: 'Bad Request',
@@ -2591,30 +2593,30 @@ export default [
   {
     testName: 'Missing or malformed block hash.',
     endpoints: [
-      '/blocks//next',
-      '/blocks//previous',
-      '/blocks//txs',
-      '/blocks//addresses',
-      '/blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b32X',
-      '/blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b3200',
-      '/blocks/69nice',
-      '/blocks/stonks',
-      '/blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b32X/next',
-      '/blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b3200/next',
-      '/blocks/69nice/next',
-      '/blocks/stonks/next',
-      '/blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b32X/previous',
-      '/blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b3200/previous',
-      '/blocks/69nice/previous',
-      '/blocks/stonks/previous',
-      '/blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b32X/txs',
-      '/blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b3200/txs',
-      '/blocks/69nice/txs',
-      '/blocks/stonks/txs',
-      '/blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b32X/addresses',
-      '/blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b3200/addresses',
-      '/blocks/69nice/addresses',
-      '/blocks/stonks/addresses',
+      'blocks//next',
+      'blocks//previous',
+      'blocks//txs',
+      'blocks//addresses',
+      'blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b32X',
+      'blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b3200',
+      'blocks/69nice',
+      'blocks/stonks',
+      'blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b32X/next',
+      'blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b3200/next',
+      'blocks/69nice/next',
+      'blocks/stonks/next',
+      'blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b32X/previous',
+      'blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b3200/previous',
+      'blocks/69nice/previous',
+      'blocks/stonks/previous',
+      'blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b32X/txs',
+      'blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b3200/txs',
+      'blocks/69nice/txs',
+      'blocks/stonks/txs',
+      'blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b32X/addresses',
+      'blocks/c6e3901b2cd95598b0bf5dc55cb62d682ea369298be9825b4b58d891b844b3200/addresses',
+      'blocks/69nice/addresses',
+      'blocks/stonks/addresses',
     ],
     response: {
       error: 'Bad Request',
@@ -2624,7 +2626,7 @@ export default [
   },
   {
     testName: 'Invalid path',
-    endpoints: ['/blocks/'],
+    endpoints: ['blocks/'],
     response: {
       error: 'Bad Request',
       message: 'Invalid path. Please check https://docs.blockfrost.io/',

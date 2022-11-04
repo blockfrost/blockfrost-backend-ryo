@@ -1,7 +1,7 @@
 export default [
   {
     testName: 'genesis',
-    endpoints: ['/genesis'],
+    endpoints: ['genesis'],
     response: {
       active_slots_coefficient: 0.05,
       update_quorum: 5,

@@ -1,6 +1,5 @@
-import { getInstance } from '../utils';
-import fixtures from '../fixtures/fixtures-mainnet/pools';
-import axios from 'axios';
+import { getInstance } from '../../utils';
+import fixtures from '../../fixtures/mainnet/pools';
 import { describe, test, expect } from 'vitest';
 
 describe('pools endpoint', () => {
@@ -16,25 +15,21 @@ describe('pools endpoint', () => {
   });
 
   test('/pools/retiring', async () => {
-    const endpointUrl = getApiUrl('/pools/retiring');
-    const response = await axios.get(endpointUrl);
-    const responseJson = response.data;
+    const client = getInstance();
+    const response = await client.get('/pools/retiring').json();
 
-    if (responseJson.length > 0) {
-      expect(responseJson).toStrictEqual(
-        expect.arrayContaining([{ pool_id: expect.any(String), epoch: expect.any(Number) }]),
-      );
-    } else expect(responseJson).toMatchObject([]);
+    expect(response).toStrictEqual(
+      expect.arrayContaining([{ pool_id: expect.any(String), epoch: expect.any(Number) }]),
+    );
   });
 
   test('/pools/delegators', async () => {
-    const endpointUrl = getApiUrl(
-      '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/delegators',
-    );
-    const response = await axios.get(endpointUrl);
-    const responseJson = response.data;
+    const client = getInstance();
+    const response = await client
+      .get('/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/delegators')
+      .json();
 
-    expect(responseJson).toStrictEqual(
+    expect(response).toStrictEqual(
       expect.arrayContaining([{ address: expect.any(String), live_stake: expect.any(String) }]),
     );
   });

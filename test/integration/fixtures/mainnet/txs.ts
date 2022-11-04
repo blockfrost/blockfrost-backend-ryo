@@ -1,7 +1,7 @@
 export default [
   {
     testName: 'txs/:tx - generic shelley tx with huge size',
-    endpoints: ['/txs/28172ea876c3d1e691284e5179fae2feb3e69d7d41e43f8023dc380115741026'],
+    endpoints: ['txs/28172ea876c3d1e691284e5179fae2feb3e69d7d41e43f8023dc380115741026'],
     response: {
       hash: '28172ea876c3d1e691284e5179fae2feb3e69d7d41e43f8023dc380115741026',
       block: 'e6369fee087d31192016b1659f1c381e9fc4925339278a4eef6f340c96c1947f',
@@ -29,7 +29,7 @@ export default [
   },
   {
     testName: 'txs/:tx - generic shelley with withdrawals',
-    endpoints: ['/txs/9f811b021492a5544207f7b566b4e67c87f0918b9e7055ab3074d552ab18e895'],
+    endpoints: ['txs/9f811b021492a5544207f7b566b4e67c87f0918b9e7055ab3074d552ab18e895'],
     response: {
       hash: '9f811b021492a5544207f7b566b4e67c87f0918b9e7055ab3074d552ab18e895',
       block: '4fc7c621c314d62e35b714d5fd8b94833eab96e0cd2624ce2f4545b762b0dc04',
@@ -57,7 +57,7 @@ export default [
   },
   {
     testName: 'txs/:tx - shelley MOST withdrawals',
-    endpoints: ['/txs/b2fe200ae710815fc0b877b6df9a6f936f8c907bd6ce3fec2622d3539d35434a'],
+    endpoints: ['txs/b2fe200ae710815fc0b877b6df9a6f936f8c907bd6ce3fec2622d3539d35434a'],
     response: {
       hash: 'b2fe200ae710815fc0b877b6df9a6f936f8c907bd6ce3fec2622d3539d35434a',
       block: '51af48fabaf33b2a669871628629591cc87356d5b98c4aece6702b3f19b97bd9',
@@ -85,7 +85,7 @@ export default [
   },
   {
     testName: 'txs/:tx - shelley MOST delegations',
-    endpoints: ['/txs/0d78f1a66d9d73ff70f5c3a5edc44de7abba77af37bdd7547f4d6c02450246f3'],
+    endpoints: ['txs/0d78f1a66d9d73ff70f5c3a5edc44de7abba77af37bdd7547f4d6c02450246f3'],
     response: {
       hash: '0d78f1a66d9d73ff70f5c3a5edc44de7abba77af37bdd7547f4d6c02450246f3',
       block: '03e7a2200f03dd01b7e71eff549a0d3c4e0d46ba08ff49aad35df7ad1eedca86',
@@ -113,7 +113,7 @@ export default [
   },
   {
     testName: 'txs/:tx - generic shelley with pool certs',
-    endpoints: ['/txs/28bd5e8c342ab89d6642e446cb299058ea36256af1718e4af9326898ce4192d7'],
+    endpoints: ['txs/28bd5e8c342ab89d6642e446cb299058ea36256af1718e4af9326898ce4192d7'],
     response: {
       hash: '28bd5e8c342ab89d6642e446cb299058ea36256af1718e4af9326898ce4192d7',
       block: 'c0070931a09532e4a07b799d552bf0494e316facd5a678a952628d90a78f8838',
@@ -141,7 +141,7 @@ export default [
   },
   {
     testName: 'txs/:tx - generic shelley with delegations and stake certs',
-    endpoints: ['/txs/c2120581050a1116ab38a5ac8a62d64df4cf12cf3370d22337201d36eb65fcc4'],
+    endpoints: ['txs/c2120581050a1116ab38a5ac8a62d64df4cf12cf3370d22337201d36eb65fcc4'],
     response: {
       hash: 'c2120581050a1116ab38a5ac8a62d64df4cf12cf3370d22337201d36eb65fcc4',
       block: '57a4bea5e3b1755dcdd58540edb692ba22dbdf628447915045a59a75481d41f2',
@@ -169,7 +169,7 @@ export default [
   },
   {
     testName: 'txs/:tx - generic shelley with MULTIPLE delegation, stake certs and pool updates',
-    endpoints: ['/txs/f1aee024a482d5d21ed552d15eefbb664e98095cdabde75a9ff9c78c0812e6fb'],
+    endpoints: ['txs/f1aee024a482d5d21ed552d15eefbb664e98095cdabde75a9ff9c78c0812e6fb'],
     response: {
       hash: 'f1aee024a482d5d21ed552d15eefbb664e98095cdabde75a9ff9c78c0812e6fb',
       block: '963630e5e2dcad3227b9c89d772785797650f8dd21bd79109e23412a01e54f47',
@@ -197,7 +197,7 @@ export default [
   },
   {
     testName: 'txs/:tx - generic shelley with pool retirements',
-    endpoints: ['/txs/33770d42c7bc8a9a0bc9830ffb97941574dc61dc534796dd8614b99b6aadace4'],
+    endpoints: ['txs/33770d42c7bc8a9a0bc9830ffb97941574dc61dc534796dd8614b99b6aadace4'],
     response: {
       hash: '33770d42c7bc8a9a0bc9830ffb97941574dc61dc534796dd8614b99b6aadace4',
       block: '84a22c923f90a2cf3eeebcc691d0d0b4409f391af4c156a056d2567f90fe3d3a',
@@ -225,7 +225,7 @@ export default [
   },
   {
     testName: 'txs/:tx - shelley MOST pool retirements',
-    endpoints: ['/txs/8c8376b28e8d729115ea6e88540747160fab22d754ad6a11c55ab159024d8005'],
+    endpoints: ['txs/8c8376b28e8d729115ea6e88540747160fab22d754ad6a11c55ab159024d8005'],
     response: {
       hash: '8c8376b28e8d729115ea6e88540747160fab22d754ad6a11c55ab159024d8005',
       block: 'ebb7ffc6409c1f5254f4c6a18f699dd18c2cb2aadf986fa7fb95437351f0bcbb',
@@ -253,7 +253,7 @@ export default [
   },
   {
     testName: 'txs/:tx - generic shelley with metadata',
-    endpoints: ['/txs/e641005803337a553a03cf3c11a1819491a629bd7d0a3c39e4866a01b5dac36d'],
+    endpoints: ['txs/e641005803337a553a03cf3c11a1819491a629bd7d0a3c39e4866a01b5dac36d'],
     response: {
       hash: 'e641005803337a553a03cf3c11a1819491a629bd7d0a3c39e4866a01b5dac36d',
       block: '94392ace59ca912e503fbe60eabd03f0673d39f6127c9144e3472b6477e1c270',
@@ -281,7 +281,7 @@ export default [
   },
   {
     testName: 'txs/:tx - byron dust tx with hacky address and huge size',
-    endpoints: ['/txs/313223c9f0d09ee287148874f938ecf37fea7bf3c10a5d649522d0f40db1cf71'],
+    endpoints: ['txs/313223c9f0d09ee287148874f938ecf37fea7bf3c10a5d649522d0f40db1cf71'],
     response: {
       hash: '313223c9f0d09ee287148874f938ecf37fea7bf3c10a5d649522d0f40db1cf71',
       block: '495a076248093a0fc8b5997b701287d806fac05f67300542a8e56f6f895e9a0c',
@@ -310,7 +310,7 @@ export default [
   {
     testName:
       'txs/:tx - shelley tx of token mint with ridiculous hereafter out of range (Fri 26 Jan 2970 01:43:53 AM CET) value',
-    endpoints: ['/txs/af1b12ecf33760253cac6c64fc71205848e4106bb46b2663380cb67ee7100b51'],
+    endpoints: ['txs/af1b12ecf33760253cac6c64fc71205848e4106bb46b2663380cb67ee7100b51'],
     response: {
       hash: 'af1b12ecf33760253cac6c64fc71205848e4106bb46b2663380cb67ee7100b51',
       block: 'a768588998ac6c51127596df523044f717a3c7b60b492cca882832c642310dd0',
@@ -373,7 +373,7 @@ export default [
   {
     testName:
       'txs/:tx - shelley tx of token mint with ridiculous hereafter out of range (Sat 20 Nov 2286 06:46:40 PM CET) value',
-    endpoints: ['/txs/6d34c455dc79529a2aeace0f7b45f137874825a9c8160550b27e7bbaefd24000'],
+    endpoints: ['txs/6d34c455dc79529a2aeace0f7b45f137874825a9c8160550b27e7bbaefd24000'],
     response: {
       hash: '6d34c455dc79529a2aeace0f7b45f137874825a9c8160550b27e7bbaefd24000',
       block: '8e4464e5ee635f44e922fb4420d5a4ad760340260cf8f05aebc7643a6d5b3605',
@@ -407,7 +407,7 @@ export default [
   },
   {
     testName: 'txs/:tx - all hail nutcoin!',
-    endpoints: ['/txs/e252be4c7e40d35919f741c9649ff207c3e49d53bb819e5c1cb458055fd363ed'],
+    endpoints: ['txs/e252be4c7e40d35919f741c9649ff207c3e49d53bb819e5c1cb458055fd363ed'],
     response: {
       hash: 'e252be4c7e40d35919f741c9649ff207c3e49d53bb819e5c1cb458055fd363ed',
       block: '6ba25afbbaf2c6c6d65f64987fb15ea7a86ce0e6414357d7b95e6df7d573539b',
@@ -441,7 +441,7 @@ export default [
   },
   {
     testName: 'txs/:tx - shelley tx with a lot of token mints/burns',
-    endpoints: ['/txs/d4f9c98ab75084a63f57181931a791703f3b3cf18cf7e8449c41a51b6ac33679'],
+    endpoints: ['txs/d4f9c98ab75084a63f57181931a791703f3b3cf18cf7e8449c41a51b6ac33679'],
     response: {
       hash: 'd4f9c98ab75084a63f57181931a791703f3b3cf18cf7e8449c41a51b6ac33679',
       block: '1739350ddc6cfd3ee3d3ae11c93a13888d70cae3741c1569cc75cec6a4239cea',
@@ -469,7 +469,7 @@ export default [
   },
   {
     testName: 'txs/:tx/utxos - alonzo tx with a script',
-    endpoints: ['/txs/7ec5dd9f2fdd33b73786106b95be7737f6de5d53bb5e7b0610d1b9e947474d3c/utxos'],
+    endpoints: ['txs/7ec5dd9f2fdd33b73786106b95be7737f6de5d53bb5e7b0610d1b9e947474d3c/utxos'],
     response: {
       hash: '7ec5dd9f2fdd33b73786106b95be7737f6de5d53bb5e7b0610d1b9e947474d3c',
       inputs: [
@@ -534,7 +534,7 @@ export default [
   },
   {
     testName: 'txs/:tx/utxos - generic shelley tx with huge size',
-    endpoints: ['/txs/28172ea876c3d1e691284e5179fae2feb3e69d7d41e43f8023dc380115741026/utxos'],
+    endpoints: ['txs/28172ea876c3d1e691284e5179fae2feb3e69d7d41e43f8023dc380115741026/utxos'],
     response: {
       hash: '28172ea876c3d1e691284e5179fae2feb3e69d7d41e43f8023dc380115741026',
       inputs: [
@@ -1179,7 +1179,7 @@ export default [
   },
   {
     testName: 'txs/:tx/utxos - byron dust tx with hacky address and huge size',
-    endpoints: ['/txs/313223c9f0d09ee287148874f938ecf37fea7bf3c10a5d649522d0f40db1cf71/utxos'],
+    endpoints: ['txs/313223c9f0d09ee287148874f938ecf37fea7bf3c10a5d649522d0f40db1cf71/utxos'],
     response: {
       hash: '313223c9f0d09ee287148874f938ecf37fea7bf3c10a5d649522d0f40db1cf71',
       inputs: [
@@ -1208,7 +1208,7 @@ export default [
   },
   {
     testName: 'txs/:tx/utxos - byron block 1 tx without inputs',
-    endpoints: ['/txs/927edb96f3386ab91b5f5d85d84cb4253c65b1c2f65fa7df25f81fab1d62987a/utxos'],
+    endpoints: ['txs/927edb96f3386ab91b5f5d85d84cb4253c65b1c2f65fa7df25f81fab1d62987a/utxos'],
     response: {
       hash: '927edb96f3386ab91b5f5d85d84cb4253c65b1c2f65fa7df25f81fab1d62987a',
       inputs: [],
@@ -1222,9 +1222,7 @@ export default [
   },
   {
     testName: 'txs/:tx/withdrawals - generic shelley with withdrawals',
-    endpoints: [
-      '/txs/9f811b021492a5544207f7b566b4e67c87f0918b9e7055ab3074d552ab18e895/withdrawals',
-    ],
+    endpoints: ['txs/9f811b021492a5544207f7b566b4e67c87f0918b9e7055ab3074d552ab18e895/withdrawals'],
     response: [
       {
         address: 'stake1ux77thpfertrfhkq3tlmssucn30ddvvn3s9fhvkvx7dd3msgmxve0',
@@ -1234,9 +1232,7 @@ export default [
   },
   {
     testName: 'txs/:tx - shelley MOST withdrawals',
-    endpoints: [
-      '/txs/b2fe200ae710815fc0b877b6df9a6f936f8c907bd6ce3fec2622d3539d35434a/withdrawals',
-    ],
+    endpoints: ['txs/b2fe200ae710815fc0b877b6df9a6f936f8c907bd6ce3fec2622d3539d35434a/withdrawals'],
     response: [
       {
         address: 'stake1uyzku3s2wxu2ljhe6ykd9v9a8qkvn548nru7qnhjlj6s2ds8hz4mc',
@@ -1323,7 +1319,7 @@ export default [
 
   {
     testName: 'txs/:tx - generic shelley with treasury MIRs',
-    endpoints: ['/txs/7b57f2cf1c442c563647ab29669c88b9116c2668d31d42526ff27ed614da1252/mirs'],
+    endpoints: ['txs/7b57f2cf1c442c563647ab29669c88b9116c2668d31d42526ff27ed614da1252/mirs'],
     response: [
       {
         pot: 'treasury',
@@ -1563,7 +1559,7 @@ export default [
   },
   {
     testName: 'txs/:tx - generic shelley with reserve MIRs',
-    endpoints: ['/txs/35d2728ea6ad89bf809565c9ed698bb1c5cddf83591ba2e8bba951cb8fee0035/mirs'],
+    endpoints: ['txs/35d2728ea6ad89bf809565c9ed698bb1c5cddf83591ba2e8bba951cb8fee0035/mirs'],
     response: [
       {
         pot: 'reserve',
@@ -2769,7 +2765,7 @@ export default [
   },
   {
     testName: 'txs/:tx - shelley with one treasury MIR',
-    endpoints: ['/txs/fabfad0aaa2b52b8304f45edc0350659ad0d73f9d1065d9cd3ef7d5a599ac57d/mirs'],
+    endpoints: ['txs/fabfad0aaa2b52b8304f45edc0350659ad0d73f9d1065d9cd3ef7d5a599ac57d/mirs'],
     response: [
       {
         pot: 'treasury',
@@ -2781,9 +2777,7 @@ export default [
   },
   {
     testName: 'txs/:tx - shelley MOST delegations',
-    endpoints: [
-      '/txs/0d78f1a66d9d73ff70f5c3a5edc44de7abba77af37bdd7547f4d6c02450246f3/delegations',
-    ],
+    endpoints: ['txs/0d78f1a66d9d73ff70f5c3a5edc44de7abba77af37bdd7547f4d6c02450246f3/delegations'],
     response: [
       {
         index: 0,
@@ -3070,7 +3064,7 @@ export default [
   {
     testName: 'txs/:tx - generic shelley with pool certs',
     endpoints: [
-      '/txs/28bd5e8c342ab89d6642e446cb299058ea36256af1718e4af9326898ce4192d7/pool_updates',
+      'txs/28bd5e8c342ab89d6642e446cb299058ea36256af1718e4af9326898ce4192d7/pool_updates',
     ],
     response: [
       {
@@ -3133,9 +3127,7 @@ export default [
   },
   {
     testName: 'txs/:tx - generic shelley with delegations and stake certs',
-    endpoints: [
-      '/txs/c2120581050a1116ab38a5ac8a62d64df4cf12cf3370d22337201d36eb65fcc4/delegations',
-    ],
+    endpoints: ['txs/c2120581050a1116ab38a5ac8a62d64df4cf12cf3370d22337201d36eb65fcc4/delegations'],
     response: [
       {
         index: 1,
@@ -3148,7 +3140,7 @@ export default [
   },
   {
     testName: 'txs/:tx - generic shelley with delegations and stake certs',
-    endpoints: ['/txs/c2120581050a1116ab38a5ac8a62d64df4cf12cf3370d22337201d36eb65fcc4/stakes'],
+    endpoints: ['txs/c2120581050a1116ab38a5ac8a62d64df4cf12cf3370d22337201d36eb65fcc4/stakes'],
     response: [
       {
         cert_index: 0,
@@ -3159,9 +3151,7 @@ export default [
   },
   {
     testName: 'txs/:tx - generic shelley with MULTIPLE delegation, stake certs and pool updates',
-    endpoints: [
-      '/txs/f1aee024a482d5d21ed552d15eefbb664e98095cdabde75a9ff9c78c0812e6fb/delegations',
-    ],
+    endpoints: ['txs/f1aee024a482d5d21ed552d15eefbb664e98095cdabde75a9ff9c78c0812e6fb/delegations'],
     response: [
       {
         index: 3,
@@ -3307,7 +3297,7 @@ export default [
   },
   {
     testName: 'txs/:tx - generic shelley with MULTIPLE delegation, stake certs and pool updates',
-    endpoints: ['/txs/f1aee024a482d5d21ed552d15eefbb664e98095cdabde75a9ff9c78c0812e6fb/stakes'],
+    endpoints: ['txs/f1aee024a482d5d21ed552d15eefbb664e98095cdabde75a9ff9c78c0812e6fb/stakes'],
     response: [
       {
         cert_index: 0,
@@ -3514,7 +3504,7 @@ export default [
   {
     testName: 'txs/:tx - generic shelley with MULTIPLE delegation, stake certs and pool updates',
     endpoints: [
-      '/txs/f1aee024a482d5d21ed552d15eefbb664e98095cdabde75a9ff9c78c0812e6fb/pool_updates',
+      'txs/f1aee024a482d5d21ed552d15eefbb664e98095cdabde75a9ff9c78c0812e6fb/pool_updates',
     ],
     response: [
       {
@@ -4102,7 +4092,7 @@ export default [
   {
     testName: 'txs/:tx - shelley with pool update which does not have onchain reward address',
     endpoints: [
-      '/txs/6299278d563d92bc10cf77562a0437ae600d2b52941fdef45efcefec2f921160/pool_updates',
+      'txs/6299278d563d92bc10cf77562a0437ae600d2b52941fdef45efcefec2f921160/pool_updates',
     ],
     response: [
       {
@@ -4132,7 +4122,7 @@ export default [
   {
     testName: 'txs/:tx - generic shelley with pool retirements',
     endpoints: [
-      '/txs/33770d42c7bc8a9a0bc9830ffb97941574dc61dc534796dd8614b99b6aadace4/pool_retires',
+      'txs/33770d42c7bc8a9a0bc9830ffb97941574dc61dc534796dd8614b99b6aadace4/pool_retires',
     ],
     response: [
       {
@@ -4145,7 +4135,7 @@ export default [
   {
     testName: 'txs/:tx - shelley MOST pool retirements',
     endpoints: [
-      '/txs/8c8376b28e8d729115ea6e88540747160fab22d754ad6a11c55ab159024d8005/pool_retires',
+      'txs/8c8376b28e8d729115ea6e88540747160fab22d754ad6a11c55ab159024d8005/pool_retires',
     ],
     response: [
       {
@@ -4247,7 +4237,7 @@ export default [
   },
   {
     testName: 'txs/:tx - generic shelley with metadata',
-    endpoints: ['/txs/e641005803337a553a03cf3c11a1819491a629bd7d0a3c39e4866a01b5dac36d/metadata'],
+    endpoints: ['txs/e641005803337a553a03cf3c11a1819491a629bd7d0a3c39e4866a01b5dac36d/metadata'],
     response: [
       {
         label: '1968',
@@ -4277,7 +4267,7 @@ export default [
   {
     testName: 'txs/:tx - generic shelley with metadata cbor',
     endpoints: [
-      '/txs/e641005803337a553a03cf3c11a1819491a629bd7d0a3c39e4866a01b5dac36d/metadata/cbor',
+      'txs/e641005803337a553a03cf3c11a1819491a629bd7d0a3c39e4866a01b5dac36d/metadata/cbor',
     ],
     response: [
       {
@@ -4292,10 +4282,10 @@ export default [
   {
     testName: 'txs/:tx/all - generic shelley with no data - blanks',
     endpoints: [
-      '/txs/9f811b021492a5544207f7b566b4e67c87f0918b9e7055ab3074d552ab18e895/stakes',
-      '/txs/9f811b021492a5544207f7b566b4e67c87f0918b9e7055ab3074d552ab18e895/delegations',
-      '/txs/9f811b021492a5544207f7b566b4e67c87f0918b9e7055ab3074d552ab18e895/pool_retires',
-      '/txs/9f811b021492a5544207f7b566b4e67c87f0918b9e7055ab3074d552ab18e895/pool_updates',
+      'txs/9f811b021492a5544207f7b566b4e67c87f0918b9e7055ab3074d552ab18e895/stakes',
+      'txs/9f811b021492a5544207f7b566b4e67c87f0918b9e7055ab3074d552ab18e895/delegations',
+      'txs/9f811b021492a5544207f7b566b4e67c87f0918b9e7055ab3074d552ab18e895/pool_retires',
+      'txs/9f811b021492a5544207f7b566b4e67c87f0918b9e7055ab3074d552ab18e895/pool_updates',
     ],
     response: [],
   },

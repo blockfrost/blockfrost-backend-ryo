@@ -1,8 +1,8 @@
-import { getInstance } from '../utils';
-import fixtures from '../fixtures/fixtures-mainnet/nutlink';
+import { getInstance } from '../../utils';
+import fixtures from '../../fixtures/mainnet/metadata';
 import { describe, test, expect } from 'vitest';
 
-describe('nutlink endpoint', () => {
+describe('metadata endpoint', () => {
   fixtures.map(fixture => {
     fixture.endpoints.map(async endpoint => {
       test(fixture.testName, async () => {

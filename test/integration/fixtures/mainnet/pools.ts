@@ -8,7 +8,7 @@ export default [
   },
   {
     testName: 'pools/retired',
-    endpoints: ['/pools/retired'],
+    endpoints: ['pools/retired'],
     response: [
       { pool_id: 'pool1g60m45m23f5vta30x5z7e0n2gc02yc4wyz6darfeluy2kgu65fa', epoch: 209 },
       { pool_id: 'pool1s7xvt9453rruhfdc90dy02xue82mnv2lzyqgzxx8ssmcq4fc3kj', epoch: 209 },
@@ -114,7 +114,7 @@ export default [
   },
   {
     testName: 'pools/retired',
-    endpoints: ['/pools/retired?page=5'],
+    endpoints: ['pools/retired?page=5'],
     response: [
       { pool_id: 'pool1nxukummdjs6dvsqy94gd4hva3hgzyufa9ex6kexkvvvvwf6zszp', epoch: 238 },
       { pool_id: 'pool10lkxgdrsupu4gvn0kq07dvjc9rgdaxlcnx0y45kcjga9c0c766u', epoch: 238 },
@@ -220,7 +220,7 @@ export default [
   },
   {
     testName: 'pools/retired?queryparams',
-    endpoints: ['/pools/retired?page=2&count=2'],
+    endpoints: ['pools/retired?page=2&count=2'],
     response: [
       { pool_id: 'pool1qqqg664ad0cd47787e9ksfnl2utwrxfdp6z9av3dq5r9k6qfurw', epoch: 209 },
       { pool_id: 'pool1s0t2vw6hsjlkzdax8cd4ae2gjsx0kwv3qn9005s0w7y9z2jup6x', epoch: 209 },
@@ -228,7 +228,7 @@ export default [
   },
   {
     testName: 'pools/retired?queryparams',
-    endpoints: ['/pools/retired?page=269&count=2'],
+    endpoints: ['pools/retired?page=269&count=2'],
     response: [
       { pool_id: 'pool19qtdcswwfvuvqvr95yfpk68nhmulpe4yh6xg482v22q6ut0m9hl', epoch: 250 },
       { pool_id: 'pool1haa55x30sr96zywz8czjsr04q58797klyesw0g50z4jzj2sz908', epoch: 250 },
@@ -236,7 +236,7 @@ export default [
   },
   {
     testName: 'pools/retired?queryparams',
-    endpoints: ['/pools/retired?page=282&count=2'],
+    endpoints: ['pools/retired?page=282&count=2'],
     response: [
       { pool_id: 'pool1num5a9mvz02pncerh6d8xdcvd7474l9p44jkrwk8srzz7563yrj', epoch: 251 },
       { pool_id: 'pool1cz363un29lvy8y3cxfy9fgn2fdyfvu7gvt7atvlddess20ja4qj', epoch: 251 },
@@ -245,8 +245,8 @@ export default [
   {
     testName: 'pools/:pool_id/updates - generic pool updates',
     endpoints: [
-      '/pools/pool1kchver88u3kygsak8wgll7htr8uxn5v35lfrsyy842nkscrzyvj/updates?count=10',
-      '/pools/b62ecc8ce7e46c4443b63b91fffaeb19f869d191a7d2381087aaa768/updates?count=10',
+      'pools/pool1kchver88u3kygsak8wgll7htr8uxn5v35lfrsyy842nkscrzyvj/updates?count=10',
+      'pools/b62ecc8ce7e46c4443b63b91fffaeb19f869d191a7d2381087aaa768/updates?count=10',
     ],
     response: [
       {
@@ -304,8 +304,8 @@ export default [
   {
     testName: 'pools/:pool_id/metadata - pool with multiple metadata updates in one update',
     endpoints: [
-      '/pools/pool1zmfpd5r5vfwjmwm4cgy53exe58h7plnecny3t4948yw7zumzp4c/metadata',
-      '/pools/16d216d074625d2dbb75c20948e4d9a1efe0fe79c4c915d4b5391de1/metadata',
+      'pools/pool1zmfpd5r5vfwjmwm4cgy53exe58h7plnecny3t4948yw7zumzp4c/metadata',
+      'pools/16d216d074625d2dbb75c20948e4d9a1efe0fe79c4c915d4b5391de1/metadata',
     ],
     response: {
       url: expect.any(String),
@@ -319,8 +319,8 @@ export default [
   {
     testName: 'pools/:pool_id/metadata - pool with multiple metadata updates in one update',
     endpoints: [
-      '/pools/pool1yhd6a8vvp0r0ads36j4zjwx7juztf6cgpa2fqm9dm0st790ptf2/metadata',
-      '/pools/25dbae9d8c0bc6feb611d4aa2938de9704b4eb080f54906caddbe0bf/metadata',
+      'pools/pool1yhd6a8vvp0r0ads36j4zjwx7juztf6cgpa2fqm9dm0st790ptf2/metadata',
+      'pools/25dbae9d8c0bc6feb611d4aa2938de9704b4eb080f54906caddbe0bf/metadata',
     ],
     response: {
       url: expect.any(String),
@@ -334,8 +334,8 @@ export default [
   {
     testName: 'pools/pool_id/metadata - best pool',
     endpoints: [
-      '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/metadata',
-      '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/metadata',
+      'pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/metadata',
+      'pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/metadata',
     ],
     response: {
       url: 'https://stakenuts.com/mainnet.json',
@@ -349,8 +349,8 @@ export default [
   {
     testName: 'pools/pool_id/relays - best pool',
     endpoints: [
-      '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/relays',
-      '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/relays',
+      'pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/relays',
+      'pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/relays',
     ],
     response: [
       { ipv4: null, ipv6: null, dns: 'relays.mainnet.stakenuts.com', dns_srv: null, port: 3001 },
@@ -359,8 +359,8 @@ export default [
   {
     testName: 'pools/pool_id/blocks - best pool',
     endpoints: [
-      '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/blocks',
-      '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/blocks',
+      'pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/blocks',
+      'pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/blocks',
     ],
     response: [
       'da5e26446948b8d1f91396218dcd0131a5e7b3adb200cbd8f124d738438ed5ec',
@@ -468,8 +468,8 @@ export default [
   {
     testName: 'pools/:pool_id/blocks?querystring - best pool',
     endpoints: [
-      '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/blocks?count=2&page=2',
-      '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/blocks?count=2&page=2',
+      'pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/blocks?count=2&page=2',
+      'pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/blocks?count=2&page=2',
     ],
     response: [
       'e4198b0e351c48aa52e6ac3fdff46887f7061866e75f89dd0310793fbeba2336',
@@ -479,8 +479,8 @@ export default [
   {
     testName: 'pools/:pool_id/updates - best pool',
     endpoints: [
-      '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/updates?count=1&page=1',
-      '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/updates?count=1&page=1',
+      'pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/updates?count=1&page=1',
+      'pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/updates?count=1&page=1',
     ],
     response: [
       {
@@ -509,8 +509,8 @@ export default [
   // {
   //   testName: 'pools/pool_id - best pool',
   //   endpoints: [
-  //     '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy',
-  //     '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735',
+  //     'pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy',
+  //     'pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735',
   //   ],
   //   response: {
   //     pool_id: 'pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy',
@@ -537,8 +537,8 @@ export default [
   // {
   //   testName: 'pools/pool_id - pool with more owners',
   //   endpoints: [
-  //     '/pools/pool108zdflss3ayqlm5c7vr6mtqj2uwl99vk28ur8dv4zswdzt6yauc',
-  //     '/pools/79c4d4fe108f480fee98f307adac12571df2959651f833b595141cd1',
+  //     'pools/pool108zdflss3ayqlm5c7vr6mtqj2uwl99vk28ur8dv4zswdzt6yauc',
+  //     'pools/79c4d4fe108f480fee98f307adac12571df2959651f833b595141cd1',
   //   ],
   //   response: {
   //     pool_id: 'pool108zdflss3ayqlm5c7vr6mtqj2uwl99vk28ur8dv4zswdzt6yauc',
@@ -593,8 +593,8 @@ export default [
   // {
   //   testName: 'pools/pool_id - pool with invalid reward stake address',
   //   endpoints: [
-  //     '/pools/pool17s3mr9c4ejjfq20dz0ls9ggskc770kt267s9xmw93payzdswwgg',
-  //     '/pools/f423b19715cca49029ed13ff02a110b63de7d96ad7a0536dc5887a41',
+  //     'pools/pool17s3mr9c4ejjfq20dz0ls9ggskc770kt267s9xmw93payzdswwgg',
+  //     'pools/f423b19715cca49029ed13ff02a110b63de7d96ad7a0536dc5887a41',
   //   ],
   //   response: {
   //     pool_id: 'pool17s3mr9c4ejjfq20dz0ls9ggskc770kt267s9xmw93payzdswwgg',
@@ -632,7 +632,7 @@ export default [
   */
   // {
   //   testName: 'pools/pool_id - 2 times deregistered pool',
-  //   endpoints: ['/pools/pool1av0amckqhv85qxctwg2hj4jcgdgfhpmvvw3c5evrkg9a76tr7jh'],
+  //   endpoints: ['pools/pool1av0amckqhv85qxctwg2hj4jcgdgfhpmvvw3c5evrkg9a76tr7jh'],
   //   response: {
   //     vrf_key: 'f872f0256973428406326e24a7d604581478458ec1f1e60d77bad823e2348167',
   //     blocks_minted: 0,
@@ -662,7 +662,7 @@ export default [
   // },
   // {
   //   testName: 'pools/:pool_id - expired pool',
-  //   endpoints: ['/pools/pool1tz9k09jylmnk74z74v2t384smfypr7cwpzvs5sd2w537wu5jlrk'],
+  //   endpoints: ['pools/pool1tz9k09jylmnk74z74v2t384smfypr7cwpzvs5sd2w537wu5jlrk'],
   //   response: {
   //     vrf_key: '0e7ad41577a4d533470599095c439b5bb4ea912a17850233f01049dadf35a98a',
   //     blocks_minted: 0,
@@ -695,7 +695,7 @@ export default [
   // },
   // {
   //   testName: 'pools/:pool_id - expired pool no 1 - same rewards account',
-  //   endpoints: ['/pools/pool10ehxcuxmryvg5ae6g8krdvhaj3m07a6rzdtv8a0grtxpv7fnrpu'],
+  //   endpoints: ['pools/pool10ehxcuxmryvg5ae6g8krdvhaj3m07a6rzdtv8a0grtxpv7fnrpu'],
   //   response: {
   //     vrf_key: '3c1e88bcc9eba29065743ad745ee1a77ef9817bcfb66d8cdafb0be8b2f084794',
   //     blocks_minted: 0,
@@ -727,7 +727,7 @@ export default [
   // },
   // {
   //   testName: 'pools/:pool_id - expired pool no 2 - same rewards account',
-  //   endpoints: ['/pools/pool1qu4gywwxgdgep3t3pdgd92nclz9khr645dhn6fzyrmkuu4jk6th'],
+  //   endpoints: ['pools/pool1qu4gywwxgdgep3t3pdgd92nclz9khr645dhn6fzyrmkuu4jk6th'],
   //   response: {
   //     vrf_key: '7aa1a53991fb531aec59fdf3d012456da980aa5d3ca07eff7331e1e6210ef4e9',
   //     blocks_minted: 0,
@@ -755,7 +755,7 @@ export default [
   // },
   // {
   //   testName: 'pools/:pool_id - expired pool no 3 - same rewards account',
-  //   endpoints: ['/pools/pool1x6pcty09rx70ujg5lkxl7tdenamzh002y3uppkk0qczzcxyguyd'],
+  //   endpoints: ['pools/pool1x6pcty09rx70ujg5lkxl7tdenamzh002y3uppkk0qczzcxyguyd'],
   //   response: {
   //     vrf_key: '88d017417cb4e7188edf438941ae529ec6d3cee7448e96a78d17607d03236313',
   //     blocks_minted: 0,
@@ -782,8 +782,8 @@ export default [
   // {
   //   testName: 'pools/:pool_id/history - best pool history',
   //   endpoints: [
-  //     '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/history?count=10',
-  //     '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/history?count=10',
+  //     'pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/history?count=10',
+  //     'pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/history?count=10',
   //   ],
   //   response: [
   //     {
@@ -881,8 +881,8 @@ export default [
   // {
   //   testName: 'pools/:pool_id/history - pool history with more margin/cost updates',
   //   endpoints: [
-  //     '/pools/pool15wfu7td5r4k27erk5q5wt06x59skxxyqj206tdnfmfmk7pd3rp3/history?page=52&count=1',
-  //     '/pools/a393cf2db41d6caf6476a028e5bf46a161631880929fa5b669da776f/history?page=52&count=1&order=asc',
+  //     'pools/pool15wfu7td5r4k27erk5q5wt06x59skxxyqj206tdnfmfmk7pd3rp3/history?page=52&count=1',
+  //     'pools/a393cf2db41d6caf6476a028e5bf46a161631880929fa5b669da776f/history?page=52&count=1&order=asc',
   //   ],
   //   response: [
   //     {
@@ -898,7 +898,7 @@ export default [
   // },
   // {
   //   testName: 'pools/extended?queryparams',
-  //   endpoints: ['/pools/extended?count=5&page=3', '/pools/extended?count=5&page=3&order=asc'],
+  //   endpoints: ['pools/extended?count=5&page=3', 'pools/extended?count=5&page=3&order=asc'],
   //   response: [
   //     {
   //       pool_id: 'pool1p9sda64t6l9802tsu2fj6phvt9xfqgcpjucyr3kek8wzurmn8rz',
@@ -934,7 +934,7 @@ export default [
   // },
   // {
   //   testName: 'pools/extended?queryparams - we are not there yet',
-  //   endpoints: ['/pools/extended?page=694269'],
+  //   endpoints: ['pools/extended?page=694269'],
   //   response: [],
   // },
 ];

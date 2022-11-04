@@ -4,7 +4,7 @@ export default [
   {
     testName: 'nutlink/:address nut.link oracle address',
     endpoints: [
-      '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t',
+      'nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t',
     ],
     response: {
       address:
@@ -24,8 +24,8 @@ export default [
   {
     testName: 'nutlink/:address/tickers nut.link oracle address',
     endpoints: [
-      '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers?count=3',
-      '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers?count=3&page=1&order=asc',
+      'nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers?count=3',
+      'nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers?count=3&page=1&order=asc',
     ],
     response: [
       { name: 'ADABTC', count: expect.any(Number), latest_block: expect.any(Number) },
@@ -36,8 +36,8 @@ export default [
   {
     testName: 'nutlink/:address/tickers/:ticker nut.link oracle address',
     endpoints: [
-      '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers/ADAUSD?count=2&page=2',
-      '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers/ADAUSD?count=2&page=2&order=asc',
+      'nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers/ADAUSD?count=2&page=2',
+      'nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers/ADAUSD?count=2&page=2&order=asc',
     ],
     response: [
       {
@@ -63,8 +63,8 @@ export default [
   {
     testName: 'nutlink/tickers/:ticker nut.link oracle address',
     endpoints: [
-      '/nutlink/tickers/ADAUSD?count=2&page=2',
-      '/nutlink/tickers/ADAUSD?count=2&page=2&order=asc',
+      'nutlink/tickers/ADAUSD?count=2&page=2',
+      'nutlink/tickers/ADAUSD?count=2&page=2&order=asc',
     ],
     response: [
       {

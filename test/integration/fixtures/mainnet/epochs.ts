@@ -3,7 +3,7 @@ import { expect } from 'vitest';
 export default [
   {
     testName: 'epochs/latest',
-    endpoints: ['/epochs/latest'],
+    endpoints: ['epochs/latest'],
     response: {
       epoch: expect.any(Number),
       start_time: expect.any(Number),
@@ -19,7 +19,7 @@ export default [
   },
   {
     testName: 'epochs/:number - first',
-    endpoints: ['/epochs/0'],
+    endpoints: ['epochs/0'],
     response: {
       epoch: 0,
       start_time: 1506203091,
@@ -35,7 +35,7 @@ export default [
   },
   {
     testName: 'epochs/:number - generic byron',
-    endpoints: ['/epochs/123'],
+    endpoints: ['epochs/123'],
     response: {
       epoch: 123,
       start_time: 1559339091,
@@ -51,7 +51,7 @@ export default [
   },
   {
     testName: 'epochs/:number - generic shelley',
-    endpoints: ['/epochs/242'],
+    endpoints: ['epochs/242'],
     response: {
       epoch: 242,
       start_time: 1610747091,
@@ -67,7 +67,7 @@ export default [
   },
   {
     testName: 'epochs/:number/next-previous - generic',
-    endpoints: ['/epochs/123/next', '/epochs/224/previous'],
+    endpoints: ['epochs/123/next', 'epochs/224/previous'],
     response: [
       {
         epoch: 124,
@@ -1273,7 +1273,7 @@ export default [
   },
   {
     testName: 'epochs/:number/next-previous?queryparams - generic shelley',
-    endpoints: ['/epochs/242/next?page=2&count=2', '/epochs/249/previous?page=2&count=2'],
+    endpoints: ['epochs/242/next?page=2&count=2', 'epochs/249/previous?page=2&count=2'],
     response: [
       {
         epoch: 245,
@@ -1303,7 +1303,7 @@ export default [
   },
   {
     testName: 'epochs/:number/next-previous?queryparams - generic byron (<208) and shelley (>=208)',
-    endpoints: ['/epochs/210/previous?count=3', '/epochs/206/next?count=3'],
+    endpoints: ['epochs/210/previous?count=3', 'epochs/206/next?count=3'],
     response: [
       {
         epoch: 207,
@@ -1345,7 +1345,7 @@ export default [
   },
   {
     testName: 'epochs/:number/stakes generic shelley epoch',
-    endpoints: ['/epochs/242/stakes'],
+    endpoints: ['epochs/242/stakes'],
     response: [
       {
         stake_address: 'stake1uyqqqj9kvqnnc4t6qt39nj5sdr5tpae906cejuyjvrhpuvssqn32g',
@@ -1851,12 +1851,12 @@ export default [
   },
   {
     testName: 'epochs/:number/stakes?queryparams epochs w/out stakes',
-    endpoints: ['/epochs/207/stakes', '/epochs/208/stakes', '/epochs/209/stakes'],
+    endpoints: ['epochs/207/stakes', 'epochs/208/stakes', 'epochs/209/stakes'],
     response: [],
   },
   {
     testName: 'epochs/:number/stakes?queryparams first epoch with stakes, middle page',
-    endpoints: ['/epochs/210/stakes?page=100&count=2'],
+    endpoints: ['epochs/210/stakes?page=100&count=2'],
     response: [
       {
         stake_address: 'stake1uyps8fguv8mecqnsgzghtxfvu9f4q2t6q4cwe3uu89rwvhshsmvy3',
@@ -1873,7 +1873,7 @@ export default [
   },
   {
     testName: 'epochs/:number/stakes?queryparams first epoch with stakes, last page',
-    endpoints: ['/epochs/210/stakes?page=174'],
+    endpoints: ['epochs/210/stakes?page=174'],
     response: [
       {
         stake_address: 'stake1u8l7g4jjew20g0sycd49pd742xat53f2my36xxtsn5jav6cjtm80d',
@@ -1905,9 +1905,9 @@ export default [
   {
     testName: 'epochs/:number/stakes/pool?queryparams generic pool',
     endpoints: [
-      '/epochs/242/stakes/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy',
-      '/epochs/242/stakes/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?page=1',
-      '/epochs/242/stakes/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?page=1&count=100',
+      'epochs/242/stakes/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy',
+      'epochs/242/stakes/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?page=1',
+      'epochs/242/stakes/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?page=1&count=100',
     ],
     response: [
       {
@@ -2302,7 +2302,7 @@ export default [
   {
     testName: 'epochs/:number/stakes/pool?queryparams best pool ever',
     endpoints: [
-      '/epochs/242/stakes/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?page=2&count=2',
+      'epochs/242/stakes/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?page=2&count=2',
     ],
     response: [
       {
@@ -2319,16 +2319,16 @@ export default [
     testName:
       'epochs/:number/stakes/pool?queryparams generic new, old and expired pools without active delegators for that epoch',
     endpoints: [
-      '/epochs/224/stakes/pool1ezskfrplms9h6hxcw7adqghmfrtpn6cy7ax8ajrm5kn0crvl6sn',
-      '/epochs/242/stakes/pool14qacykhn8lzvltxrntkfvzakdn3acyj2m28lfc8q02gzylu8l9a',
-      '/epochs/247/stakes/pool105y08fgl97g255q7v9nk0x7aqyxaqcluve2jxhgwemkaxkeyd82',
-      '/epochs/200/stakes/pool105y08fgl97g255q7v9nk0x7aqyxaqcluve2jxhgwemkaxkeyd82',
+      'epochs/224/stakes/pool1ezskfrplms9h6hxcw7adqghmfrtpn6cy7ax8ajrm5kn0crvl6sn',
+      'epochs/242/stakes/pool14qacykhn8lzvltxrntkfvzakdn3acyj2m28lfc8q02gzylu8l9a',
+      'epochs/247/stakes/pool105y08fgl97g255q7v9nk0x7aqyxaqcluve2jxhgwemkaxkeyd82',
+      'epochs/200/stakes/pool105y08fgl97g255q7v9nk0x7aqyxaqcluve2jxhgwemkaxkeyd82',
     ],
     response: [],
   },
   {
     testName: 'epochs/:number/blocks?queryparams first blocks generic byron epoch',
-    endpoints: ['/epochs/123/blocks?count=2'],
+    endpoints: ['epochs/123/blocks?count=2'],
     response: [
       'a69b684e7b9661340ff2a37e801cb9e2bafe016da2579fa34492ad089ae7e175',
       '0035e2efb4db63b5f02290945eebc2b3590084c8877bebdddedb3d6a87f1542e',
@@ -2336,7 +2336,7 @@ export default [
   },
   {
     testName: 'epochs/:number/blocks?queryparams last blocks generic byron epoch',
-    endpoints: ['/epochs/123/blocks?count=2&order=desc'],
+    endpoints: ['epochs/123/blocks?count=2&order=desc'],
     response: [
       'd57b3bec2d4e6ce3024b668ae0497b5246cf594fbab773f70c6d08a481ea24bc',
       '9214748411112acfc7751819bdcafcea1eefa8dc1f6b3146c6a1ec0ac9ee2990',
@@ -2344,7 +2344,7 @@ export default [
   },
   {
     testName: 'epochs/:number/blocks?queryparams last blocks generic shelley epoch',
-    endpoints: ['/epochs/244/blocks?page=215'],
+    endpoints: ['epochs/244/blocks?page=215'],
     response: [
       'efdea978c8604bd9e913ea2bcd104be372361c8ba0b36fedb1ea82ec124f798f',
       '597a5dc3a55eff3b767d28ab9cf8ff70a7e70e16eca0d2543e5815811d336cb6',
@@ -2441,7 +2441,7 @@ export default [
   },
   {
     testName: 'epochs/:number/blocks?queryparams first blocks inverted generic shelley epoch',
-    endpoints: ['/epochs/244/blocks?page=215&order=desc'],
+    endpoints: ['epochs/244/blocks?page=215&order=desc'],
     response: [
       'd07e27e6449a3d6781f165265f256ec4e450ec6a844423b8c11b0e1d723bee3a',
       '6d659d9636956dfd9ba19720ee15706c738d3387f15ea3519fac7fa4039ed8a8',
@@ -2539,9 +2539,9 @@ export default [
   {
     testName: 'epochs/:number/blocks/:poolgeneric?queryparams shelley epoch generic pool',
     endpoints: [
-      '/epochs/211/blocks/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy',
-      '/epochs/211/blocks/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?order=asc',
-      '/epochs/211/blocks/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?order=asc&count=22',
+      'epochs/211/blocks/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy',
+      'epochs/211/blocks/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?order=asc',
+      'epochs/211/blocks/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?order=asc&count=22',
     ],
     response: [
       'da5e26446948b8d1f91396218dcd0131a5e7b3adb200cbd8f124d738438ed5ec',
@@ -2571,8 +2571,8 @@ export default [
   {
     testName: 'epochs/:number/blocks/:pool?queryparams generic shelley epoch generic pool',
     endpoints: [
-      '/epochs/211/blocks/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?order=desc',
-      '/epochs/211/blocks/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?order=desc&count=22',
+      'epochs/211/blocks/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?order=desc',
+      'epochs/211/blocks/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?order=desc&count=22',
     ],
     response: [
       'd78e446b6540612e161ebdda32ee1715ef0f9fc68e890c7e3aae167b0354f998',
@@ -2601,7 +2601,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters generic shelley epoch',
-    endpoints: ['/epochs/211/parameters'],
+    endpoints: ['epochs/211/parameters'],
     response: {
       epoch: 211,
       min_fee_a: 44,
@@ -2638,7 +2638,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters shelley epoch',
-    endpoints: ['/epochs/267/parameters'],
+    endpoints: ['epochs/267/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
@@ -2675,7 +2675,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters latest alonzo epoch',
-    endpoints: ['/epochs/290/parameters'],
+    endpoints: ['epochs/290/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
@@ -2712,7 +2712,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters latest alonzo epoch after hfk 1',
-    endpoints: ['/epochs/298/parameters'],
+    endpoints: ['epochs/298/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
@@ -2749,7 +2749,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters latest alonzo epoch after hfk 2',
-    endpoints: ['/epochs/306/parameters'],
+    endpoints: ['epochs/306/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
@@ -2786,7 +2786,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters latest alonzo epoch after hfk 3',
-    endpoints: ['/epochs/317/parameters'],
+    endpoints: ['epochs/317/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
@@ -2823,7 +2823,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters latest alonzo epoch after hfk 4',
-    endpoints: ['/epochs/317/parameters'],
+    endpoints: ['epochs/317/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
@@ -2860,7 +2860,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters latest alonzo epoch after hfk 5',
-    endpoints: ['/epochs/319/parameters'],
+    endpoints: ['epochs/319/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
@@ -2897,7 +2897,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters latest alonzo epoch after hfk 6',
-    endpoints: ['/epochs/321/parameters'],
+    endpoints: ['epochs/321/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
@@ -2934,7 +2934,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters latest alonzo epoch after hfk 7',
-    endpoints: ['/epochs/328/parameters'],
+    endpoints: ['epochs/328/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
@@ -2971,7 +2971,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters latest alonzo epoch after hfk 8',
-    endpoints: ['/epochs/335/parameters'],
+    endpoints: ['epochs/335/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
@@ -3008,7 +3008,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters latest babbage epoch after hfk 9',
-    endpoints: ['/epochs/365/parameters', '/epochs/latest/parameters'],
+    endpoints: ['epochs/365/parameters', 'epochs/latest/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,

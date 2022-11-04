@@ -1,5 +1,5 @@
-import fixtures from '../fixtures/fixtures-mainnet/accounts';
-import { getInstance } from '../utils';
+import fixtures from '../../fixtures/mainnet/accounts';
+import { getInstance } from '../../utils';
 import { describe, test, expect } from 'vitest';
 
 describe('accounts endpoint', () => {
@@ -16,17 +16,17 @@ describe('accounts endpoint', () => {
 
   test('/accounts/:stake_address/addresses/assets', async () => {
     const client = getInstance();
-    const response = await client.get(endpoint);
+    const response = await client.get(
+      '/accounts/stake1u96ath3x32v7t4wp6vwf3nhpqmktatv5ews2w9rdalz25xs84d46c/addresses/assets',
+    );
 
-    if (response.length > 0) {
-      expect(response).toStrictEqual(
-        expect.arrayContaining([
-          {
-            unit: expect.any(String),
-            quantity: expect.any(String),
-          },
-        ]),
-      );
-    } else expect(responseJson).toEqual([]);
+    expect(response).toStrictEqual(
+      expect.arrayContaining([
+        {
+          unit: expect.any(String),
+          quantity: expect.any(String),
+        },
+      ]),
+    );
   });
 });

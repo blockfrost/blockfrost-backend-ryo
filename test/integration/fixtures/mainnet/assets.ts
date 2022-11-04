@@ -426,7 +426,7 @@ export default [
   },
   {
     testName: 'assets/:asset - all hail nutcoin!',
-    endpoints: ['/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e'],
+    endpoints: ['assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e'],
     response: {
       asset: '00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e',
       policy_id: '00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae',
@@ -449,7 +449,7 @@ export default [
   {
     testName: 'assets/:asset - space bud with metadata update which is not the latest tx_mint',
     endpoints: [
-      '/assets/d5e6bf0500378d4f0da4e8dde6becec7621cd8cbf5cbb9b87013d4cc537061636542756433343132',
+      'assets/d5e6bf0500378d4f0da4e8dde6becec7621cd8cbf5cbb9b87013d4cc537061636542756433343132',
     ],
     response: {
       asset: 'd5e6bf0500378d4f0da4e8dde6becec7621cd8cbf5cbb9b87013d4cc537061636542756433343132',
@@ -471,7 +471,7 @@ export default [
   },
   {
     testName: 'assets/:asset - asset with hex name',
-    endpoints: ['/assets/e2bdb31c13a57d94934d01a4ca17cf3b2cac61d055637261b089c8f6dada'],
+    endpoints: ['assets/e2bdb31c13a57d94934d01a4ca17cf3b2cac61d055637261b089c8f6dada'],
     response: {
       asset: 'e2bdb31c13a57d94934d01a4ca17cf3b2cac61d055637261b089c8f6dada',
       policy_id: 'e2bdb31c13a57d94934d01a4ca17cf3b2cac61d055637261b089c8f6',
@@ -488,7 +488,7 @@ export default [
     testName:
       'assets/:asset - non-valid according to https://github.com/cardano-foundation/CIPs/pull/85/files',
     endpoints: [
-      '/assets/0e14267a8020229adc0184dd25fa3174c3f7d6caadcb4425c70e7c04756e7369673033323839',
+      'assets/0e14267a8020229adc0184dd25fa3174c3f7d6caadcb4425c70e7c04756e7369673033323839',
     ],
     response: {
       asset: '0e14267a8020229adc0184dd25fa3174c3f7d6caadcb4425c70e7c04756e7369673033323839',
@@ -529,7 +529,7 @@ export default [
   },
   {
     testName: 'assets/:asset - general asset',
-    endpoints: ['/assets/12e65fa3585d80cba39dcf4f59363bb68b77f9d3c0784734427b1517414441'],
+    endpoints: ['assets/12e65fa3585d80cba39dcf4f59363bb68b77f9d3c0784734427b1517414441'],
     response: {
       asset: '12e65fa3585d80cba39dcf4f59363bb68b77f9d3c0784734427b1517414441',
       policy_id: '12e65fa3585d80cba39dcf4f59363bb68b77f9d3c0784734427b1517',
@@ -538,13 +538,14 @@ export default [
       quantity: expect.any(String),
       initial_mint_tx_hash: '2a3202c2c1f10edbe8df77fa872603055d62e5aee5e2c8f671f58791bcbf436a',
       mint_or_burn_count: expect.any(Number),
+      // @ts-expect-error test
       metadata: expect.toBeTypeOrNull(JSON),
     },
   },
   {
     testName: 'assets/:asset - metadata coin example with onchain metadata',
     endpoints: [
-      '/assets/b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f426572727953616e64',
+      'assets/b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f426572727953616e64',
     ],
     response: {
       asset: 'b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f426572727953616e64',
@@ -565,7 +566,7 @@ export default [
   {
     testName: 'assets/:asset/history - all hail nutcoin!',
     endpoints: [
-      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/history',
+      'assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/history',
     ],
     response: [
       {
@@ -578,8 +579,8 @@ export default [
   {
     testName: 'assets/:asset/history?queryparams - general asset',
     endpoints: [
-      '/assets/12e65fa3585d80cba39dcf4f59363bb68b77f9d3c0784734427b1517414441/history?count=1',
-      '/assets/12e65fa3585d80cba39dcf4f59363bb68b77f9d3c0784734427b1517414441/history?count=1&page=1',
+      'assets/12e65fa3585d80cba39dcf4f59363bb68b77f9d3c0784734427b1517414441/history?count=1',
+      'assets/12e65fa3585d80cba39dcf4f59363bb68b77f9d3c0784734427b1517414441/history?count=1&page=1',
     ],
     response: [
       {
@@ -592,7 +593,7 @@ export default [
   {
     testName: 'assets/:asset/txs -  all hail nutcoin!',
     endpoints: [
-      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/txs',
+      'assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/txs',
     ],
     response: [
       'e252be4c7e40d35919f741c9649ff207c3e49d53bb819e5c1cb458055fd363ed',
@@ -606,8 +607,8 @@ export default [
   {
     testName: 'assets/:asset/transactions -  all hail nutcoin!',
     endpoints: [
-      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/txs',
-      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/txs?count=6&page=1&order=asc',
+      'assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/txs',
+      'assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/txs?count=6&page=1&order=asc',
     ],
     response: [
       'e252be4c7e40d35919f741c9649ff207c3e49d53bb819e5c1cb458055fd363ed',
@@ -622,8 +623,8 @@ export default [
   {
     testName: 'assets/:asset/transactions -  all hail nutcoin!',
     endpoints: [
-      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions',
-      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions?count=6&page=1&order=asc',
+      'assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions',
+      'assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions?count=6&page=1&order=asc',
     ],
     response: [
       {
@@ -667,8 +668,8 @@ export default [
   {
     testName: 'assets/:asset/transactions?queryparams -  all hail nutcoin!',
     endpoints: [
-      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions?order=desc',
-      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions?count=6&page=1&order=desc',
+      'assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions?order=desc',
+      'assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions?count=6&page=1&order=desc',
     ],
     response: [
       {
@@ -712,9 +713,9 @@ export default [
   {
     testName: 'assets/:asset/transactions?queryparams -  all hail nutcoin!',
     endpoints: [
-      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions',
-      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions?order=asc',
-      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions?count=6&page=1&order=asc',
+      'assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions',
+      'assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions?order=asc',
+      'assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions?count=6&page=1&order=asc',
     ],
     response: [
       {
@@ -758,7 +759,7 @@ export default [
   {
     testName: 'assets/:asset/addresses - all hail nutcoin!',
     endpoints: [
-      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/addresses',
+      'assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/addresses',
     ],
     response: [
       {
@@ -771,10 +772,10 @@ export default [
   {
     testName: 'assets/policy/:policy_id?queryparams - general asset',
     endpoints: [
-      '/assets/policy/b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f',
-      '/assets/policy/b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f?page=1',
-      '/assets/policy/b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f?page=1&count=100',
-      '/assets/policy/b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f?page=1&count=100&order=asc',
+      'assets/policy/b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f',
+      'assets/policy/b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f?page=1',
+      'assets/policy/b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f?page=1&count=100',
+      'assets/policy/b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f?page=1&count=100&order=asc',
     ],
     response: [
       {
@@ -1190,7 +1191,7 @@ export default [
   {
     testName: 'assets/:asset - asset with metadata',
     endpoints: [
-      '/assets/026a18d04a0c642759bb3d83b12e3344894e5c1c7b2aeb1a2113a570390dbfc3f92cdaebc581ec7c28e35da8b92c87cabf981511698df52d7ea61c70',
+      'assets/026a18d04a0c642759bb3d83b12e3344894e5c1c7b2aeb1a2113a570390dbfc3f92cdaebc581ec7c28e35da8b92c87cabf981511698df52d7ea61c70',
     ],
     response: {
       policy_id: '026a18d04a0c642759bb3d83b12e3344894e5c1c7b2aeb1a2113a570',
@@ -1216,7 +1217,7 @@ export default [
   // {
   //   testName: 'assets/:asset/transactions?queryparams -  spacecoin - many txs',
   //   endpoints: [
-  //     '/assets/d894897411707efa755a76deb66d26dfd50593f2e70863e1661e98a07370616365636f696e73/txs?count=3&page=10000',
+  //     'assets/d894897411707efa755a76deb66d26dfd50593f2e70863e1661e98a07370616365636f696e73/txs?count=3&page=10000',
   //   ],
   //   response: [
   //     '274e9e08ecc865b0b9fd0e6fe3fc97a0d0db7ee2dcb77591f6e40e68d31a36df',
@@ -1227,7 +1228,7 @@ export default [
   // {
   //   testName: 'assets/:asset/transactions?queryparams -  spacecoin - many transactions',
   //   endpoints: [
-  //     '/assets/d894897411707efa755a76deb66d26dfd50593f2e70863e1661e98a07370616365636f696e73/transactions?count=3&page=10000',
+  //     'assets/d894897411707efa755a76deb66d26dfd50593f2e70863e1661e98a07370616365636f696e73/transactions?count=3&page=10000',
   //   ],
   //   response: [
   //     {
@@ -1253,8 +1254,8 @@ export default [
   // {
   //   testName: 'assets/:asset/txs?queryparams - spacecoin huge asset',
   //   endpoints: [
-  //     '/assets/d894897411707efa755a76deb66d26dfd50593f2e70863e1661e98a07370616365636f696e73/txs?count=100&page=2',
-  //     '/assets/d894897411707efa755a76deb66d26dfd50593f2e70863e1661e98a07370616365636f696e73/txs?page=2',
+  //     'assets/d894897411707efa755a76deb66d26dfd50593f2e70863e1661e98a07370616365636f696e73/txs?count=100&page=2',
+  //     'assets/d894897411707efa755a76deb66d26dfd50593f2e70863e1661e98a07370616365636f696e73/txs?page=2',
   //   ],
   //   response: [
   //     '7460d8e7f9f9d8955cd7f41f8fd8f59fe507faa918d6e5c20bc55ec74564cef2',

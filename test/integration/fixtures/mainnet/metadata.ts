@@ -3,7 +3,7 @@ import { expect } from 'vitest';
 export default [
   {
     testName: 'metadata/txs/labels',
-    endpoints: ['/metadata/txs/labels'],
+    endpoints: ['metadata/txs/labels'],
     response: [
       { label: '0', cip10: null, count: expect.any(String) },
       { label: '1', cip10: null, count: expect.any(String) },
@@ -117,12 +117,12 @@ export default [
   },
   {
     testName: 'metadata/txs/labels',
-    endpoints: ['/metadata/txs/labels?page=694269'],
+    endpoints: ['metadata/txs/labels?page=694269'],
     response: [],
   },
   {
     testName: 'metadata/txs/labels/label',
-    endpoints: ['/metadata/txs/labels/1968'],
+    endpoints: ['metadata/txs/labels/1968'],
     response: [
       {
         tx_hash: '473a6f5ef23c8f9ea10e6d17372ee90031f44273fb2be6700673269bdd04eb19',
@@ -1668,7 +1668,7 @@ export default [
   },
   {
     testName: 'metadata/txs/labels/label/cbor',
-    endpoints: ['/metadata/txs/labels/1968/cbor'],
+    endpoints: ['metadata/txs/labels/1968/cbor'],
     response: [
       {
         tx_hash: '473a6f5ef23c8f9ea10e6d17372ee90031f44273fb2be6700673269bdd04eb19',
@@ -2374,7 +2374,7 @@ export default [
   },
   {
     testName: 'metadata/txs/labels/label',
-    endpoints: ['/metadata/txs/labels/1967?count=2&page=2'],
+    endpoints: ['metadata/txs/labels/1967?count=2&page=2'],
     response: [
       {
         tx_hash: '4bced18ba56cc9f416295687fe6d53940ee772d141cd32cc5af50d41b6510ca4',
@@ -2394,7 +2394,7 @@ export default [
   },
   {
     testName: 'metadata/txs/labels/label/cbor',
-    endpoints: ['/metadata/txs/labels/1967/cbor?count=2&page=2'],
+    endpoints: ['metadata/txs/labels/1967/cbor?count=2&page=2'],
     response: [
       {
         tx_hash: '4bced18ba56cc9f416295687fe6d53940ee772d141cd32cc5af50d41b6510ca4',

@@ -1,8 +1,8 @@
-import { getInstance } from '../utils';
-import fixtures from '../fixtures/fixtures-mainnet/ledger';
+import { getInstance } from '../../utils';
+import fixtures from '../../fixtures/mainnet/txs';
 import { describe, test, expect } from 'vitest';
 
-describe('ledger endpoint', () => {
+describe('txs endpoint', () => {
   fixtures.map(fixture => {
     fixture.endpoints.map(async endpoint => {
       test(fixture.testName, async () => {
