@@ -1,0 +1,43 @@
+before_script:
+  - cp -v $BUILD_CONFIG_FILE_TESTNET config/testnet.ts
+  - cp -v $BUILD_CONFIG_FILE_MAINNET config/mainnet.ts
+
+stages:
+  - prebuild
+  - build
+  - integration tests
+
+lint:
+  stage: prebuild
+  script:
+    - nix-shell --run "yarn"
+    - nix-shell --run "yarn run lint"
+    - nix-shell --run "yarn type-check"
+
+unit tests:
+  stage: prebuild
+  script:
+    - nix-shell --run "yarn"
+    - nix-shell --run "yarn test"
+
+nix-build:
+  stage: build
+  needs:
+    - unit tests
+    - lint
+  script:
+    - nix-build -A blockfrost-backend
+
+mainnet integration tests:
+  stage: integration tests
+  needs:
+    - nix-build
+  script:
+    - nix-build -A blockfrost-backend-test-mainnet --option sandbox false
+
+testnet integration tests:
+  stage: integration tests
+  needs:
+    - nix-build
+  script:
+    - nix-build -A blockfrost-backend-test-testnet --option sandbox false
