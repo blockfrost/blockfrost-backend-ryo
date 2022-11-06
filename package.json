@@ -15,7 +15,7 @@
     "start": "yarn build && node --max-http-header-size=32768 dist/server.js",
     "start-mainnet": "cross-env-shell NODE_ENV=mainnet \"yarn start\"",
     "start-testnet": "cross-env-shell NODE_ENV=testnet \"yarn start\"",
-    "test": "cross-env NODE_OPTIONS='--max-http-header-size 32768' NODE_ENV=test vitest --silent && yarn coverage",
+    "test": "cross-env NODE_OPTIONS='--max-http-header-size 32768' NODE_ENV=test vitest --silent",
     "coverage": "vitest run --coverage",
     "test-badges": "make-coverage-badge --output-path ./docs/images/badge.svg",
     "test-integration:mainnet": "cross-env NETWORK=mainnet vitest -c vitest.config.integration.ts --run --silent --segfault-retry=3",

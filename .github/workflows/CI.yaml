@@ -18,4 +18,5 @@ jobs:
       - run: yarn lint
       - run: yarn type-check
       - run: yarn test
+      - run: yarn coverage
       - run: yarn build
