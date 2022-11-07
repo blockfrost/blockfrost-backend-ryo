@@ -2638,7 +2638,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters shelley epoch',
-    endpoints: ['/epochs/267/parameters'],
+    endpoints: ['epochs/267/parameters'],
     response: {
       epoch: 208,
       min_fee_a: 44,
@@ -2672,12 +2672,11 @@ export default [
       max_collateral_inputs: null,
       coins_per_utxo_size: null,
       coins_per_utxo_word: null,
-      coins_per_utxo_size: null,
     },
   },
   {
     testName: 'epochs/:number/parameters latest alonzo epoch',
-    endpoints: ['/epochs/290/parameters'],
+    endpoints: ['epochs/290/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
@@ -2714,7 +2713,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters latest alonzo epoch after hfk 1',
-    endpoints: ['/epochs/298/parameters'],
+    endpoints: ['epochs/298/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
@@ -2751,7 +2750,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters latest alonzo epoch after hfk 2',
-    endpoints: ['/epochs/306/parameters'],
+    endpoints: ['epochs/306/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
@@ -2788,7 +2787,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters latest alonzo epoch after hfk 3',
-    endpoints: ['/epochs/317/parameters'],
+    endpoints: ['epochs/317/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
@@ -3217,7 +3216,7 @@ export default [
   },
   {
     testName: 'epochs/:number/parameters',
-    endpoints: ['/epochs/latest/parameters'],
+    endpoints: ['epochs/latest/parameters'],
     response: {
       epoch: expect.any(Number),
       min_fee_a: 44,
