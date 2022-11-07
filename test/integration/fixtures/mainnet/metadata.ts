@@ -115,11 +115,11 @@ export default [
       { label: '99', cip10: null, count: expect.any(String) },
     ],
   },
-  {
-    testName: 'metadata/txs/labels',
-    endpoints: ['metadata/txs/labels?page=694269'],
-    response: [],
-  },
+  // {
+  //   testName: 'metadata/txs/labels',
+  //   endpoints: ['/metadata/txs/labels?page=694269'],
+  //   response: [],
+  // },
   {
     testName: 'metadata/txs/labels/label',
     endpoints: ['metadata/txs/labels/1968'],
