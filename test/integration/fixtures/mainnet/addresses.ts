@@ -1,6 +1,6 @@
 import { expect } from 'vitest';
 
-export const fixturesSuccess = [
+export const success = [
   {
     testName: 'addresses/:address generic shelley address',
     endpoints: [
@@ -288,7 +288,7 @@ export const fixturesSuccess = [
 
 // 400
 
-export const fixturesError = [
+export const errors = [
   {
     testName: 'addresses/:address - invalid address',
     endpoints: ['addresses/addr1stonks'],

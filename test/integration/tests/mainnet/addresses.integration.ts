@@ -1,9 +1,9 @@
 import { getInstance } from '../../utils';
-import { fixturesError, fixturesSuccess } from '../../fixtures/mainnet/addresses';
+import * as fixtures from '../../fixtures/mainnet/addresses';
 import { describe, test, expect } from 'vitest';
 
 describe('addresses endpoint', () => {
-  fixturesSuccess.map(fixture => {
+  fixtures.success.map(fixture => {
     fixture.endpoints.map(async endpoint => {
       test(`[success] - ${fixture.testName}`, async () => {
         const client = getInstance();
@@ -14,7 +14,7 @@ describe('addresses endpoint', () => {
     });
   });
 
-  fixturesError.map(fixture => {
+  fixtures.errors.map(fixture => {
     fixture.endpoints.map(async endpoint => {
       test(`[error] - ${fixture.testName}`, async () => {
         const client = getInstance();
