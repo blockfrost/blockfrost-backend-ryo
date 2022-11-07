@@ -4,7 +4,7 @@ import * as ResponseTypes from '../../types/responses/scripts';
 import { getDbSync } from '../../utils/database';
 import { handle404 } from '../../utils/error-handler';
 import { SQLQuery } from '../../sql';
-import { getSchemaForEndpoint } from '../../utils/open-api';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 
 async function network(fastify: FastifyInstance) {
   fastify.route({

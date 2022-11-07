@@ -1,9 +1,6 @@
 import buildFastify from '../../../../src/app';
 import supertest from 'supertest';
-import jestOpenAPI from 'jest-openapi';
-import path from 'path';
-
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
+import { describe, expect, test } from 'vitest';
 
 describe('GET /example/endpoint', () => {
   test('responds with success on request /root', async () => {

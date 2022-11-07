@@ -3,10 +3,7 @@ import sinon from 'sinon';
 import supertest from 'supertest';
 import fixtures from '../../fixtures/scripts.fixtures';
 import buildFastify from '../../../../src/app';
-import jestOpenAPI from 'jest-openapi';
-import path from 'path';
-
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
+import { describe, expect, test, vi } from 'vitest';
 
 describe('scripts service', () => {
   fixtures.map(fixture => {
@@ -14,8 +11,8 @@ describe('scripts service', () => {
       const fastify = buildFastify({ maxParamLength: 32_768 });
       const queryMock = sinon.stub();
 
-      // @ts-ignore
-      const database = sinon.stub(databaseUtils, 'getDbSync').resolves({
+      vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
+        // @ts-expect-error test
         release: () => null,
         query: queryMock,
       });
@@ -30,7 +27,6 @@ describe('scripts service', () => {
       expect(response).toSatisfyApiSpec();
       expect(response.body).toEqual(fixture.response);
 
-      database.restore();
       fastify.close();
     });
   });

@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../types/queries/assets';
 import * as ResponseTypes from '../../types/responses/assets';
-import { getSchemaForEndpoint } from '../../utils/open-api';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import AssetFingerprint from '@emurgo/cip14-js';
 import { getDbSync } from '../../utils/database';
 import { handle404 } from '../../utils/error-handler';

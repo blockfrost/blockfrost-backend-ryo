@@ -85,37 +85,6 @@ rec {
     sha256 = "1sa64g9w2dcw890d51c5xdqnav29dh7fzzvyhhwwigq7j5vinx3r";
   };
 
-  blockfrost-backend-test-testnet = makeTest rec {
-    machine = {
-      # We have to increase memsize, otherwise we will get error:
-      # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
-      virtualisation.memorySize = 4096;
-      # Backend service
-      systemd.services.blockfrost-backend-testnet = {
-        wantedBy = [ "multi-user.target" ];
-        script = "${blockfrost-backend}/bin/blockfrost-backend";
-        environment = {
-          # Use config file from repository
-          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend}/libexec/source/config/testnet.ts";
-          /*
-            # Use this if you want to override config/default.ts
-            NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-test-config}";
-          */
-        };
-      };
-
-    };
-
-    testScript = ''
-      start_all()
-      machine.wait_for_unit("blockfrost-backend-testnet.service")
-      machine.wait_for_open_port(3000)
-      machine.succeed(
-          "${pkgs.yarn}/bin/yarn set version berry && cd ${blockfrost-backend}/libexec/source && ${pkgs.yarn}/bin/yarn test-integration-ci-testnet"
-      )
-    '';
-  };
-
   blockfrost-backend-test-mainnet = makeTest rec {
 
     machine = {
@@ -143,7 +112,7 @@ rec {
       machine.wait_for_unit("blockfrost-backend-mainnet.service")
       machine.wait_for_open_port(3000)
       machine.succeed(
-          "${pkgs.yarn}/bin/yarn set version berry && cd ${blockfrost-backend}/libexec/source && ${pkgs.yarn}/bin/yarn test-integration-ci-mainnet"
+          "${pkgs.yarn}/bin/yarn set version berry && cd ${blockfrost-backend}/libexec/source && ${pkgs.yarn}/bin/yarn test-integration:mainnet"
       )
     '';
   };

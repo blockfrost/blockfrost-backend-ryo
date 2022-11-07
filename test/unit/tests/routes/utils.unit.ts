@@ -1,12 +1,9 @@
-import sinon from 'sinon';
-import fixtures from '../../fixtures/utils.fixtures';
-import * as config from '../../../../src/config';
 import supertest from 'supertest';
-import buildFastify from '../../../../src/app';
-import jestOpenAPI from 'jest-openapi';
-import path from 'path';
+import { describe, expect, test, vi } from 'vitest';
 
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
+import buildFastify from '../../../../src/app';
+import * as config from '../../../../src/config';
+import fixtures from '../../fixtures/utils.fixtures';
 
 describe('utils', () => {
   fixtures.map(fixture => {
@@ -15,7 +12,7 @@ describe('utils', () => {
 
       await fastify.ready();
 
-      const sinonConfigStub = sinon.stub(config, 'getConfig').returns({
+      vi.spyOn(config, 'getConfig').mockReturnValue({
         ...config.mainConfig,
         network: fixture.network,
       });
@@ -24,8 +21,6 @@ describe('utils', () => {
 
       expect(response).toSatisfyApiSpec();
       expect(response.body).toEqual(fixture.response);
-
-      sinonConfigStub.restore();
     });
   });
 });

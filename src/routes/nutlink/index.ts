@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../types/queries/nutlink';
 import * as ResponseTypes from '../../types/responses/nutlink';
-import { getSchemaForEndpoint } from '../../utils/open-api';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { getDbSync } from '../../utils/database';
 import axios from 'axios';
 import * as Sentry from '@sentry/node';

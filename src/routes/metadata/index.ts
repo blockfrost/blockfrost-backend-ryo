@@ -5,7 +5,7 @@ import { getDbSync } from '../../utils/database';
 import { handle400Custom, handle404 } from '../../utils/error-handler';
 import { validatePositiveInRangeSignedBigInt } from '../../utils/validation';
 import { SQLQuery } from '../../sql';
-import { getSchemaForEndpoint } from '../../utils/open-api';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 
 async function metadata(fastify: FastifyInstance) {
   fastify.route({

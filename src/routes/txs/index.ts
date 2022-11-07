@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../types/queries/tx';
 import * as ResponseTypes from '../../types/responses/tx';
-import { getSchemaForEndpoint } from '../../utils/open-api';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { getDbSync } from '../../utils/database';
 import { handle404, handle500 } from '../../utils/error-handler';
 import { convertStakeAddress } from '../../utils/validation';

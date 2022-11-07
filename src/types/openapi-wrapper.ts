@@ -1,5 +1,4 @@
-import { components } from './openapi';
-import { paths } from './openapi';
+import { components, paths } from '@blockfrost/openapi';
 
 // Health responses don't have standalone components in openapi package.
 // We pick the types manually and add it to the exported OpenApiResponseTypes

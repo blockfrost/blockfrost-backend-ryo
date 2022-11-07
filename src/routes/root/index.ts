@@ -1,7 +1,7 @@
 import { MetricsCollector } from '@blockfrost/blockfrost-utils';
 import { FastifyInstance } from 'fastify';
 import { getConfig } from '../../config';
-import { getSchemaForEndpoint } from '../../utils/open-api';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageJson = require('../../../package.json');
 

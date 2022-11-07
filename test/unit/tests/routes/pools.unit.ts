@@ -4,51 +4,43 @@ import supertest from 'supertest';
 import fixtures from '../../fixtures/pools.fixtures';
 import buildFastify from '../../../../src/app';
 import * as databaseUtils from '../../../../src/utils/database';
-import jestOpenAPI from 'jest-openapi';
-import path from 'path';
-
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
+import { describe, expect, test, vi } from 'vitest';
 
 describe('pools service', () => {
   fixtures.map(fixture => {
     test(fixture.name, async () => {
-      const queryMockCsync = sinon.stub();
+      const queryMock = sinon.stub();
       const fastify = buildFastify({ maxParamLength: 32_768 });
 
-      // @ts-ignore
-      const getDbSync = sinon.stub(databaseUtils, 'getDbSync').resolves({
+      vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
+        // @ts-expect-error test
         release: () => null,
-        query: queryMockCsync,
+        query: queryMock,
       });
 
       await fastify.ready();
 
-      queryMockCsync.onCall(0).resolves(fixture.sqlQueryMock);
-      queryMockCsync.onCall(1).resolves(fixture.sqlQueryMock2);
-
+      queryMock.onCall(0).resolves(fixture.sqlQueryMock);
+      queryMock.onCall(1).resolves(fixture.sqlQueryMock2);
       const response = await supertest(fastify.server).get(fixture.endpoint);
 
       expect(response).toSatisfyApiSpec();
       expect(response.body).toEqual(fixture.response);
 
-      getDbSync.restore();
       fastify.close();
     });
   });
 
   test('csyncClientError', async () => {
-    //const queryMockCsync = sinon.stub();
     const fastify = buildFastify({ maxParamLength: 32_768 });
 
-    // @ts-ignore
-    const getDbSync = sinon.stub(databaseUtils, 'getDbSync').resolves({
+    vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
+      // @ts-expect-error test
       release: () => null,
-      // @ts-ignore
       query: undefined,
     });
 
     await fastify.ready();
-
     const response = await supertest(fastify.server).get('/pools');
 
     expect(response).toSatisfyApiSpec();
@@ -58,7 +50,6 @@ describe('pools service', () => {
       status_code: 500,
     });
 
-    getDbSync.restore();
     fastify.close();
   });
 });

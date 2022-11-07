@@ -1,12 +1,10 @@
-import AutoLoad from '@fastify/autoload';
 import fastifyCors from '@fastify/cors';
 import fastifyPostgres from '@fastify/postgres';
 import * as Sentry from '@sentry/node';
 import fastify, { FastifyInstance } from 'fastify';
 import os from 'os';
-import path from 'path';
-
 import { getConfig } from './config';
+import { registerRoute } from './utils/common';
 import { errorHandler, notFoundHandler } from './utils/error-handler';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -51,10 +49,21 @@ const start = (options = {}): FastifyInstance => {
     max: config.dbSync.maxConnections,
   });
 
-  app.register(AutoLoad, {
-    dir: path.join(__dirname, 'routes/'),
-    dirNameRoutePrefix: false,
-  });
+  registerRoute(app, import('./routes/accounts'));
+  registerRoute(app, import('./routes/addresses'));
+  registerRoute(app, import('./routes/assets'));
+  registerRoute(app, import('./routes/blocks'));
+  registerRoute(app, import('./routes/epochs'));
+  registerRoute(app, import('./routes/health'));
+  registerRoute(app, import('./routes/ledger'));
+  registerRoute(app, import('./routes/metadata'));
+  registerRoute(app, import('./routes/network'));
+  registerRoute(app, import('./routes/nutlink'));
+  registerRoute(app, import('./routes/pools'));
+  registerRoute(app, import('./routes/root'));
+  registerRoute(app, import('./routes/scripts'));
+  registerRoute(app, import('./routes/txs'));
+  registerRoute(app, import('./routes/utils'));
 
   process.on('SIGINT', () => {
     app.close();

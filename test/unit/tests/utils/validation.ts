@@ -1,29 +1,31 @@
 import sinon from 'sinon';
-import {
-  validateStakeAddressFixture,
-  convertStakeAddressFixture,
-  validateAndConvertPoolFixture,
-  validateDerivationXpubFixture,
-  validateInRangeUnsignedIntFixture,
-  validatePositiveInRangeSignedIntFixture,
-  validatePositiveInRangeSignedBigIntFixture,
-  validateBlockHashFixture,
-  validateHexFixture,
-  isNumber,
-} from '../../fixtures/validation-format-utils.fixtures';
+import { describe, expect, test, vi } from 'vitest';
+
 import * as config from '../../../../src/config';
 import * as validationUtils from '../../../../src/utils/validation';
+import {
+  convertStakeAddressFixture,
+  isNumber,
+  validateAndConvertPoolFixture,
+  validateBlockHashFixture,
+  validateDerivationXpubFixture,
+  validateHexFixture,
+  validateInRangeUnsignedIntFixture,
+  validatePositiveInRangeSignedBigIntFixture,
+  validatePositiveInRangeSignedIntFixture,
+  validateStakeAddressFixture,
+} from '../../fixtures/validation-format-utils.fixtures';
 
 describe('validation-format-utils', () => {
   validateStakeAddressFixture.map(fixture => {
     test(fixture.name, async () => {
-      const sinonConfigStub = sinon.stub(config, 'getConfig').returns({
+      vi.spyOn(config, 'getConfig').mockReturnValue({
         ...config.mainConfig,
         network: fixture.network,
       });
+
       const result = validationUtils.validateStakeAddress(fixture.input);
 
-      sinonConfigStub.restore();
       expect(result).toBe(fixture.response);
     });
   });
@@ -86,13 +88,13 @@ describe('validation-format-utils', () => {
 
   convertStakeAddressFixture.map(fixture => {
     test(fixture.name, async () => {
-      const sinonConfigStub = sinon.stub(config, 'getConfig').returns({
+      vi.spyOn(config, 'getConfig').mockReturnValue({
         ...config.mainConfig,
         network: fixture.network,
       });
+
       const result = validationUtils.convertStakeAddress(fixture.input);
 
-      sinonConfigStub.restore();
       expect(result).toBe(fixture.response);
     });
   });

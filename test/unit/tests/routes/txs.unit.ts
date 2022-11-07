@@ -3,43 +3,38 @@ import sinon from 'sinon';
 import supertest from 'supertest';
 import fixtures from '../../fixtures/txs.fixtures';
 import buildFastify from '../../../../src/app';
-import jestOpenAPI from 'jest-openapi';
-import path from 'path';
 import * as databaseUtils from '../../../../src/utils/database';
 import * as config from '../../../../src/config';
-
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
+import { describe, expect, test, vi } from 'vitest';
 
 describe('txs service', () => {
   fixtures.map(fixture => {
     test(fixture.name, async () => {
-      const queryMockCsync = sinon.stub();
+      const queryMock = sinon.stub();
       const fastify = buildFastify({ maxParamLength: 32_768 });
 
-      // @ts-ignore
-      const getDbSync = sinon.stub(databaseUtils, 'getDbSync').resolves({
+      vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
+        // @ts-expect-error test
         release: () => null,
-        query: queryMockCsync,
+        query: queryMock,
       });
 
       await fastify.ready();
 
-      const sinonConfigStub = sinon.stub(config, 'getConfig').returns({
+      vi.spyOn(config, 'getConfig').mockReturnValue({
         ...config.mainConfig,
         network: fixture.network === 'testnet' ? 'testnet' : 'mainnet',
       });
 
-      queryMockCsync.onCall(0).resolves(fixture.sqlQueryMock);
-      queryMockCsync.onCall(1).resolves(fixture.sqlQueryMock2);
-      queryMockCsync.onCall(2).resolves(fixture.sqlQueryMock3);
+      queryMock.onCall(0).resolves(fixture.sqlQueryMock);
+      queryMock.onCall(1).resolves(fixture.sqlQueryMock2);
+      queryMock.onCall(2).resolves(fixture.sqlQueryMock3);
 
       const response = await supertest(fastify.server).get(fixture.endpoint);
 
       expect(response).toSatisfyApiSpec();
       expect(response.body).toEqual(fixture.response);
 
-      sinonConfigStub.restore();
-      getDbSync.restore();
       fastify.close();
     });
   });

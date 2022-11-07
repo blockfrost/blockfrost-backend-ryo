@@ -34,10 +34,3 @@ mainnet integration tests:
     - nix-build
   script:
     - nix-build -A blockfrost-backend-test-mainnet --option sandbox false
-
-testnet integration tests:
-  stage: integration tests
-  needs:
-    - nix-build
-  script:
-    - nix-build -A blockfrost-backend-test-testnet --option sandbox false

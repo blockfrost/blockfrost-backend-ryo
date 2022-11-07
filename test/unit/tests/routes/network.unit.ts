@@ -3,11 +3,8 @@ import sinon from 'sinon';
 import supertest from 'supertest';
 import fixtures from '../../fixtures/network.fixtures';
 import buildFastify from '../../../../src/app';
-import jestOpenAPI from 'jest-openapi';
-import path from 'path';
 import * as config from '../../../../src/config';
-
-jestOpenAPI(path.join(__dirname, '../../../../node_modules/@blockfrost/openapi/openapi.yaml'));
+import { describe, expect, test, vi } from 'vitest';
 
 describe('network service', () => {
   fixtures.map(fixture => {
@@ -15,17 +12,18 @@ describe('network service', () => {
       const fastify = buildFastify({ maxParamLength: 32_768 });
       const queryMock = sinon.stub();
 
-      // @ts-ignore
-      const database = sinon.stub(databaseUtils, 'getDbSync').resolves({
+      vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
+        // @ts-expect-error test
         release: () => null,
         query: queryMock,
       });
 
       await fastify.ready();
 
-      const sinonConfigStub = sinon
-        .stub(config, 'getConfig')
-        .returns({ ...config.mainConfig, network: fixture.network });
+      vi.spyOn(config, 'getConfig').mockReturnValue({
+        ...config.mainConfig,
+        network: fixture.network,
+      });
 
       queryMock.onCall(0).resolves(fixture.sqlQueryMock);
 
@@ -34,8 +32,6 @@ describe('network service', () => {
       expect(response).toSatisfyApiSpec();
       expect(response.body).toEqual(fixture.response);
 
-      sinonConfigStub.restore();
-      database.restore();
       fastify.close();
     });
   });

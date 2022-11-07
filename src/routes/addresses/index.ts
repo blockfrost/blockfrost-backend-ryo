@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../types/queries/addresses';
 import * as ResponseTypes from '../../types/responses/addresses';
 import { getDbSync } from '../../utils/database';
-import { getSchemaForEndpoint } from '../../utils/open-api';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { getAdditionalParametersFromRequest } from '../../utils/string-utils';
 import { handle400Custom, handle404, handleInvalidAddress } from '../../utils/error-handler';
 import { getAddressTypeAndPaymentCred, paymentCredToBech32Address } from '../../utils/validation';

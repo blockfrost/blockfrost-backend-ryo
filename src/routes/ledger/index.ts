@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { getSchemaForEndpoint } from '../../utils/open-api';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import * as ResponseTypes from '../../types/responses/ledger';
 import { getConfig } from '../../config';
 import { GENESIS } from '../../constants/genesis';
