@@ -17,7 +17,7 @@ describe('accounts endpoint', () => {
   test('/accounts/:stake_address/addresses/assets', async () => {
     const client = getInstance();
     const response = await client.get(
-      '/accounts/stake1u96ath3x32v7t4wp6vwf3nhpqmktatv5ews2w9rdalz25xs84d46c/addresses/assets',
+      'accounts/stake1u96ath3x32v7t4wp6vwf3nhpqmktatv5ews2w9rdalz25xs84d46c/addresses/assets',
     );
 
     expect(response).toStrictEqual(

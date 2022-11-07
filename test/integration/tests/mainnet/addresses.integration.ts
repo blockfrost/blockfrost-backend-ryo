@@ -18,7 +18,7 @@ describe('addresses endpoint', () => {
     const client = getInstance();
     const response = await client
       .get(
-        '/addresses/addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w/utxos',
+        'addresses/addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w/utxos',
       )
       .json();
 

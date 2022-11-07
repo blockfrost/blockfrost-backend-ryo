@@ -16,7 +16,7 @@ describe('pools endpoint', () => {
 
   test('/pools/retiring', async () => {
     const client = getInstance();
-    const response = await client.get('/pools/retiring').json();
+    const response = await client.get('pools/retiring').json();
 
     expect(response).toStrictEqual(
       expect.arrayContaining([{ pool_id: expect.any(String), epoch: expect.any(Number) }]),
@@ -26,7 +26,7 @@ describe('pools endpoint', () => {
   test('/pools/delegators', async () => {
     const client = getInstance();
     const response = await client
-      .get('/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/delegators')
+      .get('pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/delegators')
       .json();
 
     expect(response).toStrictEqual(

@@ -29,7 +29,7 @@ describe('blocks endpoint', () => {
 
   test('/blocks/latest/txs', async () => {
     const client = getInstance();
-    const response = await client.get('/blocks/latest/txs').json();
+    const response = await client.get('blocks/latest/txs').json();
 
     expect(response).toStrictEqual(expect.arrayContaining([expect.any(String)]));
   });
