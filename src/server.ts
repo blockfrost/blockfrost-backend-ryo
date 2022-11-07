@@ -27,7 +27,7 @@ const server = app({
   maxParamLength: 32_768,
 });
 
-server.listen(port, address, error => {
+server.listen({ port, host: address }, error => {
   if (error) {
     console.error(error);
     // eslint-disable-next-line unicorn/no-process-exit
