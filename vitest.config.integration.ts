@@ -8,6 +8,7 @@ export default defineConfig({
   test: {
     testTimeout: 50_000,
     globalSetup: ['./test/integration/server-tests.ts'],
+    setupFiles: ['./test/integration/setup.ts'],
     hookTimeout: 30_000,
     cache: false,
     include: [
