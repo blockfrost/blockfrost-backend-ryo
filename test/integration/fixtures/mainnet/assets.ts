@@ -3,7 +3,7 @@ import { expect } from 'vitest';
 export default [
   {
     testName: 'assets list of all assets',
-    endpoints: ['/assets'],
+    endpoints: ['assets'],
     response: [
       {
         asset: '00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e',
@@ -412,7 +412,7 @@ export default [
   },
   {
     testName: 'assets?queryparams list of all assets',
-    endpoints: ['/assets?page=2&count=2'],
+    endpoints: ['assets?page=2&count=2'],
     response: [
       {
         asset: '02f68378e37af4545d027d0a9fa5581ac682897a3fc1f6d8f936ed2b4154414441',
@@ -538,6 +538,7 @@ export default [
       quantity: expect.any(String),
       initial_mint_tx_hash: '2a3202c2c1f10edbe8df77fa872603055d62e5aee5e2c8f671f58791bcbf436a',
       mint_or_burn_count: expect.any(Number),
+      onchain_metadata: null,
       // @ts-expect-error test
       metadata: expect.toBeTypeOrNull(JSON),
     },
@@ -1194,11 +1195,16 @@ export default [
       'assets/026a18d04a0c642759bb3d83b12e3344894e5c1c7b2aeb1a2113a570390dbfc3f92cdaebc581ec7c28e35da8b92c87cabf981511698df52d7ea61c70',
     ],
     response: {
+      asset:
+        '026a18d04a0c642759bb3d83b12e3344894e5c1c7b2aeb1a2113a570390dbfc3f92cdaebc581ec7c28e35da8b92c87cabf981511698df52d7ea61c70',
+
       policy_id: '026a18d04a0c642759bb3d83b12e3344894e5c1c7b2aeb1a2113a570',
       asset_name: '390dbfc3f92cdaebc581ec7c28e35da8b92c87cabf981511698df52d7ea61c70',
       fingerprint: 'asset1ke7qqcjpmjpyqjjzmgc4vskrcflvv6r79s0vk7',
       quantity: '9223372036854774807',
       initial_mint_tx_hash: 'ce31065a46c865fb99cd5602eed7021e7a77d44d85a6b7ead142dd10130494d5',
+      mint_or_burn_count: 1,
+      onchain_metadata: null,
       metadata: {
         name: 'WingRiders ADA - USDT',
         description: 'WingRiders ADA - USDT (Nomad) liquidity provider token',
