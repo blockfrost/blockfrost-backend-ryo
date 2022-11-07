@@ -1,6 +1,6 @@
 import { expect } from 'vitest';
 
-export default [
+export const fixturesSuccess = [
   {
     testName: 'addresses/:address generic shelley address',
     endpoints: [
@@ -251,42 +251,44 @@ export default [
       },
     ],
   },
+];
 
-  //
-  // long running tests without cache
-  //
+//
+// long running tests without cache
+//
 
-  // {
-  //   testName: 'addresses/:address - biggest address with most assets',
-  //   endpoints: ['addresses/addr1w999n67e86jn6xal07pzxtrmqynspgx0fwmcmpua4wc6yzsxpljz3'],
-  //   response: {
-  //     address: 'addr1w999n67e86jn6xal07pzxtrmqynspgx0fwmcmpua4wc6yzsxpljz3',
-  //     amount: [{ unit: 'lovelace', quantity: expect.any(String) }],
-  //     stake_address: expect.toBeTypeOrNull(String),
-  //     type: 'shelley',
-  //     script: true,
-  //   },
-  // },
-  // {
-  //   testName: 'addresses/:address/total generic dormant exchange byron address',
-  //   endpoints: [
-  //     'addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT/total',
-  //   ],
-  //   response: {
-  //     address:
-  //       'DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT',
-  //     received_sum: [{ unit: 'lovelace', quantity: expect.any(String) }],
-  //     sent_sum: [{ unit: 'lovelace', quantity: expect.any(String) }],
-  //     tx_count: expect.any(Number),
-  //   },
-  // },
+// {
+//   testName: 'addresses/:address - biggest address with most assets',
+//   endpoints: ['addresses/addr1w999n67e86jn6xal07pzxtrmqynspgx0fwmcmpua4wc6yzsxpljz3'],
+//   response: {
+//     address: 'addr1w999n67e86jn6xal07pzxtrmqynspgx0fwmcmpua4wc6yzsxpljz3',
+//     amount: [{ unit: 'lovelace', quantity: expect.any(String) }],
+//     stake_address: expect.toBeTypeOrNull(String),
+//     type: 'shelley',
+//     script: true,
+//   },
+// },
+// {
+//   testName: 'addresses/:address/total generic dormant exchange byron address',
+//   endpoints: [
+//     'addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT/total',
+//   ],
+//   response: {
+//     address:
+//       'DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT',
+//     received_sum: [{ unit: 'lovelace', quantity: expect.any(String) }],
+//     sent_sum: [{ unit: 'lovelace', quantity: expect.any(String) }],
+//     tx_count: expect.any(Number),
+//   },
+// },
 
-  //
-  // ERROR TESTING:
-  //
+//
+// ERROR TESTING:
+//
 
-  // 400
+// 400
 
+export const fixturesError = [
   {
     testName: 'addresses/:address - invalid address',
     endpoints: ['addresses/addr1stonks'],
@@ -372,4 +374,4 @@ export default [
       message: 'The requested component has not been found.',
     },
   },
-];
+] as const;
