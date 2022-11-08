@@ -1,6 +1,6 @@
 import { expect } from 'vitest';
 
-export const success = [
+export default [
   {
     testName: 'blocks/latest',
     endpoints: ['blocks/latest'],
@@ -2570,9 +2570,6 @@ export const success = [
       },
     ],
   },
-];
-
-export const errors = [
   {
     testName: 'blocks - Missing, out of range or malformed block number.',
     endpoints: [

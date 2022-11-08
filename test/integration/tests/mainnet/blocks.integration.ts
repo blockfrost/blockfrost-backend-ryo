@@ -1,28 +1,27 @@
 import { getInstance } from '../../utils';
-import * as fixtures from '../../fixtures/mainnet/blocks';
+import fixtures from '../../fixtures/mainnet/blocks';
+import axios from 'axios';
 import { describe, test, expect } from 'vitest';
 
 describe('blocks endpoint', () => {
-  fixtures.success.map(fixture => {
+  fixtures.map(fixture => {
     fixture.endpoints.map(async endpoint => {
-      test(`[success] - ${fixture.testName}`, async () => {
-        const client = getInstance();
-        const response = await client.get(endpoint).json();
-
-        expect(response).toStrictEqual(fixture.response);
-      });
-    });
-  });
-
-  fixtures.errors.map(fixture => {
-    fixture.endpoints.map(async endpoint => {
-      test(`[error] - ${fixture.testName}`, async () => {
+      test(fixture.testName, async () => {
         const client = getInstance();
 
-        try {
-          await client.get(endpoint).json();
-        } catch (error) {
-          expect(error.response.body).toStrictEqual(fixture.response);
+        if ('error' in fixture.response) {
+          try {
+            await client.get(endpoint).json();
+            throw new Error(`Expected ${fixture.response} but axios did not throw`);
+          } catch (error) {
+            if (axios.isAxiosError(error)) {
+              expect(error.response?.data).toMatchObject(fixture.response);
+            }
+          }
+        } else {
+          const response = await client.get(endpoint).json();
+
+          expect(response).toMatchObject(fixture.response);
         }
       });
     });
