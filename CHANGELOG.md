@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactor test environments
 - production logger logs only with debug option
 
+### Fixed
+
+- validation of `{asset}` and `{policy}` (400)
+
 ## [1.0.1] - 2022-10-25
 
 ### Changed

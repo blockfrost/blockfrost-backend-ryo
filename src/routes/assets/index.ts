@@ -8,6 +8,8 @@ import { handle404 } from '../../utils/error-handler';
 import * as Sentry from '@sentry/node';
 import { SQLQuery } from '../../sql';
 import { fetchAssetMetadata } from '../../utils/token-registry';
+import { validateAsset, validatePolicy } from '@blockfrost/blockfrost-utils/lib/validation';
+import { handleInvalidAsset, handleInvalidPolicy } from '@blockfrost/blockfrost-utils/lib/fastify';
 
 async function assets(fastify: FastifyInstance) {
   fastify.route({
@@ -46,6 +48,12 @@ async function assets(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/assets/{asset}'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
+      const isAssetValid = validateAsset(request.params.asset);
+
+      if (!isAssetValid) {
+        return handleInvalidAsset(reply);
+      }
+
       const clientDbSync = await getDbSync(fastify);
 
       try {
@@ -120,6 +128,12 @@ async function assets(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/assets/{asset}/history'),
     handler: async (request: FastifyRequest<QueryTypes.RequestAssetsParameters>, reply) => {
+      const isAssetValid = validateAsset(request.params.asset);
+
+      if (!isAssetValid) {
+        return handleInvalidAsset(reply);
+      }
+
       const clientDbSync = await getDbSync(fastify);
 
       try {
@@ -158,6 +172,12 @@ async function assets(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/assets/{asset}/txs'),
     handler: async (request: FastifyRequest<QueryTypes.RequestAssetsParameters>, reply) => {
+      const isAssetValid = validateAsset(request.params.asset);
+
+      if (!isAssetValid) {
+        return handleInvalidAsset(reply);
+      }
+
       const clientDbSync = await getDbSync(fastify);
 
       try {
@@ -198,6 +218,12 @@ async function assets(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/assets/{asset}/transactions'),
     handler: async (request: FastifyRequest<QueryTypes.RequestAssetsParameters>, reply) => {
+      const isAssetValid = validateAsset(request.params.asset);
+
+      if (!isAssetValid) {
+        return handleInvalidAsset(reply);
+      }
+
       const clientDbSync = await getDbSync(fastify);
 
       try {
@@ -234,6 +260,12 @@ async function assets(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/assets/policy/{policy_id}'),
     handler: async (request: FastifyRequest<QueryTypes.RequestAssetsPolicyParameters>, reply) => {
+      const isPolicyValid = validatePolicy(request.params.policy_id);
+
+      if (!isPolicyValid) {
+        return handleInvalidPolicy(reply);
+      }
+
       const clientDbSync = await getDbSync(fastify);
 
       try {
@@ -275,6 +307,12 @@ async function assets(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/assets/{asset}/addresses'),
     handler: async (request: FastifyRequest<QueryTypes.RequestAssetsParameters>, reply) => {
+      const isAssetValid = validateAsset(request.params.asset);
+
+      if (!isAssetValid) {
+        return handleInvalidAsset(reply);
+      }
+
       const clientDbSync = await getDbSync(fastify);
 
       try {

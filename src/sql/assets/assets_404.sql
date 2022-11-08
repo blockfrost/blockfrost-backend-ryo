@@ -1,5 +1,6 @@
 SELECT 1 AS "result"
-FROM ma_tx_mint mtm
-  JOIN multi_asset ma ON (mtm.ident = ma.id)
-WHERE (encode(policy, 'hex') || encode(name, 'hex')) = $1
+FROM multi_asset ma
+WHERE (
+    encode(ma.policy, 'hex') || encode(ma.name, 'hex')
+  ) = $1
 LIMIT 1

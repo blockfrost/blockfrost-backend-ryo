@@ -1,6 +1,6 @@
 import { expect } from 'vitest';
 
-export default [
+export const success = [
   {
     testName: 'addresses/:address generic shelley address',
     endpoints: [
@@ -251,33 +251,127 @@ export default [
       },
     ],
   },
-
-  //
-  // long running tests without cache
-  //
-
-  // {
-  //   testName: 'addresses/:address - biggest address with most assets',
-  //   endpoints: ['addresses/addr1w999n67e86jn6xal07pzxtrmqynspgx0fwmcmpua4wc6yzsxpljz3'],
-  //   response: {
-  //     address: 'addr1w999n67e86jn6xal07pzxtrmqynspgx0fwmcmpua4wc6yzsxpljz3',
-  //     amount: [{ unit: 'lovelace', quantity: expect.any(String) }],
-  //     stake_address: expect.toBeTypeOrNull(String),
-  //     type: 'shelley',
-  //     script: true,
-  //   },
-  // },
-  // {
-  //   testName: 'addresses/:address/total generic dormant exchange byron address',
-  //   endpoints: [
-  //     'addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT/total',
-  //   ],
-  //   response: {
-  //     address:
-  //       'DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT',
-  //     received_sum: [{ unit: 'lovelace', quantity: expect.any(String) }],
-  //     sent_sum: [{ unit: 'lovelace', quantity: expect.any(String) }],
-  //     tx_count: expect.any(Number),
-  //   },
-  // },
 ];
+
+//
+// long running tests without cache
+//
+
+// {
+//   testName: 'addresses/:address - biggest address with most assets',
+//   endpoints: ['addresses/addr1w999n67e86jn6xal07pzxtrmqynspgx0fwmcmpua4wc6yzsxpljz3'],
+//   response: {
+//     address: 'addr1w999n67e86jn6xal07pzxtrmqynspgx0fwmcmpua4wc6yzsxpljz3',
+//     amount: [{ unit: 'lovelace', quantity: expect.any(String) }],
+//     stake_address: expect.toBeTypeOrNull(String),
+//     type: 'shelley',
+//     script: true,
+//   },
+// },
+// {
+//   testName: 'addresses/:address/total generic dormant exchange byron address',
+//   endpoints: [
+//     'addresses/DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT/total',
+//   ],
+//   response: {
+//     address:
+//       'DdzFFzCqrhstmqBkaU98vdHu6PdqjqotmgudToWYEeRmQKDrn4cAgGv9EZKtu1DevLrMA1pdVazufUCK4zhFkUcQZ5Gm88mVHnrwmXvT',
+//     received_sum: [{ unit: 'lovelace', quantity: expect.any(String) }],
+//     sent_sum: [{ unit: 'lovelace', quantity: expect.any(String) }],
+//     tx_count: expect.any(Number),
+//   },
+// },
+
+//
+// ERROR TESTING:
+//
+
+// 400
+
+export const errors = [
+  {
+    testName: 'addresses/:address - invalid address',
+    endpoints: ['addresses/addr1stonks'],
+    response: {
+      error: 'Bad Request',
+      message: 'Invalid address for this network or malformed address format.',
+      status_code: 400,
+    },
+  },
+  {
+    testName: 'addresses/:address/utxos/:asset - valid on-chain address, invalid asset',
+    endpoints: [
+      'addresses/addr1qxcdc0jacmjcvz8rzc26ppntl03mdqtav6qa749d6wczckmswj8ngt9puck7f0cqxzsfe62un6ln88yy8c8tguz8twmq64snl8/utxos/asset1stonks',
+    ],
+    response: {
+      status_code: 400,
+      error: 'Bad Request',
+      message: 'Invalid or malformed asset format.',
+    },
+  },
+  {
+    testName: 'addresses/:address/utxos/:asset - invalid address, invalid asset',
+    endpoints: ['addresses/addr1stonks/utxos/asset1stonks'],
+    response: {
+      status_code: 400,
+      error: 'Bad Request',
+      message: 'Invalid address for this network or malformed address format.',
+    },
+  },
+  {
+    testName: 'Invalid path',
+    endpoints: ['addresses/'],
+    response: {
+      error: 'Bad Request',
+      message: 'Invalid path. Please check https://docs.blockfrost.io/',
+      status_code: 400,
+    },
+  },
+
+  // 404
+
+  {
+    testName: 'addresses/:address - valid address not on-chain',
+    endpoints: [
+      'addresses/addr1qygl5xsd57u59wv6mszq6tu32t55qx60fz4t2mwytjxztxtswj8ngt9puck7f0cqxzsfe62un6ln88yy8c8tguz8twmq55qrdt',
+    ],
+    response: {
+      status_code: 404,
+      error: 'Not Found',
+      message: 'The requested component has not been found.',
+    },
+  },
+  {
+    testName: 'addresses/:address - valid address not on-chain, valid not on-chain asset',
+    endpoints: [
+      'addresses/addr1qygl5xsd57u59wv6mszq6tu32t55qx60fz4t2mwytjxztxtswj8ngt9puck7f0cqxzsfe62un6ln88yy8c8tguz8twmq55qrdt/utxos/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe',
+    ],
+    response: {
+      status_code: 404,
+      error: 'Not Found',
+      message: 'The requested component has not been found.',
+    },
+  },
+  {
+    testName: 'addresses/:address - valid address not on-chain, valid on-chain asset',
+    endpoints: [
+      'addresses/addr1qygl5xsd57u59wv6mszq6tu32t55qx60fz4t2mwytjxztxtswj8ngt9puck7f0cqxzsfe62un6ln88yy8c8tguz8twmq55qrdt/utxos/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e',
+    ],
+    response: {
+      status_code: 404,
+      error: 'Not Found',
+      message: 'The requested component has not been found.',
+    },
+  },
+  {
+    testName: 'addresses/:address - valid on-chain address, valid not on-chain asset',
+    endpoints: [
+      'addresses/addr1qxcdc0jacmjcvz8rzc26ppntl03mdqtav6qa749d6wczckmswj8ngt9puck7f0cqxzsfe62un6ln88yy8c8tguz8twmq64snl8/utxos/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe',
+    ],
+    response: {
+      status_code: 404,
+      error: 'Not Found',
+      message: 'The requested component has not been found.',
+    },
+  },
+] as const;
