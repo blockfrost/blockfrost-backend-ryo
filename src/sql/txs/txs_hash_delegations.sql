@@ -8,3 +8,4 @@ FROM tx
   JOIN stake_address sa ON (sa.id = d.addr_id)
   JOIN pool_hash ph ON (ph.id = d.pool_hash_id)
 WHERE encode(tx.hash, 'hex') = $1
+ORDER BY cert_index ASC

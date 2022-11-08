@@ -10,3 +10,4 @@ FROM redeemer r
   JOIN tx ON (r.tx_id = tx.id)
   JOIN redeemer_data ON (r.redeemer_data_id = redeemer_data.id)
 WHERE encode(tx.hash, 'hex') = $1
+ORDER BY r.index ASC

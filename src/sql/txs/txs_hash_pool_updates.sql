@@ -29,4 +29,4 @@ FROM tx
   LEFT JOIN pool_metadata_ref pmr ON (pmr.id = pu.meta_id)
   LEFT JOIN pool_offline_data pod ON (pmr.hash = pod.hash)
 WHERE encode(tx.hash, 'hex') = $1
-
+ORDER BY pu.cert_index ASC

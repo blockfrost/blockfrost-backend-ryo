@@ -22,6 +22,5 @@ FROM (
       JOIN treasury t ON (tx.id = t.tx_id)
       JOIN stake_address sa ON (sa.id = t.addr_id)
     WHERE encode(tx.hash, 'hex') = $1
-    ORDER BY pot,
-      id
-  ) AS "ordered_certs"
+  ) AS "reserve_and_treasury"
+ORDER BY (cert_index, pot, id) ASC
