@@ -21,5 +21,4 @@ FROM (
       JOIN stake_address sa ON (sa.id = sd.addr_id)
     WHERE encode(tx.hash, 'hex') = $1
   ) AS "addresses"
-ORDER BY id,
-  cert_index ASC
+ORDER BY (cert_index, id) ASC

@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - validation of `{asset}` and `{policy}` (400)
+- ordering of various `/txs` to be consistent (useful when running ryo in cluster)
+  - most notably, `/txs/{hash}/utxos` now consistently return collaterals (`collateral: true`) at the end
 
 ## [1.0.1] - 2022-10-25
 
