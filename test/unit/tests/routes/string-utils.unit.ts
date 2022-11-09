@@ -7,23 +7,23 @@ import { describe, expect, test } from 'vitest';
 
 describe('stringUtils', () => {
   test('getRequestUrl', () => {
-    expect(getEndpointFromUrl('/')).toBe('');
-    expect(getEndpointFromUrl('')).toBe('');
-    expect(getEndpointFromUrl('/blocks')).toBe('blocks');
-    expect(getEndpointFromUrl('/blocks/5084955/next')).toBe('blocks');
+    expect(getEndpointFromUrl('/')).toStrictEqual('');
+    expect(getEndpointFromUrl('')).toStrictEqual('');
+    expect(getEndpointFromUrl('/blocks')).toStrictEqual('blocks');
+    expect(getEndpointFromUrl('/blocks/5084955/next')).toStrictEqual('blocks');
     expect(
       getEndpointFromUrl(
         '/block/89d9b5a5b8ddc8d7e5a6795e9774d97faf1efea59b2caf7eaf9f8c5b32059df4/next',
       ),
-    ).toBe('block');
+    ).toStrictEqual('block');
     expect(
       getEndpointFromUrl(
         '/tx/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t',
       ),
-    ).toBe('tx');
-    expect(getEndpointFromUrl('/pools')).toBe('pools');
-    expect(getEndpointFromUrl('/pools?order=desc')).toBe('pools');
-    expect(getEndpointFromUrl('/pools?order=desc&count=5')).toBe('pools');
+    ).toStrictEqual('tx');
+    expect(getEndpointFromUrl('/pools')).toStrictEqual('pools');
+    expect(getEndpointFromUrl('/pools?order=desc')).toStrictEqual('pools');
+    expect(getEndpointFromUrl('/pools?order=desc&count=5')).toStrictEqual('pools');
   });
 
   test('getAdditionalParametersFromRequest', () => {

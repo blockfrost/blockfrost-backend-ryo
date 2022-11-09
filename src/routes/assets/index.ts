@@ -5,8 +5,9 @@ import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import AssetFingerprint from '@emurgo/cip14-js';
 import { getDbSync } from '../../utils/database';
 import { handle404 } from '../../utils/error-handler';
-import * as Sentry from '@sentry/node';
 import { SQLQuery } from '../../sql';
+import { validateSchema } from '@blockfrost/openapi';
+import { validation } from '@blockfrost/blockfrost-utils';
 import { fetchAssetMetadata } from '../../utils/token-registry';
 import { validateAsset, validatePolicy } from '@blockfrost/blockfrost-utils/lib/validation';
 import { handleInvalidAsset, handleInvalidPolicy } from '@blockfrost/blockfrost-utils/lib/fastify';
@@ -67,53 +68,27 @@ async function assets(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const registryData = await fetchAssetMetadata(request.params.asset);
-
-        rows[0].metadata = registryData;
-
-        try {
-          if (rows[0].onchain_metadata) {
-            const policyId = rows[0].policy_id;
-            let assetNameUTF8;
-            // try to convert asset name from hex to UTF-8, if it fails, no metadata will be displayed
-            // there is no guarantee nor rule the name SHOULD be UTF-8, only a good will and sanity of the submitter
-
-            if (rows[0].asset_name) {
-              //assetNameUTF8 = `\\x${Buffer.from(rows[0].asset_name).toString('hex')}`;
-              assetNameUTF8 = Buffer.from(rows[0].asset_name, 'hex').toString('utf8');
-            }
-
-            if (assetNameUTF8) {
-              let onchainMetadata = null;
-
-              try {
-                // Check if the onchain_metadata for a specific coin exist (there may be more than 1 in metadata)
-                // NOTE: adherence to standard https://github.com/cardano-foundation/CIPs/pull/85 is not checked at all
-                // (people didn't like doing things right)
-                onchainMetadata = rows[0].onchain_metadata[policyId][assetNameUTF8];
-              } catch {
-                // if not, we display all the information
-                // console.info(`Mangled onchain_metadata JSON for: ${request.url}`);
-              }
-              if (onchainMetadata) {
-                // if we find the correct asset, we display the data just for that specific asset
-                rows[0].onchain_metadata = onchainMetadata;
-              }
-            } else {
-              rows[0].onchain_metadata = null;
-            }
-          }
-        } catch (error) {
-          Sentry.captureException(error);
-          console.error(`Error in metadata ${request.params.asset}`, error);
-        }
-
-        rows[0].fingerprint = AssetFingerprint.fromParts(
+        const metadata = await fetchAssetMetadata(request.params.asset);
+        const onchainMetadata = validation.getOnchainMetadata(
+          rows[0].onchain_metadata,
+          rows[0].asset_name,
+          rows[0].policy_id,
+        );
+        const version = validation.getOnchainMetadataVersion(rows[0].onchain_metadata);
+        const { isValid } = validateSchema('asset_onchain_metadata_cip25', onchainMetadata);
+        const fingerprint = AssetFingerprint.fromParts(
           Uint8Array.from(Buffer.from(rows[0].policy_id, 'hex')),
           Uint8Array.from(Buffer.from(rows[0].asset_name ?? '', 'hex')),
         ).fingerprint();
+        const CIPStandard = validation.getCIPstandard(version, isValid);
 
-        return reply.send(rows[0] as ResponseTypes.Asset);
+        return reply.send({
+          ...rows[0],
+          metadata,
+          onchain_metadata: onchainMetadata,
+          onchain_metadata_standard: CIPStandard,
+          fingerprint,
+        });
       } catch (error) {
         if (clientDbSync) {
           clientDbSync.release();

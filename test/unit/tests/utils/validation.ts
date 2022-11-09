@@ -1,4 +1,3 @@
-import sinon from 'sinon';
 import { describe, expect, test, vi } from 'vitest';
 
 import * as config from '../../../../src/config';
@@ -14,7 +13,7 @@ import {
   validatePositiveInRangeSignedBigIntFixture,
   validatePositiveInRangeSignedIntFixture,
   validateStakeAddressFixture,
-} from '../../fixtures/validation-format-utils.fixtures';
+} from '../../fixtures/validation.fixtures';
 
 describe('validation-format-utils', () => {
   validateStakeAddressFixture.map(fixture => {
@@ -26,7 +25,7 @@ describe('validation-format-utils', () => {
 
       const result = validationUtils.validateStakeAddress(fixture.input);
 
-      expect(result).toBe(fixture.response);
+      expect(result).toStrictEqual(fixture.response);
     });
   });
 
@@ -34,7 +33,7 @@ describe('validation-format-utils', () => {
     test(fixture.name, async () => {
       const result = validationUtils.validateAndConvertPool(fixture.input);
 
-      expect(result).toBe(fixture.response);
+      expect(result).toStrictEqual(fixture.response);
     });
   });
 
@@ -42,7 +41,7 @@ describe('validation-format-utils', () => {
     test(fixture.name, async () => {
       const result = validationUtils.validateDerivationXpub(fixture.input);
 
-      expect(result).toBe(fixture.response);
+      expect(result).toStrictEqual(fixture.response);
     });
   });
 
@@ -50,7 +49,7 @@ describe('validation-format-utils', () => {
     test(fixture.name, async () => {
       const result = validationUtils.validateInRangeUnsignedInt(fixture.input);
 
-      expect(result).toBe(fixture.response);
+      expect(result).toStrictEqual(fixture.response);
     });
   });
 
@@ -58,7 +57,7 @@ describe('validation-format-utils', () => {
     test(fixture.name, async () => {
       const result = validationUtils.validatePositiveInRangeSignedInt(fixture.input);
 
-      expect(result).toBe(fixture.response);
+      expect(result).toStrictEqual(fixture.response);
     });
   });
 
@@ -66,7 +65,7 @@ describe('validation-format-utils', () => {
     test(fixture.name, async () => {
       const result = validationUtils.validatePositiveInRangeSignedBigInt(fixture.input);
 
-      expect(result).toBe(fixture.response);
+      expect(result).toStrictEqual(fixture.response);
     });
   });
 
@@ -74,7 +73,7 @@ describe('validation-format-utils', () => {
     test(fixture.name, async () => {
       const result = validationUtils.validateBlockHash(fixture.input);
 
-      expect(result).toBe(fixture.response);
+      expect(result).toStrictEqual(fixture.response);
     });
   });
 
@@ -82,7 +81,7 @@ describe('validation-format-utils', () => {
     test(fixture.name, async () => {
       const result = validationUtils.isNumber(fixture.input);
 
-      expect(result).toBe(fixture.response);
+      expect(result).toStrictEqual(fixture.response);
     });
   });
 
@@ -95,7 +94,7 @@ describe('validation-format-utils', () => {
 
       const result = validationUtils.convertStakeAddress(fixture.input);
 
-      expect(result).toBe(fixture.response);
+      expect(result).toStrictEqual(fixture.response);
     });
   });
 
@@ -103,7 +102,7 @@ describe('validation-format-utils', () => {
     test(fixture.name, async () => {
       const result = validationUtils.validateHex(fixture.input);
 
-      expect(result).toBe(fixture.response);
+      expect(result).toStrictEqual(fixture.response);
     });
   });
 });

@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - refactor test environments
 - production logger logs only with debug option
+- replaced and improved (v2) CIP-25 validation logic for:
+  - `/assets/{asset}`
+  - `/addresses/{address}/extended`
 
 ### Fixed
 

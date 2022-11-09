@@ -48,7 +48,7 @@ describe('assets service', () => {
       const response = await supertest(fastify.server).get(fixture.endpoint);
 
       expect(response).toSatisfyApiSpec();
-      expect(response.body).toEqual(fixture.response);
+      expect(response.body).toStrictEqual(fixture.response);
 
       fastify.close();
     });

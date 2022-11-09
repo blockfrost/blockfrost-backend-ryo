@@ -1,4 +1,4 @@
-import { Amount, AmountExtended, Order } from '../common';
+import { Amount, OnchainMetadata, Order } from '../common';
 export type { ResultFound } from '../common';
 export interface RequestParameters {
   Params: {
@@ -52,6 +52,14 @@ export interface RequestParametersTransactions {
   };
 }
 
+export interface AmountExtended {
+  asset_name: string;
+  policy_id: string;
+  quantity: string;
+  decimals: null | number;
+  onchain_metadata: OnchainMetadata | null;
+}
+
 export interface AddressQuery {
   address: string;
   amount_lovelace: string;
@@ -87,12 +95,6 @@ export interface AddressUtxosQuery {
   data_hash: string;
   inline_datum: string;
   reference_script_hash: string;
-}
-
-export interface AmountExtendedQuery {
-  unit: string;
-  quantity: string;
-  has_nft_onchain_metadata: boolean;
 }
 
 export interface AddressExtendedQuery {
