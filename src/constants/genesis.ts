@@ -45,9 +45,9 @@ export const GENESIS: Record<Network, ResponseTypes.Ledger> = {
     network_magic: 1,
     epoch_length: 432_000,
     system_start: 1_654_041_600,
-    slots_per_kes_period: 86_400,
+    slots_per_kes_period: 129_600,
     slot_length: 1,
-    max_kes_evolutions: 120,
+    max_kes_evolutions: 62,
     security_param: 2160,
   },
 };
