@@ -26,6 +26,7 @@ describe('network service', () => {
       });
 
       queryMock.onCall(0).resolves(fixture.sqlQueryMock);
+      queryMock.onCall(1).resolves(fixture.sqlQueryMock2);
 
       const response = await supertest(fastify.server).get(fixture.endpoint);
 

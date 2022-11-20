@@ -17,3 +17,15 @@ export interface ResultFound {
 export const CARDANO_NETWORKS = ['mainnet', 'testnet', 'preview', 'preprod'];
 
 export type Network = 'mainnet' | 'testnet' | 'preview' | 'preprod';
+
+export interface ByronEraParameters {
+  epoch_length: number;
+  slot_length: number;
+  safe_zone: number;
+  end_epoch: number;
+}
+
+export interface ProtocolInfo {
+  name: string;
+  is_era_hardfork: boolean;
+}

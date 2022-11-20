@@ -56,6 +56,8 @@ const QUERY_FILES = {
   metadata_txs_labels_label: 'metadata/metadata_txs_labels_label.sql',
   metadata_txs_labels_label_cbor: 'metadata/metadata_txs_labels_label_cbor.sql',
   network: 'network/network.sql',
+  network_epoch: 'network/network_epoch.sql',
+  network_protocols: 'network/network_protocols.sql',
   nutlink_address_404: 'nutlink/nutlink_address_404.sql',
   nutlink_address: 'nutlink/nutlink_address.sql',
   nutlink_address_tickers: 'nutlink/nutlink_address_tickers.sql',
