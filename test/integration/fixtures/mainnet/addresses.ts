@@ -213,44 +213,6 @@ export const success = [
       script: false,
     },
   },
-  {
-    testName: 'addresses/:address/utxos BF address',
-    endpoints: [
-      'addresses/addr1q8zsjx7vxkl4esfejafhxthyew8c54c9ch95gkv3nz37sxrc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgq3jd3w2/utxos',
-    ],
-    response: [
-      {
-        tx_hash: '94753e4e393f9ccfc89534f002f2702ab4ce88bf394c9b5db815b446df75b987',
-        tx_index: 0,
-        output_index: 0,
-        amount: [{ unit: 'lovelace', quantity: '2666226' }],
-        block: '9b929405918858dcf2f897582efdcc4543dc165537fad031b8b14a241c180bf4',
-        data_hash: null,
-        inline_datum: null,
-        reference_script_hash: null,
-      },
-      {
-        tx_hash: '23fcdaa4d5f374101bae1ed21fa4d482b3e02804e9bd6b3ade6792d944a44c69',
-        tx_index: 0,
-        output_index: 0,
-        amount: [{ unit: 'lovelace', quantity: '2000000' }],
-        block: 'bdd69cdcc059284be795286dc39043c63981ac90095601430dd37174cf2b581e',
-        data_hash: null,
-        inline_datum: null,
-        reference_script_hash: null,
-      },
-      {
-        tx_hash: '07d30afe9dd6eca75122e04d4f198421e2b44377ba62b5de17da9794db5b56de',
-        tx_index: 0,
-        output_index: 0,
-        amount: [{ unit: 'lovelace', quantity: '1034543' }],
-        block: '6bc023c933d779123d1671fe475b2f0b7239f5803f21ad77e1894661f35f2698',
-        data_hash: null,
-        inline_datum: null,
-        reference_script_hash: null,
-      },
-    ],
-  },
 ];
 
 //
