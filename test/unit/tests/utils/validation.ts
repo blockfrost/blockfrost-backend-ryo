@@ -1,4 +1,3 @@
-import sinon from 'sinon';
 import { describe, expect, test, vi } from 'vitest';
 
 import * as config from '../../../../src/config';
