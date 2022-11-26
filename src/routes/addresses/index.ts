@@ -2,8 +2,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../types/queries/addresses';
 import * as ResponseTypes from '../../types/responses/addresses';
 import { getDbSync } from '../../utils/database';
-import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { validation } from '@blockfrost/blockfrost-utils';
+import { getSchemaForEndpoint, getOnchainMetadata } from '@blockfrost/openapi';
 import { getAdditionalParametersFromRequest } from '../../utils/string-utils';
 import { handle400Custom, handle404, handleInvalidAddress } from '../../utils/error-handler';
 import { getAddressTypeAndPaymentCred, paymentCredToBech32Address } from '../../utils/validation';
@@ -134,7 +133,7 @@ async function addresses(fastify: FastifyInstance) {
           for (const asset of rows[0].amount) {
             const unit = `${asset.policy_id}${asset.asset_name}`;
             const registryData = await fetchAssetMetadata(unit);
-            const onchainMetadata = validation.getOnchainMetadata(
+            const onchainMetadata = getOnchainMetadata(
               asset.onchain_metadata,
               asset.asset_name,
               asset.policy_id,

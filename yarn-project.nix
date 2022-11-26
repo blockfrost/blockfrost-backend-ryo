@@ -790,7 +790,9 @@ cacheEntries = {
 "getpass@npm:0.1.7" = { filename = "getpass-npm-0.1.7-519164a3be-ab18d55661.zip"; sha512 = "ab18d55661db264e3eac6012c2d3daeafaab7a501c035ae0ccb193c3c23e9849c6e29b6ac762b9c2adae460266f925d55a3a2a3a3c8b94be2f222df94d70c046"; };
 "extsprintf@npm:1.4.0" = { filename = "extsprintf-npm-1.4.0-2b015bcaab-184dc8a413.zip"; sha512 = "184dc8a413eb4b1ff16bdce797340e7ded4d28511d56a1c9afa5a95bcff6ace154063823eaf0206dbbb0d14059d74f382a15c34b7c0636fa74a7e681295eb67e"; };
 "ecc-jsbn@npm:0.1.2" = { filename = "ecc-jsbn-npm-0.1.2-85b7a7be89-22fef4b620.zip"; sha512 = "22fef4b6203e5f31d425f5b711eb389e4c6c2723402e389af394f8411b76a488fa414d309d866e2b577ce3e8462d344205545c88a8143cc21752a5172818888a"; };
-"@blockfrost/openapi@npm:0.1.48" = { filename = "@blockfrost-openapi-npm-0.1.48-5d1abb1965-cba02d8b30.zip"; sha512 = "cba02d8b30cc1c0e89a7816e664efeaf51d6c72447dfb25b67cfc5a27bc1d3f1bc904f3957ba8bedd952fc33458c3a9eb87fc42aad27dde36a8a51ca5d1e347a"; };
+"@blockfrost/openapi@npm:0.1.49-beta.3" = { filename = "@blockfrost-openapi-npm-0.1.49-beta.3-adc5a40740-3dfd7e559f.zip"; sha512 = "3dfd7e559f7cb4c722988d3944bea75eaceff7649d339c34aa1c560bdd08f8b29749cfa787bbab03270952a374a96bf3be93458d22e340412f2c1246a3a686c2"; };
+"@redocly/openapi-cli@npm:1.0.0-beta.95" = { filename = "@redocly-openapi-cli-npm-1.0.0-beta.95-25a0855ec8-9f096facef.zip"; sha512 = "9f096facef1e8d96b6b07d76ca085debe8690f3eeaaba5d59abc7db5c247f72294bdfab14f323e881a08ddf41ac19c3b858ef5f331a12d39224a01d244810c9e"; };
+"@redocly/openapi-core@npm:1.0.0-beta.95" = { filename = "@redocly-openapi-core-npm-1.0.0-beta.95-203970b096-4862afda66.zip"; sha512 = "4862afda66d80c5aeb20cf7c3cb4554baf9fdd4eb95c848a6a5ca57a80263f5f5d483552dbc2f7b7fdfcfc4f5da1d697030d30566aa3bdc3bf4315f560fcfa5f"; };
 };
 
 in optionalOverride overrideAttrs project

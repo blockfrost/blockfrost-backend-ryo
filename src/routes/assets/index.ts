@@ -6,8 +6,7 @@ import AssetFingerprint from '@emurgo/cip14-js';
 import { getDbSync } from '../../utils/database';
 import { handle404 } from '../../utils/error-handler';
 import { SQLQuery } from '../../sql';
-import { validateSchema } from '@blockfrost/openapi';
-import { validation } from '@blockfrost/blockfrost-utils';
+import { getOnchainMetadata } from '@blockfrost/openapi';
 import { fetchAssetMetadata } from '../../utils/token-registry';
 import { validateAsset, validatePolicy } from '@blockfrost/blockfrost-utils/lib/validation';
 import { handleInvalidAsset, handleInvalidPolicy } from '@blockfrost/blockfrost-utils/lib/fastify';
@@ -69,24 +68,21 @@ async function assets(fastify: FastifyInstance) {
         }
 
         const metadata = await fetchAssetMetadata(request.params.asset);
-        const onchainMetadata = validation.getOnchainMetadata(
+        const { onchainMetadata, validCIPversion } = getOnchainMetadata(
           rows[0].onchain_metadata,
           rows[0].asset_name,
           rows[0].policy_id,
         );
-        const version = validation.getOnchainMetadataVersion(rows[0].onchain_metadata);
-        const { isValid } = validateSchema('asset_onchain_metadata_cip25', onchainMetadata);
         const fingerprint = AssetFingerprint.fromParts(
           Uint8Array.from(Buffer.from(rows[0].policy_id, 'hex')),
           Uint8Array.from(Buffer.from(rows[0].asset_name ?? '', 'hex')),
         ).fingerprint();
-        const CIPStandard = validation.getCIPstandard(version, isValid);
 
         return reply.send({
           ...rows[0],
           metadata,
           onchain_metadata: onchainMetadata,
-          onchain_metadata_standard: CIPStandard,
+          onchain_metadata_standard: validCIPversion,
           fingerprint,
         });
       } catch (error) {
