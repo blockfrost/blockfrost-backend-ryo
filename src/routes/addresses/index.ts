@@ -133,7 +133,7 @@ async function addresses(fastify: FastifyInstance) {
           for (const asset of rows[0].amount) {
             const unit = `${asset.policy_id}${asset.asset_name}`;
             const registryData = await fetchAssetMetadata(unit);
-            const onchainMetadata = getOnchainMetadata(
+            const { onchainMetadata } = getOnchainMetadata(
               asset.onchain_metadata,
               asset.asset_name,
               asset.policy_id,
