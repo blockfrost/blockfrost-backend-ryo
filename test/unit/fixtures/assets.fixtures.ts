@@ -45,6 +45,7 @@ const response_assets_asset_regular_1 = {
   initial_mint_tx_hash: 'd35828553afd8ee6d902b944d5b4c23cca32cfd646ece5005b80bf1546e0ce25',
   mint_or_burn_count: 1,
   metadata: null,
+  onchain_metadata_standard: null,
   onchain_metadata: null,
 };
 
@@ -69,6 +70,7 @@ const response_assets_asset_regular_2 = {
   initial_mint_tx_hash: 'abfda1ba36b9ee541516fda311319f7bdb3e3928776c2982d2f027f3e8fa54c7',
   mint_or_burn_count: 1,
   onchain_metadata: null,
+  onchain_metadata_standard: null,
   metadata: {
     decimals: null,
     description: 'The legendary Nutcoin, the first native asset minted on Cardano.',
@@ -100,6 +102,7 @@ const response_assets_asset_from_CIP_example = {
   mint_or_burn_count: 1,
   metadata: null,
   onchain_metadata: null,
+  onchain_metadata_standard: null,
 };
 
 const query_assets_asset_with_onchain_metadata = {
@@ -163,6 +166,7 @@ const response_assets_asset_with_onchain_metadata = {
   initial_mint_tx_hash: 'tx_hash_not_applicable_cip_14',
   mint_or_burn_count: 1,
   metadata: null,
+  onchain_metadata_standard: 'CIP25v1',
   onchain_metadata: {
     name: 'SpaceBud #3412',
     image: ['ipfs://QmPQWCUh9abUP2NQ2svMsRgcehez1VN6QGAcBCpuVQNdKp', 'stonks'],

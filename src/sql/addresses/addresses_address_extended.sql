@@ -49,23 +49,24 @@ SELECT (
   (
     SELECT json_agg(
         json_build_object(
-          'unit',
+          'policy_id',
+          token_policy,
+          'asset_name',
           token_name,
           'quantity',
           token_quantity::TEXT,
           -- cast to TEXT to avoid number overflow
-          'has_nft_onchain_metadata',
-          has_nft_onchain_metadata
+          'onchain_metadata',
+          onchain_metadata
         )
       )
     FROM (
-        SELECT CONCAT(encode(policy, 'hex'), encode(name, 'hex')) AS "token_name",
+        SELECT encode(policy, 'hex') AS "token_policy",
+          encode(name, 'hex') AS "token_name",
           SUM(quantity) AS "token_quantity",
           (
-            SELECT CASE
-                WHEN txm.json->encode(ma.policy, 'hex')->convert_from(ma.name, 'UTF8') IS NOT NULL THEN 'true'
-                ELSE 'false'
-              END
+            -- retrieve the latest metadata for further CIP-25 v2 validation outside of SQL
+            SELECT txm.json
             FROM tx_metadata txm
             WHERE txm.tx_id = (
                 SELECT MAX(txmmax.tx_id)
@@ -77,25 +78,9 @@ SELECT (
                   AND (
                     encode(mamax.policy, 'hex') || encode(mamax.name, 'hex')
                   ) = encode(ma.policy, 'hex') || encode(ma.name, 'hex')
-                  --AND bf_fn_is_valid_utf8(mamax.name) = 'true'
-                  /*
-                   ^ To use the condition above, you first have to create
-                   a custom function in dbsync:
-
-                   CREATE OR REPLACE FUNCTION bf_fn_is_valid_utf8(BYTEA) RETURNS BOOLEAN AS $$
-                   BEGIN
-                   PERFORM convert_from($1, 'UTF8');
-                   RETURN TRUE;
-                   EXCEPTION
-                   WHEN character_not_in_repertoire
-                   THEN
-                   RAISE WARNING '%', SQLERRM;
-                   RETURN FALSE;
-                   END; $$ LANGUAGE plpgsql;
-                   */
               )
               AND txm.key = 721
-          ) AS "has_nft_onchain_metadata"
+          ) AS "onchain_metadata"
         FROM ma_tx_out mto
           JOIN multi_asset ma ON (mto.ident = ma.id)
         WHERE mto.id IN (
