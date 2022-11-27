@@ -14,7 +14,17 @@ export interface ResultFound {
 }
 
 // less generic types
+export interface ByronEraParameters {
+  epoch_length: number;
+  slot_length: number;
+  safe_zone: number;
+  end_epoch: number;
+}
 
+export interface ProtocolInfo {
+  name: string;
+  is_era_hardfork: boolean;
+}
 export interface Amount {
   unit: string;
   quantity: string;

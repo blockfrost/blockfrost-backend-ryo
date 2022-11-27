@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.0] - 2022-11-XX
 
+### Added
+
+- `/network/eras` endpoint
+
 ### Changed
 
 - CIP-25 standard for on-chain metadata
@@ -21,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - validation of `{asset}` and `{policy}` (400)
 - ordering of various `/txs` to be consistent (useful when running ryo in cluster)
   - most notably, `/txs/{hash}/utxos` now consistently return collaterals (`collateral: true`) at the end
+- `preprod` and `preview` respins: Updated `slots_per_kes_period` and `max_kes_evolutions`
 
 ## [1.0.1] - 2022-10-25
 
