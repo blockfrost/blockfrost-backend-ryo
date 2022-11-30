@@ -5,7 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.0] - 2022-11-XX
+## [Unreleased] -
+
+## [1.1.0] - 2022-11-30
 
 ### Added
 
@@ -26,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ordering of various `/txs` to be consistent (useful when running ryo in cluster)
   - most notably, `/txs/{hash}/utxos` now consistently return collaterals (`collateral: true`) at the end
 - `preprod` and `preview` respins: Updated `slots_per_kes_period` and `max_kes_evolutions`
+- added enterypoint to Dockerfile
 
 ## [1.0.1] - 2022-10-25
 
