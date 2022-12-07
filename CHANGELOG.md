@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] -
 
+## [1.1.1] - 2022-12-07
+
 ### Fixed
 
 - wrong item count returned on the first page of `/epochs/{number}/stakes/{pool_id}`
