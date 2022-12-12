@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `address` field to `/addresses/{address}/utxos` and `/addresses/{address}/utxos/{asset}`
 
+### Fixed
+
+- `/addresses/{address}/utxos/{asset}` asset validation for `/lovelace`
+
 ## [1.1.1] - 2022-12-07
 
 ### Fixed

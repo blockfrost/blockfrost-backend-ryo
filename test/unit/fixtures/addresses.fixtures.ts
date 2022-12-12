@@ -1228,6 +1228,36 @@ const response_addresses_utxos_asset_regular_1 = [
   },
 ];
 
+const query_addresses_utxos_asset_lovelace_only_1 = [
+  {
+    address:
+      'addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u',
+    tx_hash: '99e4b01005ab6e1f440e2d3600b631df997d349e66789eaf876feb6bf03212c9',
+    tx_index: 0,
+    output_index: 0,
+    amount_lovelace: '2000000',
+    amount: null,
+    block: 'b5363f6efc026d09d89195df27603a8d9311cad0c6569ce66fb10f73effcefee',
+    data_hash: null,
+    inline_datum: null,
+    reference_script_hash: null,
+  },
+];
+const response_addresses_utxos_asset_lovelace_only_1 = [
+  {
+    address:
+      'addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u',
+    tx_hash: '99e4b01005ab6e1f440e2d3600b631df997d349e66789eaf876feb6bf03212c9',
+    tx_index: 0,
+    output_index: 0,
+    amount: [{ unit: 'lovelace', quantity: '2000000' }],
+    block: 'b5363f6efc026d09d89195df27603a8d9311cad0c6569ce66fb10f73effcefee',
+    data_hash: null,
+    inline_datum: null,
+    reference_script_hash: null,
+  },
+];
+
 const query_addresses_utxos_regular_testnet_1 = [
   {
     address:
@@ -1600,6 +1630,33 @@ export default [
       rows: query_addresses_utxos_asset_regular_1,
     },
     response: response_addresses_utxos_asset_regular_1,
+  },
+  {
+    name: 'respond with success and data on /addresses/:address/utxos/lovelace',
+    endpoint:
+      '/addresses/addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u/utxos/lovelace',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_addresses_utxos_asset_lovelace_only_1,
+    },
+    response: response_addresses_utxos_asset_lovelace_only_1,
+  },
+  {
+    name: 'respond with empty data on /addresses/:address/utxos/lovelace',
+    endpoint:
+      '/addresses/addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u/utxos/6b8d07d69639e9413dd637a1a815a7323c69c86abbafb66dbfdb1aa7',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_found,
+    },
+    sqlQueryMock3: {
+      rows: [],
+    },
+    response: [],
   },
 
   /*

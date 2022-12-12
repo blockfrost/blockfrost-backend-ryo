@@ -282,6 +282,33 @@ export const success = [
     ],
   },
   {
+    testName: 'addresses/:address/utxos BF address without tokens',
+    endpoints: [
+      'addresses/addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u/utxos/lovelace',
+    ],
+    response: [
+      {
+        address:
+          'addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u',
+        tx_hash: '99e4b01005ab6e1f440e2d3600b631df997d349e66789eaf876feb6bf03212c9',
+        tx_index: 0,
+        output_index: 0,
+        amount: [{ unit: 'lovelace', quantity: '2000000' }],
+        block: 'b5363f6efc026d09d89195df27603a8d9311cad0c6569ce66fb10f73effcefee',
+        data_hash: null,
+        inline_datum: null,
+        reference_script_hash: null,
+      },
+    ],
+  },
+  {
+    testName: 'addresses/:address/utxos BF address without tokens',
+    endpoints: [
+      'addresses/addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u/utxos/d436d9f6b754582f798fe33f4bed12133d47493f78b944b9cc55fd1853756d6d69744c6f64676534393539',
+    ],
+    response: [],
+  },
+  {
     testName: 'addresses/:address/utxos BF address with summit token',
     endpoints: [
       'addresses/addr1q9x625ny9y42s5z8n78afjg9meyeknvt5kwm3y6sdlrz66tc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgqsyx3uz/utxos',
@@ -306,6 +333,39 @@ export const success = [
         reference_script_hash: null,
       },
     ],
+  },
+  {
+    testName: 'addresses/:address/utxos BF address with summit token',
+    endpoints: [
+      'addresses/addr1q9x625ny9y42s5z8n78afjg9meyeknvt5kwm3y6sdlrz66tc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgqsyx3uz/utxos/d436d9f6b754582f798fe33f4bed12133d47493f78b944b9cc55fd1853756d6d69744c6f64676534393539',
+    ],
+    response: [
+      {
+        address:
+          'addr1q9x625ny9y42s5z8n78afjg9meyeknvt5kwm3y6sdlrz66tc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgqsyx3uz',
+        tx_hash: '99e4b01005ab6e1f440e2d3600b631df997d349e66789eaf876feb6bf03212c9',
+        tx_index: 1,
+        output_index: 1,
+        amount: [
+          { unit: 'lovelace', quantity: '3129237' },
+          {
+            unit: 'd436d9f6b754582f798fe33f4bed12133d47493f78b944b9cc55fd1853756d6d69744c6f64676534393539',
+            quantity: '1',
+          },
+        ],
+        block: 'b5363f6efc026d09d89195df27603a8d9311cad0c6569ce66fb10f73effcefee',
+        data_hash: null,
+        inline_datum: null,
+        reference_script_hash: null,
+      },
+    ],
+  },
+  {
+    testName: 'addresses/:address/utxos BF address with summit token',
+    endpoints: [
+      'addresses/addr1q9x625ny9y42s5z8n78afjg9meyeknvt5kwm3y6sdlrz66tc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgqsyx3uz/utxos/lovelace',
+    ],
+    response: [],
   },
   {
     testName: 'addresses/:address/utxos BF address - used but now empty',

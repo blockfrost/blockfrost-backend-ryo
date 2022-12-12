@@ -488,10 +488,11 @@ async function addresses(fastify: FastifyInstance) {
         return handleInvalidAddress(reply);
       }
 
-      const isAssetValid = validateAsset(request.params.asset);
+      // querying lovelace is a special case covering just UTxOs without assets
+      if (request.params.asset !== 'lovelace') {
+        const isAssetValid = validateAsset(request.params.asset);
 
-      if (!isAssetValid) {
-        return handleInvalidAsset(reply);
+        if (!isAssetValid) return handleInvalidAsset(reply);
       }
 
       const clientDbSync = await getDbSync(fastify);
@@ -507,14 +508,18 @@ async function addresses(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const query404_asset = await clientDbSync.query<QueryTypes.ResultFound>(
-          SQLQuery.get('assets_404'),
-          [request.params.asset],
-        );
+        if (request.params.asset === 'lovelace') console.log('LOVELACE');
 
-        if (query404_asset.rows.length === 0) {
-          clientDbSync.release();
-          return handle404(reply);
+        if (request.params.asset !== 'lovelace') {
+          const query404_asset = await clientDbSync.query<QueryTypes.ResultFound>(
+            SQLQuery.get('assets_404'),
+            [request.params.asset],
+          );
+
+          if (query404_asset.rows.length === 0) {
+            clientDbSync.release();
+            return handle404(reply);
+          }
         }
 
         const { rows } = await clientDbSync.query<QueryTypes.AddressUtxosQuery>(
@@ -564,6 +569,7 @@ async function addresses(fastify: FastifyInstance) {
             reference_script_hash: row.reference_script_hash,
           });
         }
+
         return reply.send(result);
       } catch (error) {
         if (clientDbSync) {
