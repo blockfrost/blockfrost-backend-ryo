@@ -11,5 +11,5 @@ export default {
     maxConnections: 0,
   },
   network: 'mainnet',
-  tokenRegistryUrl: 'https://tokens.cardano.org',
+  tokenRegistryUrl: 'http://localhost:3100',
 };

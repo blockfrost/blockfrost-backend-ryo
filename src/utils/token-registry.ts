@@ -46,6 +46,7 @@ export const fetchAssetMetadata = async (
 ) => {
   try {
     const url = `${tokenRegistryUrl}/metadata/${asset}`;
+
     const response = await axios.get<TokenRegistryMetadata>(url, {
       timeout: 10_000,
       headers: { 'User-Agent': 'Blockfrost Backend RYO' },
