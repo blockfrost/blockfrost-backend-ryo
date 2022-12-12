@@ -1067,6 +1067,8 @@ const response_address_transactions_regular_1 = [
 
 const query_addresses_utxos_regular_1 = [
   {
+    address:
+      'addr1qyw8xfunw6lhzzzsdrx5ze6j8ayxjhecv4ty5jtaey5jvwquwvnexa4lwyy9q6xdg9n4y06gd90nse2kffyhmjffycuq405jv6',
     tx_hash: '897b4e8bc7fc26e3fc5c9e9f521235045f3417104fdc1c9844cf0cdfa45b7c1f',
     tx_index: 0,
     output_index: 0,
@@ -1078,6 +1080,8 @@ const query_addresses_utxos_regular_1 = [
     reference_script_hash: null,
   },
   {
+    address:
+      'addr1qyw8xfunw6lhzzzsdrx5ze6j8ayxjhecv4ty5jtaey5jvwquwvnexa4lwyy9q6xdg9n4y06gd90nse2kffyhmjffycuq405jv6',
     tx_hash: '897b4e8bc7fc26e3fc5c9e9f521235045f3417104fdc1c9844cf0cdfa45b7c1f',
     tx_index: 1,
     output_index: 1,
@@ -1089,6 +1093,8 @@ const query_addresses_utxos_regular_1 = [
     reference_script_hash: null,
   },
   {
+    address:
+      'addr1qyw8xfunw6lhzzzsdrx5ze6j8ayxjhecv4ty5jtaey5jvwquwvnexa4lwyy9q6xdg9n4y06gd90nse2kffyhmjffycuq405jv6',
     tx_hash: '49b019613002b1308cd821130e395387c9c9d264abb314df8b9ac3746cbb32b5',
     tx_index: 8,
     output_index: 8,
@@ -1103,6 +1109,8 @@ const query_addresses_utxos_regular_1 = [
 
 const response_addresses_utxos_regular_1 = [
   {
+    address:
+      'addr1qyw8xfunw6lhzzzsdrx5ze6j8ayxjhecv4ty5jtaey5jvwquwvnexa4lwyy9q6xdg9n4y06gd90nse2kffyhmjffycuq405jv6',
     tx_hash: '897b4e8bc7fc26e3fc5c9e9f521235045f3417104fdc1c9844cf0cdfa45b7c1f',
     tx_index: 0,
     output_index: 0,
@@ -1113,6 +1121,8 @@ const response_addresses_utxos_regular_1 = [
     reference_script_hash: null,
   },
   {
+    address:
+      'addr1qyw8xfunw6lhzzzsdrx5ze6j8ayxjhecv4ty5jtaey5jvwquwvnexa4lwyy9q6xdg9n4y06gd90nse2kffyhmjffycuq405jv6',
     tx_hash: '897b4e8bc7fc26e3fc5c9e9f521235045f3417104fdc1c9844cf0cdfa45b7c1f',
     tx_index: 1,
     output_index: 1,
@@ -1123,6 +1133,8 @@ const response_addresses_utxos_regular_1 = [
     reference_script_hash: null,
   },
   {
+    address:
+      'addr1qyw8xfunw6lhzzzsdrx5ze6j8ayxjhecv4ty5jtaey5jvwquwvnexa4lwyy9q6xdg9n4y06gd90nse2kffyhmjffycuq405jv6',
     tx_hash: '49b019613002b1308cd821130e395387c9c9d264abb314df8b9ac3746cbb32b5',
     tx_index: 8,
     output_index: 8,
@@ -1136,6 +1148,8 @@ const response_addresses_utxos_regular_1 = [
 
 const query_addresses_utxos_asset_regular_1 = [
   {
+    address:
+      'addr1qyw8xfunw6lhzzzsdrx5ze6j8ayxjhecv4ty5jtaey5jvwquwvnexa4lwyy9q6xdg9n4y06gd90nse2kffyhmjffycuq405jv6',
     tx_hash: '897b4e8bc7fc26e3fc5c9e9f521235045f3417104fdc1c9844cf0cdfa45b7c1f',
     tx_index: 1,
     output_index: 1,
@@ -1153,6 +1167,8 @@ const query_addresses_utxos_asset_regular_1 = [
     reference_script_hash: null,
   },
   {
+    address:
+      'addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89',
     tx_hash: '49b019613002b1308cd821130e395387c9c9d264abb314df8b9ac3746cbb32b5',
     tx_index: 8,
     output_index: 8,
@@ -1173,6 +1189,8 @@ const query_addresses_utxos_asset_regular_1 = [
 
 const response_addresses_utxos_asset_regular_1 = [
   {
+    address:
+      'addr1qyw8xfunw6lhzzzsdrx5ze6j8ayxjhecv4ty5jtaey5jvwquwvnexa4lwyy9q6xdg9n4y06gd90nse2kffyhmjffycuq405jv6',
     tx_hash: '897b4e8bc7fc26e3fc5c9e9f521235045f3417104fdc1c9844cf0cdfa45b7c1f',
     tx_index: 1,
     output_index: 1,
@@ -1190,6 +1208,8 @@ const response_addresses_utxos_asset_regular_1 = [
     reference_script_hash: null,
   },
   {
+    address:
+      'addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89',
     tx_hash: '49b019613002b1308cd821130e395387c9c9d264abb314df8b9ac3746cbb32b5',
     tx_index: 8,
     output_index: 8,
@@ -1210,6 +1230,8 @@ const response_addresses_utxos_asset_regular_1 = [
 
 const query_addresses_utxos_regular_testnet_1 = [
   {
+    address:
+      'addr_test1qryydf62jprgmtfq02370u07ch8kluvjvm4zx7gn8gmpd9snea2aza02sj9c0h4nay20a0t7q28zhajng36a2taec0gqeywmev',
     tx_hash: '80e46d2475b921a9d8a9f2c35cc351ac14222d95b05099626bba07b79989b7b6',
     tx_index: 0,
     output_index: 0,
@@ -1241,6 +1263,8 @@ const query_addresses_utxos_regular_testnet_1 = [
 
 const response_addresses_utxos_regular_testnet_1 = [
   {
+    address:
+      'addr_test1qryydf62jprgmtfq02370u07ch8kluvjvm4zx7gn8gmpd9snea2aza02sj9c0h4nay20a0t7q28zhajng36a2taec0gqeywmev',
     tx_hash: '80e46d2475b921a9d8a9f2c35cc351ac14222d95b05099626bba07b79989b7b6',
     tx_index: 0,
     output_index: 0,

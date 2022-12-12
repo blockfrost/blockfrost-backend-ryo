@@ -456,6 +456,7 @@ async function addresses(fastify: FastifyInstance) {
                   },
                 ];
           result.push({
+            address: row.address,
             tx_hash: row.tx_hash,
             tx_index: row.tx_index,
             output_index: row.output_index,
@@ -552,6 +553,7 @@ async function addresses(fastify: FastifyInstance) {
                   },
                 ];
           result.push({
+            address: row.address,
             tx_hash: row.tx_hash,
             tx_index: row.tx_index,
             output_index: row.output_index,

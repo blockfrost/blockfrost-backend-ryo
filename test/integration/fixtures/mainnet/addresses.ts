@@ -268,6 +268,8 @@ export const success = [
     ],
     response: [
       {
+        address:
+          'addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u',
         tx_hash: '99e4b01005ab6e1f440e2d3600b631df997d349e66789eaf876feb6bf03212c9',
         tx_index: 0,
         output_index: 0,
@@ -286,6 +288,8 @@ export const success = [
     ],
     response: [
       {
+        address:
+          'addr1q9x625ny9y42s5z8n78afjg9meyeknvt5kwm3y6sdlrz66tc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgqsyx3uz',
         tx_hash: '99e4b01005ab6e1f440e2d3600b631df997d349e66789eaf876feb6bf03212c9',
         tx_index: 1,
         output_index: 1,

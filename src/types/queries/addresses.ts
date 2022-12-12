@@ -86,6 +86,7 @@ export interface AddressTotalQuery {
 }
 
 export interface AddressUtxosQuery {
+  address: string;
   tx_hash: string;
   tx_index: number;
   output_index: number;

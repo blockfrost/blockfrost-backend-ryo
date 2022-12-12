@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] -
 
+### Added
+
+- `address` field to `/addresses/{address}/utxos` and `/addresses/{address}/utxos/{asset}`
+
 ## [1.1.1] - 2022-12-07
 
 ### Fixed
