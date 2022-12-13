@@ -214,6 +214,22 @@ export const success = [
     },
   },
   {
+    testName: 'addresses/:address/extended BF address without tokens',
+    endpoints: [
+      'addresses/addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u/extended',
+    ],
+    response: {
+      address:
+        'addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u',
+      amount: [
+        { unit: 'lovelace', quantity: '2000000', decimals: 6, has_nft_onchain_metadata: false },
+      ],
+      stake_address: 'stake1uyuc463uzn3muy2eh7c5d8ekj5na2yqj27f5l5wmghv6gsc0smjnc',
+      type: 'shelley',
+      script: false,
+    },
+  },
+  {
     testName: 'addresses/:address BF address - used but now empty',
     endpoints: [
       'addresses/addr1q8zsjx7vxkl4esfejafhxthyew8c54c9ch95gkv3nz37sxrc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgq3jd3w2',
