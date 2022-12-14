@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../types/queries/assets';
 import * as ResponseTypes from '../../types/responses/assets';
-import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { getSchemaForEndpoint, validateSchema } from '@blockfrost/openapi';
 import AssetFingerprint from '@emurgo/cip14-js';
 import { getDbSync } from '../../utils/database';
 import { handle404 } from '../../utils/error-handler';
@@ -10,6 +10,11 @@ import { getOnchainMetadata } from '@blockfrost/openapi';
 import { fetchAssetMetadata } from '../../utils/token-registry';
 import { validateAsset, validatePolicy } from '@blockfrost/blockfrost-utils/lib/validation';
 import { handleInvalidAsset, handleInvalidPolicy } from '@blockfrost/blockfrost-utils/lib/fastify';
+import {
+  getMetadataFromOutputDatum,
+  ReferenceMetadataDatum,
+  toCip68Assets,
+} from '../../utils/cip68';
 
 async function assets(fastify: FastifyInstance) {
   fastify.route({
@@ -67,12 +72,52 @@ async function assets(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const metadata = await fetchAssetMetadata(request.params.asset);
+        let referenceMetadata: ReferenceMetadataDatum | null = null;
+        const assetHex = `${rows[0].policy_id}${rows[0].asset_name}`;
+        const cip68Assets = toCip68Assets(assetHex);
+        const isFT = cip68Assets?.ft === assetHex;
+        const isNFT = cip68Assets?.nft === assetHex;
+
+        if (isFT || isNFT) {
+          // asset is NFT 222 or FT 333, retrieve its reference NFT metadata
+          const { rows } = await clientDbSync.query<any>(SQLQuery.get('assets_asset_utxo_datum'), [
+            cip68Assets.reference_nft,
+          ]);
+          const datumHex = rows[0];
+
+          if (datumHex) {
+            const datumMetadata = getMetadataFromOutputDatum(datumHex);
+
+            if (isNFT) {
+              const { isValid: isValidNFT } = validateSchema(
+                'asset_onchain_metadata_cip68_nft_222',
+                datumMetadata,
+              );
+
+              if (isValidNFT) {
+                referenceMetadata = datumMetadata;
+              }
+            } else if (isFT) {
+              const { isValid: isValidFT } = validateSchema(
+                'asset_onchain_metadata_cip68_ft_333',
+                datumMetadata,
+              );
+
+              if (isValidFT) {
+                referenceMetadata = datumMetadata;
+              }
+            }
+          }
+        }
+
+        // Validate onchain metadata
         const { onchainMetadata, validCIPversion } = getOnchainMetadata(
           rows[0].onchain_metadata,
           rows[0].asset_name,
           rows[0].policy_id,
         );
+
+        const metadata = await fetchAssetMetadata(request.params.asset);
         const fingerprint = AssetFingerprint.fromParts(
           Uint8Array.from(Buffer.from(rows[0].policy_id, 'hex')),
           Uint8Array.from(Buffer.from(rows[0].asset_name ?? '', 'hex')),
@@ -81,8 +126,8 @@ async function assets(fastify: FastifyInstance) {
         return reply.send({
           ...rows[0],
           metadata,
-          onchain_metadata: onchainMetadata,
-          onchain_metadata_standard: validCIPversion,
+          onchain_metadata: referenceMetadata?.metadata ?? onchainMetadata,
+          onchain_metadata_standard: referenceMetadata ? 'CIP68v1' : validCIPversion,
           fingerprint,
         });
       } catch (error) {
