@@ -85,3 +85,7 @@ export interface Asset {
   initial_mint_tx_hash: string;
   mint_or_burn_count: number;
 }
+
+export interface AssetOutputDatum {
+  cbor: string;
+}

@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../types/queries/assets';
 import * as ResponseTypes from '../../types/responses/assets';
-import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { getSchemaForEndpoint, validateCIP68Metadata } from '@blockfrost/openapi';
 import AssetFingerprint from '@emurgo/cip14-js';
 import { getDbSync } from '../../utils/database';
 import { handle404 } from '../../utils/error-handler';
@@ -10,6 +10,10 @@ import { getOnchainMetadata } from '@blockfrost/openapi';
 import { fetchAssetMetadata } from '../../utils/token-registry';
 import { validateAsset, validatePolicy } from '@blockfrost/blockfrost-utils/lib/validation';
 import { handleInvalidAsset, handleInvalidPolicy } from '@blockfrost/blockfrost-utils/lib/fastify';
+import {
+  getMetadataFromOutputDatum,
+  getReferenceNFT,
+} from '@blockfrost/blockfrost-utils/lib/cip68';
 
 async function assets(fastify: FastifyInstance) {
   fastify.route({
@@ -67,12 +71,44 @@ async function assets(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
+        let onchainMetadata: unknown | null = null;
+        let onchainMetadataStandard: string | null = null;
+        const unit = `${rows[0].policy_id}${rows[0].asset_name}`;
+        const referenceNFT = getReferenceNFT(unit);
+
+        if (referenceNFT) {
+          // asset is NFT 222 or FT 333, retrieve its reference NFT metadata (CIP68)
+          const { rows } = await clientDbSync.query<QueryTypes.AssetOutputDatum>(
+            SQLQuery.get('assets_asset_utxo_datum'),
+            [referenceNFT.hex],
+          );
+          const datumHex = rows[0].cbor;
+
+          if (datumHex) {
+            const datumMetadata = getMetadataFromOutputDatum(datumHex);
+            const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
+
+            if (result) {
+              onchainMetadata = datumMetadata;
+              onchainMetadataStandard = result.version;
+            }
+          }
+        }
+
+        if (!onchainMetadata) {
+          // validate CIP25 on-chain metadata if CIP68 metadata are not present (or not valid)
+          const { onchainMetadata: CIP25OnchainMetadata, validCIPversion } = getOnchainMetadata(
+            rows[0].onchain_metadata,
+            rows[0].asset_name,
+            rows[0].policy_id,
+          );
+
+          onchainMetadata = CIP25OnchainMetadata;
+          onchainMetadataStandard = validCIPversion;
+        }
+
+        // retrieve off-chain metadata
         const metadata = await fetchAssetMetadata(request.params.asset);
-        const { onchainMetadata, validCIPversion } = getOnchainMetadata(
-          rows[0].onchain_metadata,
-          rows[0].asset_name,
-          rows[0].policy_id,
-        );
         const fingerprint = AssetFingerprint.fromParts(
           Uint8Array.from(Buffer.from(rows[0].policy_id, 'hex')),
           Uint8Array.from(Buffer.from(rows[0].asset_name ?? '', 'hex')),
@@ -82,7 +118,7 @@ async function assets(fastify: FastifyInstance) {
           ...rows[0],
           metadata,
           onchain_metadata: onchainMetadata,
-          onchain_metadata_standard: validCIPversion,
+          onchain_metadata_standard: onchainMetadataStandard,
           fingerprint,
         });
       } catch (error) {

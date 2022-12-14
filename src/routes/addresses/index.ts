@@ -1,8 +1,13 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../types/queries/addresses';
+import * as AssetQueryTypes from '../../types/queries/assets';
 import * as ResponseTypes from '../../types/responses/addresses';
 import { getDbSync } from '../../utils/database';
-import { getSchemaForEndpoint, getOnchainMetadata } from '@blockfrost/openapi';
+import {
+  getSchemaForEndpoint,
+  getOnchainMetadata,
+  validateCIP68Metadata,
+} from '@blockfrost/openapi';
 import { getAdditionalParametersFromRequest } from '../../utils/string-utils';
 import { handle400Custom, handle404, handleInvalidAddress } from '../../utils/error-handler';
 import { getAddressTypeAndPaymentCred, paymentCredToBech32Address } from '../../utils/validation';
@@ -10,6 +15,10 @@ import { SQLQuery } from '../../sql';
 import { fetchAssetMetadata } from '../../utils/token-registry';
 import { handleInvalidAsset } from '@blockfrost/blockfrost-utils/lib/fastify';
 import { validateAsset } from '@blockfrost/blockfrost-utils/lib/validation';
+import {
+  getMetadataFromOutputDatum,
+  getReferenceNFT,
+} from '@blockfrost/blockfrost-utils/lib/cip68';
 
 async function addresses(fastify: FastifyInstance) {
   fastify.route({
@@ -133,11 +142,38 @@ async function addresses(fastify: FastifyInstance) {
           for (const asset of rows[0].amount) {
             const unit = `${asset.policy_id}${asset.asset_name}`;
             const registryData = await fetchAssetMetadata(unit);
-            const { onchainMetadata } = getOnchainMetadata(
-              asset.onchain_metadata,
-              asset.asset_name,
-              asset.policy_id,
-            );
+
+            let onchainMetadata: unknown | null = null;
+            const referenceNFT = getReferenceNFT(unit);
+
+            if (referenceNFT) {
+              // asset is NFT 222 or FT 333, retrieve its reference NFT metadata (CIP68)
+              const { rows } = await clientDbSync.query<AssetQueryTypes.AssetOutputDatum>(
+                SQLQuery.get('assets_asset_utxo_datum'),
+                [referenceNFT.hex],
+              );
+              const datumHex = rows[0].cbor;
+
+              if (datumHex) {
+                const datumMetadata = getMetadataFromOutputDatum(datumHex);
+                const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
+
+                if (result) {
+                  onchainMetadata = datumMetadata;
+                }
+              }
+            }
+
+            if (!onchainMetadata) {
+              // validate CIP25 on-chain metadata if CIP68 metadata are not present (or not valid)
+              const { onchainMetadata: CIP25OnchainMetadata } = getOnchainMetadata(
+                asset.onchain_metadata,
+                asset.asset_name,
+                asset.policy_id,
+              );
+
+              onchainMetadata = CIP25OnchainMetadata;
+            }
 
             assetsAmount.push({
               unit: unit,
