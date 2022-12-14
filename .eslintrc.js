@@ -21,16 +21,16 @@ module.exports = {
     'unicorn/no-process-exit': 0,
     'unicorn/prefer-ternary': 0,
     'unicorn/no-null': 'off',
-    "unicorn/prevent-abbreviations": [
-      "error",
+    'unicorn/prevent-abbreviations': [
+      'error',
       {
-        "allowList": {
-          "dbSync": true,
-          "CardanoDbSync": true,
-          "getDbSync": true,
-          "clientDbSync": true
-        }
-      }
-    ]
+        allowList: {
+          dbSync: true,
+          CardanoDbSync: true,
+          getDbSync: true,
+          clientDbSync: true,
+        },
+      },
+    ],
   },
 };

@@ -167,48 +167,65 @@ export const success = [
       'f889c4b5ed1811f3089603b02ae096298b114e140d82c8a20521ae25d248bc1f',
     ],
   },
+  // TODO: registry is currently flapping
+  // {
+  //   testName: 'addresses/:address/extended address with nutcoin',
+  //   endpoints: [
+  //     'addresses/addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w/extended',
+  //   ],
+  //   response: {
+  //     address:
+  //       'addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w',
+  //     amount: [
+  //       { unit: 'lovelace', quantity: '5368142', decimals: 6, has_nft_onchain_metadata: false },
+  //       {
+  //         unit: '00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e',
+  //         quantity: '1',
+  //         decimals: null,
+  //         has_nft_onchain_metadata: false,
+  //       },
+  //       {
+  //         unit: '432749982ba3bd2d969715860bb27f9efab8ab6ba7bd1e94a1a2982950414e4441',
+  //         quantity: '1000000',
+  //         decimals: null,
+  //         has_nft_onchain_metadata: true,
+  //       },
+  //       {
+  //         unit: 'aa1b03c6a49951282e9a68b17133a814f4c603f85be469e22869ecb4726561646d65',
+  //         quantity: '1',
+  //         decimals: null,
+  //         has_nft_onchain_metadata: true,
+  //       },
+  //       {
+  //         unit: 'b43131f2c82825ee3d81705de0896c611f35ed38e48e33a3bdf298dc43727970746f4d6167653033373930',
+  //         quantity: '1',
+  //         decimals: null,
+  //         has_nft_onchain_metadata: true,
+  //       },
+  //       {
+  //         unit: 'd5e6bf0500378d4f0da4e8dde6becec7621cd8cbf5cbb9b87013d4cc537061636542756431303433',
+  //         quantity: '1',
+  //         decimals: null,
+  //         has_nft_onchain_metadata: true,
+  //       },
+  //     ],
+  //     stake_address: 'stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja',
+  //     type: 'shelley',
+  //     script: false,
+  //   },
+  // },
   {
-    testName: 'addresses/:address/extended address with nutcoin',
+    testName: 'addresses/:address/extended BF address without tokens',
     endpoints: [
-      'addresses/addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w/extended',
+      'addresses/addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u/extended',
     ],
     response: {
       address:
-        'addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w',
+        'addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u',
       amount: [
-        { unit: 'lovelace', quantity: '5368142', decimals: 6, has_nft_onchain_metadata: false },
-        {
-          unit: '00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e',
-          quantity: '1',
-          decimals: null,
-          has_nft_onchain_metadata: false,
-        },
-        {
-          unit: '432749982ba3bd2d969715860bb27f9efab8ab6ba7bd1e94a1a2982950414e4441',
-          quantity: '1000000',
-          decimals: null,
-          has_nft_onchain_metadata: true,
-        },
-        {
-          unit: 'aa1b03c6a49951282e9a68b17133a814f4c603f85be469e22869ecb4726561646d65',
-          quantity: '1',
-          decimals: null,
-          has_nft_onchain_metadata: true,
-        },
-        {
-          unit: 'b43131f2c82825ee3d81705de0896c611f35ed38e48e33a3bdf298dc43727970746f4d6167653033373930',
-          quantity: '1',
-          decimals: null,
-          has_nft_onchain_metadata: true,
-        },
-        {
-          unit: 'd5e6bf0500378d4f0da4e8dde6becec7621cd8cbf5cbb9b87013d4cc537061636542756431303433',
-          quantity: '1',
-          decimals: null,
-          has_nft_onchain_metadata: true,
-        },
+        { unit: 'lovelace', quantity: '2000000', decimals: 6, has_nft_onchain_metadata: false },
       ],
-      stake_address: 'stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja',
+      stake_address: 'stake1uyuc463uzn3muy2eh7c5d8ekj5na2yqj27f5l5wmghv6gsc0smjnc',
       type: 'shelley',
       script: false,
     },
@@ -268,6 +285,8 @@ export const success = [
     ],
     response: [
       {
+        address:
+          'addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u',
         tx_hash: '99e4b01005ab6e1f440e2d3600b631df997d349e66789eaf876feb6bf03212c9',
         tx_index: 0,
         output_index: 0,
@@ -280,12 +299,41 @@ export const success = [
     ],
   },
   {
+    testName: 'addresses/:address/utxos BF address without tokens',
+    endpoints: [
+      'addresses/addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u/utxos/lovelace',
+    ],
+    response: [
+      {
+        address:
+          'addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u',
+        tx_hash: '99e4b01005ab6e1f440e2d3600b631df997d349e66789eaf876feb6bf03212c9',
+        tx_index: 0,
+        output_index: 0,
+        amount: [{ unit: 'lovelace', quantity: '2000000' }],
+        block: 'b5363f6efc026d09d89195df27603a8d9311cad0c6569ce66fb10f73effcefee',
+        data_hash: null,
+        inline_datum: null,
+        reference_script_hash: null,
+      },
+    ],
+  },
+  {
+    testName: 'addresses/:address/utxos BF address without tokens',
+    endpoints: [
+      'addresses/addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u/utxos/d436d9f6b754582f798fe33f4bed12133d47493f78b944b9cc55fd1853756d6d69744c6f64676534393539',
+    ],
+    response: [],
+  },
+  {
     testName: 'addresses/:address/utxos BF address with summit token',
     endpoints: [
       'addresses/addr1q9x625ny9y42s5z8n78afjg9meyeknvt5kwm3y6sdlrz66tc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgqsyx3uz/utxos',
     ],
     response: [
       {
+        address:
+          'addr1q9x625ny9y42s5z8n78afjg9meyeknvt5kwm3y6sdlrz66tc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgqsyx3uz',
         tx_hash: '99e4b01005ab6e1f440e2d3600b631df997d349e66789eaf876feb6bf03212c9',
         tx_index: 1,
         output_index: 1,
@@ -302,6 +350,39 @@ export const success = [
         reference_script_hash: null,
       },
     ],
+  },
+  {
+    testName: 'addresses/:address/utxos BF address with summit token',
+    endpoints: [
+      'addresses/addr1q9x625ny9y42s5z8n78afjg9meyeknvt5kwm3y6sdlrz66tc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgqsyx3uz/utxos/d436d9f6b754582f798fe33f4bed12133d47493f78b944b9cc55fd1853756d6d69744c6f64676534393539',
+    ],
+    response: [
+      {
+        address:
+          'addr1q9x625ny9y42s5z8n78afjg9meyeknvt5kwm3y6sdlrz66tc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgqsyx3uz',
+        tx_hash: '99e4b01005ab6e1f440e2d3600b631df997d349e66789eaf876feb6bf03212c9',
+        tx_index: 1,
+        output_index: 1,
+        amount: [
+          { unit: 'lovelace', quantity: '3129237' },
+          {
+            unit: 'd436d9f6b754582f798fe33f4bed12133d47493f78b944b9cc55fd1853756d6d69744c6f64676534393539',
+            quantity: '1',
+          },
+        ],
+        block: 'b5363f6efc026d09d89195df27603a8d9311cad0c6569ce66fb10f73effcefee',
+        data_hash: null,
+        inline_datum: null,
+        reference_script_hash: null,
+      },
+    ],
+  },
+  {
+    testName: 'addresses/:address/utxos BF address with summit token',
+    endpoints: [
+      'addresses/addr1q9x625ny9y42s5z8n78afjg9meyeknvt5kwm3y6sdlrz66tc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgqsyx3uz/utxos/lovelace',
+    ],
+    response: [],
   },
   {
     testName: 'addresses/:address/utxos BF address - used but now empty',

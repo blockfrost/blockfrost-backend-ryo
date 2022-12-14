@@ -1,8 +1,8 @@
-SELECT encode(tx.hash, 'hex') AS "tx_hash",
+SELECT txo.address AS "address",
+  encode(tx.hash, 'hex') AS "tx_hash",
   txo.index AS "tx_index",
   txo.index AS "output_index",
-  txo.value::TEXT AS "amount_lovelace",
-  -- cast to TEXT to avoid number overflow
+  txo.value::TEXT AS "amount_lovelace", -- cast to TEXT to avoid number overflow
   (
     SELECT json_agg(
         json_build_object(
