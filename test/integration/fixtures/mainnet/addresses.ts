@@ -214,42 +214,101 @@ export const success = [
     },
   },
   {
-    testName: 'addresses/:address/utxos BF address',
+    testName: 'addresses/:address BF address - used but now empty',
     endpoints: [
-      'addresses/addr1q8zsjx7vxkl4esfejafhxthyew8c54c9ch95gkv3nz37sxrc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgq3jd3w2/utxos',
+      'addresses/addr1q8zsjx7vxkl4esfejafhxthyew8c54c9ch95gkv3nz37sxrc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgq3jd3w2',
+    ],
+    response: {
+      address:
+        'addr1q8zsjx7vxkl4esfejafhxthyew8c54c9ch95gkv3nz37sxrc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgq3jd3w2',
+      amount: [{ unit: 'lovelace', quantity: '0' }],
+      stake_address: 'stake1u9uz4j024qfud557ucrqw3kqfdndjgaxj7m44x7tamkvmyqzdwe7v',
+      type: 'shelley',
+      script: false,
+    },
+  },
+  {
+    testName: 'addresses/:address BF address with summit token',
+    endpoints: [
+      'addresses/addr1q9x625ny9y42s5z8n78afjg9meyeknvt5kwm3y6sdlrz66tc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgqsyx3uz',
+    ],
+    response: {
+      address:
+        'addr1q9x625ny9y42s5z8n78afjg9meyeknvt5kwm3y6sdlrz66tc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgqsyx3uz',
+      amount: [
+        { unit: 'lovelace', quantity: '3129237' },
+        {
+          unit: 'd436d9f6b754582f798fe33f4bed12133d47493f78b944b9cc55fd1853756d6d69744c6f64676534393539',
+          quantity: '1',
+        },
+      ],
+      stake_address: 'stake1u9uz4j024qfud557ucrqw3kqfdndjgaxj7m44x7tamkvmyqzdwe7v',
+      type: 'shelley',
+      script: false,
+    },
+  },
+  {
+    testName: 'addresses/:address BF address without tokens',
+    endpoints: [
+      'addresses/addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u',
+    ],
+    response: {
+      address:
+        'addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u',
+      amount: [{ unit: 'lovelace', quantity: '2000000' }],
+      stake_address: 'stake1uyuc463uzn3muy2eh7c5d8ekj5na2yqj27f5l5wmghv6gsc0smjnc',
+      type: 'shelley',
+      script: false,
+    },
+  },
+  {
+    testName: 'addresses/:address/utxos BF address without tokens',
+    endpoints: [
+      'addresses/addr1qxlem7879m2ly03ljqldhz9jxtlkurc465hqysxr33z2a4ee3t4rc98rhcg4n0a3g60nd9f865gpy4unflgak3we53psrrk85u/utxos',
     ],
     response: [
       {
-        tx_hash: '94753e4e393f9ccfc89534f002f2702ab4ce88bf394c9b5db815b446df75b987',
-        tx_index: 0,
-        output_index: 0,
-        amount: [{ unit: 'lovelace', quantity: '2666226' }],
-        block: '9b929405918858dcf2f897582efdcc4543dc165537fad031b8b14a241c180bf4',
-        data_hash: null,
-        inline_datum: null,
-        reference_script_hash: null,
-      },
-      {
-        tx_hash: '23fcdaa4d5f374101bae1ed21fa4d482b3e02804e9bd6b3ade6792d944a44c69',
+        tx_hash: '99e4b01005ab6e1f440e2d3600b631df997d349e66789eaf876feb6bf03212c9',
         tx_index: 0,
         output_index: 0,
         amount: [{ unit: 'lovelace', quantity: '2000000' }],
-        block: 'bdd69cdcc059284be795286dc39043c63981ac90095601430dd37174cf2b581e',
-        data_hash: null,
-        inline_datum: null,
-        reference_script_hash: null,
-      },
-      {
-        tx_hash: '07d30afe9dd6eca75122e04d4f198421e2b44377ba62b5de17da9794db5b56de',
-        tx_index: 0,
-        output_index: 0,
-        amount: [{ unit: 'lovelace', quantity: '1034543' }],
-        block: '6bc023c933d779123d1671fe475b2f0b7239f5803f21ad77e1894661f35f2698',
+        block: 'b5363f6efc026d09d89195df27603a8d9311cad0c6569ce66fb10f73effcefee',
         data_hash: null,
         inline_datum: null,
         reference_script_hash: null,
       },
     ],
+  },
+  {
+    testName: 'addresses/:address/utxos BF address with summit token',
+    endpoints: [
+      'addresses/addr1q9x625ny9y42s5z8n78afjg9meyeknvt5kwm3y6sdlrz66tc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgqsyx3uz/utxos',
+    ],
+    response: [
+      {
+        tx_hash: '99e4b01005ab6e1f440e2d3600b631df997d349e66789eaf876feb6bf03212c9',
+        tx_index: 1,
+        output_index: 1,
+        amount: [
+          { unit: 'lovelace', quantity: '3129237' },
+          {
+            unit: 'd436d9f6b754582f798fe33f4bed12133d47493f78b944b9cc55fd1853756d6d69744c6f64676534393539',
+            quantity: '1',
+          },
+        ],
+        block: 'b5363f6efc026d09d89195df27603a8d9311cad0c6569ce66fb10f73effcefee',
+        data_hash: null,
+        inline_datum: null,
+        reference_script_hash: null,
+      },
+    ],
+  },
+  {
+    testName: 'addresses/:address/utxos BF address - used but now empty',
+    endpoints: [
+      'addresses/addr1q8zsjx7vxkl4esfejafhxthyew8c54c9ch95gkv3nz37sxrc9ty742qncmffaesxqarvqjmxmy36d9aht2duhmhvekgq3jd3w2/utxos',
+    ],
+    response: [],
   },
 ];
 

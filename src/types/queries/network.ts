@@ -9,3 +9,12 @@ export interface Network {
   };
   stake: { live: string; active: string };
 }
+
+export interface Epoch {
+  epoch: number;
+}
+
+export interface Protocols {
+  epoch: number;
+  protocol_major: number;
+}

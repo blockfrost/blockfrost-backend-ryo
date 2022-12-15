@@ -117,4 +117,36 @@ rec {
     '';
   };
 
+  blockfrost-backend-test-preview = makeTest rec {
+
+    machine = {
+      # We have to increase memsize, otherwise we will get error:
+      # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
+      virtualisation.memorySize = 4096;
+      # Backend service
+      systemd.services.blockfrost-backend-preview = {
+        wantedBy = [ "multi-user.target" ];
+        script = "${blockfrost-backend}/bin/blockfrost-backend";
+        environment = {
+          # Use config file from repository
+          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend}/libexec/source/config/preview.ts";
+          /*
+            # Use this if you want to override config/default.ts
+            NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-test-config}";
+          */
+        };
+      };
+
+    };
+
+    testScript = ''
+      start_all()
+      machine.wait_for_unit("blockfrost-backend-preview.service")
+      machine.wait_for_open_port(3000)
+      machine.succeed(
+          "${pkgs.yarn}/bin/yarn set version berry && cd ${blockfrost-backend}/libexec/source && ${pkgs.yarn}/bin/yarn test-integration:preview"
+      )
+    '';
+  };
+
 }

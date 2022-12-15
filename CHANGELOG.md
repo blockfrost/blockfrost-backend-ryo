@@ -7,16 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] -
 
+## [1.1.1] - 2022-12-07
+
+### Fixed
+
+- wrong item count returned on the first page of `/epochs/{number}/stakes/{pool_id}`
+
+## [1.1.0] - 2022-11-30
+
+### Added
+
+- `/network/eras` endpoint
+
 ### Changed
 
+- CIP-25 standard for on-chain metadata
 - refactor test environments
 - production logger logs only with debug option
+- replaced and improved (v2) CIP-25 validation logic for:
+  - `/assets/{asset}`
+  - `/addresses/{address}/extended`
 
 ### Fixed
 
 - validation of `{asset}` and `{policy}` (400)
 - ordering of various `/txs` to be consistent (useful when running ryo in cluster)
   - most notably, `/txs/{hash}/utxos` now consistently return collaterals (`collateral: true`) at the end
+- `preprod` and `preview` respins: Updated `slots_per_kes_period` and `max_kes_evolutions`
+- added entrypoint to Dockerfile
 
 ## [1.0.1] - 2022-10-25
 

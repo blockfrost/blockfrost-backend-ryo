@@ -2058,7 +2058,9 @@ export default [
         stake_address: 'stake1u9y3qt57glwuyl5gmhtf07jfcmn8u2xs9sa2vy4zhegprdqvugs8v',
         amount: '7821870243',
       },
-      { stake_address: 'stake1u9ylzsgxaa6xctf4juup682ar3juj85n8tx3hthnljg47zctvm3rc', amount: '0' },
+      { stake_address: 'stake1u9ylzsgxaa6xctf4juup682ar3juj85n8tx3hthnljg47zctvm3rc',
+        amount: '0',
+      },
       {
         stake_address: 'stake1u99pjll22qd04nltp5waq7d5h6yfzyj9yxyrcevsdy4028cfr267r',
         amount: '2448333957',
@@ -2103,7 +2105,9 @@ export default [
         stake_address: 'stake1u9w9u7nnxgwq0qj0muckv7zdyxtc2tr9udlhhkgm3smc8jscmzt22',
         amount: '1750548329',
       },
-      { stake_address: 'stake1u90lfvdwmqqlngh6mtzl63pz6u98uv06p49fg80d36c52cgpd2hws', amount: '0' },
+      { stake_address: 'stake1u90lfvdwmqqlngh6mtzl63pz6u98uv06p49fg80d36c52cgpd2hws',
+        amount: '0',
+      },
       {
         stake_address: 'stake1u9jyw6e97pguykpn9kw6jsrvq3x42tehhhzld9vlvhg6ecsw0k3u8',
         amount: '11895546866',
@@ -2240,7 +2244,9 @@ export default [
         stake_address: 'stake1ux3u6x5cs388djqz6awnyuvez2f6n8jzjhqq59s4yxhm8jskeh0t9',
         amount: '1102182',
       },
-      { stake_address: 'stake1uxjfwrj2k29wv77q4rzlxu0jvsr5dcdyx3crl5f2mnx3agcnzd5vx', amount: '0' },
+      { stake_address: 'stake1uxjfwrj2k29wv77q4rzlxu0jvsr5dcdyx3crl5f2mnx3agcnzd5vx',
+        amount: '0',
+      },
       {
         stake_address: 'stake1ux4vspfvwuus9uwyp5p3f0ky7a30jq5j80jxse0fr7pa56sgn6kha',
         amount: '1975859151626',
@@ -2297,21 +2303,41 @@ export default [
         stake_address: 'stake1u8zzwankan3ck7k00695kg39tj2e53y8q70ncre7h9q5mwqptn555',
         amount: '2196801816',
       },
+      {
+        stake_address: 'stake1u8zkrjr4nm5rwflqvgrpcj9nsemdp3zsutyv3vpxfufng4sq3fkwm',
+        amount: '123440748326',
+      },
     ],
   },
   {
-    testName: 'epochs/:number/stakes/pool?queryparams best pool ever',
+    testName: 'epochs/:number/stakes/pool?queryparams page 1 best pool ever',
+    endpoints: [
+      'epochs/242/stakes/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?page=1&count=2',
+    ],
+    response: [
+      {
+        stake_address: 'stake1uyq0yr438xvf533765w8s62eh5cmj33sed73cypt37l2m9ch78kup',
+        amount: '2505577',
+      },
+      {
+        stake_address: 'stake1uyzrq7fqfyk3nz3z7wtcxpehf9euz6x7u739pyvc25zm8ec30p6h6',
+        amount: '2768757218',
+      },
+    ],
+  },
+  {
+    testName: 'epochs/:number/stakes/pool?queryparams page 2 best pool ever',
     endpoints: [
       'epochs/242/stakes/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy?page=2&count=2',
     ],
     response: [
       {
-        stake_address: 'stake1uyzrq7fqfyk3nz3z7wtcxpehf9euz6x7u739pyvc25zm8ec30p6h6',
-        amount: '2768757218',
-      },
-      {
         stake_address: 'stake1uyyr6da2au8kmm52xjljtzs3zu43pg3e9alflh6jaw0eelqmlf8mt',
         amount: '178817967718',
+      },
+      {
+        stake_address: 'stake1uy9p0g3t59xjgkrg64kycxaqrsg5a6u6lzla5avtrc5jrkqwfq43k',
+        amount: '106381303049',
       },
     ],
   },
@@ -3580,10 +3606,10 @@ export default [
     },
   },
   {
-    testName: 'epochs/:number/parameters',
+    testName: 'epochs/latest/parameters',
     endpoints: ['epochs/latest/parameters'],
     response: {
-      epoch: 374,
+      epoch: expect.any(Number),
       min_fee_a: 44,
       min_fee_b: 155381,
       max_block_size: 90112,
@@ -3602,7 +3628,7 @@ export default [
       protocol_minor_ver: 0,
       min_utxo: '4310',
       min_pool_cost: '340000000',
-      nonce: '53606952e39eadd5eea559be517f9741c9538073e987ec1b7a6c7a05db6195d3',
+      nonce: expect.any(String),
       cost_models: {
         PlutusV1: {
           'addInteger-cpu-arguments-intercept': 205665,

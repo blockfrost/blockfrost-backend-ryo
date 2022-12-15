@@ -18,7 +18,7 @@ FROM (
       stake_address AS "stake_address",
       amount AS "amount"
     FROM queried_list
-    WHERE myid >= (
+    WHERE myid > (
         CASE
           -- query.count
           WHEN $2 >= 1
@@ -31,7 +31,7 @@ FROM (
           ELSE 0
         END
       )
-      AND myid < (
+      AND myid <= (
         CASE
           -- query.count
           WHEN $2 >= 1
