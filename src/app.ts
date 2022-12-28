@@ -52,7 +52,6 @@ const start = (options = {}): FastifyInstance => {
 
   // TODO:
   registerRoute(app, import('./routes/addresses'));
-  registerRoute(app, import('./routes/assets'));
   registerRoute(app, import('./routes/metadata'));
   registerRoute(app, import('./routes/epochs'));
   registerRoute(app, import('./routes/nutlink'));
@@ -70,6 +69,15 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/accounts/stake-address/registrations'));
   registerRoute(app, import('./routes/accounts/stake-address/rewards'));
   registerRoute(app, import('./routes/accounts/stake-address/withdrawals'));
+
+  // assets
+  registerRoute(app, import('./routes/assets/index'));
+  registerRoute(app, import('./routes/assets/policy/policy-id'));
+  registerRoute(app, import('./routes/assets/asset/addresses'));
+  registerRoute(app, import('./routes/assets/asset/history'));
+  registerRoute(app, import('./routes/assets/asset/index'));
+  registerRoute(app, import('./routes/assets/asset/transactions'));
+  registerRoute(app, import('./routes/assets/asset/txs'));
 
   // blocks
   registerRoute(app, import('./routes/blocks/slot/slot-number'));
