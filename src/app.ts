@@ -52,7 +52,6 @@ const start = (options = {}): FastifyInstance => {
 
   // TODO:
   registerRoute(app, import('./routes/addresses'));
-  registerRoute(app, import('./routes/metadata'));
   registerRoute(app, import('./routes/epochs'));
   registerRoute(app, import('./routes/nutlink'));
   registerRoute(app, import('./routes/pools'));
@@ -96,6 +95,11 @@ const start = (options = {}): FastifyInstance => {
 
   // ledger
   registerRoute(app, import('./routes/ledger'));
+
+  // metadata
+  registerRoute(app, import('./routes/metadata/txs/labels/label/cbor'));
+  registerRoute(app, import('./routes/metadata/txs/labels/label/index'));
+  registerRoute(app, import('./routes/metadata/txs/labels'));
 
   // network
   registerRoute(app, import('./routes/network'));
