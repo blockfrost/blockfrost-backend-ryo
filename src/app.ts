@@ -88,7 +88,9 @@ const start = (options = {}): FastifyInstance => {
 
   registerRoute(app, import('./routes/scripts'));
   registerRoute(app, import('./routes/txs'));
-  registerRoute(app, import('./routes/utils'));
+
+  // utils
+  registerRoute(app, import('./routes/utils/addresses/xpub/xpub/role/index'));
 
   process.on('SIGINT', () => {
     app.close();
