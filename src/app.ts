@@ -70,7 +70,9 @@ const start = (options = {}): FastifyInstance => {
 
   registerRoute(app, import('./routes/epochs'));
 
+  // ledger
   registerRoute(app, import('./routes/ledger'));
+
   registerRoute(app, import('./routes/metadata'));
   registerRoute(app, import('./routes/network'));
   registerRoute(app, import('./routes/nutlink'));

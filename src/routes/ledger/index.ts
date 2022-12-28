@@ -4,7 +4,7 @@ import * as ResponseTypes from '../../types/responses/ledger';
 import { getConfig } from '../../config';
 import { GENESIS } from '../../constants/genesis';
 
-async function ledger(fastify: FastifyInstance) {
+async function route(fastify: FastifyInstance) {
   fastify.route({
     url: '/genesis',
     method: 'GET',
@@ -26,4 +26,4 @@ async function ledger(fastify: FastifyInstance) {
   });
 }
 
-module.exports = ledger;
+export default route;
