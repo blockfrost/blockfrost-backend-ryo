@@ -1,6 +1,7 @@
-import { FastifyInstance } from 'fastify';
-import * as ResponseTypes from '../../types/responses/health';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { FastifyInstance } from 'fastify';
+
+import * as ResponseTypes from '../../types/responses/health';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({

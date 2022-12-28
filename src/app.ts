@@ -3,6 +3,7 @@ import fastifyPostgres from '@fastify/postgres';
 import * as Sentry from '@sentry/node';
 import fastify, { FastifyInstance } from 'fastify';
 import os from 'os';
+
 import { getConfig } from './config';
 import { registerRoute } from './utils/common';
 import { errorHandler, notFoundHandler } from './utils/error-handler';
@@ -74,10 +75,17 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/ledger'));
 
   registerRoute(app, import('./routes/metadata'));
+
+  // network
   registerRoute(app, import('./routes/network'));
+  registerRoute(app, import('./routes/network/eras'));
+
   registerRoute(app, import('./routes/nutlink'));
   registerRoute(app, import('./routes/pools'));
+
+  // root
   registerRoute(app, import('./routes/root'));
+
   registerRoute(app, import('./routes/scripts'));
   registerRoute(app, import('./routes/txs'));
   registerRoute(app, import('./routes/utils'));
