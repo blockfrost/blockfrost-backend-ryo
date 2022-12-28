@@ -51,7 +51,6 @@ const start = (options = {}): FastifyInstance => {
   });
 
   // TODO:
-  registerRoute(app, import('./routes/accounts'));
   registerRoute(app, import('./routes/addresses'));
   registerRoute(app, import('./routes/assets'));
   registerRoute(app, import('./routes/metadata'));
@@ -60,9 +59,17 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/pools'));
   registerRoute(app, import('./routes/txs'));
 
-  // health
-  registerRoute(app, import('./routes/health'));
-  registerRoute(app, import('./routes/health/clock'));
+  // accounts
+  registerRoute(app, import('./routes/accounts/stake-address/index'));
+  registerRoute(app, import('./routes/accounts/stake-address/addresses/assets'));
+  registerRoute(app, import('./routes/accounts/stake-address/addresses/index'));
+  registerRoute(app, import('./routes/accounts/stake-address/addresses/total'));
+  registerRoute(app, import('./routes/accounts/stake-address/delegations'));
+  registerRoute(app, import('./routes/accounts/stake-address/history'));
+  registerRoute(app, import('./routes/accounts/stake-address/mirs'));
+  registerRoute(app, import('./routes/accounts/stake-address/registrations'));
+  registerRoute(app, import('./routes/accounts/stake-address/rewards'));
+  registerRoute(app, import('./routes/accounts/stake-address/withdrawals'));
 
   // blocks
   registerRoute(app, import('./routes/blocks/slot/slot-number'));
@@ -74,6 +81,10 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/blocks/hash-or-number/txs'));
   registerRoute(app, import('./routes/blocks/hash-or-number/previous'));
   registerRoute(app, import('./routes/blocks/hash-or-number/next'));
+
+  // health
+  registerRoute(app, import('./routes/health'));
+  registerRoute(app, import('./routes/health/clock'));
 
   // ledger
   registerRoute(app, import('./routes/ledger'));
