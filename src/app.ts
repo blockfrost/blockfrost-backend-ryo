@@ -53,6 +53,10 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/addresses'));
   registerRoute(app, import('./routes/assets'));
 
+  // health
+  registerRoute(app, import('./routes/health'));
+  registerRoute(app, import('./routes/health/clock'));
+
   // blocks
   registerRoute(app, import('./routes/blocks/slot/slot-number'));
   registerRoute(app, import('./routes/blocks/latest/index'));
@@ -65,7 +69,7 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/blocks/hash-or-number/next'));
 
   registerRoute(app, import('./routes/epochs'));
-  registerRoute(app, import('./routes/health'));
+
   registerRoute(app, import('./routes/ledger'));
   registerRoute(app, import('./routes/metadata'));
   registerRoute(app, import('./routes/network'));
