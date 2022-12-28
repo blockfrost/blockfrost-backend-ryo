@@ -90,7 +90,6 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/scripts/script_hash/index'));
   registerRoute(app, import('./routes/scripts/script_hash/cbor'));
   registerRoute(app, import('./routes/scripts/script_hash/json'));
-  registerRoute(app, import('./routes/scripts/script_hash/index'));
   registerRoute(app, import('./routes/scripts/script_hash/redeemers'));
   registerRoute(app, import('./routes/scripts/datum/datum-hash/index'));
   registerRoute(app, import('./routes/scripts/datum/datum-hash/cbor'));
