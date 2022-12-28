@@ -12,7 +12,8 @@
     "openapi",
     "preprod",
     "ts",
-    "utxo"
+    "utxo",
+    "xpub"
   ],
   "search.exclude": {
     "**/.yarn": true,

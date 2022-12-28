@@ -50,9 +50,15 @@ const start = (options = {}): FastifyInstance => {
     max: config.dbSync.maxConnections,
   });
 
+  // TODO:
   registerRoute(app, import('./routes/accounts'));
   registerRoute(app, import('./routes/addresses'));
   registerRoute(app, import('./routes/assets'));
+  registerRoute(app, import('./routes/metadata'));
+  registerRoute(app, import('./routes/epochs'));
+  registerRoute(app, import('./routes/nutlink'));
+  registerRoute(app, import('./routes/pools'));
+  registerRoute(app, import('./routes/txs'));
 
   // health
   registerRoute(app, import('./routes/health'));
@@ -69,25 +75,25 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/blocks/hash-or-number/previous'));
   registerRoute(app, import('./routes/blocks/hash-or-number/next'));
 
-  registerRoute(app, import('./routes/epochs'));
-
   // ledger
   registerRoute(app, import('./routes/ledger'));
-
-  registerRoute(app, import('./routes/metadata'));
 
   // network
   registerRoute(app, import('./routes/network'));
   registerRoute(app, import('./routes/network/eras'));
 
-  registerRoute(app, import('./routes/nutlink'));
-  registerRoute(app, import('./routes/pools'));
-
   // root
   registerRoute(app, import('./routes/root'));
 
-  registerRoute(app, import('./routes/scripts'));
-  registerRoute(app, import('./routes/txs'));
+  // scripts
+  registerRoute(app, import('./routes/scripts/index'));
+  registerRoute(app, import('./routes/scripts/script_hash/index'));
+  registerRoute(app, import('./routes/scripts/script_hash/cbor'));
+  registerRoute(app, import('./routes/scripts/script_hash/json'));
+  registerRoute(app, import('./routes/scripts/script_hash/index'));
+  registerRoute(app, import('./routes/scripts/script_hash/redeemers'));
+  registerRoute(app, import('./routes/scripts/datum/datum-hash/index'));
+  registerRoute(app, import('./routes/scripts/datum/datum-hash/cbor'));
 
   // utils
   registerRoute(app, import('./routes/utils/addresses/xpub/xpub/role/index'));
