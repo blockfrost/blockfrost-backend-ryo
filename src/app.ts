@@ -50,11 +50,6 @@ const start = (options = {}): FastifyInstance => {
     max: config.dbSync.maxConnections,
   });
 
-  // TODO:
-
-  registerRoute(app, import('./routes/pools'));
-  registerRoute(app, import('./routes/txs'));
-
   // addresses
   registerRoute(app, import('./routes/addresses/address/extended'));
   registerRoute(app, import('./routes/addresses/address/index'));
@@ -130,6 +125,19 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/nutlink/address/tickers/ticker'));
   registerRoute(app, import('./routes/nutlink/tickers/ticker'));
 
+  // pools
+  registerRoute(app, import('./routes/pools/index'));
+  registerRoute(app, import('./routes/pools/extended'));
+  registerRoute(app, import('./routes/pools/retiring'));
+  registerRoute(app, import('./routes/pools/retired'));
+  registerRoute(app, import('./routes/pools/pool-id/index'));
+  registerRoute(app, import('./routes/pools/pool-id/blocks'));
+  registerRoute(app, import('./routes/pools/pool-id/delegators'));
+  registerRoute(app, import('./routes/pools/pool-id/history'));
+  registerRoute(app, import('./routes/pools/pool-id/metadata'));
+  registerRoute(app, import('./routes/pools/pool-id/relays'));
+  registerRoute(app, import('./routes/pools/pool-id/updates'));
+
   // root
   registerRoute(app, import('./routes/root'));
 
@@ -141,6 +149,19 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/scripts/script_hash/redeemers'));
   registerRoute(app, import('./routes/scripts/datum/datum-hash/index'));
   registerRoute(app, import('./routes/scripts/datum/datum-hash/cbor'));
+
+  // txs
+  registerRoute(app, import('./routes/txs/hash/index'));
+  registerRoute(app, import('./routes/txs/hash/delegations'));
+  registerRoute(app, import('./routes/txs/hash/mirs'));
+  registerRoute(app, import('./routes/txs/hash/pool-retires'));
+  registerRoute(app, import('./routes/txs/hash/pool-updates'));
+  registerRoute(app, import('./routes/txs/hash/redeemers'));
+  registerRoute(app, import('./routes/txs/hash/stakes'));
+  registerRoute(app, import('./routes/txs/hash/utxos'));
+  registerRoute(app, import('./routes/txs/hash/withdrawals'));
+  registerRoute(app, import('./routes/txs/hash/metadata/index'));
+  registerRoute(app, import('./routes/txs/hash/metadata/cbor'));
 
   // utils
   registerRoute(app, import('./routes/utils/addresses/xpub/xpub/role/index'));

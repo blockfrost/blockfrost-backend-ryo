@@ -3,22 +3,24 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 
 import { SQLQuery } from '../../sql';
 import * as QueryTypes from '../../types/queries/pools';
+import * as ResponseTypes from '../../types/responses/pools';
 import { getDbSync } from '../../utils/database';
 
-async function pools(fastify: FastifyInstance) {
+async function route(fastify: FastifyInstance) {
   fastify.route({
-    url: '/pools',
+    url: '/pools/extended',
     method: 'GET',
-    schema: getSchemaForEndpoint('/pools'),
+    schema: getSchemaForEndpoint('/pools/extended'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
       const clientDbSync = await getDbSync(fastify);
 
       try {
-        const { rows } = await clientDbSync.query<QueryTypes.Pools>(SQLQuery.get('pools'), [
-          request.query.order,
-          request.query.count,
-          request.query.page,
-        ]);
+        const { rows }: { rows: ResponseTypes.PoolsExtended } =
+          await clientDbSync.query<QueryTypes.PoolsExtended>(SQLQuery.get('pools_extended'), [
+            request.query.order,
+            request.query.count,
+            request.query.page,
+          ]);
 
         clientDbSync.release();
 
@@ -26,13 +28,7 @@ async function pools(fastify: FastifyInstance) {
           return reply.send([]);
         }
 
-        const list: string[] = [];
-
-        for (const row of rows) {
-          list.push(row.pool_id);
-        }
-
-        return reply.send(list);
+        return reply.send(rows);
       } catch (error) {
         if (clientDbSync) {
           clientDbSync.release();
@@ -43,4 +39,4 @@ async function pools(fastify: FastifyInstance) {
   });
 }
 
-module.exports = pools;
+export default route;
