@@ -51,7 +51,7 @@ const start = (options = {}): FastifyInstance => {
   });
 
   // TODO:
-  registerRoute(app, import('./routes/nutlink'));
+
   registerRoute(app, import('./routes/pools'));
   registerRoute(app, import('./routes/txs'));
 
@@ -123,6 +123,12 @@ const start = (options = {}): FastifyInstance => {
   // network
   registerRoute(app, import('./routes/network'));
   registerRoute(app, import('./routes/network/eras'));
+
+  // nutlink
+  registerRoute(app, import('./routes/nutlink/address/index'));
+  registerRoute(app, import('./routes/nutlink/address/tickers/index'));
+  registerRoute(app, import('./routes/nutlink/address/tickers/ticker'));
+  registerRoute(app, import('./routes/nutlink/tickers/ticker'));
 
   // root
   registerRoute(app, import('./routes/root'));
