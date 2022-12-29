@@ -51,11 +51,19 @@ const start = (options = {}): FastifyInstance => {
   });
 
   // TODO:
-  registerRoute(app, import('./routes/addresses'));
   registerRoute(app, import('./routes/epochs'));
   registerRoute(app, import('./routes/nutlink'));
   registerRoute(app, import('./routes/pools'));
   registerRoute(app, import('./routes/txs'));
+
+  // addresses
+  registerRoute(app, import('./routes/addresses/address/extended'));
+  registerRoute(app, import('./routes/addresses/address/index'));
+  registerRoute(app, import('./routes/addresses/address/total'));
+  registerRoute(app, import('./routes/addresses/address/transactions'));
+  registerRoute(app, import('./routes/addresses/address/txs'));
+  registerRoute(app, import('./routes/addresses/address/utxos/asset'));
+  registerRoute(app, import('./routes/addresses/address/utxos/index'));
 
   // accounts
   registerRoute(app, import('./routes/accounts/stake-address/index'));

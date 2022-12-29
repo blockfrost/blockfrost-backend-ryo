@@ -15,6 +15,7 @@
     "preprod",
     "ts",
     "utxo",
+    "utxos",
     "xpub"
   ],
   "search.exclude": {
