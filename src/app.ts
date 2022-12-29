@@ -51,7 +51,6 @@ const start = (options = {}): FastifyInstance => {
   });
 
   // TODO:
-  registerRoute(app, import('./routes/epochs'));
   registerRoute(app, import('./routes/nutlink'));
   registerRoute(app, import('./routes/pools'));
   registerRoute(app, import('./routes/txs'));
@@ -96,6 +95,18 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/blocks/hash-or-number/txs'));
   registerRoute(app, import('./routes/blocks/hash-or-number/previous'));
   registerRoute(app, import('./routes/blocks/hash-or-number/next'));
+
+  // epochs
+  registerRoute(app, import('./routes/epochs/latest/index'));
+  registerRoute(app, import('./routes/epochs/latest/parameters'));
+  registerRoute(app, import('./routes/epochs/number/index'));
+  registerRoute(app, import('./routes/epochs/number/next'));
+  registerRoute(app, import('./routes/epochs/number/previous'));
+  registerRoute(app, import('./routes/epochs/number/parameters'));
+  registerRoute(app, import('./routes/epochs/number/blocks/index'));
+  registerRoute(app, import('./routes/epochs/number/blocks/pool-id'));
+  registerRoute(app, import('./routes/epochs/number/stakes/index'));
+  registerRoute(app, import('./routes/epochs/number/stakes/pool-id'));
 
   // health
   registerRoute(app, import('./routes/health'));
