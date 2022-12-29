@@ -1,7 +1,7 @@
 import fastifyCors from '@fastify/cors';
 import fastifyPostgres from '@fastify/postgres';
 import * as Sentry from '@sentry/node';
-import fastify, { FastifyInstance } from 'fastify';
+import fastify, { FastifyInstance, FastifyRequest } from 'fastify';
 import os from 'os';
 
 import { getConfig } from './config';
@@ -26,6 +26,11 @@ const start = (options = {}): FastifyInstance => {
       sampleRate: 0.01,
     });
   }
+
+  // handle cbor media type
+  app.addContentTypeParser(['application/cbor'], (_request: FastifyRequest, payload, done) => {
+    done(null, payload);
+  });
 
   // ORDERING BASED ON https://www.fastify.io/docs/latest/Guides/Getting-Started/#loading-order-of-your-plugins
   // Note: We don't use custom decorators and hooks (parts 3-4 from ^)

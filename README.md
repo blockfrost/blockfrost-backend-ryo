@@ -17,7 +17,6 @@
 
 The backend is Node.js app written in Typescript using Fastify. To run it you need Node.js version 16 and higher (LTS is highly recommended). Blockchain data are queried from [cardano-db-sync](https://github.com/input-output-hk/cardano-db-sync). Follow their documentation to learn more about running your own instance.
 
-
 ## Running your own
 
 We made it simple to run your own version of the Blockfrost backend.
@@ -76,6 +75,24 @@ These values are `BLOCKFROST_CONFIG_SERVER_PORT`, `BLOCKFROST_CONFIG_SERVER_DEBU
 
 Blockfrost Backend uses token registry to provide off-chain metadata for native assets (eg. number of decimals). [The token registry](https://developers.cardano.org/docs/native-tokens/token-registry/cardano-token-registry/) operated by Cardano Foundation and hosted at https://tokens.cardano.org is used by default. You can use self-hosted registry by setting `tokenRegistryUrl` in the config file.
 
+#### Indices
+
+Although it is possible to run RYO with vanilla db sync, Blockfrost usually queries hex values in the already encoded form.
+
+Therefore, in order to speed up queries, it is recommended to create the following, custom, indices:
+
+```
+CREATE INDEX IF NOT EXISTS bf_idx_block_hash_encoded ON block USING HASH (encode(hash, 'hex'));
+CREATE INDEX IF NOT EXISTS bf_idx_datum_hash ON datum USING HASH (encode(hash, 'hex'));
+CREATE INDEX IF NOT EXISTS bf_idx_multi_asset_policy ON multi_asset USING HASH (encode(policy, 'hex'));
+CREATE INDEX IF NOT EXISTS bf_idx_multi_asset_policy_name ON multi_asset USING HASH ((encode(policy, 'hex') || encode(name, 'hex')));
+CREATE INDEX IF NOT EXISTS bf_idx_pool_hash_view ON pool_hash USING HASH (view);
+CREATE INDEX IF NOT EXISTS bf_idx_redeemer_data_hash ON redeemer_data USING HASH (encode(hash, 'hex'));
+CREATE INDEX IF NOT EXISTS bf_idx_scripts_hash ON script USING HASH (encode(hash, 'hex'));
+CREATE INDEX IF NOT EXISTS bf_idx_tx_hash ON tx USING HASH (encode(hash, 'hex'));
+CREATE UNIQUE INDEX IF NOT EXISTS bf_u_idx_epoch_stake_epoch_and_id ON epoch_stake (epoch_no, id);
+```
+
 ### Docker
 
 We are hosting latest release of this software on Dockerhub. To run it using Docker:
@@ -87,7 +104,7 @@ docker run --rm \
   -e BLOCKFROST_CONFIG_SERVER_LISTEN_ADDRESS=0.0.0.0 \
   -v $PWD/config:/app/config \
   blockfrost/backend-ryo:latest
- ```
+```
 
 ### Nix
 
@@ -96,7 +113,6 @@ To start the Blockfrost backend under nix, just run:
 ```console
 $(nix-build -A blockfrost-backend --no-out-link)/bin/blockfrost-backend
 ```
-
 
 ## Developing
 

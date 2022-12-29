@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] -
 
+## [1.2.0] - 2022-12-14
+
 ### Added
 
 - `address` field to `/addresses/{address}/utxos` and `/addresses/{address}/utxos/{asset}`
@@ -18,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - `/addresses/{address}/utxos/{asset}` asset validation for `/lovelace`
+- 400 handling of invalid POST routes
 
 ## [1.1.1] - 2022-12-07
 
