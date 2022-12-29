@@ -42,8 +42,6 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        if (request.params.asset === 'lovelace') console.log('LOVELACE');
-
         if (request.params.asset !== 'lovelace') {
           const query404_asset = await clientDbSync.query<QueryTypes.ResultFound>(
             SQLQuery.get('assets_404'),
