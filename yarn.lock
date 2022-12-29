@@ -72,9 +72,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockfrost/blockfrost-utils@npm:2.0.1-beta.1":
-  version: 2.0.1-beta.1
-  resolution: "@blockfrost/blockfrost-utils@npm:2.0.1-beta.1"
+"@blockfrost/blockfrost-utils@npm:2.1.0":
+  version: 2.1.0
+  resolution: "@blockfrost/blockfrost-utils@npm:2.1.0"
   dependencies:
     "@emurgo/cardano-serialization-lib-nodejs": ^11.2.1
     bech32: ^2.0.0
@@ -82,7 +82,7 @@ __metadata:
     crc: ^4.2.0
     utf-8-validate: ^5.0.10
     yaml: ^2.1.1
-  checksum: 3751d0e79c7d2a0f4ad8fbb820bd6ddc3cfea29d4a4bfab0b1f75f827a360349441552b9edc67d6ec45b0d7948ed5100264a72adf24f0fb3cce6b225f23125b2
+  checksum: f4021d854564e2a4cff3580ea681c76fa6d796f471918dddec5a50ab98c340e72f01d0c14121dc080025dc4925f951556d48ac93b7b032c45ed0f7cf9a3023e5
   languageName: node
   linkType: hard
 
@@ -96,13 +96,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockfrost/openapi@npm:0.1.51-beta.2":
-  version: 0.1.51-beta.2
-  resolution: "@blockfrost/openapi@npm:0.1.51-beta.2"
+"@blockfrost/openapi@npm:0.1.51":
+  version: 0.1.51
+  resolution: "@blockfrost/openapi@npm:0.1.51"
   dependencies:
     "@redocly/openapi-cli": ^1.0.0-beta.95
-    yaml: ^2.1.3
-  checksum: 8dc3ec3d47ab2ac63920bdec20caf2541e13a361f4f3bf6e66b153ed8728900eae05450ab0720efc3884d8d1d736a09dae7c1c37a54b414cace0ee7d7f8f8e28
+    yaml: ^2.2.0
+  checksum: c7e8097df3798eff3bbbfeaa49bce546655f26590d5d010a26d1a1f340491d954520a9bd5376bd274d1cceaeae3f76d1146fa2aab67443e914d8da1c90ff408a
   languageName: node
   linkType: hard
 
@@ -1459,8 +1459,8 @@ __metadata:
   resolution: "blockfrost-backend-ryo@workspace:."
   dependencies:
     "@blockfrost/blockfrost-js": 5.2.0
-    "@blockfrost/blockfrost-utils": 2.0.1-beta.1
-    "@blockfrost/openapi": 0.1.51-beta.2
+    "@blockfrost/blockfrost-utils": 2.1.0
+    "@blockfrost/openapi": 0.1.51
     "@emurgo/cardano-serialization-lib-nodejs": 11.0.0
     "@emurgo/cip14-js": ^3.0.1
     "@fastify/cors": ^8.2.0
@@ -6912,6 +6912,13 @@ __metadata:
   version: 2.1.3
   resolution: "yaml@npm:2.1.3"
   checksum: 91316062324a93f9cb547469092392e7d004ff8f70c40fecb420f042a4870b2181557350da56c92f07bd44b8f7a252b0be26e6ade1f548e1f4351bdd01c9d3c7
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "yaml@npm:2.2.0"
+  checksum: 6c89da40c3c553648595a476f23f7082c17e51b268ecce7ee0464302cbc1ffc20ba86f1b876688eb9c7d8f4b71dc28efbd7b3b86bf414a959ce5150831a9233f
   languageName: node
   linkType: hard
 
