@@ -424,6 +424,29 @@ export default [
       },
     ],
   },
+  {
+    testName: 'assets/:asset - Matrix Berry reference NFT',
+    endpoints: [
+      'assets/01cecfaeda9d846c08675902b55a6371f593d9239744867462c5382e000de1404d61747269783734',
+    ],
+    response: {
+      asset: '01cecfaeda9d846c08675902b55a6371f593d9239744867462c5382e000de1404d61747269783734',
+      policy_id: '01cecfaeda9d846c08675902b55a6371f593d9239744867462c5382e',
+      asset_name: '000de1404d61747269783734',
+      fingerprint: 'asset1lnsxthf9078zkecyr057pf5kva6y9z75hr7f52',
+      quantity: '1',
+      initial_mint_tx_hash: '709ba2b7f511b3a3f03eead6f931f3e914edac03aa3cce58078376e9081ff9bc',
+      mint_or_burn_count: 1,
+      onchain_metadata: {
+        description: '',
+        id: 99,
+        image: 'ipfs://QmYNyQbwLCYvjP743Jnud1bozcFPDSXFyYNYUmfQjYs5AQ',
+        name: 'Matrix Berry #99',
+      },
+      onchain_metadata_standard: 'CIP68v1',
+      metadata: null,
+    },
+  },
   // TODO: registry is currently flapping
   // {
   //   testName: 'assets/:asset - all hail nutcoin!',

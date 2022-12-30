@@ -167,6 +167,69 @@ export const success = [
       'f889c4b5ed1811f3089603b02ae096298b114e140d82c8a20521ae25d248bc1f',
     ],
   },
+  {
+    testName: 'addresses/:address/extended address with Matrix Berry',
+    endpoints: [
+      'addresses/addr1q80z6se4x0hnxczyw7psscmlhq2zegxdjp70d2r05muk7u3u530vfvhy4en46832ld3zahkzm3l2ct0uu7txa7gtwukqmgkgva/extended',
+    ],
+    response: {
+      address:
+        'addr1q80z6se4x0hnxczyw7psscmlhq2zegxdjp70d2r05muk7u3u530vfvhy4en46832ld3zahkzm3l2ct0uu7txa7gtwukqmgkgva',
+      amount: [
+        {
+          unit: 'lovelace',
+          quantity: '58470546',
+          decimals: 6,
+          has_nft_onchain_metadata: false,
+        },
+        {
+          unit: '01cecfaeda9d846c08675902b55a6371f593d9239744867462c5382e000de1404d61747269783734',
+          quantity: '1',
+          decimals: null,
+          has_nft_onchain_metadata: true,
+        },
+        {
+          unit: '086849cd9f672e731e0d9590a2d28a6a690ffa2f73bae0e1970f04914754494a3038323234',
+          quantity: '1',
+          decimals: null,
+          has_nft_onchain_metadata: true,
+        },
+        {
+          unit: '754b103922978d3e4969d36420239f0cfd8604ebbf094996e4c20c134e465432545245453032353432',
+          quantity: '1',
+          decimals: null,
+          has_nft_onchain_metadata: true,
+        },
+        {
+          unit: '884892bcdc360bcef87d6b3f806e7f9cd5ac30d999d49970e7a903ae5041564941',
+          quantity: '1890',
+          decimals: 0,
+          has_nft_onchain_metadata: false,
+        },
+        {
+          unit: 'b024c9cbca03eb9ab49330b69ecd18a7619fcf39f3c34bd783ea360f43464a4232303032483031323431',
+          quantity: '1',
+          decimals: null,
+          has_nft_onchain_metadata: true,
+        },
+        {
+          unit: 'e282271ec9251ba23fb123b0f53618b35cf5a6cde4170c003a0ebf13424a533131333037',
+          quantity: '1',
+          decimals: null,
+          has_nft_onchain_metadata: true,
+        },
+        {
+          unit: 'fbfef0c4d74ae29cb8e2f80bb58cb2ea22d023a0f427214a9c10d0d15468654d616e6472696c6c7a576f726c64637570313832233733',
+          quantity: '1',
+          decimals: null,
+          has_nft_onchain_metadata: true,
+        },
+      ],
+      stake_address: 'stake1uy72ghkyktj2ue6arc40kc3wmmpdcl4v9h7w09nwly9hwtqmhzcrk',
+      type: 'shelley',
+      script: false,
+    },
+  },
   // TODO: registry is currently flapping
   // {
   //   testName: 'addresses/:address/extended address with nutcoin',
