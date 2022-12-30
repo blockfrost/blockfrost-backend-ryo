@@ -142,8 +142,13 @@ async function addresses(fastify: FastifyInstance) {
           for (const asset of rows[0].amount) {
             const unit = `${asset.policy_id}${asset.asset_name}`;
             const registryData = await fetchAssetMetadata(unit);
+            let decimals = registryData?.decimals ?? null;
 
-            let onchainMetadata: unknown | null = null;
+            let onchainMetadata:
+              | ReturnType<typeof getOnchainMetadata>['onchainMetadata']
+              | Extract<ReturnType<typeof validateCIP68Metadata>, { metadata: unknown }>['metadata']
+              | null = null;
+
             const referenceNFT = getReferenceNFT(unit);
 
             if (referenceNFT) {
@@ -159,7 +164,11 @@ async function addresses(fastify: FastifyInstance) {
                 const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
 
                 if (result) {
-                  onchainMetadata = datumMetadata;
+                  onchainMetadata = result.metadata;
+                  decimals =
+                    referenceNFT.standard === 'ft' && typeof result.metadata.decimals === 'number'
+                      ? result.metadata.decimals
+                      : decimals;
                 }
               }
             }
@@ -178,7 +187,7 @@ async function addresses(fastify: FastifyInstance) {
             assetsAmount.push({
               unit: unit,
               quantity: asset.quantity,
-              decimals: registryData?.decimals ?? null,
+              decimals: decimals,
               has_nft_onchain_metadata: onchainMetadata !== null,
             });
           }
