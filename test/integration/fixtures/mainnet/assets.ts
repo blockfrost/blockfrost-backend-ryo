@@ -439,9 +439,9 @@ export default [
       mint_or_burn_count: 1,
       onchain_metadata: {
         description: '',
-        id: 99,
-        image: 'ipfs://QmYNyQbwLCYvjP743Jnud1bozcFPDSXFyYNYUmfQjYs5AQ',
-        name: 'Matrix Berry #99',
+        id: 74,
+        image: 'ipfs://QmcRUC912FgyxV8fGqJnnnMSHxkxzwmeG6s5eEMJRRF1RN',
+        name: 'Matrix Berry #74',
       },
       onchain_metadata_standard: 'CIP68v1',
       metadata: null,
