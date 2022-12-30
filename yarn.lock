@@ -72,17 +72,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockfrost/blockfrost-utils@npm:2.1.0":
-  version: 2.1.0
-  resolution: "@blockfrost/blockfrost-utils@npm:2.1.0"
+"@blockfrost/blockfrost-utils@npm:2.1.1-beta.0":
+  version: 2.1.1-beta.0
+  resolution: "@blockfrost/blockfrost-utils@npm:2.1.1-beta.0"
   dependencies:
     "@emurgo/cardano-serialization-lib-nodejs": ^11.2.1
     bech32: ^2.0.0
     cbor: ^8.1.0
     crc: ^4.2.0
-    utf-8-validate: ^5.0.10
     yaml: ^2.1.1
-  checksum: f4021d854564e2a4cff3580ea681c76fa6d796f471918dddec5a50ab98c340e72f01d0c14121dc080025dc4925f951556d48ac93b7b032c45ed0f7cf9a3023e5
+  checksum: adff2e3a4dfcf902d2c6ebcf24924e6fa66292b9bac83809fc0df3096503fc69309fec2d9dbbeb60bc63be2d83459a9d54dd0724407b320448b7c700fc89ffab
   languageName: node
   linkType: hard
 
@@ -1459,7 +1458,7 @@ __metadata:
   resolution: "blockfrost-backend-ryo@workspace:."
   dependencies:
     "@blockfrost/blockfrost-js": 5.2.0
-    "@blockfrost/blockfrost-utils": 2.1.0
+    "@blockfrost/blockfrost-utils": 2.1.1-beta.0
     "@blockfrost/openapi": 0.1.51
     "@emurgo/cardano-serialization-lib-nodejs": 11.0.0
     "@emurgo/cip14-js": ^3.0.1
@@ -4588,17 +4587,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-gyp-build@npm:^4.3.0":
-  version: 4.5.0
-  resolution: "node-gyp-build@npm:4.5.0"
-  bin:
-    node-gyp-build: bin.js
-    node-gyp-build-optional: optional.js
-    node-gyp-build-test: build-test.js
-  checksum: d888bae0fb88335f69af1b57a2294a931c5042f36e413d8d364c992c9ebfa0b96ffe773179a5a2c8f04b73856e8634e09cce108dbb9804396d3cc8c5455ff2db
-  languageName: node
-  linkType: hard
-
 "node-gyp@npm:latest":
   version: 7.1.2
   resolution: "node-gyp@npm:7.1.2"
@@ -6621,16 +6609,6 @@ __metadata:
   dependencies:
     punycode: ^2.1.0
   checksum: 7167432de6817fe8e9e0c9684f1d2de2bb688c94388f7569f7dbdb1587c9f4ca2a77962f134ec90be0cc4d004c939ff0d05acc9f34a0db39a3c797dada262633
-  languageName: node
-  linkType: hard
-
-"utf-8-validate@npm:^5.0.10":
-  version: 5.0.10
-  resolution: "utf-8-validate@npm:5.0.10"
-  dependencies:
-    node-gyp: latest
-    node-gyp-build: ^4.3.0
-  checksum: 5579350a023c66a2326752b6c8804cc7b39dcd251bb088241da38db994b8d78352e388dcc24ad398ab98385ba3c5ffcadb6b5b14b2637e43f767869055e46ba6
   languageName: node
   linkType: hard
 

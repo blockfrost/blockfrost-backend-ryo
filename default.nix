@@ -45,7 +45,6 @@ rec {
 
       buildInputs = [
         nodejs-16_x
-        python3 # due to node-gyp
         (yarn.override { nodejs = nodejs-16_x; })
       ];
 
