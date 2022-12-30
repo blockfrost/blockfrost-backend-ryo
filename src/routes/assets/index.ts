@@ -89,7 +89,7 @@ async function assets(fastify: FastifyInstance) {
             const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
 
             if (result) {
-              onchainMetadata = datumMetadata;
+              onchainMetadata = datumMetadata?.metadata;
               onchainMetadataStandard = result.version;
             }
           }
