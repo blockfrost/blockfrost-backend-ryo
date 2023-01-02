@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- split routes into files
 - fastify deps upgrade
 - Support for CIP68 onchain metadata in `/assets/{asset}` and `/addresses/{address}/extended`
 

@@ -1,10 +1,11 @@
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance } from 'fastify';
 import fs from 'fs';
+
 import * as ResponseTypes from '../../types/responses/health';
 import { getDbSync } from '../../utils/database';
-import { getSchemaForEndpoint } from '@blockfrost/openapi';
 
-async function health(fastify: FastifyInstance) {
+async function route(fastify: FastifyInstance) {
   fastify.route({
     url: '/health',
     method: 'GET',
@@ -31,17 +32,6 @@ async function health(fastify: FastifyInstance) {
       reply.send(response);
     },
   });
-
-  fastify.route({
-    url: '/health/clock',
-    method: 'GET',
-    schema: getSchemaForEndpoint('/health/clock'),
-    handler: async (_request, reply) => {
-      const response: ResponseTypes.HealthClock = { server_time: Date.now() };
-
-      reply.send(response);
-    },
-  });
 }
 
-module.exports = health;
+export default route;

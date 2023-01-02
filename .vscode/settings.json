@@ -8,12 +8,15 @@
     "emurgo",
     "fastify",
     "milkomeda",
+    "mirs",
     "nutcoin",
     "nutlink",
     "openapi",
     "preprod",
     "ts",
-    "utxo"
+    "utxo",
+    "utxos",
+    "xpub"
   ],
   "search.exclude": {
     "**/.yarn": true,
