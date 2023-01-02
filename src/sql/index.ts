@@ -27,6 +27,7 @@ const QUERY_FILES = {
   assets_asset_addresses: 'assets/assets_asset_addresses.sql',
   assets_asset_transactions: 'assets/assets_asset_transactions.sql',
   assets_asset_txs: 'assets/assets_asset_txs.sql',
+  assets_asset_utxo_datum: 'assets/assets_asset_utxo_datum.sql',
   assets_404: 'assets/assets_404.sql',
   assets_policy_policy_id: 'assets/assets_policy_policy_id.sql',
   assets_policy_404: 'assets/assets_policy_404.sql',
