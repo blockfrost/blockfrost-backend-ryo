@@ -1,6 +1,7 @@
+import { getReferenceNFT } from '@blockfrost/blockfrost-utils/lib/cip68';
 import { handleInvalidAsset } from '@blockfrost/blockfrost-utils/lib/fastify';
 import { validateAsset } from '@blockfrost/blockfrost-utils/lib/validation';
-import { getSchemaForEndpoint, validateSchema } from '@blockfrost/openapi';
+import { getSchemaForEndpoint, validateCIP68Metadata } from '@blockfrost/openapi';
 import { getOnchainMetadata } from '@blockfrost/openapi';
 import AssetFingerprint from '@emurgo/cip14-js';
 import { FastifyInstance, FastifyRequest } from 'fastify';

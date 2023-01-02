@@ -1,16 +1,24 @@
-import { getOnchainMetadata, getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
-import { SQLQuery } from '../../../sql';
 import * as QueryTypes from '../../../types/queries/addresses';
+import * as AssetQueryTypes from '../../../types/queries/assets';
 import * as ResponseTypes from '../../../types/responses/addresses';
 import { getDbSync } from '../../../utils/database';
+import {
+  getSchemaForEndpoint,
+  getOnchainMetadata,
+  validateCIP68Metadata,
+} from '@blockfrost/openapi';
 import { handle404, handleInvalidAddress } from '../../../utils/error-handler';
-import { fetchAssetMetadata } from '../../../utils/token-registry';
 import {
   getAddressTypeAndPaymentCred,
   paymentCredToBech32Address,
 } from '../../../utils/validation';
+import { SQLQuery } from '../../../sql';
+import { fetchAssetMetadata } from '../../../utils/token-registry';
+import {
+  getMetadataFromOutputDatum,
+  getReferenceNFT,
+} from '@blockfrost/blockfrost-utils/lib/cip68';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
