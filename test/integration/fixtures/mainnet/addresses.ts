@@ -230,53 +230,52 @@ export const success = [
       script: false,
     },
   },
-  // TODO: registry is currently flapping
-  // {
-  //   testName: 'addresses/:address/extended address with nutcoin',
-  //   endpoints: [
-  //     'addresses/addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w/extended',
-  //   ],
-  //   response: {
-  //     address:
-  //       'addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w',
-  //     amount: [
-  //       { unit: 'lovelace', quantity: '5368142', decimals: 6, has_nft_onchain_metadata: false },
-  //       {
-  //         unit: '00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e',
-  //         quantity: '1',
-  //         decimals: null,
-  //         has_nft_onchain_metadata: false,
-  //       },
-  //       {
-  //         unit: '432749982ba3bd2d969715860bb27f9efab8ab6ba7bd1e94a1a2982950414e4441',
-  //         quantity: '1000000',
-  //         decimals: null,
-  //         has_nft_onchain_metadata: true,
-  //       },
-  //       {
-  //         unit: 'aa1b03c6a49951282e9a68b17133a814f4c603f85be469e22869ecb4726561646d65',
-  //         quantity: '1',
-  //         decimals: null,
-  //         has_nft_onchain_metadata: true,
-  //       },
-  //       {
-  //         unit: 'b43131f2c82825ee3d81705de0896c611f35ed38e48e33a3bdf298dc43727970746f4d6167653033373930',
-  //         quantity: '1',
-  //         decimals: null,
-  //         has_nft_onchain_metadata: true,
-  //       },
-  //       {
-  //         unit: 'd5e6bf0500378d4f0da4e8dde6becec7621cd8cbf5cbb9b87013d4cc537061636542756431303433',
-  //         quantity: '1',
-  //         decimals: null,
-  //         has_nft_onchain_metadata: true,
-  //       },
-  //     ],
-  //     stake_address: 'stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja',
-  //     type: 'shelley',
-  //     script: false,
-  //   },
-  // },
+  {
+    testName: 'addresses/:address/extended address with nutcoin',
+    endpoints: [
+      'addresses/addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w/extended',
+    ],
+    response: {
+      address:
+        'addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w',
+      amount: [
+        { unit: 'lovelace', quantity: '5368142', decimals: 6, has_nft_onchain_metadata: false },
+        {
+          unit: '00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e',
+          quantity: '1',
+          decimals: null,
+          has_nft_onchain_metadata: false,
+        },
+        {
+          unit: '432749982ba3bd2d969715860bb27f9efab8ab6ba7bd1e94a1a2982950414e4441',
+          quantity: '1000000',
+          decimals: null,
+          has_nft_onchain_metadata: true,
+        },
+        {
+          unit: 'aa1b03c6a49951282e9a68b17133a814f4c603f85be469e22869ecb4726561646d65',
+          quantity: '1',
+          decimals: null,
+          has_nft_onchain_metadata: true,
+        },
+        {
+          unit: 'b43131f2c82825ee3d81705de0896c611f35ed38e48e33a3bdf298dc43727970746f4d6167653033373930',
+          quantity: '1',
+          decimals: null,
+          has_nft_onchain_metadata: true,
+        },
+        {
+          unit: 'd5e6bf0500378d4f0da4e8dde6becec7621cd8cbf5cbb9b87013d4cc537061636542756431303433',
+          quantity: '1',
+          decimals: null,
+          has_nft_onchain_metadata: true,
+        },
+      ],
+      stake_address: 'stake1u9e45fvvd4ujpc0kka0pnx9zqdvh9wl96nsg6sje0f5hmfq45lrja',
+      type: 'shelley',
+      script: false,
+    },
+  },
   {
     testName: 'addresses/:address/extended BF address without tokens',
     endpoints: [
