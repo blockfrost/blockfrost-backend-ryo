@@ -1,13 +1,8 @@
-select
-    encode(d.bytes, 'hex') as cbor
-from
-    tx_out txo
-    join ma_tx_out mto on (txo.id = mto.tx_out_id)
-    join datum d on (d.tx_id = txo.tx_id)
-    join multi_asset ma on (mto.ident = ma.id)
-where
-    (encode(policy, 'hex') || encode(name, 'hex')) = $1
-order by
-    d.tx_id desc
-limit
-    1;
+SELECT encode(d.bytes, 'hex') as "cbor"
+FROM tx_out txo
+    JOIN ma_tx_out mto ON (txo.id = mto.tx_out_id)
+    JOIN datum d ON (d.tx_id = txo.tx_id)
+    JOIN multi_asset ma ON (mto.ident = ma.id)
+WHERE (encode(policy, 'hex') || encode(name, 'hex')) = $1
+ORDER BY d.tx_id DESC
+LIMIT 1;
