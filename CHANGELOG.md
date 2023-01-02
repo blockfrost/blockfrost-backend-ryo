@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] -
 
+### Changed
+
+- fastify deps upgrade
+- Support for CIP68 onchain metadata in `/assets/{asset}` and `/addresses/{address}/extended`
+
 ## [1.2.0] - 2022-12-14
 
 ### Added

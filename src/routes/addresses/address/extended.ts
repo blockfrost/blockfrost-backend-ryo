@@ -57,16 +57,52 @@ async function route(fastify: FastifyInstance) {
           for (const asset of rows[0].amount) {
             const unit = `${asset.policy_id}${asset.asset_name}`;
             const registryData = await fetchAssetMetadata(unit);
-            const { onchainMetadata } = getOnchainMetadata(
-              asset.onchain_metadata,
-              asset.asset_name,
-              asset.policy_id,
-            );
+            let decimals = registryData?.decimals ?? null;
+
+            let onchainMetadata:
+              | ReturnType<typeof getOnchainMetadata>['onchainMetadata']
+              | Extract<ReturnType<typeof validateCIP68Metadata>, { metadata: unknown }>['metadata']
+              | null = null;
+
+            const referenceNFT = getReferenceNFT(unit);
+
+            if (referenceNFT) {
+              // asset is NFT 222 or FT 333, retrieve its reference NFT metadata (CIP68)
+              const { rows } = await clientDbSync.query<AssetQueryTypes.AssetOutputDatum>(
+                SQLQuery.get('assets_asset_utxo_datum'),
+                [referenceNFT.hex],
+              );
+              const datumHex = rows[0].cbor;
+
+              if (datumHex) {
+                const datumMetadata = getMetadataFromOutputDatum(datumHex);
+                const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
+
+                if (result) {
+                  onchainMetadata = result.metadata;
+                  decimals =
+                    referenceNFT.standard === 'ft' && typeof result.metadata.decimals === 'number'
+                      ? result.metadata.decimals
+                      : decimals;
+                }
+              }
+            }
+
+            if (!onchainMetadata) {
+              // validate CIP25 on-chain metadata if CIP68 metadata are not present (or not valid)
+              const { onchainMetadata: CIP25OnchainMetadata } = getOnchainMetadata(
+                asset.onchain_metadata,
+                asset.asset_name,
+                asset.policy_id,
+              );
+
+              onchainMetadata = CIP25OnchainMetadata;
+            }
 
             assetsAmount.push({
               unit: unit,
               quantity: asset.quantity,
-              decimals: registryData?.decimals ?? null,
+              decimals: decimals,
               has_nft_onchain_metadata: onchainMetadata !== null,
             });
           }

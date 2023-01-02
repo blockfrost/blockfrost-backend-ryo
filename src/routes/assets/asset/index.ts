@@ -7,11 +7,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 
 import { SQLQuery } from '../../../sql';
 import * as QueryTypes from '../../../types/queries/assets';
-import {
-  getMetadataFromOutputDatum,
-  ReferenceMetadataDatum,
-  toCip68Assets,
-} from '../../../utils/cip68';
+import { getMetadataFromOutputDatum } from '../../../utils/cip68';
 import { getDbSync } from '../../../utils/database';
 import { handle404 } from '../../../utils/error-handler';
 import { fetchAssetMetadata } from '../../../utils/token-registry';
@@ -41,51 +37,43 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        let referenceMetadata: ReferenceMetadataDatum | null = null;
-        const assetHex = `${rows[0].policy_id}${rows[0].asset_name}`;
-        const cip68Assets = toCip68Assets(assetHex);
-        const isFT = cip68Assets?.ft === assetHex;
-        const isNFT = cip68Assets?.nft === assetHex;
+        let onchainMetadata: unknown | null = null;
+        let onchainMetadataStandard: string | null = null;
+        const unit = `${rows[0].policy_id}${rows[0].asset_name}`;
+        const referenceNFT = getReferenceNFT(unit);
 
-        if (isFT || isNFT) {
-          // asset is NFT 222 or FT 333, retrieve its reference NFT metadata
-          const { rows } = await clientDbSync.query<any>(SQLQuery.get('assets_asset_utxo_datum'), [
-            cip68Assets.reference_nft,
-          ]);
-          const datumHex = rows[0];
+        if (referenceNFT) {
+          // asset is NFT 222 or FT 333, retrieve its reference NFT metadata (CIP68)
+          const { rows } = await clientDbSync.query<QueryTypes.AssetOutputDatum>(
+            SQLQuery.get('assets_asset_utxo_datum'),
+            [referenceNFT.hex],
+          );
+          const datumHex = rows[0].cbor;
 
           if (datumHex) {
             const datumMetadata = getMetadataFromOutputDatum(datumHex);
+            const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
 
-            if (isNFT) {
-              const { isValid: isValidNFT } = validateSchema(
-                'asset_onchain_metadata_cip68_nft_222',
-                datumMetadata,
-              );
-
-              if (isValidNFT) {
-                referenceMetadata = datumMetadata;
-              }
-            } else if (isFT) {
-              const { isValid: isValidFT } = validateSchema(
-                'asset_onchain_metadata_cip68_ft_333',
-                datumMetadata,
-              );
-
-              if (isValidFT) {
-                referenceMetadata = datumMetadata;
-              }
+            if (result) {
+              onchainMetadata = result.metadata;
+              onchainMetadataStandard = result.version;
             }
           }
         }
 
-        // Validate onchain metadata
-        const { onchainMetadata, validCIPversion } = getOnchainMetadata(
-          rows[0].onchain_metadata,
-          rows[0].asset_name,
-          rows[0].policy_id,
-        );
+        if (!onchainMetadata) {
+          // validate CIP25 on-chain metadata if CIP68 metadata are not present (or not valid)
+          const { onchainMetadata: CIP25OnchainMetadata, validCIPversion } = getOnchainMetadata(
+            rows[0].onchain_metadata,
+            rows[0].asset_name,
+            rows[0].policy_id,
+          );
 
+          onchainMetadata = CIP25OnchainMetadata;
+          onchainMetadataStandard = validCIPversion;
+        }
+
+        // retrieve off-chain metadata
         const metadata = await fetchAssetMetadata(request.params.asset);
         const fingerprint = AssetFingerprint.fromParts(
           Uint8Array.from(Buffer.from(rows[0].policy_id, 'hex')),
@@ -95,8 +83,8 @@ async function route(fastify: FastifyInstance) {
         return reply.send({
           ...rows[0],
           metadata,
-          onchain_metadata: referenceMetadata?.metadata ?? onchainMetadata,
-          onchain_metadata_standard: referenceMetadata ? 'CIP68v1' : validCIPversion,
+          onchain_metadata: onchainMetadata,
+          onchain_metadata_standard: onchainMetadataStandard,
           fingerprint,
         });
       } catch (error) {
