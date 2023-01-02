@@ -1,6 +1,6 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { isUnpaged } from '../../../utils/routes';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { SQLQuery } from '../../../sql';
 import * as QueryTypes from '../../../types/queries/addresses';
 import * as ResponseTypes from '../../../types/responses/addresses';
@@ -48,21 +48,33 @@ async function route(fastify: FastifyInstance) {
           );
         }
 
-        const { rows }: { rows: ResponseTypes.AddressTransactions } =
-          await clientDbSync.query<QueryTypes.AddressTransactionsQuery>(
-            SQLQuery.get('addresses_address_transactions'),
-            [
-              request.query.order,
-              request.query.count,
-              request.query.page,
-              request.params.address,
-              paymentCred,
-              fromToParameters[0],
-              fromToParameters[1],
-              fromToParameters[2],
-              fromToParameters[3],
-            ],
-          );
+        const { rows }: { rows: ResponseTypes.AddressTransactions } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.AddressTransactionsQuery>(
+              SQLQuery.get('addresses_address_transactions_unpaged'),
+              [
+                request.query.order,
+                request.params.address,
+                paymentCred,
+                fromToParameters[0],
+                fromToParameters[1],
+                fromToParameters[2],
+                fromToParameters[3],
+              ],
+            )
+          : await clientDbSync.query<QueryTypes.AddressTransactionsQuery>(
+              SQLQuery.get('addresses_address_transactions'),
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                request.params.address,
+                paymentCred,
+                fromToParameters[0],
+                fromToParameters[1],
+                fromToParameters[2],
+                fromToParameters[3],
+              ],
+            );
 
         clientDbSync.release();
 

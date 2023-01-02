@@ -1,6 +1,6 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { isUnpaged } from '../../../utils/routes';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { getConfig } from '../../../config';
 import { GENESIS } from '../../../constants/genesis';
 import { SQLQuery } from '../../../sql';
@@ -37,13 +37,17 @@ async function route(fastify: FastifyInstance) {
         const network = getConfig().network;
         const epochLength = GENESIS[network].epoch_length;
 
-        const { rows }: { rows: ResponseTypes.Epoch[] } =
-          await clientDbSync.query<QueryTypes.Epoch>(SQLQuery.get('epochs_number_previous'), [
-            request.params.number,
-            request.query.count,
-            request.query.page,
-            epochLength,
-          ]);
+        const { rows }: { rows: ResponseTypes.Epoch[] } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.Epoch>(
+              SQLQuery.get('epochs_number_previous_unpaged'),
+              [request.params.number, epochLength],
+            )
+          : await clientDbSync.query<QueryTypes.Epoch>(SQLQuery.get('epochs_number_previous'), [
+              request.params.number,
+              request.query.count,
+              request.query.page,
+              epochLength,
+            ]);
 
         clientDbSync.release();
 

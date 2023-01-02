@@ -1,4 +1,6 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../../utils/routes';
+import * as ResponseTypes from '../../../types/responses/blocks';
 import * as QueryTypes from '../../../types/queries/blocks';
 import { getDbSync } from '../../../utils/database';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
@@ -41,10 +43,15 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows } = await clientDbSync.query<QueryTypes.Block>(
-          SQLQuery.get('blocks_hash_or_number_addresses'),
-          [request.params.hash_or_number, request.query.count, request.query.page],
-        );
+        const { rows }: { rows: ResponseTypes.BlockAddresses } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.BlockAddresses>(
+              SQLQuery.get('blocks_hash_or_number_addresses_unpaged'),
+              [request.params.hash_or_number],
+            )
+          : await clientDbSync.query<QueryTypes.BlockAddresses>(
+              SQLQuery.get('blocks_hash_or_number_addresses'),
+              [request.params.hash_or_number, request.query.count, request.query.page],
+            );
 
         clientDbSync.release();
 

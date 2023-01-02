@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../../utils/routes';
 import * as QueryTypes from '../../../types/queries/metadata';
 import * as ResponseTypes from '../../../types/responses/metadata';
 import { getDbSync } from '../../../utils/database';
@@ -14,11 +15,15 @@ async function route(fastify: FastifyInstance) {
       const clientDbSync = await getDbSync(fastify);
 
       try {
-        const { rows }: { rows: ResponseTypes.MetadataTxLabels } =
-          await clientDbSync.query<QueryTypes.MetadataTxLabels>(
-            SQLQuery.get('metadata_txs_labels'),
-            [request.query.order, request.query.count, request.query.page],
-          );
+        const { rows }: { rows: ResponseTypes.MetadataTxLabels } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.MetadataTxLabels>(
+              SQLQuery.get('metadata_txs_labels_unpaged'),
+              [request.query.order],
+            )
+          : await clientDbSync.query<QueryTypes.MetadataTxLabels>(
+              SQLQuery.get('metadata_txs_labels'),
+              [request.query.order, request.query.count, request.query.page],
+            );
 
         clientDbSync.release();
 

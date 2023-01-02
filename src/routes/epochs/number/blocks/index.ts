@@ -1,6 +1,6 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { isUnpaged } from '../../../../utils/routes';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { SQLQuery } from '../../../../sql';
 import * as QueryTypes from '../../../../types/queries/epochs';
 import { getDbSync } from '../../../../utils/database';
@@ -31,10 +31,17 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows } = await clientDbSync.query<QueryTypes.EpochBlocks>(
-          SQLQuery.get('epochs_number_blocks'),
-          [request.query.order, request.query.count, request.query.page, request.params.number],
-        );
+        const { rows } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.EpochBlocks>(
+              SQLQuery.get('epochs_number_blocks_unpaged'),
+              [request.query.order, request.params.number],
+            )
+          : await clientDbSync.query<QueryTypes.EpochBlocks>(SQLQuery.get('epochs_number_blocks'), [
+              request.query.order,
+              request.query.count,
+              request.query.page,
+              request.params.number,
+            ]);
 
         clientDbSync.release();
 

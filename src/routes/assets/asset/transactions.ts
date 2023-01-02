@@ -1,8 +1,8 @@
 import { handleInvalidAsset } from '@blockfrost/blockfrost-utils/lib/fastify';
+import { isUnpaged } from '../../../utils/routes';
 import { validateAsset } from '@blockfrost/blockfrost-utils/lib/validation';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { SQLQuery } from '../../../sql';
 import * as QueryTypes from '../../../types/queries/assets';
 import * as ResponseTypes from '../../../types/responses/assets';
@@ -34,11 +34,15 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.AssetTransactions } =
-          await clientDbSync.query<QueryTypes.AssetTransactions>(
-            SQLQuery.get('assets_asset_transactions'),
-            [request.query.order, request.query.count, request.query.page, request.params.asset],
-          );
+        const { rows }: { rows: ResponseTypes.AssetTransactions } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.AssetTransactions>(
+              SQLQuery.get('assets_asset_transactions_unpaged'),
+              [request.query.order, request.params.asset],
+            )
+          : await clientDbSync.query<QueryTypes.AssetTransactions>(
+              SQLQuery.get('assets_asset_transactions'),
+              [request.query.order, request.query.count, request.query.page, request.params.asset],
+            );
 
         clientDbSync.release();
 

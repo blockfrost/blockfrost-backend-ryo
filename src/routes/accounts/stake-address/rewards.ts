@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../../utils/routes';
 import * as ResponseTypes from '../../../types/responses/accounts';
 import * as QueryTypes from '../../../types/queries/accounts';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
@@ -34,16 +35,20 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.AccountRewards } =
-          await clientDbSync.query<QueryTypes.AccountRewards>(
-            SQLQuery.get('accounts_stake_address_rewards'),
-            [
-              request.query.order,
-              request.query.count,
-              request.query.page,
-              request.params.stake_address,
-            ],
-          );
+        const { rows }: { rows: ResponseTypes.AccountRewards } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.AccountRewards>(
+              SQLQuery.get('accounts_stake_address_rewards_unpaged'),
+              [request.query.order, request.params.stake_address],
+            )
+          : await clientDbSync.query<QueryTypes.AccountRewards>(
+              SQLQuery.get('accounts_stake_address_rewards'),
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                request.params.stake_address,
+              ],
+            );
 
         clientDbSync.release();
 

@@ -1,6 +1,6 @@
-import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
+import { isUnpaged } from '../../utils/routes';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { SQLQuery } from '../../sql';
 import * as QueryTypes from '../../types/queries/pools';
 import * as ResponseTypes from '../../types/responses/pools';
@@ -15,12 +15,16 @@ async function route(fastify: FastifyInstance) {
       const clientDbSync = await getDbSync(fastify);
 
       try {
-        const { rows }: { rows: ResponseTypes.PoolRetire } =
-          await clientDbSync.query<QueryTypes.PoolsRetire>(SQLQuery.get('pools_retiring'), [
-            request.query.order,
-            request.query.count,
-            request.query.page,
-          ]);
+        const { rows }: { rows: ResponseTypes.PoolRetire } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.PoolsRetire>(
+              SQLQuery.get('pools_retiring_unpaged'),
+              [request.query.order],
+            )
+          : await clientDbSync.query<QueryTypes.PoolsRetire>(SQLQuery.get('pools_retiring'), [
+              request.query.order,
+              request.query.count,
+              request.query.page,
+            ]);
 
         clientDbSync.release();
 

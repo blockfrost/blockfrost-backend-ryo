@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../../utils/routes';
 import * as ResponseTypes from '../../../types/responses/accounts';
 import * as QueryTypes from '../../../types/queries/accounts';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
@@ -34,16 +35,20 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.AccountWithdrawalsAndMirs } =
-          await clientDbSync.query<QueryTypes.AccountWithdrawalsAndMirs>(
-            SQLQuery.get('accounts_stake_address_mirs'),
-            [
-              request.query.order,
-              request.query.count,
-              request.query.page,
-              request.params.stake_address,
-            ],
-          );
+        const { rows }: { rows: ResponseTypes.AccountWithdrawalsAndMirs } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.AccountWithdrawalsAndMirs>(
+              SQLQuery.get('accounts_stake_address_mirs_unpaged'),
+              [request.query.order, request.params.stake_address],
+            )
+          : await clientDbSync.query<QueryTypes.AccountWithdrawalsAndMirs>(
+              SQLQuery.get('accounts_stake_address_mirs'),
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                request.params.stake_address,
+              ],
+            );
 
         clientDbSync.release();
 
