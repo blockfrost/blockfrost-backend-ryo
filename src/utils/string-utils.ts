@@ -68,6 +68,7 @@ export const getAdditionalParametersFromRequest = (
   return parameterArray;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const sortKeysInObject = (object: any) => {
   if (object === null || typeof object !== 'object') return object;
 
