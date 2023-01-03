@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `/addresses/{address}/utxos/{asset}` asset validation for `/lovelace`
 - 400 handling of invalid POST routes
+- `/network/eras` endpoint returning incorrect latest epoch boundary
 
 ## [1.1.1] - 2022-12-07
 
