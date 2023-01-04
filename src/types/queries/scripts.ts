@@ -56,6 +56,7 @@ export interface ScriptHashRedeemers {
 }
 
 export interface DatumHash {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json_value: any;
 }
 
@@ -64,6 +65,7 @@ export interface DatumHashCbor {
 }
 
 export interface ScriptHashJson {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any;
 }
 export interface ScriptHashCbor {

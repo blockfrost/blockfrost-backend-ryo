@@ -24,7 +24,7 @@ const response_network = {
   stake: { live: '23204521899908362', active: '23210733595257321' },
 };
 
-const query_last_epoch_mainnet = [{ epoch: 376 }];
+const query_last_epoch_mainnet = [{ epoch: 376, epoch_slot: 1 }];
 const query_param_proposal_mainnet = [
   { epoch: 235, protocol_major: 3 },
   { epoch: 250, protocol_major: 4 },
@@ -127,9 +127,9 @@ const response_eras_mainnet =
       epoch: 365
     },
     end: {
-      time: 163296000,
-      slot: 77932800,
-      epoch: 378
+      time: 162864000,
+      slot: 77500800,
+      epoch: 377
     },
     parameters: {
       epoch_length: 432000,
@@ -139,7 +139,7 @@ const response_eras_mainnet =
   }
 ];
 
-const query_last_epoch_testnet = [{ epoch: 242 }];
+const query_last_epoch_testnet = [{ epoch: 242, epoch_slot: 1 }];
 const query_param_proposal_testnet = [
   { epoch: 101, protocol_major: 3 },
   { epoch: 111, protocol_major: 4 },
@@ -241,9 +241,9 @@ const response_eras_testnet = [
       epoch: 215
     },
     end: {
-      time: 105408000,
-      slot: 75038400,
-      epoch: 244
+      time: 104976000,
+      slot: 74606400,
+      epoch: 243
     },
     parameters: {
       epoch_length: 432000,
@@ -253,7 +253,7 @@ const response_eras_testnet = [
   }
 ];
 
-const query_last_epoch_preprod = [{ epoch: 33 }];
+const query_last_epoch_preprod = [{ epoch: 33, epoch_slot: 1 }];
 const query_param_proposal_preprod = [
   { epoch: 4, protocol_major: 3 },
   { epoch: 5, protocol_major: 4 },
@@ -355,9 +355,9 @@ const response_eras_preprod = [
       epoch: 12
     },
     end: {
-      time: 15120000,
-      slot: 13478400,
-      epoch: 35
+      time: 14688000,
+      slot: 13046400,
+      epoch: 34
     },
     parameters: {
       epoch_length: 432000,
@@ -367,7 +367,7 @@ const response_eras_preprod = [
   }
 ];
 
-const query_last_epoch_preview = [{ epoch: 25 }];
+const query_last_epoch_preview = [{ epoch: 25, epoch_slot: 1 }];
 const query_param_proposal_preview = [
   { epoch: 2, protocol_major: 7 },
   { epoch: 21, protocol_major: 8 },
@@ -466,9 +466,9 @@ const response_eras_preview = [
       epoch: 3
     },
     end: {
-      time: 2332800,
-      slot: 2332800,
-      epoch: 27
+      time: 2246400,
+      slot: 2246400,
+      epoch: 26
     },
     parameters: {
       epoch_length: 86400,
@@ -477,6 +477,115 @@ const response_eras_preview = [
     }
   }
 ];
+
+// within safe zone
+const query_last_epoch_preview_safe = [{ epoch: 70, epoch_slot: 65536 }];
+
+const response_eras_preview_safe = [
+  {
+    start: {
+      time: 0,
+      slot: 0,
+      epoch: 0
+    },
+    end: {
+      time: 0,
+      slot: 0,
+      epoch: 0
+    },
+    parameters: {
+      epoch_length: 4320,
+      slot_length: 20,
+      safe_zone: 864
+    }
+  },
+  {
+    start: {
+      time: 0,
+      slot: 0,
+      epoch: 0
+    },
+    end: {
+      time: 0,
+      slot: 0,
+      epoch: 0
+    },
+    parameters: {
+      epoch_length: 86400,
+      slot_length: 1,
+      safe_zone: 25920
+    }
+  },
+  {
+    start: {
+      time: 0,
+      slot: 0,
+      epoch: 0
+    },
+    end: {
+      time: 0,
+      slot: 0,
+      epoch: 0
+    },
+    parameters: {
+      epoch_length: 86400,
+      slot_length: 1,
+      safe_zone: 25920
+    }
+  },
+  {
+    start: {
+      time: 0,
+      slot: 0,
+      epoch: 0
+    },
+    end: {
+      time: 0,
+      slot: 0,
+      epoch: 0
+    },
+    parameters: {
+      epoch_length: 86400,
+      slot_length: 1,
+      safe_zone: 25920
+    }
+  },
+  {
+    start: {
+      time: 0,
+      slot: 0,
+      epoch: 0
+    },
+    end: {
+      time: 259200,
+      slot: 259200,
+      epoch: 3
+    },
+    parameters: {
+      epoch_length: 86400,
+      slot_length: 1,
+      safe_zone: 25920
+    }
+  },
+  {
+    start: {
+      time: 259200,
+      slot: 259200,
+      epoch: 3
+    },
+    end: {
+      time: 6220800,
+      slot: 6220800,
+      epoch: 72
+    },
+    parameters: {
+      epoch_length: 86400,
+      slot_length: 1,
+      safe_zone: 25920
+    }
+  }
+];
+
 
 const response_500 = {
   error: 'Internal Server Error',
@@ -551,6 +660,18 @@ export default [
     },
     network: 'preview',
     response: response_eras_preview,
+  },
+  {
+    name: 'PREVIEW: respond with success and data on /network/eras when within safe zone',
+    endpoint: '/network/eras',
+    sqlQueryMock: {
+      rows: query_last_epoch_preview_safe,
+    },
+    sqlQueryMock2: {
+      rows: query_param_proposal_preview,
+    },
+    network: 'preview',
+    response: response_eras_preview_safe,
   },
 
 

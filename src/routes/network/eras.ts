@@ -5,6 +5,7 @@ import { getConfig } from '../../config';
 import { BYRON_GENESIS, GENESIS, PROTOCOL_VERSIONS } from '../../constants/genesis';
 import { SQLQuery } from '../../sql';
 import { ByronEraParameters } from '../../types/common';
+import { Block } from '../../types/queries/blocks';
 import * as QueryTypes from '../../types/queries/network';
 import * as LedgerResponseTypes from '../../types/responses/ledger';
 import { getDbSync } from '../../utils/database';
@@ -28,7 +29,7 @@ async function route(fastify: FastifyInstance) {
       const clientDbSync = await getDbSync(fastify);
 
       try {
-        const lastEpoch = await clientDbSync.query<QueryTypes.Epoch>(SQLQuery.get('network_epoch'));
+        const lastBlock = await clientDbSync.query<Block>(SQLQuery.get('blocks_latest'));
         const protocols = await clientDbSync.query<QueryTypes.Protocols>(
           SQLQuery.get('network_protocols'),
         );
@@ -110,8 +111,17 @@ async function route(fastify: FastifyInstance) {
           }
         }
 
-        // Last summary entry is ending at current epoch + 2
-        const lastListedEpoch = lastEpoch.rows[0].epoch + 2;
+        // Last summary entry is ending at current epoch + 1
+        // except for a case when current slot in epoch
+        // is past epochLength - safeZone when we're sure hardfork cannot occur
+        // in this epoch so we can extend this era duration to current epoch + 2
+        const safeZone = standardSafeZone(
+          genesisData.security_param,
+          genesisData.active_slots_coefficient,
+        );
+        const lastListedEpoch =
+          lastBlock.rows[0].epoch +
+          (lastBlock.rows[0].epoch_slot >= genesisData.epoch_length - safeZone ? 2 : 1);
         const lastDuration = lastListedEpoch - previous.end.epoch;
         const last = {
           start: {
@@ -128,10 +138,7 @@ async function route(fastify: FastifyInstance) {
           parameters: {
             epoch_length: genesisData.epoch_length,
             slot_length: genesisData.slot_length,
-            safe_zone: standardSafeZone(
-              genesisData.security_param,
-              genesisData.active_slots_coefficient,
-            ),
+            safe_zone: safeZone,
           },
         };
 
