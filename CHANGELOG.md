@@ -5,13 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] -
+## [Unreleased]
+
+### Added
+
+- support for CIP68 onchain metadata in `/assets/{asset}` and `/addresses/{address}/extended`
 
 ### Changed
 
 - split routes into files
 - fastify deps upgrade
-- Support for CIP68 onchain metadata in `/assets/{asset}` and `/addresses/{address}/extended`
+
+### Fixed
+
+- `/network/eras` endpoint returning incorrect latest epoch boundary
 
 ## [1.2.0] - 2022-12-14
 
@@ -27,7 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `/addresses/{address}/utxos/{asset}` asset validation for `/lovelace`
 - 400 handling of invalid POST routes
-- `/network/eras` endpoint returning incorrect latest epoch boundary
 
 ## [1.1.1] - 2022-12-07
 
