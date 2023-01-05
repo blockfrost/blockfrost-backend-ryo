@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `/network/eras` endpoint returning incorrect latest epoch boundary
 
+### Fixed
+
+- `preview`: Corrected `system_start` (`/genesis` endpoint)
+
 ## [1.2.0] - 2022-12-14
 
 ### Added
