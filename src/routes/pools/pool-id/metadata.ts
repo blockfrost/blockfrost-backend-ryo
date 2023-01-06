@@ -49,13 +49,13 @@ async function route(fastify: FastifyInstance) {
 
         const poolMetadataText = rows[0].metadata_text;
         const poolMetadataTextChecked =
-          poolMetadataText !== null
-            ? poolMetadataText
-            : {
+          poolMetadataText === null
+            ? {
                 name: null,
                 description: null,
                 homepage: null,
-              };
+              }
+            : poolMetadataText;
 
         const response: ResponseTypes.PoolMetadata = {
           pool_id: rows[0].pool_id,
@@ -63,16 +63,13 @@ async function route(fastify: FastifyInstance) {
           url: rows[0].url,
           hash: rows[0].hash,
           ticker: rows[0].ticker,
-          name:
-            typeof poolMetadataTextChecked.name === 'undefined'
-              ? null
-              : poolMetadataTextChecked.name,
+          name: poolMetadataTextChecked.name === undefined ? null : poolMetadataTextChecked.name,
           description:
-            typeof poolMetadataTextChecked.description === 'undefined'
+            poolMetadataTextChecked.description === undefined
               ? null
               : poolMetadataTextChecked.description,
           homepage:
-            typeof poolMetadataTextChecked.homepage === 'undefined'
+            poolMetadataTextChecked.homepage === undefined
               ? null
               : poolMetadataTextChecked.homepage,
         };
