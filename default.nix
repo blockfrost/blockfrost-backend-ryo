@@ -93,7 +93,7 @@ rec {
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
       virtualisation.memorySize = 4096;
       # Backend service
-      systemd.services.blockfrost-backend-ryo-mainnet = {
+      systemd.services.blockfrost-backend-ryo = {
         wantedBy = [ "multi-user.target" ];
         script = "${blockfrost-backend-ryo}/bin/blockfrost-backend-ryo";
         environment = {
@@ -110,7 +110,7 @@ rec {
 
     testScript = ''
       start_all()
-      machine.wait_for_unit("blockfrost-backend-ryo-mainnet.service")
+      machine.wait_for_unit("blockfrost-backend-ryo.service")
       machine.wait_for_open_port(3000)
       machine.succeed(
           "${pkgs.yarn}/bin/yarn set version berry && cd ${blockfrost-backend-ryo}/libexec/source && ${pkgs.yarn}/bin/yarn test-integration:mainnet"
@@ -125,7 +125,7 @@ rec {
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
       virtualisation.memorySize = 4096;
       # Backend service
-      systemd.services.blockfrost-backend-preview = {
+      systemd.services.blockfrost-backend-ryo = {
         wantedBy = [ "multi-user.target" ];
         script = "${blockfrost-backend-ryo}/bin/blockfrost-backend-ryo";
         environment = {
@@ -142,10 +142,42 @@ rec {
 
     testScript = ''
       start_all()
-      machine.wait_for_unit("blockfrost-backend-ryo-preview.service")
+      machine.wait_for_unit("blockfrost-backend-ryo.service")
       machine.wait_for_open_port(3000)
       machine.succeed(
           "${pkgs.yarn}/bin/yarn set version berry && cd ${blockfrost-backend-ryo}/libexec/source && ${pkgs.yarn}/bin/yarn test-integration:preview"
+      )
+    '';
+  };
+
+  blockfrost-backend-ryo-test-preprod = makeTest rec {
+
+    machine = {
+      # We have to increase memsize, otherwise we will get error:
+      # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
+      virtualisation.memorySize = 4096;
+      # Backend service
+      systemd.services.blockfrost-backend-ryo = {
+        wantedBy = [ "multi-user.target" ];
+        script = "${blockfrost-backend-ryo}/bin/blockfrost-backend-ryo";
+        environment = {
+          # Use config file from repository
+          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-ryo}/libexec/source/config/preprod.ts";
+          /*
+            # Use this if you want to override config/default.ts
+            NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-test-config}";
+          */
+        };
+      };
+
+    };
+
+    testScript = ''
+      start_all()
+      machine.wait_for_unit("blockfrost-backend-ryo.service")
+      machine.wait_for_open_port(3000)
+      machine.succeed(
+          "${pkgs.yarn}/bin/yarn set version berry && cd ${blockfrost-backend-ryo}/libexec/source && ${pkgs.yarn}/bin/yarn test-integration:preprod"
       )
     '';
   };
