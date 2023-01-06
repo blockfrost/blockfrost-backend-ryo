@@ -9,7 +9,7 @@ stages:
   - integration tests - mainnet
   - integration tests - testnets
 
-Lint, Typescript and Unit Tests:
+Lint, Typescript:
   stage: prebuild
   script:
     - nix-shell --run "yarn"
@@ -19,7 +19,7 @@ Lint, Typescript and Unit Tests:
 Nix build:
   stage: build
   needs:
-    - Lint, Typescript and Unit Tests
+    - Lint, Typescript
   script:
     - nix-build -A blockfrost-backend-ryo
 
