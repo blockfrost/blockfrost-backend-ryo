@@ -1,20 +1,12 @@
 import { expect, test, describe } from 'vitest';
+import { Fixture } from '@blockfrost/blockfrost-tests';
 import { noCase } from 'change-case';
 import got from 'got';
-
-type Fixture = {
-  testName: string;
-  isCached?: boolean;
-  endpoints: string[];
-  response: any;
-};
-
-const prefixUrl = process.env.SERVER_URL || 'http://localhost:3000';
 
 export const getInstance = () => {
   return got.extend({
     responseType: 'json',
-    prefixUrl,
+    prefixUrl: 'http://localhost:3000',
     https: {
       rejectUnauthorized: false,
     },
