@@ -1,8 +1,12 @@
 { system ? builtins.currentSystem
-, pkgs ? import
+, pkgs ? let
+    lockfile = builtins.fromJSON (builtins.readFile ./flake.lock);
+    nixpkgs = lockfile.nodes.nixpkgs.locked;
+  in
+  import
     (builtins.fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/00e376e3f3c22d991052dfeaf154c42b09deeb29.tar.gz";
-      sha256 = "0sj2lhx5yfphgamdpf0by237c44699yrqw3whs3frjydpvaiplnp";
+      url = "https://github.com/NixOS/nixpkgs/archive/${nixpkgs.rev}.tar.gz";
+      sha256 = nixpkgs.narHash;
     })
     { }
 }:
@@ -15,17 +19,17 @@ let
   /*
     blockfrost-backend-test-config = pkgs.writeText "default.ts" ''
     export default {
-      server: {
-        port: 3000,
-        debug: true,
-      },
-      dbSync: {
-        host: 'cdbsync-testnet.mydomain.com',
-        user: 'cexplorer',
-        database: 'cdbsync',
-      },
-        network: 'mainnet',
-        tokenRegistryUrl: 'https://tokens.cardano.org',
+    server: {
+    port: 3000,
+    debug: true,
+    },
+    dbSync: {
+    host: 'cdbsync-testnet.mydomain.com',
+    user: 'cexplorer',
+    database: 'cdbsync',
+    },
+    network: 'mainnet',
+    tokenRegistryUrl: 'https://tokens.cardano.org',
     }
     '';
   */
@@ -88,7 +92,9 @@ rec {
 
   blockfrost-backend-test-mainnet = makeTest rec {
 
-    machine = {
+    name = "blockfrost-backend-test-mainnet";
+
+    nodes.machine = {
       # We have to increase memsize, otherwise we will get error:
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
       virtualisation.memorySize = 4096;
@@ -120,7 +126,9 @@ rec {
 
   blockfrost-backend-test-preview = makeTest rec {
 
-    machine = {
+    name = "blockfrost-backend-test-preview";
+
+    nodes.machine = {
       # We have to increase memsize, otherwise we will get error:
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
       virtualisation.memorySize = 4096;
