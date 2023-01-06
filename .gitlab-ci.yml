@@ -1,6 +1,6 @@
 before_script:
-  - cp -v $BUILD_CONFIG_FILE_TESTNET config/preview.ts
-  - cp -v $BUILD_CONFIG_FILE_TESTNET config/preprod.ts
+  - cp -v $BUILD_CONFIG_FILE_PREVIEW config/preview.ts
+  - cp -v $BUILD_CONFIG_FILE_PREPROD config/preprod.ts
   - cp -v $BUILD_CONFIG_FILE_MAINNET config/mainnet.ts
 
 stages:
