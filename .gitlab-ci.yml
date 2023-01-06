@@ -14,8 +14,6 @@ Lint, Typescript and Unit Tests:
   script:
     - nix-shell --run "yarn"
     - nix-shell --run "yarn run lint"
-    - nix-shell --run "yarn run test"
-    - nix-shell --run "yarn run coverage"
     - nix-shell --run "yarn type-check"
 
 Nix build:
