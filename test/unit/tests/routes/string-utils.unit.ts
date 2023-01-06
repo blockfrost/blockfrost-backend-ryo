@@ -2,10 +2,11 @@ import {
   getEndpointFromUrl,
   getAdditionalParametersFromRequest,
   sortKeysInObject,
+  toJSONStream,
 } from '../../../../src/utils/string-utils';
 import { describe, expect, test } from 'vitest';
 
-describe('stringUtils', () => {
+describe('stringUtils', async () => {
   test('getRequestUrl', () => {
     expect(getEndpointFromUrl('/')).toStrictEqual('');
     expect(getEndpointFromUrl('')).toStrictEqual('');
@@ -118,24 +119,45 @@ describe('stringUtils', () => {
     // number-like indexes are always first regardless of the order of the insertion
     expect(Object.keys(object)).toStrictEqual(['1', 'b', 'a', 'c', 'abcd']);
     expect(Object.keys(sortKeysInObject(object))).toStrictEqual(['1', 'a', 'abcd', 'b', 'c']);
+    const nested = {
+      PlutusV2: {
+        b: 3,
+        abcd: 2,
+        a: 1,
+        1: 0,
+      },
+      PlutusV1: {
+        b: 3,
+        abcd: 2,
+        a: 1,
+        1: 0,
+      },
+    };
+
+    expect(Object.keys(sortKeysInObject(nested))).toStrictEqual(['PlutusV1', 'PlutusV2']);
+    expect(Object.keys(sortKeysInObject(nested)['PlutusV1'])).toStrictEqual([
+      '1',
+      'a',
+      'abcd',
+      'b',
+    ]);
+    expect(Object.keys(sortKeysInObject(nested)['PlutusV2'])).toStrictEqual([
+      '1',
+      'a',
+      'abcd',
+      'b',
+    ]);
   });
 
-  const nested = {
-    PlutusV2: {
-      b: 3,
-      abcd: 2,
-      a: 1,
-      1: 0,
-    },
-    PlutusV1: {
-      b: 3,
-      abcd: 2,
-      a: 1,
-      1: 0,
-    },
-  };
+  test('toJSONStream', async () => {
+    const readableStream = await toJSONStream([{ a: 'a', b: 2, c: undefined }, { a: 10.2 }, null]);
 
-  expect(Object.keys(sortKeysInObject(nested))).toStrictEqual(['PlutusV1', 'PlutusV2']);
-  expect(Object.keys(sortKeysInObject(nested)['PlutusV1'])).toStrictEqual(['1', 'a', 'abcd', 'b']);
-  expect(Object.keys(sortKeysInObject(nested)['PlutusV2'])).toStrictEqual(['1', 'a', 'abcd', 'b']);
+    readableStream.setEncoding('utf8');
+    let data = '';
+
+    for await (const chunk of readableStream) {
+      data += chunk;
+    }
+    expect(data).toStrictEqual(`[{"a":"a","b":2},{"a":10.2},null]`);
+  });
 });
