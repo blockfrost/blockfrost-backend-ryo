@@ -1,7 +1,9 @@
-import { expect } from 'vitest';
+import { expect } from 'expect';
+
 export interface Matchers {
   toBeTypeOrNull(): void;
 }
+
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Vi {

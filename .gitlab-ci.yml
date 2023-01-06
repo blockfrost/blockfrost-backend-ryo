@@ -1,36 +1,45 @@
 before_script:
-  - cp -v $BUILD_CONFIG_FILE_TESTNET config/testnet.ts
+  - cp -v $BUILD_CONFIG_FILE_PREVIEW config/preview.ts
+  - cp -v $BUILD_CONFIG_FILE_PREPROD config/preprod.ts
   - cp -v $BUILD_CONFIG_FILE_MAINNET config/mainnet.ts
 
 stages:
   - prebuild
   - build
-  - integration tests
+  - integration tests - mainnet
+  - integration tests - testnets
 
-lint:
+Lint, Typescript:
   stage: prebuild
   script:
     - nix-shell --run "yarn"
     - nix-shell --run "yarn run lint"
     - nix-shell --run "yarn type-check"
 
-unit tests:
-  stage: prebuild
-  script:
-    - nix-shell --run "yarn"
-    - nix-shell --run "yarn test"
-
-nix-build:
+Nix build:
   stage: build
   needs:
-    - unit tests
-    - lint
+    - Lint, Typescript
   script:
-    - nix-build -A blockfrost-backend
+    - nix-build -A blockfrost-backend-ryo
 
-mainnet integration tests:
-  stage: integration tests
+Integration tests - mainnet:
+  stage: integration tests - mainnet
   needs:
-    - nix-build
+    - Nix build
   script:
-    - nix-build -A blockfrost-backend-test-mainnet --option sandbox false
+    - nix-build -A blockfrost-backend-ryo-test-mainnet --option sandbox false
+
+Integration tests - preview:
+  stage: integration tests - testnets
+  needs:
+    - Nix build
+  script:
+    - nix-build -A blockfrost-backend-ryo-test-preview --option sandbox false
+
+Integration tests - preprod:
+  stage: integration tests - testnets
+  needs:
+    - Nix build
+  script:
+    - nix-build -A blockfrost-backend-ryo-test-preprod --option sandbox false
