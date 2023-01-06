@@ -33,14 +33,14 @@ let
 in
 rec {
 
-  blockfrost-backend =
+ blockfrost-backend-ryo =
     with pkgs.lib;
     let
       src = cleanSource ./.;
       project = pkgs.callPackage ./yarn-project.nix { nodejs = pkgs.nodejs-16_x; } { inherit src; };
     in
     project.overrideAttrs (oldAttrs: rec {
-      name = "blockfrost-backend";
+      name = "blockfrost-backend-ryo";
       version = packageJSON.version;
 
       buildInputs = [
@@ -86,19 +86,19 @@ rec {
     sha256 = "1sa64g9w2dcw890d51c5xdqnav29dh7fzzvyhhwwigq7j5vinx3r";
   };
 
-  blockfrost-backend-test-mainnet = makeTest rec {
+ blockfrost-backend-ryo-test-mainnet = makeTest rec {
 
     machine = {
       # We have to increase memsize, otherwise we will get error:
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
       virtualisation.memorySize = 4096;
       # Backend service
-      systemd.services.blockfrost-backend-mainnet = {
+      systemd.services.blockfrost-backend-ryo-mainnet = {
         wantedBy = [ "multi-user.target" ];
-        script = "${blockfrost-backend}/bin/blockfrost-backend";
+        script = "${blockfrost-backend-ryo}/bin/blockfrost-backend-ryo";
         environment = {
           # Use config file from repository
-          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend}/libexec/source/config/mainnet.ts";
+          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-ryo}/libexec/source/config/mainnet.ts";
           /*
             # Use this if you want to override config/default.ts
             NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-test-config}";
@@ -110,15 +110,15 @@ rec {
 
     testScript = ''
       start_all()
-      machine.wait_for_unit("blockfrost-backend-mainnet.service")
+      machine.wait_for_unit("blockfrost-backend-ryo-mainnet.service")
       machine.wait_for_open_port(3000)
       machine.succeed(
-          "${pkgs.yarn}/bin/yarn set version berry && cd ${blockfrost-backend}/libexec/source && ${pkgs.yarn}/bin/yarn test-integration:mainnet"
+          "${pkgs.yarn}/bin/yarn set version berry && cd ${blockfrost-backend-ryo}/libexec/source && ${pkgs.yarn}/bin/yarn test-integration:mainnet"
       )
     '';
   };
 
-  blockfrost-backend-test-preview = makeTest rec {
+  blockfrost-backend-ryo-test-preview = makeTest rec {
 
     machine = {
       # We have to increase memsize, otherwise we will get error:
@@ -127,10 +127,10 @@ rec {
       # Backend service
       systemd.services.blockfrost-backend-preview = {
         wantedBy = [ "multi-user.target" ];
-        script = "${blockfrost-backend}/bin/blockfrost-backend";
+        script = "${blockfrost-backend-ryo}/bin/blockfrost-backend-ryo";
         environment = {
           # Use config file from repository
-          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend}/libexec/source/config/preview.ts";
+          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-ryo}/libexec/source/config/preview.ts";
           /*
             # Use this if you want to override config/default.ts
             NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-test-config}";
@@ -142,10 +142,10 @@ rec {
 
     testScript = ''
       start_all()
-      machine.wait_for_unit("blockfrost-backend-preview.service")
+      machine.wait_for_unit("blockfrost-backend-ryo-preview.service")
       machine.wait_for_open_port(3000)
       machine.succeed(
-          "${pkgs.yarn}/bin/yarn set version berry && cd ${blockfrost-backend}/libexec/source && ${pkgs.yarn}/bin/yarn test-integration:preview"
+          "${pkgs.yarn}/bin/yarn set version berry && cd ${blockfrost-backend-ryo}/libexec/source && ${pkgs.yarn}/bin/yarn test-integration:preview"
       )
     '';
   };
