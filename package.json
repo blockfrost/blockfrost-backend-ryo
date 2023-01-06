@@ -18,9 +18,9 @@
     "test": "cross-env NODE_OPTIONS='--max-http-header-size 32768' NODE_ENV=test vitest",
     "coverage": "vitest run --coverage",
     "test-badges": "make-coverage-badge --output-path ./docs/images/badge.svg",
-    "test-integration:mainnet": "cross-env NETWORK=mainnet vitest -c vitest.config.integration.ts --run --silent --passWithNoTests --segfault-retry=3",
-    "test-integration:preview": "cross-env NETWORK=preview vitest -c vitest.config.integration.ts --run --silent --passWithNoTests --segfault-retry=3",
-    "test-integration:preprod": "cross-env NETWORK=preprod vitest -c vitest.config.integration.ts --run --silent --passWithNoTests --segfault-retry=3",
+    "test-integration:mainnet": "cross-env NETWORK=mainnet vitest -c vitest.config.integration.ts --run --silent --segfault-retry=3",
+    "test-integration:preview": "cross-env NETWORK=preview vitest -c vitest.config.integration.ts --run --silent --segfault-retry=3",
+    "test-integration:preprod": "cross-env NETWORK=preprod vitest -c vitest.config.integration.ts --run --silent --segfault-retry=3",
     "type-check": "tsc --project tsconfig.json"
   },
   "dependencies": {
