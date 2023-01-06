@@ -19,17 +19,17 @@ let
   /*
     blockfrost-backend-test-config = pkgs.writeText "default.ts" ''
     export default {
-    server: {
-    port: 3000,
-    debug: true,
-    },
-    dbSync: {
-    host: 'cdbsync-testnet.mydomain.com',
-    user: 'cexplorer',
-    database: 'cdbsync',
-    },
-    network: 'mainnet',
-    tokenRegistryUrl: 'https://tokens.cardano.org',
+      server: {
+        port: 3000,
+        debug: true,
+      },
+      dbSync: {
+        host: 'cdbsync-testnet.mydomain.com',
+        user: 'cexplorer',
+        database: 'cdbsync',
+      },
+      network: 'mainnet',
+      tokenRegistryUrl: 'https://tokens.cardano.org',
     }
     '';
   */
