@@ -84,15 +84,13 @@ async function route(fastify: FastifyInstance) {
                 hash: row.metadata_hash,
                 ticker: row.ticker,
                 name:
-                  typeof poolMetadataTextChecked.name === 'undefined'
-                    ? null
-                    : poolMetadataTextChecked.name,
+                  poolMetadataTextChecked.name === undefined ? null : poolMetadataTextChecked.name,
                 description:
-                  typeof poolMetadataTextChecked.description === 'undefined'
+                  poolMetadataTextChecked.description === undefined
                     ? null
                     : poolMetadataTextChecked.description,
                 homepage:
-                  typeof poolMetadataTextChecked.homepage === 'undefined'
+                  poolMetadataTextChecked.homepage === undefined
                     ? null
                     : poolMetadataTextChecked.homepage,
               },
