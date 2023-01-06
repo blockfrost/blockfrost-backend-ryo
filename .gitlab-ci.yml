@@ -35,7 +35,6 @@ Integration tests - preview:
   stage: integration tests - testnets
   needs:
     - Nix build
-    - Integration tests - mainnet
   script:
     - nix-build -A blockfrost-backend-ryo-test-preview --option sandbox false
 
@@ -43,6 +42,5 @@ Integration tests - preprod:
   stage: integration tests - testnets
   needs:
     - Nix build
-    - Integration tests - mainnet
   script:
     - nix-build -A blockfrost-backend-ryo-test-preprod --option sandbox false
