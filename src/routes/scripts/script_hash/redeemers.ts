@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../../utils/routes';
 import * as QueryTypes from '../../../types/queries/scripts';
 import * as ResponseTypes from '../../../types/responses/scripts';
 import { getDbSync } from '../../../utils/database';
@@ -28,16 +29,20 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.ScriptHashRedeemers } =
-          await clientDbSync.query<QueryTypes.ScriptHashRedeemers>(
-            SQLQuery.get('scripts_script_hash_redeemers'),
-            [
-              request.query.order,
-              request.query.count,
-              request.query.page,
-              request.params.script_hash,
-            ],
-          );
+        const { rows }: { rows: ResponseTypes.ScriptHashRedeemers } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.ScriptHashRedeemers>(
+              SQLQuery.get('scripts_script_hash_redeemers_unpaged'),
+              [request.query.order, request.params.script_hash],
+            )
+          : await clientDbSync.query<QueryTypes.ScriptHashRedeemers>(
+              SQLQuery.get('scripts_script_hash_redeemers'),
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                request.params.script_hash,
+              ],
+            );
 
         clientDbSync.release();
 

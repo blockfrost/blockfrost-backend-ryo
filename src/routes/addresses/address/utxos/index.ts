@@ -1,6 +1,6 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { isUnpaged } from '../../../../utils/routes';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { SQLQuery } from '../../../../sql';
 import * as QueryTypes from '../../../../types/queries/addresses';
 import * as ResponseTypes from '../../../../types/responses/addresses';
@@ -32,16 +32,21 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows } = await clientDbSync.query<QueryTypes.AddressUtxosQuery>(
-          SQLQuery.get('addresses_address_utxos'),
-          [
-            request.query.order,
-            request.query.count,
-            request.query.page,
-            request.params.address,
-            paymentCred,
-          ],
-        );
+        const { rows } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.AddressUtxosQuery>(
+              SQLQuery.get('addresses_address_utxos_unpaged'),
+              [request.query.order, request.params.address, paymentCred],
+            )
+          : await clientDbSync.query<QueryTypes.AddressUtxosQuery>(
+              SQLQuery.get('addresses_address_utxos'),
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                request.params.address,
+                paymentCred,
+              ],
+            );
 
         clientDbSync.release();
 

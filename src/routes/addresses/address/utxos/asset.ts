@@ -1,8 +1,8 @@
 import { handleInvalidAsset } from '@blockfrost/blockfrost-utils/lib/fastify';
+import { isUnpaged } from '../../../../utils/routes';
 import { validateAsset } from '@blockfrost/blockfrost-utils/lib/validation';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { SQLQuery } from '../../../../sql';
 import * as QueryTypes from '../../../../types/queries/addresses';
 import * as ResponseTypes from '../../../../types/responses/addresses';
@@ -54,17 +54,22 @@ async function route(fastify: FastifyInstance) {
           }
         }
 
-        const { rows } = await clientDbSync.query<QueryTypes.AddressUtxosQuery>(
-          SQLQuery.get('addresses_address_utxos_asset'),
-          [
-            request.query.order,
-            request.query.count,
-            request.query.page,
-            request.params.address,
-            paymentCred,
-            request.params.asset,
-          ],
-        );
+        const { rows } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.AddressUtxosQuery>(
+              SQLQuery.get('addresses_address_utxos_asset_unpaged'),
+              [request.query.order, request.params.address, paymentCred, request.params.asset],
+            )
+          : await clientDbSync.query<QueryTypes.AddressUtxosQuery>(
+              SQLQuery.get('addresses_address_utxos_asset'),
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                request.params.address,
+                paymentCred,
+                request.params.asset,
+              ],
+            );
 
         clientDbSync.release();
 

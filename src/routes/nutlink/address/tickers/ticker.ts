@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../../../utils/routes';
 import * as QueryTypes from '../../../../types/queries/nutlink';
 import * as ResponseTypes from '../../../../types/responses/nutlink';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
@@ -43,18 +44,22 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.NutlinkAddressTicker } =
-          await clientDbSync.query<QueryTypes.NutlinkAddressTicker>(
-            SQLQuery.get('nutlink_address_tickers_ticker'),
-            [
-              request.query.order,
-              request.query.count,
-              request.query.page,
-              request.params.address,
-              paymentCred,
-              request.params.ticker,
-            ],
-          );
+        const { rows }: { rows: ResponseTypes.NutlinkAddressTicker } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.NutlinkAddressTicker>(
+              SQLQuery.get('nutlink_address_tickers_ticker_unpaged'),
+              [request.query.order, request.params.address, paymentCred, request.params.ticker],
+            )
+          : await clientDbSync.query<QueryTypes.NutlinkAddressTicker>(
+              SQLQuery.get('nutlink_address_tickers_ticker'),
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                request.params.address,
+                paymentCred,
+                request.params.ticker,
+              ],
+            );
 
         clientDbSync.release();
 

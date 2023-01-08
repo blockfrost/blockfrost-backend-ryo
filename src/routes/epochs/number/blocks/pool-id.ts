@@ -1,4 +1,5 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { isUnpaged } from '../../../../utils/routes';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import {
   validatePositiveInRangeSignedInt,
@@ -51,16 +52,21 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows } = await clientDbSync.query<QueryTypes.EpochBlocksPoolId>(
-          SQLQuery.get('epochs_number_blocks_pool_id'),
-          [
-            request.query.order,
-            request.query.count,
-            request.query.page,
-            request.params.number,
-            pool_id,
-          ],
-        );
+        const { rows } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.EpochBlocksPoolId>(
+              SQLQuery.get('epochs_number_blocks_pool_id_unpaged'),
+              [request.query.order, request.params.number, pool_id],
+            )
+          : await clientDbSync.query<QueryTypes.EpochBlocksPoolId>(
+              SQLQuery.get('epochs_number_blocks_pool_id'),
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                request.params.number,
+                pool_id,
+              ],
+            );
 
         clientDbSync.release();
 

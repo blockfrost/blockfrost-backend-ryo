@@ -5,4 +5,4 @@ FROM tx_out txo
     JOIN multi_asset ma ON (mto.ident = ma.id)
 WHERE (encode(policy, 'hex') || encode(name, 'hex')) = $1
 ORDER BY d.tx_id DESC
-LIMIT 1;
+LIMIT 1

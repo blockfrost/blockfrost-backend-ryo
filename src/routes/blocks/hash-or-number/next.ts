@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../../utils/routes';
 import * as QueryTypes from '../../../types/queries/blocks';
 import * as ResponseTypes from '../../../types/responses/blocks';
 import { getDbSync } from '../../../utils/database';
@@ -42,12 +43,16 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.Block[] } =
-          await clientDbSync.query<QueryTypes.Block>(SQLQuery.get('blocks_hash_or_number_next'), [
-            request.params.hash_or_number,
-            request.query.count,
-            request.query.page,
-          ]);
+        const { rows }: { rows: ResponseTypes.Block[] } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.Block>(
+              SQLQuery.get('blocks_hash_or_number_next_unpaged'),
+              [request.params.hash_or_number],
+            )
+          : await clientDbSync.query<QueryTypes.Block>(SQLQuery.get('blocks_hash_or_number_next'), [
+              request.params.hash_or_number,
+              request.query.count,
+              request.query.page,
+            ]);
 
         clientDbSync.release();
 

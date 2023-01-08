@@ -106,7 +106,7 @@ export interface AddressExtendedQuery {
   script: boolean;
 }
 
-export interface AddressTx {
+export interface AddressTxsQuery {
   hash: string;
 }
 

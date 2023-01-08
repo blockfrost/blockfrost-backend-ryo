@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../../utils/routes';
 import * as QueryTypes from '../../../types/queries/assets';
 import * as ResponseTypes from '../../../types/responses/assets';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
@@ -33,13 +34,15 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.AssetHistory } =
-          await clientDbSync.query<QueryTypes.AssetHistory>(SQLQuery.get('assets_asset_history'), [
-            request.query.order,
-            request.query.count,
-            request.query.page,
-            request.params.asset,
-          ]);
+        const { rows }: { rows: ResponseTypes.AssetHistory } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.AssetHistory>(
+              SQLQuery.get('assets_asset_history_unpaged'),
+              [request.query.order, request.params.asset],
+            )
+          : await clientDbSync.query<QueryTypes.AssetHistory>(
+              SQLQuery.get('assets_asset_history'),
+              [request.query.order, request.query.count, request.query.page, request.params.asset],
+            );
 
         clientDbSync.release();
 

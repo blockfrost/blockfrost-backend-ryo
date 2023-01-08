@@ -1,6 +1,6 @@
-import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
+import { isUnpaged } from '../../../utils/routes';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { SQLQuery } from '../../../sql';
 import * as QueryTypes from '../../../types/queries/pools';
 import * as ResponseTypes from '../../../types/responses/pools';
@@ -35,13 +35,15 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.PoolUpdates } =
-          await clientDbSync.query<QueryTypes.PoolUpdates>(SQLQuery.get('pools_pool_id_updates'), [
-            request.query.order,
-            request.query.count,
-            request.query.page,
-            pool_id,
-          ]);
+        const { rows }: { rows: ResponseTypes.PoolUpdates } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.PoolUpdates>(
+              SQLQuery.get('pools_pool_id_updates_unpaged'),
+              [request.query.order, pool_id],
+            )
+          : await clientDbSync.query<QueryTypes.PoolUpdates>(
+              SQLQuery.get('pools_pool_id_updates'),
+              [request.query.order, request.query.count, request.query.page, pool_id],
+            );
 
         clientDbSync.release();
 

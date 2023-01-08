@@ -1,6 +1,6 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { isUnpaged } from '../../../../utils/routes';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { SQLQuery } from '../../../../sql';
 import * as QueryTypes from '../../../../types/queries/epochs';
 import * as ResponseTypes from '../../../../types/responses/epochs';
@@ -53,11 +53,15 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.EpochStakesPoolId } =
-          await clientDbSync.query<QueryTypes.EpochStakesPoolId>(
-            SQLQuery.get('epochs_number_stakes_pool_id'),
-            [request.params.number, request.query.count, request.query.page, pool_id],
-          );
+        const { rows }: { rows: ResponseTypes.EpochStakesPoolId } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.EpochStakesPoolId>(
+              SQLQuery.get('epochs_number_stakes_pool_id_unpaged'),
+              [request.params.number, pool_id],
+            )
+          : await clientDbSync.query<QueryTypes.EpochStakesPoolId>(
+              SQLQuery.get('epochs_number_stakes_pool_id'),
+              [request.params.number, request.query.count, request.query.page, pool_id],
+            );
 
         clientDbSync.release();
 

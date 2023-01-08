@@ -1,8 +1,8 @@
 import { handleInvalidPolicy } from '@blockfrost/blockfrost-utils/lib/fastify';
+import { isUnpaged } from '../../../utils/routes';
 import { validatePolicy } from '@blockfrost/blockfrost-utils/lib/validation';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { SQLQuery } from '../../../sql';
 import * as QueryTypes from '../../../types/queries/assets';
 import * as ResponseTypes from '../../../types/responses/assets';
@@ -33,13 +33,18 @@ async function route(fastify: FastifyInstance) {
           clientDbSync.release();
           return handle404(reply);
         }
-        const { rows }: { rows: ResponseTypes.PolicyPolicyId } =
-          await clientDbSync.query<QueryTypes.PolicyId>(SQLQuery.get('assets_policy_policy_id'), [
-            request.query.order,
-            request.query.count,
-            request.query.page,
-            request.params.policy_id,
-          ]);
+
+        const { rows }: { rows: ResponseTypes.PolicyPolicyId } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.PolicyId>(
+              SQLQuery.get('assets_policy_policy_id_unpaged'),
+              [request.query.order, request.params.policy_id],
+            )
+          : await clientDbSync.query<QueryTypes.PolicyId>(SQLQuery.get('assets_policy_policy_id'), [
+              request.query.order,
+              request.query.count,
+              request.query.page,
+              request.params.policy_id,
+            ]);
 
         clientDbSync.release();
 

@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../../../../utils/routes';
 import * as QueryTypes from '../../../../../types/queries/metadata';
 import * as ResponseTypes from '../../../../../types/responses/metadata';
 import { getDbSync } from '../../../../../utils/database';
@@ -21,11 +22,15 @@ async function route(fastify: FastifyInstance) {
           return handle400Custom(reply, 'Missing, out of range or malformed label.');
         }
 
-        const { rows }: { rows: ResponseTypes.MetadataTxLabel } =
-          await clientDbSync.query<QueryTypes.MetadataTxLabel>(
-            SQLQuery.get('metadata_txs_labels_label'),
-            [request.query.order, request.query.count, request.query.page, request.params.label],
-          );
+        const { rows }: { rows: ResponseTypes.MetadataTxLabel } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.MetadataTxLabel>(
+              SQLQuery.get('metadata_txs_labels_label_unpaged'),
+              [request.query.order, request.params.label],
+            )
+          : await clientDbSync.query<QueryTypes.MetadataTxLabel>(
+              SQLQuery.get('metadata_txs_labels_label'),
+              [request.query.order, request.query.count, request.query.page, request.params.label],
+            );
 
         clientDbSync.release();
 

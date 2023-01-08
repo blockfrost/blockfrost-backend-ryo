@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../utils/routes';
 import * as QueryTypes from '../../types/queries/assets';
 import * as ResponseTypes from '../../types/responses/assets';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
@@ -14,12 +15,15 @@ async function route(fastify: FastifyInstance) {
       const clientDbSync = await getDbSync(fastify);
 
       try {
-        const { rows }: { rows: ResponseTypes.Assets } =
-          await clientDbSync.query<QueryTypes.Assets>(SQLQuery.get('assets'), [
-            request.query.order,
-            request.query.count,
-            request.query.page,
-          ]);
+        const { rows }: { rows: ResponseTypes.Assets } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.Assets>(SQLQuery.get('assets_unpaged'), [
+              request.query.order,
+            ])
+          : await clientDbSync.query<QueryTypes.Assets>(SQLQuery.get('assets'), [
+              request.query.order,
+              request.query.count,
+              request.query.page,
+            ]);
 
         clientDbSync.release();
 

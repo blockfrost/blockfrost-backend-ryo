@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../utils/routes';
 import * as QueryTypes from '../../types/queries/scripts';
 import * as ResponseTypes from '../../types/responses/scripts';
 import { getDbSync } from '../../utils/database';
@@ -14,12 +15,15 @@ async function route(fastify: FastifyInstance) {
       const clientDbSync = await getDbSync(fastify);
 
       try {
-        const { rows }: { rows: ResponseTypes.Scripts } =
-          await clientDbSync.query<QueryTypes.Scripts>(SQLQuery.get('scripts'), [
-            request.query.order,
-            request.query.count,
-            request.query.page,
-          ]);
+        const { rows }: { rows: ResponseTypes.Scripts } = isUnpaged(request)
+          ? await clientDbSync.query<QueryTypes.Scripts>(SQLQuery.get('scripts_unpaged'), [
+              request.query.order,
+            ])
+          : await clientDbSync.query<QueryTypes.Scripts>(SQLQuery.get('scripts'), [
+              request.query.order,
+              request.query.count,
+              request.query.page,
+            ]);
 
         clientDbSync.release();
 

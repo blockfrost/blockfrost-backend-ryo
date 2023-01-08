@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - support for CIP68 onchain metadata in `/assets/{asset}` and `/addresses/{address}/extended`
 
+### Added
+
+- `unpaged` queries
+
 ### Changed
 
 - split routes into files
