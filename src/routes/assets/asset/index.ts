@@ -32,9 +32,8 @@ async function route(fastify: FastifyInstance) {
           request.params.asset,
         ]);
 
-        clientDbSync.release();
-
         if (rows.length === 0) {
+          clientDbSync.release();
           return handle404(reply);
         }
 
@@ -61,6 +60,8 @@ async function route(fastify: FastifyInstance) {
             }
           }
         }
+
+        clientDbSync.release();
 
         if (!onchainMetadata) {
           // validate CIP25 on-chain metadata if CIP68 metadata are not present (or not valid)
