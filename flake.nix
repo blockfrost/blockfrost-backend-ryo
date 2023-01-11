@@ -17,6 +17,12 @@
     {
       packages = forAllSystems (system: {
         inherit (default.${system}) blockfrost-backend;
+        dockerImage = legacyPkgs.${system}.dockerTools.buildImage {
+          name = "blockfrost";
+          config = {
+            Cmd = [ "${self.packages.${system}.blockfrost-backend}/bin/blockfrost-backend" ];
+          };
+        };
       });
       # FIXME checks are not building
       checks = forAllSystems (system: {
