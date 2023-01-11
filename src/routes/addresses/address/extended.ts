@@ -80,7 +80,8 @@ async function route(fastify: FastifyInstance) {
                 SQLQuery.get('assets_asset_utxo_datum'),
                 [referenceNFT.hex],
               );
-              const datumHex = rows[0].cbor;
+
+              const datumHex = rows[0] ? rows[0].cbor : null;
 
               if (datumHex) {
                 const datumMetadata = getMetadataFromOutputDatum(datumHex);
