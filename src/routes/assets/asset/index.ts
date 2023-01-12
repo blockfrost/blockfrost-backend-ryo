@@ -51,12 +51,17 @@ async function route(fastify: FastifyInstance) {
           const datumHex = rows[0].cbor;
 
           if (datumHex) {
-            const datumMetadata = getMetadataFromOutputDatum(datumHex);
-            const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
+            try {
+              const datumMetadata = getMetadataFromOutputDatum(datumHex);
+              const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
 
-            if (result) {
-              onchainMetadata = result.metadata;
-              onchainMetadataStandard = result.version;
+              if (result) {
+                onchainMetadata = result.metadata;
+                onchainMetadataStandard = result.version;
+              }
+            } catch (error) {
+              // Invalid datum hex, should not happen
+              console.error(`Error while validating CIP68 datum ${datumHex}`, error);
             }
           }
         }
