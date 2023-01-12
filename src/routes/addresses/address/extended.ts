@@ -49,8 +49,6 @@ async function route(fastify: FastifyInstance) {
           [request.params.address, paymentCred],
         );
 
-        clientDbSync.release();
-
         // if paymentCred is used we have to convert it back to bech32
         if (paymentCred) {
           const bech32paymentCred = paymentCredToBech32Address(rows[0].address);
@@ -115,6 +113,8 @@ async function route(fastify: FastifyInstance) {
             });
           }
         }
+
+        clientDbSync.release();
 
         // quantities/amounts are returned as string from database so they won't overflow JS number
         const result: ResponseTypes.AddressExtended = rows[0].amount
