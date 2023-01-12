@@ -31,7 +31,7 @@ export const generateTest = (fixture: Fixture, endpoint: string) => {
     } else {
       const response = await client.get(endpoint).json();
 
-      expect(response).toStrictEqual(response);
+      expect(response).toStrictEqual(fixture.response);
     }
   });
 };

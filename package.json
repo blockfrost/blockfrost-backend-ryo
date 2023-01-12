@@ -18,9 +18,9 @@
     "start-testnet": "cross-env-shell NODE_ENV=testnet \"yarn start\"",
     "test": "cross-env NODE_OPTIONS='--max-http-header-size 32768' NODE_ENV=test vitest",
     "test-badges": "make-coverage-badge --output-path ./docs/images/badge.svg",
-    "test-integration:mainnet": "cross-env NETWORK=mainnet vitest -c vitest.config.integration.ts --run --silent --segfault-retry=3",
-    "test-integration:preprod": "cross-env NETWORK=preprod vitest -c vitest.config.integration.ts --run --silent --segfault-retry=3",
-    "test-integration:preview": "cross-env NETWORK=preview vitest -c vitest.config.integration.ts --run --silent --segfault-retry=3",
+    "test-integration:mainnet": "cross-env NETWORK=mainnet vitest -c vitest.config.integration.ts --run --segfault-retry=3",
+    "test-integration:preprod": "cross-env NETWORK=preprod vitest -c vitest.config.integration.ts --run --segfault-retry=3",
+    "test-integration:preview": "cross-env NETWORK=preview vitest -c vitest.config.integration.ts --run --segfault-retry=3",
     "type-check": "tsc --project tsconfig.json"
   },
   "dependencies": {
@@ -47,7 +47,7 @@
     "utf-8-validate": "^5.0.10"
   },
   "devDependencies": {
-    "@blockfrost/blockfrost-tests": "1.1.4",
+    "@blockfrost/blockfrost-tests": "1.1.7",
     "@types/config": "3.3.0",
     "@types/express": "^4.17.14",
     "@types/node": "^18.7.15",
