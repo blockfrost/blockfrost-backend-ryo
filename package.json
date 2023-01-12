@@ -43,8 +43,7 @@
     "pg": "^8.8.0",
     "pg-format": "^1.0.4",
     "pino-pretty": "9.1.0",
-    "rimraf": "^3.0.2",
-    "utf-8-validate": "^5.0.10"
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
     "@blockfrost/blockfrost-tests": "1.1.7",
@@ -55,7 +54,6 @@
     "@types/pg-format": "^1.0.2",
     "@types/sinon": "^10.0.13",
     "@types/supertest": "^2.0.12",
-    "@types/utf-8-validate": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "5.36.1",
     "@vitest/coverage-c8": "^0.24.5",
