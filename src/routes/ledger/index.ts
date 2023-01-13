@@ -1,8 +1,8 @@
 import { FastifyInstance } from 'fastify';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import * as ResponseTypes from '../../types/responses/ledger';
-import { getConfig } from '../../config';
-import { GENESIS } from '../../constants/genesis';
+import * as ResponseTypes from '../../types/responses/ledger.js';
+import { getConfig } from '../../config.js';
+import { GENESIS } from '../../constants/genesis.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({

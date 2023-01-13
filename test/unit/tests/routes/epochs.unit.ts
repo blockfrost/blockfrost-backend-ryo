@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 import supertest from 'supertest';
-import * as databaseUtils from '../../../../src/utils/database';
+import * as databaseUtils from '../../../../src/utils/database.js';
 import fixtures from '../../fixtures/epochs.fixtures';
-import buildFastify from '../../../../src/app';
+import buildFastify from '../../../../src/app.js';
 import { describe, expect, test, vi } from 'vitest';
 
 describe('epochs service', () => {

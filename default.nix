@@ -11,22 +11,18 @@ with import (pkgs.path + "/nixos/lib/testing-python.nix") { inherit system; };
 let
   packageJSON = builtins.fromJSON (builtins.readFile ./package.json);
 
-  # Use this if you want to override config/default.ts
+  # Use this if you want to override config/default.yaml
   /*
-    blockfrost-backend-test-config = pkgs.writeText "default.ts" ''
-    export default {
-      server: {
-        port: 3000,
-        debug: true,
-      },
-      dbSync: {
-        host: 'cdbsync-testnet.mydomain.com',
-        user: 'cexplorer',
-        database: 'cdbsync',
-      },
-        network: 'mainnet',
-        tokenRegistryUrl: 'https://tokens.cardano.org',
-    }
+    blockfrost-backend-test-config = pkgs.writeText "default.yaml" ''
+      server:
+        port: 3000
+        debug: true
+      dbSync:
+        host: "cdbsync-testnet.mydomain.com"
+        user: "cexplorer"
+        database: "cdbsync"
+        network: "mainnet"
+        tokenRegistryUrl: "https://tokens.cardano.org"
     '';
   */
 
@@ -98,9 +94,9 @@ rec {
         script = "${blockfrost-backend-ryo}/bin/blockfrost-backend-ryo";
         environment = {
           # Use config file from repository
-          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-ryo}/libexec/source/config/mainnet.ts";
+          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-ryo}/libexec/source/config/mainnet.yaml";
           /*
-            # Use this if you want to override config/default.ts
+            # Use this if you want to override config/default.yaml
             NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-test-config}";
           */
         };
@@ -112,8 +108,9 @@ rec {
       start_all()
       machine.wait_for_unit("blockfrost-backend-ryo.service")
       machine.wait_for_open_port(3000)
+      machine.succeed("cp -r ${blockfrost-backend-ryo}/libexec/source /tmp")
       machine.succeed(
-          "${pkgs.yarn}/bin/yarn set version berry && cd ${blockfrost-backend-ryo}/libexec/source && ${pkgs.yarn}/bin/yarn test-integration:mainnet"
+          "cd /tmp/source && ${pkgs.yarn}/bin/yarn set version berry && ${pkgs.yarn}/bin/yarn test-integration:mainnet"
       )
     '';
   };
@@ -130,9 +127,9 @@ rec {
         script = "${blockfrost-backend-ryo}/bin/blockfrost-backend-ryo";
         environment = {
           # Use config file from repository
-          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-ryo}/libexec/source/config/preview.ts";
+          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-ryo}/libexec/source/config/preview.yaml";
           /*
-            # Use this if you want to override config/default.ts
+            # Use this if you want to override config/default.yaml
             NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-test-config}";
           */
         };
@@ -144,8 +141,9 @@ rec {
       start_all()
       machine.wait_for_unit("blockfrost-backend-ryo.service")
       machine.wait_for_open_port(3000)
+      machine.succeed("cp -r ${blockfrost-backend-ryo}/libexec/source /tmp")
       machine.succeed(
-          "${pkgs.yarn}/bin/yarn set version berry && cd ${blockfrost-backend-ryo}/libexec/source && ${pkgs.yarn}/bin/yarn test-integration:preview"
+          "cd /tmp/source && ${pkgs.yarn}/bin/yarn set version berry && ${pkgs.yarn}/bin/yarn test-integration:preview"
       )
     '';
   };
@@ -162,9 +160,9 @@ rec {
         script = "${blockfrost-backend-ryo}/bin/blockfrost-backend-ryo";
         environment = {
           # Use config file from repository
-          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-ryo}/libexec/source/config/preprod.ts";
+          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-ryo}/libexec/source/config/preprod.yaml";
           /*
-            # Use this if you want to override config/default.ts
+            # Use this if you want to override config/default.yaml
             NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-test-config}";
           */
         };
@@ -176,8 +174,9 @@ rec {
       start_all()
       machine.wait_for_unit("blockfrost-backend-ryo.service")
       machine.wait_for_open_port(3000)
+      machine.succeed("cp -r ${blockfrost-backend-ryo}/libexec/source /tmp")
       machine.succeed(
-          "${pkgs.yarn}/bin/yarn set version berry && cd ${blockfrost-backend-ryo}/libexec/source && ${pkgs.yarn}/bin/yarn test-integration:preprod"
+          "cd /tmp/source && ${pkgs.yarn}/bin/yarn set version berry && ${pkgs.yarn}/bin/yarn test-integration:preprod"
       )
     '';
   };

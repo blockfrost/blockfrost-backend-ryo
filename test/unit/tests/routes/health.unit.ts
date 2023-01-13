@@ -1,7 +1,7 @@
-import buildFastify from '../../../../src/app';
+import buildFastify from '../../../../src/app.js';
 import sinon from 'sinon';
 import supertest from 'supertest';
-import * as databaseUtils from '../../../../src/utils/database';
+import * as databaseUtils from '../../../../src/utils/database.js';
 import { describe, expect, test, vi } from 'vitest';
 
 describe('health endpoints tests', () => {

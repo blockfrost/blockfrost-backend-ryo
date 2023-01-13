@@ -1,4 +1,4 @@
-import buildFastify from '../../../../src/app';
+import buildFastify from '../../../../src/app.js';
 import supertest from 'supertest';
 import { describe, expect, test } from 'vitest';
 

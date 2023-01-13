@@ -1,18 +1,21 @@
 import {
   getMetadataFromOutputDatum,
   getReferenceNFT,
-} from '@blockfrost/blockfrost-utils/lib/cip68';
-import { handleInvalidAsset } from '@blockfrost/blockfrost-utils/lib/fastify';
-import { validateAsset } from '@blockfrost/blockfrost-utils/lib/validation';
-import { getSchemaForEndpoint, validateCIP68Metadata } from '@blockfrost/openapi';
-import { getOnchainMetadata } from '@blockfrost/openapi';
+} from '@blockfrost/blockfrost-utils/lib/cip68.js';
+import { handleInvalidAsset } from '@blockfrost/blockfrost-utils/lib/fastify.js';
+import { validateAsset } from '@blockfrost/blockfrost-utils/lib/validation.js';
+import {
+  getOnchainMetadata,
+  getSchemaForEndpoint,
+  validateCIP68Metadata,
+} from '@blockfrost/openapi';
 import AssetFingerprint from '@emurgo/cip14-js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { SQLQuery } from '../../../sql';
-import * as QueryTypes from '../../../types/queries/assets';
-import { getDbSync } from '../../../utils/database';
-import { handle404 } from '../../../utils/error-handler';
-import { fetchAssetMetadata } from '../../../utils/token-registry';
+import { SQLQuery } from '../../../sql/index.js';
+import * as QueryTypes from '../../../types/queries/assets.js';
+import { getDbSync } from '../../../utils/database.js';
+import { handle404 } from '../../../utils/error-handler.js';
+import { fetchAssetMetadata } from '../../../utils/token-registry.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({

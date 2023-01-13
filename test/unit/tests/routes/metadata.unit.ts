@@ -1,8 +1,8 @@
 import sinon from 'sinon';
-import * as databaseUtils from '../../../../src/utils/database';
+import * as databaseUtils from '../../../../src/utils/database.js';
 import supertest from 'supertest';
 import fixtures from '../../fixtures/metadata.fixtures';
-import buildFastify from '../../../../src/app';
+import buildFastify from '../../../../src/app.js';
 import { describe, expect, test, vi } from 'vitest';
 
 describe('metadata service', () => {

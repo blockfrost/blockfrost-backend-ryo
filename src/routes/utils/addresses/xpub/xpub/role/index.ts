@@ -1,13 +1,13 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import * as QueryTypes from '../../../../../../types/queries/utils';
-import * as ResponseTypes from '../../../../../../types/responses/utils';
-import { handle400Custom } from '../../../../../../utils/error-handler';
+import * as QueryTypes from '../../../../../../types/queries/utils.js';
+import * as ResponseTypes from '../../../../../../types/responses/utils.js';
+import { handle400Custom } from '../../../../../../utils/error-handler.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { isTestnet } from '../../../../../../utils/validation';
 import {
+  isTestnet,
   validateDerivationXpub,
   validateInRangeUnsignedInt,
-} from '../../../../../../utils/validation';
+} from '../../../../../../utils/validation.js';
 import { deriveAddress } from '@blockfrost/blockfrost-js';
 
 async function network(fastify: FastifyInstance) {
@@ -47,4 +47,4 @@ async function network(fastify: FastifyInstance) {
   });
 }
 
-module.exports = network;
+export default network;

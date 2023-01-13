@@ -1,6 +1,6 @@
 import { MetricsCollector } from '@blockfrost/blockfrost-utils';
 import { FastifyInstance } from 'fastify';
-import { getConfig } from '../../config';
+import { getConfig } from '../../config.js';
 
 const config = getConfig();
 

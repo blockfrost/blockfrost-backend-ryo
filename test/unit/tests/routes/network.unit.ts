@@ -1,9 +1,9 @@
-import * as databaseUtils from '../../../../src/utils/database';
+import * as databaseUtils from '../../../../src/utils/database.js';
 import sinon from 'sinon';
 import supertest from 'supertest';
 import fixtures from '../../fixtures/network.fixtures';
-import buildFastify from '../../../../src/app';
-import * as config from '../../../../src/config';
+import buildFastify from '../../../../src/app.js';
+import * as config from '../../../../src/config.js';
 import { describe, expect, test, vi } from 'vitest';
 
 describe('network service', () => {

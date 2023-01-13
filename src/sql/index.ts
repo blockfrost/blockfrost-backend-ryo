@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 const QUERY_FILES = {
   accounts_404: 'accounts/accounts_404.sql',
@@ -172,6 +173,9 @@ class SQLQueryManager {
   }
 
   private readQueryFromFile = (queryKey: QueryKey) => {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+
     return fs.readFileSync(path.join(__dirname, QUERY_FILES[queryKey])).toString();
   };
 

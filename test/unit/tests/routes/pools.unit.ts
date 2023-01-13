@@ -2,8 +2,8 @@
 import sinon from 'sinon';
 import supertest from 'supertest';
 import fixtures from '../../fixtures/pools.fixtures';
-import buildFastify from '../../../../src/app';
-import * as databaseUtils from '../../../../src/utils/database';
+import buildFastify from '../../../../src/app.js';
+import * as databaseUtils from '../../../../src/utils/database.js';
 import { describe, expect, test, vi } from 'vitest';
 
 describe('pools service', () => {

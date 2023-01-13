@@ -1,8 +1,8 @@
 import supertest from 'supertest';
 import { describe, expect, test, vi } from 'vitest';
 
-import buildFastify from '../../../../src/app';
-import * as config from '../../../../src/config';
+import buildFastify from '../../../../src/app.js';
+import * as config from '../../../../src/config.js';
 import fixtures from '../../fixtures/utils.fixtures';
 
 describe('utils', () => {

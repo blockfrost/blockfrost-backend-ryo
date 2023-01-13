@@ -1,10 +1,9 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { isUnpaged } from '../../utils/routes';
-import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { SQLQuery } from '../../sql';
-import * as QueryTypes from '../../types/queries/pools';
-import { getDbSync } from '../../utils/database';
-import { toJSONStream } from '../../utils/string-utils';
+import { isUnpaged } from '../../utils/routes.js';
+import { toJSONStream } from '../../utils/string-utils.js';
+import { SQLQuery } from '../../sql/index.js';
+import * as QueryTypes from '../../types/queries/pools.js';
+import { getDbSync } from '../../utils/database.js';
 
 async function pools(fastify: FastifyInstance) {
   fastify.route({
@@ -57,4 +56,4 @@ async function pools(fastify: FastifyInstance) {
   });
 }
 
-module.exports = pools;
+export default pools;

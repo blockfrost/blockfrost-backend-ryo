@@ -1,5 +1,5 @@
-import { Amount, OnchainMetadata, Order } from '../common';
-export type { ResultFound } from '../common';
+import { Amount, OnchainMetadata, Order } from '../common.js';
+export type { ResultFound } from '../common.js';
 export interface RequestParameters {
   Params: {
     address: string;
@@ -69,6 +69,7 @@ export interface AddressQuery {
   script: boolean;
 }
 
+// eslint-disable-next-line import/export
 export interface AddressTotalQuery {
   received_amount_lovelace: string;
   sent_amount_lovelace: string;
@@ -77,6 +78,7 @@ export interface AddressTotalQuery {
   tx_count: number;
 }
 
+// eslint-disable-next-line import/export
 export interface AddressTotalQuery {
   address: string;
   received_amount_lovelace: string;

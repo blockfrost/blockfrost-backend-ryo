@@ -1,11 +1,11 @@
-import * as databaseUtils from '../../../../src/utils/database';
+import * as databaseUtils from '../../../../src/utils/database.js';
 import sinon from 'sinon';
 import supertest from 'supertest';
 import fixtures from '../../fixtures/addresses.fixtures';
-import buildFastify from '../../../../src/app';
+import buildFastify from '../../../../src/app.js';
 import { describe, expect, test, vi } from 'vitest';
 
-import * as config from '../../../../src/config';
+import * as config from '../../../../src/config.js';
 
 describe('address service', () => {
   fixtures.map(fixture => {
