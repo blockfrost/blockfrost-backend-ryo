@@ -82,15 +82,20 @@ async function route(fastify: FastifyInstance) {
               const datumHex = rows[0] ? rows[0].cbor : null;
 
               if (datumHex) {
-                const datumMetadata = getMetadataFromOutputDatum(datumHex);
-                const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
+                try {
+                  const datumMetadata = getMetadataFromOutputDatum(datumHex);
+                  const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
 
-                if (result) {
-                  onchainMetadata = result.metadata;
-                  decimals =
-                    referenceNFT.standard === 'ft' && typeof result.metadata.decimals === 'number'
-                      ? result.metadata.decimals
-                      : decimals;
+                  if (result) {
+                    onchainMetadata = result.metadata;
+                    decimals =
+                      referenceNFT.standard === 'ft' && typeof result.metadata.decimals === 'number'
+                        ? result.metadata.decimals
+                        : decimals;
+                  }
+                } catch (error) {
+                  // Invalid datum hex, should not happen
+                  console.error(`Error while validating CIP68 datum ${datumHex}`, error);
                 }
               }
             }
