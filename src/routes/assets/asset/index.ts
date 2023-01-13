@@ -1,4 +1,7 @@
-import { getReferenceNFT } from '@blockfrost/blockfrost-utils/lib/cip68';
+import {
+  getMetadataFromOutputDatum,
+  getReferenceNFT,
+} from '@blockfrost/blockfrost-utils/lib/cip68';
 import { handleInvalidAsset } from '@blockfrost/blockfrost-utils/lib/fastify';
 import { validateAsset } from '@blockfrost/blockfrost-utils/lib/validation';
 import { getSchemaForEndpoint, validateCIP68Metadata } from '@blockfrost/openapi';
@@ -8,7 +11,6 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 
 import { SQLQuery } from '../../../sql';
 import * as QueryTypes from '../../../types/queries/assets';
-import { getMetadataFromOutputDatum } from '../../../utils/cip68';
 import { getDbSync } from '../../../utils/database';
 import { handle404 } from '../../../utils/error-handler';
 import { fetchAssetMetadata } from '../../../utils/token-registry';
