@@ -90,10 +90,14 @@ async function route(fastify: FastifyInstance) {
 
         // retrieve off-chain metadata
         const metadata = await fetchAssetMetadata(request.params.asset);
-        const fingerprint = AssetFingerprint.fromParts(
-          Uint8Array.from(Buffer.from(rows[0].policy_id, 'hex')),
-          Uint8Array.from(Buffer.from(rows[0].asset_name ?? '', 'hex')),
-        ).fingerprint();
+        // @ts-expect-error due to using ESM with vitest and some weirdness with cip14 lib we need to call .default
+        // otherwise unit test fails on  ""...is not a function".
+        const fingerprint = AssetFingerprint.default
+          .fromParts(
+            Uint8Array.from(Buffer.from(rows[0].policy_id, 'hex')),
+            Uint8Array.from(Buffer.from(rows[0].asset_name ?? '', 'hex')),
+          )
+          .fingerprint();
 
         return reply.send({
           ...rows[0],
