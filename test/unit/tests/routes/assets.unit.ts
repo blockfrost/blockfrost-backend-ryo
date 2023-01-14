@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import * as databaseUtils from '../../../../src/utils/database.js';
 import * as tokenRegistryUtils from '../../../../src/utils/token-registry.js';
 import supertest from 'supertest';
-import fixtures from '../../fixtures/assets.fixtures';
+import fixtures from '../../fixtures/assets.fixtures.js';
 import buildFastify from '../../../../src/app.js';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 

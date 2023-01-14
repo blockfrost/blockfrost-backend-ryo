@@ -1,7 +1,7 @@
 import * as databaseUtils from '../../../../src/utils/database.js';
 import sinon from 'sinon';
 import supertest from 'supertest';
-import fixtures from '../../fixtures/scripts.fixtures';
+import fixtures from '../../fixtures/scripts.fixtures.js';
 import buildFastify from '../../../../src/app.js';
 import { describe, expect, test, vi } from 'vitest';
 

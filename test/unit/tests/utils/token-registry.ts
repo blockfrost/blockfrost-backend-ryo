@@ -1,4 +1,4 @@
-import { transformTokenRegistryAssetFixture } from '../../fixtures/token-registry.fixtures';
+import { transformTokenRegistryAssetFixture } from '../../fixtures/token-registry.fixtures.js';
 import * as tokenRegistryUtils from '../../../../src/utils/token-registry.js';
 import { describe, expect, test } from 'vitest';
 

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import sinon from 'sinon';
 import supertest from 'supertest';
-import fixtures from '../../fixtures/txs.fixtures';
+import fixtures from '../../fixtures/txs.fixtures.js';
 import buildFastify from '../../../../src/app.js';
 import * as databaseUtils from '../../../../src/utils/database.js';
 import * as config from '../../../../src/config.js';

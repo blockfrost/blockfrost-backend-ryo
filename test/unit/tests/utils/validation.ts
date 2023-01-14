@@ -12,7 +12,7 @@ import {
   validatePositiveInRangeSignedBigIntFixture,
   validatePositiveInRangeSignedIntFixture,
   validateStakeAddressFixture,
-} from '../../fixtures/validation.fixtures';
+} from '../../fixtures/validation.fixtures.js';
 
 describe('validation-format-utils', () => {
   validateStakeAddressFixture.map(fixture => {

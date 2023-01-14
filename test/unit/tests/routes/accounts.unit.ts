@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import sinon from 'sinon';
 import { describe, expect, test, vi } from 'vitest';
-import fixtures from '../../fixtures/accounts.fixtures';
+import fixtures from '../../fixtures/accounts.fixtures.js';
 import buildFastify from '../../../../src/app.js';
 import * as config from '../../../../src/config.js';
 import * as databaseUtils from '../../../../src/utils/database.js';
