@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2023-01-15
+
 ### Added
 
 - support for CIP68 onchain metadata in `/assets/{asset}` and `/addresses/{address}/extended`
