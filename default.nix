@@ -59,8 +59,8 @@ rec {
         ${nodePackages.pm2}/bin/pm2 delete all; \
            ${nodePackages.pm2}/bin/pm2 start \
            $out/libexec/source/dist/server.js \
-           --interpreter=${pkgs.nodejs-16_x}/bin/node --node-args="--max-http-header-size=32768" \
-           --max-memory-restart 1500M \
+           --interpreter=${pkgs.nodejs-16_x}/bin/node --node-args="\''${BLOCKFROST_NODE_ARGS:-"--max-http-header-size=32768"}" \
+           --max-memory-restart \''${BLOCKFROST_MAX_MEMORY_RESTART:-"1500M"} \
            -i max --time --no-daemon
         EOF
         chmod +x $out/bin/${name}
