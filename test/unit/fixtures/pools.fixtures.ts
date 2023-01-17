@@ -336,11 +336,29 @@ export default [
     response: response_pools_regular_1,
   },
   {
+    name: 'respond with success and unpaged data on /pools',
+    endpoint: '/pools',
+    sqlQueryMock: {
+      rows: query_pools_regular_1,
+    },
+    unpaged: true,
+    response: response_pools_regular_1,
+  },
+  {
     name: 'respond with success and data on /pools/extended',
     endpoint: '/pools/extended',
     sqlQueryMock: {
       rows: query_pools_extended_reuglar_1,
     },
+    response: response_pools_extended_regular_1,
+  },
+  {
+    name: 'respond with success and unpaged data on /pools/extended',
+    endpoint: '/pools/extended',
+    sqlQueryMock: {
+      rows: query_pools_extended_reuglar_1,
+    },
+    unpaged: true,
     response: response_pools_extended_regular_1,
   },
   {
@@ -352,11 +370,29 @@ export default [
     response: response_pools_retired_regular_1,
   },
   {
+    name: 'respond with success and unpaged data on /pools/retired',
+    endpoint: '/pools/retired',
+    sqlQueryMock: {
+      rows: query_pools_retired_regular_1,
+    },
+    unpaged: true,
+    response: response_pools_retired_regular_1,
+  },
+  {
     name: 'respond with success and data on /pools/retiring',
     endpoint: '/pools/retiring',
     sqlQueryMock: {
       rows: query_pools_retiring_regular_1,
     },
+    response: response_pools_retiring_regular_1,
+  },
+  {
+    name: 'respond with success and unpaged data on /pools/retiring',
+    endpoint: '/pools/retiring',
+    sqlQueryMock: {
+      rows: query_pools_retiring_regular_1,
+    },
+    unpaged: true,
     response: response_pools_retiring_regular_1,
   },
   {
@@ -384,6 +420,18 @@ export default [
     sqlQueryMock2: {
       rows: query_pools_pool_id_history_regular_1,
     },
+    response: response_pools_pool_id_history_regular_1,
+  },
+  {
+    name: 'respond with success and unpaged data on /pools/:pool_id/history',
+    endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/history',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_pools_pool_id_history_regular_1,
+    },
+    unpaged: true,
     response: response_pools_pool_id_history_regular_1,
   },
   {
@@ -487,6 +535,18 @@ export default [
     response: response_pools_pool_id_delegators_regular_1,
   },
   {
+    name: 'respond with success and unpaged data on /pools/:pool_id/delegators',
+    endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/delegators',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_pools_pool_id_delegators_regular_1,
+    },
+    unpaged: true,
+    response: response_pools_pool_id_delegators_regular_1,
+  },
+  {
     name: 'respond with success and data on /pools/:pool_id/delegators',
     endpoint: '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/delegators',
     sqlQueryMock: {
@@ -520,6 +580,18 @@ export default [
     response: response_pools_pool_id_blocks_regular_1,
   },
   {
+    name: 'respond with success and unpaged data on /pools/:pool_id/blocks',
+    endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/blocks',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_pools_pool_id_blocks_regular_1,
+    },
+    unpaged: true,
+    response: response_pools_pool_id_blocks_regular_1,
+  },
+  {
     name: 'respond with success and data on /pools/:pool_id/blocks',
     endpoint: '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/blocks',
     sqlQueryMock: {
@@ -550,6 +622,18 @@ export default [
     sqlQueryMock2: {
       rows: query_pools_pool_id_updates_regular_1,
     },
+    response: response_pools_pool_id_updates_regular_1,
+  },
+  {
+    name: 'respond with success and unpaged data on /pools/:pool_id/updates',
+    endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/updates',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_pools_pool_id_updates_regular_1,
+    },
+    unpaged: true,
     response: response_pools_pool_id_updates_regular_1,
   },
   {

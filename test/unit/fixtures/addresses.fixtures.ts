@@ -1521,6 +1521,19 @@ export default [
     response: response_address_transactions_regular_1,
   },
   {
+    name: 'respond with success and unpaged data on /addresses/:address/transactions',
+    endpoint:
+      '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/transactions',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_address_transactions_regular_1,
+    },
+    unpaged: true,
+    response: response_address_transactions_regular_1,
+  },
+  {
     name: 'PAYMENT_CRED: respond with success and data on /addresses/:address/txs',
     endpoint: '/addresses/addr_vkh1tadmy527qewxvm0c77392d7pyd26xghcye2shs40m4skqhysmzt/txs',
     sqlQueryMock: {
@@ -1557,6 +1570,20 @@ export default [
     network: 'testnet',
   },
   {
+    name: 'TESTNET: respond with success and unpaged data on /addresses/:address/txs',
+    endpoint:
+      '/addresses/addr_test1qryydf62jprgmtfq02370u07ch8kluvjvm4zx7gn8gmpd9snea2aza02sj9c0h4nay20a0t7q28zhajng36a2taec0gqeywmev/txs',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_address_tx_regular_testnet_1,
+    },
+    unpaged: true,
+    response: response_address_tx_regular_testnet_1,
+    network: 'testnet',
+  },
+  {
     name: 'TESTNET: respond with success and data on /addresses/:address/txs',
     endpoint: '/addresses/addr_vkh1epr2wj5sg6x66gr650nlrlk9eahlrynxag3hjye6xctfvmdduge/txs', // 0 txs
     sqlQueryMock: {
@@ -1581,6 +1608,19 @@ export default [
     response: response_addresses_utxos_regular_1,
   },
   {
+    name: 'respond with success and unpaged data on /addresses/:address/utxos',
+    endpoint:
+      '/addresses/addr1qyw8xfunw6lhzzzsdrx5ze6j8ayxjhecv4ty5jtaey5jvwquwvnexa4lwyy9q6xdg9n4y06gd90nse2kffyhmjffycuq405jv6/utxos',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_addresses_utxos_regular_1,
+    },
+    unpaged: true,
+    response: response_addresses_utxos_regular_1,
+  },
+  {
     name: 'respond with success and data on /addresses/:address/utxos',
     endpoint: '/addresses/addr_vkh1r3ej0ymkhacss5rge4qkw53lfp547wr92e9yjlwf9ynrsk5q93m/utxos',
     sqlQueryMock: {
@@ -1589,6 +1629,18 @@ export default [
     sqlQueryMock2: {
       rows: query_addresses_utxos_regular_1,
     },
+    response: response_addresses_utxos_regular_1,
+  },
+  {
+    name: 'respond with success and unpaged data on /addresses/:address/utxos',
+    endpoint: '/addresses/addr_vkh1r3ej0ymkhacss5rge4qkw53lfp547wr92e9yjlwf9ynrsk5q93m/utxos',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_addresses_utxos_regular_1,
+    },
+    unpaged: true,
     response: response_addresses_utxos_regular_1,
   },
   {
@@ -1629,6 +1681,22 @@ export default [
     sqlQueryMock3: {
       rows: query_addresses_utxos_asset_regular_1,
     },
+    response: response_addresses_utxos_asset_regular_1,
+  },
+  {
+    name: 'respond with success and unpaged data on /addresses/:address/utxos/:asset',
+    endpoint:
+      '/addresses/addr_vkh1r3ej0ymkhacss5rge4qkw53lfp547wr92e9yjlwf9ynrsk5q93m/utxos/6b8d07d69639e9413dd637a1a815a7323c69c86abbafb66dbfdb1aa7',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_found,
+    },
+    sqlQueryMock3: {
+      rows: query_addresses_utxos_asset_regular_1,
+    },
+    unpaged: true,
     response: response_addresses_utxos_asset_regular_1,
   },
   {

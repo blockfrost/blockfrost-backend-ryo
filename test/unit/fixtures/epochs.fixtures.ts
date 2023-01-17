@@ -450,6 +450,18 @@ export default [
     response: response_epoch_number_next_regular,
   },
   {
+    name: 'respond with success and unpaged data on /epochs/:number/next 1',
+    endpoint: '/epochs/222/next',
+    sqlQueryMock: {
+      rows: epoch_found,
+    },
+    sqlQueryMock2: {
+      rows: query_epoch_number_next_regular,
+    },
+    unpaged: true,
+    response: response_epoch_number_next_regular,
+  },
+  {
     name: 'respond with success and data on /epochs/:number/next 2',
     endpoint: '/epochs/250/next',
     sqlQueryMock: {
@@ -472,6 +484,18 @@ export default [
     response: response_epoch_number_previous_regular,
   },
   {
+    name: 'respond with success and unpaged data on /epochs/:number/previous 1',
+    endpoint: '/epochs/222/previous',
+    sqlQueryMock: {
+      rows: epoch_found,
+    },
+    sqlQueryMock2: {
+      rows: query_epoch_number_previous_regular,
+    },
+    unpaged: true,
+    response: response_epoch_number_previous_regular,
+  },
+  {
     name: 'respond with success and data on /epochs/:number/previous 2',
     endpoint: '/epochs/0/previous',
     sqlQueryMock: {
@@ -491,6 +515,18 @@ export default [
     sqlQueryMock2: {
       rows: query_epochs_number_stakes_regular,
     },
+    response: response_epochs_number_stakes_regular,
+  },
+  {
+    name: 'respond with success and unpaged data on /epochs/:number/stakes 1',
+    endpoint: '/epochs/222/stakes',
+    sqlQueryMock: {
+      rows: epoch_found,
+    },
+    sqlQueryMock2: {
+      rows: query_epochs_number_stakes_regular,
+    },
+    unpaged: true,
     response: response_epochs_number_stakes_regular,
   },
   {
@@ -527,6 +563,21 @@ export default [
     sqlQueryMock3: {
       rows: query_epochs_number_stakes_pool_id_regular,
     },
+    response: response_epochs_number_stakes_pool_id_regular,
+  },
+  {
+    name: 'respond with success and unpaged data on /epochs/:number/stakes/:pool_id 1',
+    endpoint: '/epochs/243/stakes/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy',
+    sqlQueryMock: {
+      rows: epoch_found,
+    },
+    sqlQueryMock2: {
+      rows: epoch_found,
+    },
+    sqlQueryMock3: {
+      rows: query_epochs_number_stakes_pool_id_regular,
+    },
+    unpaged: true,
     response: response_epochs_number_stakes_pool_id_regular,
   },
   {
@@ -569,6 +620,18 @@ export default [
     response: response_epochs_number_blocks_regular,
   },
   {
+    name: 'respond with success and unpaged data on /epochs/:number/block 1',
+    endpoint: '/epochs/243/blocks',
+    sqlQueryMock: {
+      rows: epoch_found,
+    },
+    sqlQueryMock2: {
+      rows: query_epochs_number_blocks_regular,
+    },
+    unpaged: true,
+    response: response_epochs_number_blocks_regular,
+  },
+  {
     name: 'respond with success and data on /epochs/:number/block 2',
     endpoint: '/epochs/0/blocks',
     sqlQueryMock: {
@@ -591,6 +654,21 @@ export default [
     sqlQueryMock3: {
       rows: query_epochs_number_blocks_pool_id_regular,
     },
+    response: response_epochs_number_blocks_pool_id_regular,
+  },
+  {
+    name: 'respond with success and unpaged data on /epoch/:number/block/:pool_id 1',
+    endpoint: '/epochs/243/blocks/pool152ha79a677s2skr5n9cethtg549nljxm2vlzqfgaf8hq67q3790',
+    sqlQueryMock: {
+      rows: epoch_found,
+    },
+    sqlQueryMock2: {
+      rows: epoch_found,
+    },
+    sqlQueryMock3: {
+      rows: query_epochs_number_blocks_pool_id_regular,
+    },
+    unpaged: true,
     response: response_epochs_number_blocks_pool_id_regular,
   },
   {

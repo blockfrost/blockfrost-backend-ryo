@@ -30,7 +30,11 @@ describe('address service', () => {
       queryMock.onCall(1).resolves(fixture.sqlQueryMock2);
       queryMock.onCall(2).resolves(fixture.sqlQueryMock3);
 
-      const response = await supertest(fastify.server).get(fixture.endpoint);
+      const response = fixture.unpaged
+        ? await supertest(fastify.server)
+            .get(fixture.endpoint)
+            .set('unpaged', 'arbitraryStringValue')
+        : await supertest(fastify.server).get(fixture.endpoint);
 
       expect(response).toSatisfyApiSpec();
       expect(response.body).toEqual(fixture.response);
