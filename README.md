@@ -113,7 +113,7 @@ docker run --rm \
 To start the Blockfrost backend under nix, just run:
 
 ```console
-$(nix-build -A blockfrost-backend --no-out-link)/bin/blockfrost-backend
+$(nix-build -A blockfrost-backend-ryo --no-out-link)/bin/blockfrost-backend-ryo
 ```
 
 ## Developing
