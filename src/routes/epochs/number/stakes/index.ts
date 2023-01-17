@@ -7,6 +7,7 @@ import * as ResponseTypes from '../../../../types/responses/epochs';
 import { getDbSync } from '../../../../utils/database';
 import { handle400Custom, handle404 } from '../../../../utils/error-handler';
 import { validatePositiveInRangeSignedInt } from '../../../../utils/validation';
+import { toJSONStream } from '../../../../utils/string-utils';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -32,7 +33,8 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.EpochStakes } = isUnpaged(request)
+        const unpaged = isUnpaged(request);
+        const { rows }: { rows: ResponseTypes.EpochStakes } = unpaged
           ? await clientDbSync.query<QueryTypes.EpochStake>(
               SQLQuery.get('epochs_number_stakes_unpaged'),
               [request.params.number],
@@ -49,7 +51,15 @@ async function route(fastify: FastifyInstance) {
           return reply.send([]);
         }
 
-        return reply.send(rows);
+        if (unpaged) {
+          // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
+          // https://www.fastify.io/docs/latest/Reference/Reply/#raw
+          reply.raw.writeHead(200, { 'Content-Type': 'application/json' });
+          toJSONStream(rows, reply.raw);
+          return reply.raw.end();
+        } else {
+          return reply.send(rows);
+        }
       } catch (error) {
         if (clientDbSync) {
           clientDbSync.release();

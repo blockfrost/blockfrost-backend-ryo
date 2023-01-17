@@ -9,6 +9,7 @@ import * as ResponseTypes from '../../../../types/responses/addresses';
 import { getDbSync } from '../../../../utils/database';
 import { handle404, handleInvalidAddress } from '../../../../utils/error-handler';
 import { getAddressTypeAndPaymentCred } from '../../../../utils/validation';
+import { toJSONStream } from '../../../../utils/string-utils';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -54,7 +55,8 @@ async function route(fastify: FastifyInstance) {
           }
         }
 
-        const { rows } = isUnpaged(request)
+        const unpaged = isUnpaged(request);
+        const { rows } = unpaged
           ? await clientDbSync.query<QueryTypes.AddressUtxosQuery>(
               SQLQuery.get('addresses_address_utxos_asset_unpaged'),
               [request.query.order, request.params.address, paymentCred, request.params.asset],
@@ -107,7 +109,15 @@ async function route(fastify: FastifyInstance) {
           });
         }
 
-        return reply.send(result);
+        if (unpaged) {
+          // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
+          // https://www.fastify.io/docs/latest/Reference/Reply/#raw
+          reply.raw.writeHead(200, { 'Content-Type': 'application/json' });
+          toJSONStream(result, reply.raw);
+          return reply.raw.end();
+        } else {
+          return reply.send(result);
+        }
       } catch (error) {
         if (clientDbSync) {
           clientDbSync.release();
