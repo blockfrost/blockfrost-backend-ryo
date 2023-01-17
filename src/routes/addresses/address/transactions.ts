@@ -83,8 +83,8 @@ async function route(fastify: FastifyInstance) {
           // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
           // https://www.fastify.io/docs/latest/Reference/Reply/#raw
           reply.raw.writeHead(200, { 'Content-Type': 'application/json' });
-          toJSONStream(rows, reply.raw);
-          return reply.raw.end();
+          await toJSONStream(rows, reply.raw);
+          return reply;
         } else {
           return reply.send(rows);
         }

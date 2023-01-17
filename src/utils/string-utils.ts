@@ -1,4 +1,3 @@
-import { ServerResponse } from 'http';
 import JSONStream from 'JSONStream';
 import stream from 'stream';
 
@@ -86,61 +85,21 @@ export const sortKeysInObject = (object: any) => {
   return newObject;
 };
 
-export const toJSONStream = (data: any[], serverResponse?: ServerResponse) => {
+export const toJSONStream = async (data: any[], serverResponse: stream.Writable) => {
   // Converts array of JS objects to JSON using JSONStream because
   // JSON.stringify-ing large objects can result in out of memory errors.
-  // If serverResponse is provided pipe the JSON output to this stream.
-  // Otherwise this will create 2 new streams (writable and readable) and return the readable one
-  // after JSON transformation is completed.
   // Example usage:
   // reply.raw.writeHead(200, { 'Content-Type': 'application/json' });
   // toJSONStream(data, reply.raw);
-  // reply.raw.end();
+
+  // push data to readable stream
+  const dataStream = stream.Readable.from(data);
+  // initialize transformer that will convert the data to JSON string
   const transformStream = JSONStream.stringify('[', ',', ']');
+  // push data from dataStream through transformStream to serverResponse
+  // which writable stream from fastify reply
 
-  if (serverResponse) {
-    transformStream.pipe(serverResponse);
-
-    for (const row of data) {
-      transformStream.write(row);
-    }
-    transformStream.end();
-    return transformStream;
-  }
-
-  return new Promise<stream.Readable>((resolve, reject) => {
-    // Create a buffer to hold the response chunks
-    const buffer = new stream.Readable();
-
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    buffer._read = () => {};
-
-    // Create a writable stream used by JSONStream for JSON output
-    const writableStream = new stream.Writable();
-
-    writableStream._write = (chunk, _encoding, done) => {
-      buffer.push(chunk);
-      done();
-    };
-
-    if (serverResponse) {
-      transformStream.pipe(serverResponse);
-    }
-    transformStream.pipe(writableStream);
-
-    for (const row of data) {
-      transformStream.write(row);
-    }
-    transformStream.end();
-
-    writableStream.on('finish', () => {
-      // end sending
-      buffer.push(null);
-      resolve(buffer);
-    });
-
-    writableStream.on('error', error => {
-      reject(error);
-    });
-  });
+  return dataStream.pipe(transformStream).pipe(serverResponse);
+  // Usage of pipeline below throws ERR_STREAM_PREMATURE_CLOSE after multiple calls.
+  // return pipeline(dataStream, transformStream, serverResponse);
 };

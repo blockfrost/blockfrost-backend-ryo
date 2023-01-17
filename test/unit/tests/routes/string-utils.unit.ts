@@ -5,6 +5,7 @@ import {
   toJSONStream,
 } from '../../../../src/utils/string-utils';
 import { describe, expect, test } from 'vitest';
+import stream from 'stream';
 
 describe('stringUtils', async () => {
   test('getRequestUrl', () => {
@@ -150,14 +151,24 @@ describe('stringUtils', async () => {
   });
 
   test('toJSONStream', async () => {
-    const readableStream = await toJSONStream([{ a: 'a', b: 2, c: undefined }, { a: 10.2 }, null]);
-
-    readableStream.setEncoding('utf8');
     let data = '';
+    const w = new stream.Writable();
+    w._write = (chunk, _encoding, done) => {
+      data += Buffer.from(chunk);
+      done();
+    };
 
-    for await (const chunk of readableStream) {
-      data += chunk;
-    }
-    expect(data).toStrictEqual(`[{"a":"a","b":2},{"a":10.2},null]`);
+    await toJSONStream([{ a: 'a', b: 2, c: undefined, d: null }, { a: 10.2 }], w);
+
+    // we need to wait till stream calls 'finish' event to have all chunks processed
+    await new Promise((resolve, reject) => {
+      w.on('error', err => {
+        reject(err);
+      });
+      w.on('finish', () => {
+        expect(data).toStrictEqual(`[{"a":"a","b":2,"d":null},{"a":10.2}]`);
+        resolve(true);
+      });
+    });
   });
 });
