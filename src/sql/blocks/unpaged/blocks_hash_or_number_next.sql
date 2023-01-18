@@ -42,7 +42,7 @@ FROM (
       extract(
         epoch
         FROM b.time
-      ) AS "time",
+      )::INTEGER AS "time",
       b.block_no AS "height",
       encode(b.hash, 'hex') AS "hash",
       b.slot_no AS "slot",

@@ -4,7 +4,7 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
   extract(
     epoch
     FROM b.time
-  ) AS "block_time"
+  )::INTEGER AS "block_time"
 FROM (
     SELECT txo.tx_id AS "tx_id"
     FROM ma_tx_out mto
