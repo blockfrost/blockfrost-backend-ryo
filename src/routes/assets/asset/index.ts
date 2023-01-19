@@ -85,6 +85,9 @@ async function route(fastify: FastifyInstance) {
 
         // retrieve off-chain metadata
         const metadata = await fetchAssetMetadata(request.params.asset);
+
+        console.log('run ci run', metadata);
+
         const fingerprint = AssetFingerprint.fromParts(
           Uint8Array.from(Buffer.from(rows[0].policy_id, 'hex')),
           Uint8Array.from(Buffer.from(rows[0].asset_name ?? '', 'hex')),
