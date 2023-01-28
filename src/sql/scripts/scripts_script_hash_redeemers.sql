@@ -5,10 +5,11 @@ SELECT encode(tx.hash, 'hex') "tx_hash",
   r.unit_steps::TEXT AS "unit_steps", -- cast to TEXT to avoid number overflow
   r.fee::TEXT AS "fee", -- cast to TEXT to avoid number overflow
   encode(redeemer_data.hash, 'hex') AS "redeemer_data_hash",
-  encode(redeemer_data.hash, 'hex') AS "datum_hash" -- deprecated
+  encode(datum.hash, 'hex') AS "datum_hash" -- deprecated
 FROM redeemer r
   JOIN tx ON (r.tx_id = tx.id)
   JOIN redeemer_data ON (r.redeemer_data_id = redeemer_data.id)
+  JOIN datum ON (r.tx_id = datum.tx_id)
 WHERE encode(r.script_hash, 'hex') = $4
 ORDER BY CASE
     WHEN LOWER($1) = 'desc' THEN r.id

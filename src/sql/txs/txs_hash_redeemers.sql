@@ -5,9 +5,10 @@ SELECT r.index AS "tx_index",
   r.fee::TEXT AS "fee", -- cast to TEXT to avoid number overflow
   encode(r.script_hash, 'hex') AS "script_hash",
   encode(redeemer_data.hash, 'hex') AS "redeemer_data_hash",
-  encode(redeemer_data.hash, 'hex') AS "datum_hash" -- deprecated
+  encode(datum.hash, 'hex') AS "datum_hash" -- deprecated
 FROM redeemer r
   JOIN tx ON (r.tx_id = tx.id)
   JOIN redeemer_data ON (r.redeemer_data_id = redeemer_data.id)
+  JOIN datum ON (r.tx_id = datum.tx_id)
 WHERE encode(tx.hash, 'hex') = $1
 ORDER BY r.index ASC

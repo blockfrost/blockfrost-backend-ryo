@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- incorrect `datum_hash` in `/txs` and `/scripts`
+
 ## [1.3.0] - 2023-01-15
 
 ### Added
