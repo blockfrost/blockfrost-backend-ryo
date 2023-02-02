@@ -1,4 +1,7 @@
-import { getReferenceNFT } from '@blockfrost/blockfrost-utils/lib/cip68';
+import {
+  getMetadataFromOutputDatum,
+  getReferenceNFT,
+} from '@blockfrost/blockfrost-utils/lib/cip68';
 import { handleInvalidAsset } from '@blockfrost/blockfrost-utils/lib/fastify';
 import { validateAsset } from '@blockfrost/blockfrost-utils/lib/validation';
 import { getSchemaForEndpoint, validateCIP68Metadata } from '@blockfrost/openapi';
@@ -8,7 +11,6 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 
 import { SQLQuery } from '../../../sql';
 import * as QueryTypes from '../../../types/queries/assets';
-import { getMetadataFromOutputDatum } from '../../../utils/cip68';
 import { getDbSync } from '../../../utils/database';
 import { handle404 } from '../../../utils/error-handler';
 import { fetchAssetMetadata } from '../../../utils/token-registry';
@@ -32,9 +34,8 @@ async function route(fastify: FastifyInstance) {
           request.params.asset,
         ]);
 
-        clientDbSync.release();
-
         if (rows.length === 0) {
+          clientDbSync.release();
           return handle404(reply);
         }
 
@@ -49,18 +50,26 @@ async function route(fastify: FastifyInstance) {
             SQLQuery.get('assets_asset_utxo_datum'),
             [referenceNFT.hex],
           );
-          const datumHex = rows[0].cbor;
+
+          const datumHex = rows[0] ? rows[0].cbor : null;
 
           if (datumHex) {
-            const datumMetadata = getMetadataFromOutputDatum(datumHex);
-            const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
+            try {
+              const datumMetadata = getMetadataFromOutputDatum(datumHex);
+              const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
 
-            if (result) {
-              onchainMetadata = result.metadata;
-              onchainMetadataStandard = result.version;
+              if (result) {
+                onchainMetadata = result.metadata;
+                onchainMetadataStandard = result.version;
+              }
+            } catch (error) {
+              // Invalid datum hex, should not happen
+              console.error(`Error while validating CIP68 datum ${datumHex}`, error);
             }
           }
         }
+
+        clientDbSync.release();
 
         if (!onchainMetadata) {
           // validate CIP25 on-chain metadata if CIP68 metadata are not present (or not valid)

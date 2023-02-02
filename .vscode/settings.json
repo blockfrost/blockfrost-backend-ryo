@@ -12,6 +12,7 @@
     "nutcoin",
     "nutlink",
     "openapi",
+    "prebuild",
     "preprod",
     "ts",
     "utxo",

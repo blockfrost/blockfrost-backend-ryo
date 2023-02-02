@@ -32,7 +32,7 @@ export const GENESIS: Record<Network, ResponseTypes.Ledger> = {
     max_lovelace_supply: '45000000000000000',
     network_magic: 2,
     epoch_length: 86_400,
-    system_start: 1_666_692_000,
+    system_start: 1_666_656_000,
     slots_per_kes_period: 129_600,
     slot_length: 1,
     max_kes_evolutions: 62,

@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2023-01-15
+
 ### Added
 
 - support for CIP68 onchain metadata in `/assets/{asset}` and `/addresses/{address}/extended`
+- support for configurable memory settings for pm2 in the nix service
 
 ### Changed
 
@@ -18,7 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- tests
 - `/network/eras` endpoint returning incorrect latest epoch boundary
+- `preview`: Corrected `system_start` (`/genesis` endpoint)
 
 ## [1.2.0] - 2022-12-14
 

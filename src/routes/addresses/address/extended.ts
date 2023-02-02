@@ -49,8 +49,6 @@ async function route(fastify: FastifyInstance) {
           [request.params.address, paymentCred],
         );
 
-        clientDbSync.release();
-
         // if paymentCred is used we have to convert it back to bech32
         if (paymentCred) {
           const bech32paymentCred = paymentCredToBech32Address(rows[0].address);
@@ -80,18 +78,24 @@ async function route(fastify: FastifyInstance) {
                 SQLQuery.get('assets_asset_utxo_datum'),
                 [referenceNFT.hex],
               );
-              const datumHex = rows[0].cbor;
+
+              const datumHex = rows[0] ? rows[0].cbor : null;
 
               if (datumHex) {
-                const datumMetadata = getMetadataFromOutputDatum(datumHex);
-                const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
+                try {
+                  const datumMetadata = getMetadataFromOutputDatum(datumHex);
+                  const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
 
-                if (result) {
-                  onchainMetadata = result.metadata;
-                  decimals =
-                    referenceNFT.standard === 'ft' && typeof result.metadata.decimals === 'number'
-                      ? result.metadata.decimals
-                      : decimals;
+                  if (result) {
+                    onchainMetadata = result.metadata;
+                    decimals =
+                      referenceNFT.standard === 'ft' && typeof result.metadata.decimals === 'number'
+                        ? result.metadata.decimals
+                        : decimals;
+                  }
+                } catch (error) {
+                  // Invalid datum hex, should not happen
+                  console.error(`Error while validating CIP68 datum ${datumHex}`, error);
                 }
               }
             }
@@ -115,6 +119,8 @@ async function route(fastify: FastifyInstance) {
             });
           }
         }
+
+        clientDbSync.release();
 
         // quantities/amounts are returned as string from database so they won't overflow JS number
         const result: ResponseTypes.AddressExtended = rows[0].amount
