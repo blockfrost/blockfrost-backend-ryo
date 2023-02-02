@@ -102,6 +102,9 @@ async function route(fastify: FastifyInstance) {
 
             if (!onchainMetadata) {
               // validate CIP25 on-chain metadata if CIP68 metadata are not present (or not valid)
+              console.log('unit', unit);
+              console.log(' onchain_metadata', asset.onchain_metadata);
+              console.log(' asset.onchain_metadata_cbor', asset.onchain_metadata_cbor);
               const { onchainMetadata: CIP25OnchainMetadata } = getOnchainMetadata(
                 asset.onchain_metadata,
                 asset.asset_name,

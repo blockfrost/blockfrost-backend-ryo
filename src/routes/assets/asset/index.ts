@@ -80,6 +80,9 @@ async function route(fastify: FastifyInstance) {
             rows[0].onchain_metadata_cbor,
           );
 
+          console.log(' rows[0].onchain_metadata', rows[0].onchain_metadata);
+          console.log(' rows[0].onchain_metadata_cbor', rows[0].onchain_metadata_cbor);
+
           onchainMetadata = CIP25OnchainMetadata;
           onchainMetadataStandard = validCIPversion;
         }
