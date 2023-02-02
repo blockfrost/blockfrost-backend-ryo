@@ -58,6 +58,7 @@ export interface AmountExtended {
   quantity: string;
   decimals: null | number;
   onchain_metadata: OnchainMetadata | null;
+  onchain_metadata_cbor: string | null;
 }
 
 export interface AddressQuery {
