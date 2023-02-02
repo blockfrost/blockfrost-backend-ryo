@@ -80,9 +80,6 @@ async function route(fastify: FastifyInstance) {
             rows[0].onchain_metadata_cbor,
           );
 
-          console.log(' rows[0].onchain_metadata', rows[0].onchain_metadata);
-          console.log(' rows[0].onchain_metadata_cbor', rows[0].onchain_metadata_cbor);
-
           onchainMetadata = CIP25OnchainMetadata;
           onchainMetadataStandard = validCIPversion;
         }
@@ -102,7 +99,6 @@ async function route(fastify: FastifyInstance) {
           fingerprint,
         });
       } catch (error) {
-        console.log(error);
         if (clientDbSync) {
           clientDbSync.release();
         }
