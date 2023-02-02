@@ -106,6 +106,8 @@ async function route(fastify: FastifyInstance) {
                 asset.onchain_metadata,
                 asset.asset_name,
                 asset.policy_id,
+                // TODO: Update SQL query to select cbor metadata
+                asset.onchain_metadata_cbor,
               );
 
               onchainMetadata = CIP25OnchainMetadata;

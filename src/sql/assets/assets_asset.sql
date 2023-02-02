@@ -29,6 +29,22 @@ SELECT (
       )
       AND txm.key = 721
   ) AS "onchain_metadata",
+  (
+    SELECT encode(txm.bytes, 'hex')
+    FROM tx_metadata txm
+    WHERE txm.tx_id = (
+        SELECT MAX(txmmax.tx_id)
+        FROM ma_tx_mint mtmmax
+          JOIN multi_asset ma ON (mtmmax.ident = ma.id)
+          JOIN tx_metadata txmmax ON (mtmmax.tx_id = txmmax.tx_id)
+        WHERE txmmax.key = 721
+          AND quantity > 0
+          AND (
+            encode(ma.policy, 'hex') || encode(ma.name, 'hex')
+          ) = $1
+      )
+      AND txm.key = 721
+  ) AS "onchain_metadata_cbor",
   null AS "metadata"
 FROM ma_tx_mint mtm
   JOIN multi_asset ma ON (mtm.ident = ma.id)

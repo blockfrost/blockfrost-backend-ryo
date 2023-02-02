@@ -26,7 +26,7 @@
   "dependencies": {
     "@blockfrost/blockfrost-js": "5.2.0",
     "@blockfrost/blockfrost-utils": "2.2.0",
-    "@blockfrost/openapi": "0.1.52",
+    "@blockfrost/openapi": "0.1.53-beta.4",
     "@emurgo/cardano-serialization-lib-nodejs": "11.2.0",
     "@emurgo/cip14-js": "^3.0.1",
     "@fastify/cors": "^8.2.0",

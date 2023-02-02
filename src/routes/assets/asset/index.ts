@@ -77,6 +77,7 @@ async function route(fastify: FastifyInstance) {
             rows[0].onchain_metadata,
             rows[0].asset_name,
             rows[0].policy_id,
+            rows[0].onchain_metadata_cbor,
           );
 
           onchainMetadata = CIP25OnchainMetadata;
@@ -98,6 +99,7 @@ async function route(fastify: FastifyInstance) {
           fingerprint,
         });
       } catch (error) {
+        console.log(error);
         if (clientDbSync) {
           clientDbSync.release();
         }

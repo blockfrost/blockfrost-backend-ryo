@@ -81,6 +81,7 @@ export interface Asset {
   quantity: string;
   initial_mint_tx_id: string;
   onchain_metadata: OnchainMetadata | null;
+  onchain_metadata_cbor: string | null;
   metadata: Metadata | null;
   initial_mint_tx_hash: string;
   mint_or_burn_count: number;
