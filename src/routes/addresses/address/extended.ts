@@ -106,6 +106,7 @@ async function route(fastify: FastifyInstance) {
                 asset.onchain_metadata,
                 asset.asset_name,
                 asset.policy_id,
+                asset.onchain_metadata_cbor,
               );
 
               onchainMetadata = CIP25OnchainMetadata;

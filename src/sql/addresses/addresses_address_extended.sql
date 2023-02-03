@@ -57,7 +57,9 @@ SELECT (
           token_quantity::TEXT,
           -- cast to TEXT to avoid number overflow
           'onchain_metadata',
-          onchain_metadata
+          onchain_metadata_combined->'json',
+          'onchain_metadata_cbor',
+          onchain_metadata_combined->'cbor'
         )
       )
     FROM (
@@ -66,7 +68,12 @@ SELECT (
           SUM(quantity) AS "token_quantity",
           (
             -- retrieve the latest metadata for further CIP-25 v2 validation outside of SQL
-            SELECT txm.json
+            SELECT json_build_object(
+                'json',
+                txm.json,
+                'cbor',
+                encode(txm.bytes, 'hex')
+              )
             FROM tx_metadata txm
             WHERE txm.tx_id = (
                 SELECT MAX(txmmax.tx_id)
@@ -80,7 +87,7 @@ SELECT (
                   ) = encode(ma.policy, 'hex') || encode(ma.name, 'hex')
               )
               AND txm.key = 721
-          ) AS "onchain_metadata"
+          ) AS "onchain_metadata_combined"
         FROM ma_tx_out mto
           JOIN multi_asset ma ON (mto.ident = ma.id)
         WHERE mto.id IN (
