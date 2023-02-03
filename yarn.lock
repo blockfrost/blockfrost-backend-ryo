@@ -81,12 +81,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockfrost/blockfrost-tests@npm:1.1.7":
-  version: 1.1.7
-  resolution: "@blockfrost/blockfrost-tests@npm:1.1.7"
+"@blockfrost/blockfrost-tests@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@blockfrost/blockfrost-tests@npm:1.5.0"
   dependencies:
     expect: ^29.3.1
-  checksum: 2800e9062bc3206d50a0a11d6c9f00a1f27bcf65763c136ed9d6fb41aa655841547df290b589956f205140304c5bad2e3dfc7a7ed0943b0182d0e5518beca55c
+    node-match-path: ^0.6.3
+  checksum: 8322d8ba3a47e524fb96562195191a99999224d461c7472cae1f2693342938feaff20a0b1e5659937eca8ffc9f70380062c0e663a7792c85cf678468adea5a67
   languageName: node
   linkType: hard
 
@@ -1550,7 +1551,7 @@ __metadata:
   resolution: "blockfrost-backend-ryo@workspace:."
   dependencies:
     "@blockfrost/blockfrost-js": 5.2.0
-    "@blockfrost/blockfrost-tests": 1.1.7
+    "@blockfrost/blockfrost-tests": 1.5.0
     "@blockfrost/blockfrost-utils": 2.3.0
     "@blockfrost/openapi": 0.1.53
     "@emurgo/cardano-serialization-lib-nodejs": 11.2.0
@@ -4887,6 +4888,13 @@ __metadata:
   bin:
     node-gyp: bin/node-gyp.js
   checksum: 08582720f28f9a9bb64bc9cbe2f58b159c0258326a9c898e4e95d2f2d8002f44602338111ebf980e5aa47a3421e071525b758923b76855d780fab8cc03279ae0
+  languageName: node
+  linkType: hard
+
+"node-match-path@npm:^0.6.3":
+  version: 0.6.3
+  resolution: "node-match-path@npm:0.6.3"
+  checksum: d515bc069f293688109c058ee02567528fdaa856290d362b80a2254734975014e4eefcdcc5164a8adfd5560aa870e277c97fe8be648074d5088056cf61553c7c
   languageName: node
   linkType: hard
 
