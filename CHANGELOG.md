@@ -7,11 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.3.0] - 2023-01-15
+## [1.3.1] - 2023-02-03
 
 ### Fixed
 
 - CIP25v2 metadata validation
+
+## [1.3.0] - 2023-01-15
 
 ### Added
 
