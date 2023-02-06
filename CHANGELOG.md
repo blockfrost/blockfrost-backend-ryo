@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - support for CIP68 onchain metadata in `/assets/{asset}` and `/addresses/{address}/extended`
 - support for configurable memory settings for pm2 in the nix service
 
+### Added
+
+- `unpaged` queries
+
 ### Changed
 
 - split routes into files

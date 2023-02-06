@@ -464,6 +464,18 @@ export default [
     response: response_accounts_delegation_regular_1,
   },
   {
+    name: 'respond with success and unpaged data on /accounts/:stake_address/delegations',
+    endpoint: '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/delegations',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_accounts_delegation_regular_1,
+    },
+    unpaged: true,
+    response: response_accounts_delegation_regular_1,
+  },
+  {
     name: 'respond with success and data on /accounts/:stake_address/delegations',
     endpoint: '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/delegations',
     sqlQueryMock: {
@@ -486,6 +498,18 @@ export default [
     response: response_accounts_registration_regular_1,
   },
   {
+    name: 'respond with success and unpaged data on /accounts/:stake_address/registrations',
+    endpoint: '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/registrations',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_accounts_registration_regular_1,
+    },
+    unpaged: true,
+    response: response_accounts_registration_regular_1,
+  },
+  {
     name: 'respond with success and data on /accounts/:stake_address/registrations',
     endpoint: '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/registrations',
     sqlQueryMock: {
@@ -505,6 +529,18 @@ export default [
     sqlQueryMock2: {
       rows: query_accounts_history_regular_1,
     },
+    response: response_accounts_history_regular_1,
+  },
+  {
+    name: 'respond with success and unpaged data on /accounts/:stake_address/history',
+    endpoint: '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/history',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_accounts_history_regular_1,
+    },
+    unpaged: true,
     response: response_accounts_history_regular_1,
   },
   {
@@ -552,6 +588,18 @@ export default [
     response: response_accounts_mirs_regular_1,
   },
   {
+    name: 'respond with success and unpaged data on /accounts/:stake_address/mirs',
+    endpoint: '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/mirs',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_accounts_mirs_regular_1,
+    },
+    unpaged: true,
+    response: response_accounts_mirs_regular_1,
+  },
+  {
     name: 'respond with success and data on /accounts/:stake_address/mirs',
     endpoint: '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/mirs',
     sqlQueryMock: {
@@ -571,6 +619,18 @@ export default [
     sqlQueryMock2: {
       rows: query_accounts_addresses_regular_1,
     },
+    response: response_accounts_addresses_regular_1,
+  },
+  {
+    name: 'respond with success and unpaged data on /accounts/:stake_address/addresses',
+    endpoint: '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/addresses',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_accounts_addresses_regular_1,
+    },
+    unpaged: true,
     response: response_accounts_addresses_regular_1,
   },
   {
@@ -597,6 +657,19 @@ export default [
     response: response_accounts_addresses_assets_regular_1,
   },
   {
+    name: 'respond with success and unpaged data on /accounts/:stake_address/addresses/assets',
+    endpoint:
+      '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/addresses/assets',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: request_accounts_addresses_assets_regular_1,
+    },
+    unpaged: true,
+    response: response_accounts_addresses_assets_regular_1,
+  },
+  {
     name: 'respond with success and data on /accounts/:stake_address/addresses/assets',
     endpoint:
       '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/addresses/assets',
@@ -618,6 +691,19 @@ export default [
     sqlQueryMock2: {
       rows: query_accounts_addresses_addresses_total_1,
     },
+    response: response_accounts_addresses_addresses_total_1,
+  },
+  {
+    name: 'respond with success and data on /accounts/:stake_address/addresses/total',
+    endpoint:
+      '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/addresses/total',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_accounts_addresses_addresses_total_1,
+    },
+    unpaged: true,
     response: response_accounts_addresses_addresses_total_1,
   },
   /*

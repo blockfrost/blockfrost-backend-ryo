@@ -1,9 +1,10 @@
-import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
+import { isUnpaged } from '../../utils/routes';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { SQLQuery } from '../../sql';
 import * as QueryTypes from '../../types/queries/pools';
 import { getDbSync } from '../../utils/database';
+import { toJSONStream } from '../../utils/string-utils';
 
 async function pools(fastify: FastifyInstance) {
   fastify.route({
@@ -14,11 +15,16 @@ async function pools(fastify: FastifyInstance) {
       const clientDbSync = await getDbSync(fastify);
 
       try {
-        const { rows } = await clientDbSync.query<QueryTypes.Pools>(SQLQuery.get('pools'), [
-          request.query.order,
-          request.query.count,
-          request.query.page,
-        ]);
+        const unpaged = isUnpaged(request);
+        const { rows } = unpaged
+          ? await clientDbSync.query<QueryTypes.Pools>(SQLQuery.get('pools_unpaged'), [
+              request.query.order,
+            ])
+          : await clientDbSync.query<QueryTypes.Pools>(SQLQuery.get('pools'), [
+              request.query.order,
+              request.query.count,
+              request.query.page,
+            ]);
 
         clientDbSync.release();
 
@@ -32,7 +38,15 @@ async function pools(fastify: FastifyInstance) {
           list.push(row.pool_id);
         }
 
-        return reply.send(list);
+        if (unpaged) {
+          // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
+          // https://www.fastify.io/docs/latest/Reference/Reply/#raw
+          reply.raw.writeHead(200, { 'Content-Type': 'application/json' });
+          await toJSONStream(list, reply.raw);
+          return reply;
+        } else {
+          return reply.send(list);
+        }
       } catch (error) {
         if (clientDbSync) {
           clientDbSync.release();

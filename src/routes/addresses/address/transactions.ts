@@ -1,12 +1,12 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { isUnpaged } from '../../../utils/routes';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { SQLQuery } from '../../../sql';
 import * as QueryTypes from '../../../types/queries/addresses';
 import * as ResponseTypes from '../../../types/responses/addresses';
 import { getDbSync } from '../../../utils/database';
 import { handle400Custom, handle404, handleInvalidAddress } from '../../../utils/error-handler';
-import { getAdditionalParametersFromRequest } from '../../../utils/string-utils';
+import { getAdditionalParametersFromRequest, toJSONStream } from '../../../utils/string-utils';
 import { getAddressTypeAndPaymentCred } from '../../../utils/validation';
 
 async function route(fastify: FastifyInstance) {
@@ -48,25 +48,46 @@ async function route(fastify: FastifyInstance) {
           );
         }
 
-        const { rows }: { rows: ResponseTypes.AddressTransactions } =
-          await clientDbSync.query<QueryTypes.AddressTransactionsQuery>(
-            SQLQuery.get('addresses_address_transactions'),
-            [
-              request.query.order,
-              request.query.count,
-              request.query.page,
-              request.params.address,
-              paymentCred,
-              fromToParameters[0],
-              fromToParameters[1],
-              fromToParameters[2],
-              fromToParameters[3],
-            ],
-          );
+        const unpaged = isUnpaged(request);
+        const { rows }: { rows: ResponseTypes.AddressTransactions } = unpaged
+          ? await clientDbSync.query<QueryTypes.AddressTransactionsQuery>(
+              SQLQuery.get('addresses_address_transactions_unpaged'),
+              [
+                request.query.order,
+                request.params.address,
+                paymentCred,
+                fromToParameters[0],
+                fromToParameters[1],
+                fromToParameters[2],
+                fromToParameters[3],
+              ],
+            )
+          : await clientDbSync.query<QueryTypes.AddressTransactionsQuery>(
+              SQLQuery.get('addresses_address_transactions'),
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                request.params.address,
+                paymentCred,
+                fromToParameters[0],
+                fromToParameters[1],
+                fromToParameters[2],
+                fromToParameters[3],
+              ],
+            );
 
         clientDbSync.release();
 
-        return reply.send(rows);
+        if (unpaged) {
+          // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
+          // https://www.fastify.io/docs/latest/Reference/Reply/#raw
+          reply.raw.writeHead(200, { 'Content-Type': 'application/json' });
+          await toJSONStream(rows, reply.raw);
+          return reply;
+        } else {
+          return reply.send(rows);
+        }
       } catch (error) {
         if (clientDbSync) {
           clientDbSync.release();

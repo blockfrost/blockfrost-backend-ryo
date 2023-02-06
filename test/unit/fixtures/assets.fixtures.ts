@@ -374,6 +374,15 @@ export default [
     response: response_assets_regular,
   },
   {
+    name: 'respond with success and unpaged data on /assets',
+    endpoint: '/assets',
+    sqlQueryMock: {
+      rows: query_assets_regular,
+    },
+    unpaged: true,
+    response: response_assets_regular,
+  },
+  {
     name: 'respond with success and data on /assets',
     endpoint: '/assets',
     sqlQueryMock: {
@@ -427,6 +436,19 @@ export default [
     response: response_assets_asset_history_regular_1,
   },
   {
+    name: 'respond with success and unpaged data on /assets/:asset/history',
+    endpoint:
+      '/assets/416958a374690d4597b50428be9c060aed5217e75807310cefdf701062616e616e6173/history',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_assets_asset_history_regular_1,
+    },
+    unpaged: true,
+    response: response_assets_asset_history_regular_1,
+  },
+  {
     name: 'respond with success and data on /assets/:asset/txs',
     endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/txs',
     sqlQueryMock: {
@@ -435,6 +457,18 @@ export default [
     sqlQueryMock2: {
       rows: query_assets_asset_txs_regular_1,
     },
+    response: response_assets_asset_txs_regular_1,
+  },
+  {
+    name: 'respond with success and unpaged data on /assets/:asset/txs',
+    endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/txs',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_assets_asset_txs_regular_1,
+    },
+    unpaged: true,
     response: response_assets_asset_txs_regular_1,
   },
   {
@@ -450,6 +484,19 @@ export default [
     response: response_assets_asset_transactions_regular_1,
   },
   {
+    name: 'respond with success and unpaged data on /assets/:asset/transactions',
+    endpoint:
+      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_assets_asset_transactions_regular_1,
+    },
+    unpaged: true,
+    response: response_assets_asset_transactions_regular_1,
+  },
+  {
     name: 'respond with success and data on /assets/:asset/addresses',
     endpoint:
       '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/addresses',
@@ -459,6 +506,19 @@ export default [
     sqlQueryMock2: {
       rows: query_assets_asset_addresses_regular_1,
     },
+    response: response_assets_asset_addresses_regular_1,
+  },
+  {
+    name: 'respond with success and unpaged data on /assets/:asset/addresses',
+    endpoint:
+      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/addresses',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_assets_asset_addresses_regular_1,
+    },
+    unpaged: true,
     response: response_assets_asset_addresses_regular_1,
   },
   {
@@ -482,6 +542,18 @@ export default [
     sqlQueryMock2: {
       rows: query_assets_policy_policy_id_regular_1,
     },
+    response: response_assets_policy_policy_id_regular_1,
+  },
+  {
+    name: 'respond with success and unpaged data on /assets/policy/:policy_id',
+    endpoint: '/assets/policy/b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_assets_policy_policy_id_regular_1,
+    },
+    unpaged: true,
     response: response_assets_policy_policy_id_regular_1,
   },
   {

@@ -8,7 +8,6 @@ import { getSchemaForEndpoint, validateCIP68Metadata } from '@blockfrost/openapi
 import { getOnchainMetadata } from '@blockfrost/openapi';
 import AssetFingerprint from '@emurgo/cip14-js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { SQLQuery } from '../../../sql';
 import * as QueryTypes from '../../../types/queries/assets';
 import { getDbSync } from '../../../utils/database';

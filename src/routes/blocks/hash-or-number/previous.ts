@@ -1,4 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../../utils/routes';
+import { toJSONStream } from '../../../utils/string-utils';
+
 import * as QueryTypes from '../../../types/queries/blocks';
 import * as ResponseTypes from '../../../types/responses/blocks';
 import { getDbSync } from '../../../utils/database';
@@ -42,11 +45,16 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.Block[] } =
-          await clientDbSync.query<QueryTypes.Block>(
-            SQLQuery.get('blocks_hash_or_number_previous'),
-            [request.params.hash_or_number, request.query.count, request.query.page],
-          );
+        const unpaged = isUnpaged(request);
+        const { rows }: { rows: ResponseTypes.Block[] } = unpaged
+          ? await clientDbSync.query<QueryTypes.Block>(
+              SQLQuery.get('blocks_hash_or_number_previous_unpaged'),
+              [request.params.hash_or_number],
+            )
+          : await clientDbSync.query<QueryTypes.Block>(
+              SQLQuery.get('blocks_hash_or_number_previous'),
+              [request.params.hash_or_number, request.query.count, request.query.page],
+            );
 
         clientDbSync.release();
 
@@ -54,7 +62,15 @@ async function route(fastify: FastifyInstance) {
           return reply.send([]);
         }
 
-        return reply.send(rows);
+        if (unpaged) {
+          // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
+          // https://www.fastify.io/docs/latest/Reference/Reply/#raw
+          reply.raw.writeHead(200, { 'Content-Type': 'application/json' });
+          await toJSONStream(rows, reply.raw);
+          return reply;
+        } else {
+          return reply.send(rows);
+        }
       } catch (error) {
         if (clientDbSync) {
           clientDbSync.release();

@@ -1,11 +1,12 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { isUnpaged } from '../../../../utils/routes';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { SQLQuery } from '../../../../sql';
 import * as QueryTypes from '../../../../types/queries/epochs';
 import { getDbSync } from '../../../../utils/database';
 import { handle404, handle400Custom } from '../../../../utils/error-handler';
 import { validatePositiveInRangeSignedInt } from '../../../../utils/validation';
+import { toJSONStream } from '../../../../utils/string-utils';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -31,10 +32,18 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows } = await clientDbSync.query<QueryTypes.EpochBlocks>(
-          SQLQuery.get('epochs_number_blocks'),
-          [request.query.order, request.query.count, request.query.page, request.params.number],
-        );
+        const unpaged = isUnpaged(request);
+        const { rows } = unpaged
+          ? await clientDbSync.query<QueryTypes.EpochBlocks>(
+              SQLQuery.get('epochs_number_blocks_unpaged'),
+              [request.query.order, request.params.number],
+            )
+          : await clientDbSync.query<QueryTypes.EpochBlocks>(SQLQuery.get('epochs_number_blocks'), [
+              request.query.order,
+              request.query.count,
+              request.query.page,
+              request.params.number,
+            ]);
 
         clientDbSync.release();
 
@@ -48,7 +57,15 @@ async function route(fastify: FastifyInstance) {
           list.push(row.hash);
         }
 
-        return reply.send(list);
+        if (unpaged) {
+          // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
+          // https://www.fastify.io/docs/latest/Reference/Reply/#raw
+          reply.raw.writeHead(200, { 'Content-Type': 'application/json' });
+          await toJSONStream(list, reply.raw);
+          return reply;
+        } else {
+          return reply.send(list);
+        }
       } catch (error) {
         if (clientDbSync) {
           clientDbSync.release();

@@ -4,7 +4,7 @@ SELECT encode(tx.hash, 'hex') AS "hash",
   extract(
     epoch
     FROM b.time
-  ) AS "block_time",
+  )::INTEGER AS "block_time",
   b.slot_no AS "slot",
   tx.block_index AS "index",
   tx.out_sum::TEXT AS "amount_lovelace", -- cast to TEXT to avoid number overflow

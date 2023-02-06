@@ -476,6 +476,15 @@ export default [
     response: response_tx_metadata_labels_regular_1,
   },
   {
+    name: 'respond with success and unpaged data on /metadata/tx/labels',
+    endpoint: '/metadata/txs/labels',
+    sqlQueryMock: {
+      rows: query_tx_metadata_labels_regular_1,
+    },
+    unpaged: true,
+    response: response_tx_metadata_labels_regular_1,
+  },
+  {
     name: 'respond with 404 and empty data on /metadata/tx/label',
     endpoint: '/metadata/txs/labels',
     sqlQueryMock: {
@@ -492,11 +501,29 @@ export default [
     response: response_tx_metadata_labels_1968_1,
   },
   {
+    name: 'respond with success and unpaged data on /metadata/tx/label/:label',
+    endpoint: '/metadata/txs/labels/1968',
+    sqlQueryMock: {
+      rows: query_tx_metadata_labels_1968_1,
+    },
+    unpaged: true,
+    response: response_tx_metadata_labels_1968_1,
+  },
+  {
     name: 'respond with success and data on /metadata/tx/label/:label/cbor',
     endpoint: '/metadata/txs/labels/1968/cbor',
     sqlQueryMock: {
       rows: query_tx_metadata_label_1968_cbor_1,
     },
+    response: response_tx_metadata_label_1968_cbor_1,
+  },
+  {
+    name: 'respond with success and unpaged data on /metadata/tx/label/:label/cbor',
+    endpoint: '/metadata/txs/labels/1968/cbor',
+    sqlQueryMock: {
+      rows: query_tx_metadata_label_1968_cbor_1,
+    },
+    unpaged: true,
     response: response_tx_metadata_label_1968_cbor_1,
   },
 

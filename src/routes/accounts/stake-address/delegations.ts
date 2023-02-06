@@ -1,4 +1,6 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../../utils/routes';
+import { toJSONStream } from '../../../utils/string-utils';
 import * as ResponseTypes from '../../../types/responses/accounts';
 import * as QueryTypes from '../../../types/queries/accounts';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
@@ -34,16 +36,22 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.AccountDelegations } =
-          await clientDbSync.query<QueryTypes.AccountDelegations>(
-            SQLQuery.get('accounts_stake_address_delegations'),
-            [
-              request.query.order,
-              request.query.count,
-              request.query.page,
-              request.params.stake_address,
-            ],
-          );
+        const unpaged = isUnpaged(request);
+
+        const { rows }: { rows: ResponseTypes.AccountDelegations } = unpaged
+          ? await clientDbSync.query<QueryTypes.AccountDelegations>(
+              SQLQuery.get('accounts_stake_address_delegations_unpaged'),
+              [request.query.order, request.params.stake_address],
+            )
+          : await clientDbSync.query<QueryTypes.AccountDelegations>(
+              SQLQuery.get('accounts_stake_address_delegations'),
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                request.params.stake_address,
+              ],
+            );
 
         clientDbSync.release();
 
@@ -51,7 +59,15 @@ async function route(fastify: FastifyInstance) {
           return reply.send([]);
         }
 
-        return reply.send(rows);
+        if (unpaged) {
+          // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
+          // https://www.fastify.io/docs/latest/Reference/Reply/#raw
+          reply.raw.writeHead(200, { 'Content-Type': 'application/json' });
+          await toJSONStream(rows, reply.raw);
+          return reply;
+        } else {
+          return reply.send(rows);
+        }
       } catch (error) {
         if (clientDbSync) {
           clientDbSync.release();
