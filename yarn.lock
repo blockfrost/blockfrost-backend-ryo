@@ -102,16 +102,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockfrost/blockfrost-utils@npm:2.3.1-beta.2":
-  version: 2.3.1-beta.2
-  resolution: "@blockfrost/blockfrost-utils@npm:2.3.1-beta.2"
+"@blockfrost/blockfrost-utils@npm:2.3.1":
+  version: 2.3.1
+  resolution: "@blockfrost/blockfrost-utils@npm:2.3.1"
   dependencies:
     "@emurgo/cardano-serialization-lib-nodejs": ^11.2.1
     bech32: ^2.0.0
     cbor: ^8.1.0
     crc: ^4.2.0
     yaml: ^2.1.1
-  checksum: 90a725bd16b934be2393a89b725ad8221030ca3fa43dedb85fd55c4973c5fd0bc6c7084a858b6a0c154ab1a3f3cd7cceaa08da39abc4ccde3d19663b7039ecb1
+  checksum: caeb2a0215f3de2148f5b036ceeeb2b2f5111fe6cce6b36a9e072f9aa373c312aadc5298e5e8153e2cc3645145237b903a40e6ac18f54d143a46a535d1345ab0
   languageName: node
   linkType: hard
 
@@ -125,14 +125,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockfrost/openapi@npm:0.1.53":
-  version: 0.1.53
-  resolution: "@blockfrost/openapi@npm:0.1.53"
+"@blockfrost/openapi@npm:0.1.54":
+  version: 0.1.54
+  resolution: "@blockfrost/openapi@npm:0.1.54"
   dependencies:
     "@redocly/openapi-cli": ^1.0.0-beta.95
     cbor: ^8.1.0
     yaml: ^2.2.0
-  checksum: 162fcd552a40f82453bd0afe26825b716df31c0ce08e289b0ed40d6a5f85a37a989d429893a938aaa4932752bbc500495eb4beff20634e395b4d0763d0646e9f
+  checksum: 79aedfebf88ecb508030bc1c102093e0237d053e1e1e296789b04d6573455072ebd64a96fb4322e77d8235602baa1e323affc0985bc98b3fca2cb511fb841162
   languageName: node
   linkType: hard
 
@@ -1564,8 +1564,8 @@ __metadata:
   dependencies:
     "@blockfrost/blockfrost-js": 5.2.0
     "@blockfrost/blockfrost-tests": 1.5.1-beta.1
-    "@blockfrost/blockfrost-utils": 2.3.1-beta.2
-    "@blockfrost/openapi": 0.1.53
+    "@blockfrost/blockfrost-utils": 2.3.1
+    "@blockfrost/openapi": 0.1.54
     "@emurgo/cardano-serialization-lib-nodejs": 11.2.0
     "@emurgo/cip14-js": ^3.0.1
     "@fastify/cors": ^8.2.0
