@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2023-02-07
+
+### Added
+
+- `unpaged` queries
+
 ## [1.3.2] - 2023-02-06
 
 ### Fixed
@@ -25,10 +31,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - support for CIP68 onchain metadata in `/assets/{asset}` and `/addresses/{address}/extended`
 - support for configurable memory settings for pm2 in the nix service
-
-### Added
-
-- `unpaged` queries
 
 ### Changed
 
