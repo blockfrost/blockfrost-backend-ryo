@@ -108,12 +108,26 @@ docker run --rm \
   blockfrost/backend-ryo:latest
 ```
 
+You can also generate a Docker image using Nix instead of the `Dockerfile` running
+
+```console
+nix build .#dockerImage
+```
+
 ### Nix
 
 To start the Blockfrost backend under nix, just run:
 
 ```console
 $(nix-build -A blockfrost-backend-ryo --no-out-link)/bin/blockfrost-backend-ryo
+```
+
+Or, since this repository is also a Nix flake, you can also run
+
+```console
+nix run # inside this repo folder
+# Otherwise, without manually cloning the repo before:
+# nix run github:blockfrost/blockfrost-backend-ryo
 ```
 
 ## Developing
