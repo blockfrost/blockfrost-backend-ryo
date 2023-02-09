@@ -24,11 +24,8 @@
           };
         };
       });
-      # FIXME checks are not building
       checks = forAllSystems (system: {
-        inherit (default.${system})
-          blockfrost-backend-test-preview
-          blockfrost-backend-test-mainnet;
+        inherit (self.packages.${system}) blockfrost-backend dockerImage;
       });
       overlays.default = self: super: {
         inherit (self.packages.${super.system}) blockfrost-backend;
