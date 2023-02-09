@@ -92,7 +92,7 @@ rec {
 
  blockfrost-backend-ryo-test-mainnet = makeTest rec {
 
-    name = "blockfrost-backend-test-mainnet";
+    name = "blockfrost-backend-ryo-test-mainnet";
 
     nodes.machine = {
       # We have to increase memsize, otherwise we will get error:
@@ -126,7 +126,7 @@ rec {
 
   blockfrost-backend-ryo-test-preview = makeTest rec {
 
-    name = "blockfrost-backend-test-preview";
+    name = "blockfrost-backend-ryo-test-preview";
 
     nodes.machine = {
       # We have to increase memsize, otherwise we will get error:
@@ -160,7 +160,9 @@ rec {
 
   blockfrost-backend-ryo-test-preprod = makeTest rec {
 
-    machine = {
+    name = "blockfrost-backend-ryo-test-preprod";
+
+    nodes.machine = {
       # We have to increase memsize, otherwise we will get error:
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
       virtualisation.memorySize = 4096;
