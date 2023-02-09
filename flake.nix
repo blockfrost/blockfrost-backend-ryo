@@ -6,7 +6,7 @@
   outputs = { self, nixpkgs }:
     let
       lib = nixpkgs.lib;
-      supportedSystems = lib.systems.flakeExposed;
+      supportedSystems = [ "x86_64-linux" "x86_64-darwin" ];
       forAllSystems = f: lib.genAttrs supportedSystems (system: f system);
       legacyPkgs = nixpkgs.legacyPackages;
       default = lib.genAttrs supportedSystems (system: import ./default.nix {
