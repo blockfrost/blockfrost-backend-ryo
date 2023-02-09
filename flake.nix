@@ -16,7 +16,7 @@
     in
     {
       packages = forAllSystems (system: {
-        inherit (default.${system}) blockfrost-backend;
+        inherit (default.${system}) blockfrost-backend-ryo;
         dockerImage = legacyPkgs.${system}.dockerTools.buildImage {
           name = "blockfrost";
           config = {
@@ -25,7 +25,7 @@
         };
       });
       checks = forAllSystems (system: {
-        inherit (self.packages.${system}) blockfrost-backend dockerImage;
+        inherit (self.packages.${system}) blockfrost-backend-ryo dockerImage;
       });
       overlays.default = self: super: {
         inherit (self.packages.${super.system}) blockfrost-backend;
