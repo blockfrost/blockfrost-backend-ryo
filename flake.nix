@@ -23,9 +23,17 @@
             Cmd = [ "${self.packages.${system}.blockfrost-backend}/bin/blockfrost-backend" ];
           };
         };
+        default = self.packages.${system}.blockfrost-backend-ryo;
       });
       checks = forAllSystems (system: {
         inherit (self.packages.${system}) blockfrost-backend-ryo dockerImage;
+      });
+      apps = forAllSystems (system: {
+        blockfrost-backend-ryo = {
+          type = "app";
+          program = "${self.packages.${system}.blockfrost-backend-ryo}/bin/blockfrost-backend-ryo";
+        };
+        default = self.apps.${system}.blockfrost-backend-ryo;
       });
       overlays.default = self: super: {
         inherit (self.packages.${super.system}) blockfrost-backend;
