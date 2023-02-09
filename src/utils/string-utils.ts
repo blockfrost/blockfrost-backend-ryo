@@ -1,3 +1,6 @@
+import JSONStream from 'JSONStream';
+import stream from 'stream';
+
 export const getEndpointFromUrl = (url: string): string => {
   //remove queryparams
   const endpointWithoutQueryparams = url.split('?')[0];
@@ -80,4 +83,23 @@ export const sortKeysInObject = (object: any) => {
     newObject[k] = typeof object[k] === 'object' ? sortKeysInObject(object[k]) : object[k];
   }
   return newObject;
+};
+
+export const toJSONStream = async (data: any[], serverResponse: stream.Writable) => {
+  // Converts array of JS objects to JSON using JSONStream because
+  // JSON.stringify-ing large objects can result in out of memory errors.
+  // Example usage:
+  // reply.raw.writeHead(200, { 'Content-Type': 'application/json' });
+  // toJSONStream(data, reply.raw);
+
+  // push data to readable stream
+  const dataStream = stream.Readable.from(data);
+  // initialize transformer that will convert the data to JSON string
+  const transformStream = JSONStream.stringify('[', ',', ']');
+  // push data from dataStream through transformStream to serverResponse
+  // which writable stream from fastify reply
+
+  return dataStream.pipe(transformStream).pipe(serverResponse);
+  // Usage of pipeline below throws ERR_STREAM_PREMATURE_CLOSE after multiple calls.
+  // return pipeline(dataStream, transformStream, serverResponse);
 };

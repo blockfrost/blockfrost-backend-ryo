@@ -18,7 +18,7 @@ SELECT e.no AS "epoch",
             )
         )
     )
-  ) AS "start_time",
+  )::INTEGER AS "start_time",
   (
     extract(
       epoch
@@ -31,15 +31,15 @@ SELECT e.no AS "epoch",
             )
         )
     )
-  ) AS "end_time",
+  )::INTEGER AS "end_time",
   extract(
     epoch
     FROM e.start_time
-  ) AS "first_block_time",
+  )::INTEGER AS "first_block_time",
   extract(
     epoch
     FROM e.end_time
-  ) AS "last_block_time",
+  )::INTEGER AS "last_block_time",
   e.blk_count AS "block_count",
   e.tx_count AS "tx_count",
   e.out_sum::TEXT AS "output", -- cast to TEXT to avoid number overflow

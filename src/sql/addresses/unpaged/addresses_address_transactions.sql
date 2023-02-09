@@ -1,0 +1,120 @@
+SELECT encode(unique_txs.hash, 'hex') AS "tx_hash",
+  unique_txs.block_index AS "tx_index",
+  unique_txs.block_no AS "block_height",
+  extract(
+    epoch
+    FROM unique_txs.time
+  )::INTEGER AS "block_time"
+FROM (
+    (
+      SELECT tx.id,
+        tx.hash,
+        tx.block_index,
+        b.block_no,
+        b.time
+      FROM tx
+        JOIN tx_in txi ON (txi.tx_in_id = tx.id)
+        JOIN tx_out txo ON (
+          txo.tx_id = txi.tx_out_id
+          AND txo.index = txi.tx_out_index
+        )
+        JOIN block b ON (b.id = tx.block_id)
+      WHERE (
+          CASE
+            WHEN $3::BYTEA IS NOT NULL THEN txo.payment_cred = $3
+            ELSE txo.address = $2
+          END
+        )
+        AND (
+          (
+            -- :: cast of parameters is necessary for PG in order to validate against NULL
+            $4::INTEGER IS NULL
+            OR b.block_no > $4
+          )
+          OR (
+            (
+              $5::INTEGER IS NULL
+              AND b.block_no = $4
+            )
+            OR (
+              tx.block_index >= $5
+              AND b.block_no = $4
+            )
+          )
+        )
+        AND (
+          (
+            $6::INTEGER IS NULL
+            OR b.block_no < $6
+          )
+          OR (
+            (
+              $7::INTEGER IS NULL
+              AND b.block_no = $6
+            )
+            OR (
+              tx.block_index <= $7
+              AND b.block_no = $6
+            )
+          )
+        )
+    )
+    UNION
+    -- remove duplicate from SELF TXs via UNION
+    (
+      SELECT tx.id,
+        tx.hash,
+        tx.block_index,
+        b.block_no,
+        b.time
+      FROM tx
+        JOIN tx_out txo ON (txo.tx_id = tx.id)
+        JOIN block b ON (b.id = tx.block_id)
+      WHERE (
+          CASE
+            WHEN $3::BYTEA IS NOT NULL THEN txo.payment_cred = $3
+            ELSE txo.address = $2
+          END
+        )
+        AND (
+          (
+            -- :: cast of parameters is necessary for PG in order to validate against NULL
+            $4::INTEGER IS NULL
+            OR b.block_no > $4
+          )
+          OR (
+            (
+              $5::INTEGER IS NULL
+              AND b.block_no = $4
+            )
+            OR (
+              tx.block_index >= $5
+              AND b.block_no = $4
+            )
+          )
+        )
+        AND (
+          (
+            $6::INTEGER IS NULL
+            OR b.block_no < $6
+          )
+          OR (
+            (
+              $7::INTEGER IS NULL
+              AND b.block_no = $6
+            )
+            OR (
+              tx.block_index <= $7
+              AND b.block_no = $6
+            )
+          )
+        )
+    )
+  ) AS "unique_txs"
+ORDER BY CASE
+    WHEN LOWER($1) = 'desc' THEN unique_txs.id
+  END DESC,
+  CASE
+    WHEN LOWER($1) <> 'desc'
+    OR $1 IS NULL THEN unique_txs.id
+  END ASC

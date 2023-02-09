@@ -7,3 +7,4 @@ export type AddressExtended = OpenApiResponseTypes['address_content_extended'];
 export type AddressUtxo = OpenApiResponseTypes['address_utxo_content'];
 export type AmountExtended = AddressExtended['amount'];
 export type AddressTransactions = OpenApiResponseTypes['address_transactions_content'];
+export type AddressTxs = OpenApiResponseTypes['address_txs_content'];
