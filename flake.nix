@@ -20,7 +20,7 @@
         dockerImage = legacyPkgs.${system}.dockerTools.buildImage {
           name = "blockfrost";
           config = {
-            Cmd = [ "${self.packages.${system}.blockfrost-backend}/bin/blockfrost-backend" ];
+            Cmd = [ "${self.packages.${system}.blockfrost-backend-ryo}/bin/blockfrost-backend-ryo" ];
           };
         };
         default = self.packages.${system}.blockfrost-backend-ryo;
