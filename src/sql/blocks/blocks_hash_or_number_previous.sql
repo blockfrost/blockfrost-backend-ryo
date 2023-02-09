@@ -103,7 +103,7 @@ boundary_blocks AS (
 SELECT extract(
     epoch
     FROM time
-  ) AS "time",
+  )::INTEGER AS "time",
   height AS "height",
   hash AS "hash",
   slot AS "slot",

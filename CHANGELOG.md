@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2023-02-07
+
+### Added
+
+- `unpaged` queries
+
+## [1.3.2] - 2023-02-06
+
+### Fixed
+
+- CIP68 `getMetadataFromOutputDatum` parsing of `files` and custom fields
+
+## [1.3.1] - 2023-02-03
+
+### Fixed
+
+- CIP25v2 metadata validation
+
 ## [1.3.0] - 2023-01-15
 
 ### Added

@@ -83,7 +83,9 @@ async function route(fastify: FastifyInstance) {
 
               if (datumHex) {
                 try {
-                  const datumMetadata = getMetadataFromOutputDatum(datumHex);
+                  const datumMetadata = getMetadataFromOutputDatum(datumHex, {
+                    standard: referenceNFT.standard,
+                  });
                   const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
 
                   if (result) {
@@ -106,6 +108,7 @@ async function route(fastify: FastifyInstance) {
                 asset.onchain_metadata,
                 asset.asset_name,
                 asset.policy_id,
+                asset.onchain_metadata_cbor,
               );
 
               onchainMetadata = CIP25OnchainMetadata;

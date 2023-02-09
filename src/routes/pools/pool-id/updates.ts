@@ -1,6 +1,8 @@
-import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../../utils/routes';
+import { toJSONStream } from '../../../utils/string-utils';
 
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { SQLQuery } from '../../../sql';
 import * as QueryTypes from '../../../types/queries/pools';
 import * as ResponseTypes from '../../../types/responses/pools';
@@ -35,13 +37,16 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.PoolUpdates } =
-          await clientDbSync.query<QueryTypes.PoolUpdates>(SQLQuery.get('pools_pool_id_updates'), [
-            request.query.order,
-            request.query.count,
-            request.query.page,
-            pool_id,
-          ]);
+        const unpaged = isUnpaged(request);
+        const { rows }: { rows: ResponseTypes.PoolUpdates } = unpaged
+          ? await clientDbSync.query<QueryTypes.PoolUpdates>(
+              SQLQuery.get('pools_pool_id_updates_unpaged'),
+              [request.query.order, pool_id],
+            )
+          : await clientDbSync.query<QueryTypes.PoolUpdates>(
+              SQLQuery.get('pools_pool_id_updates'),
+              [request.query.order, request.query.count, request.query.page, pool_id],
+            );
 
         clientDbSync.release();
 
@@ -49,7 +54,15 @@ async function route(fastify: FastifyInstance) {
           return reply.send([]);
         }
 
-        return reply.send(rows);
+        if (unpaged) {
+          // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
+          // https://www.fastify.io/docs/latest/Reference/Reply/#raw
+          reply.raw.writeHead(200, { 'Content-Type': 'application/json' });
+          await toJSONStream(rows, reply.raw);
+          return reply;
+        } else {
+          return reply.send(rows);
+        }
       } catch (error) {
         if (clientDbSync) {
           clientDbSync.release();

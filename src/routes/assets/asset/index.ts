@@ -8,7 +8,6 @@ import { getSchemaForEndpoint, validateCIP68Metadata } from '@blockfrost/openapi
 import { getOnchainMetadata } from '@blockfrost/openapi';
 import AssetFingerprint from '@emurgo/cip14-js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { SQLQuery } from '../../../sql';
 import * as QueryTypes from '../../../types/queries/assets';
 import { getDbSync } from '../../../utils/database';
@@ -55,7 +54,9 @@ async function route(fastify: FastifyInstance) {
 
           if (datumHex) {
             try {
-              const datumMetadata = getMetadataFromOutputDatum(datumHex);
+              const datumMetadata = getMetadataFromOutputDatum(datumHex, {
+                standard: referenceNFT.standard,
+              });
               const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
 
               if (result) {
@@ -77,6 +78,7 @@ async function route(fastify: FastifyInstance) {
             rows[0].onchain_metadata,
             rows[0].asset_name,
             rows[0].policy_id,
+            rows[0].onchain_metadata_cbor,
           );
 
           onchainMetadata = CIP25OnchainMetadata;

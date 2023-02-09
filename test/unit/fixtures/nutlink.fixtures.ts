@@ -196,6 +196,23 @@ export default [
     network: 'mainnet',
   },
   {
+    name: 'respond with success and unpaged data on /nutlink/:address/tickers/:ticker 1',
+    endpoint:
+      '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers/ADAUSD',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_found,
+    },
+    sqlQueryMock3: {
+      rows: query_nutlink_address_tickers_ticker_regular_1,
+    },
+    network: 'mainnet',
+    unpaged: true,
+    response: response_nutlink_address_tickers_ticker_regular_1,
+  },
+  {
     name: 'respond with empty data on /nutlink/:address/tickers/:ticker 2',
     endpoint:
       '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers/STNK',
@@ -224,6 +241,20 @@ export default [
     network: 'mainnet',
   },
   {
+    name: 'respond with success and unpaged data on /nutlink/:address/tickers 3',
+    endpoint:
+      '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_nutlink_address_tickers_regular_1,
+    },
+    network: 'mainnet',
+    unpaged: true,
+    response: response_nutlink_address_tickers_regular_1,
+  },
+  {
     name: 'respond with success and data on /nutlink/tickers/:ticker',
     endpoint: '/nutlink/tickers/ADAUSD',
     sqlQueryMock: {
@@ -234,6 +265,19 @@ export default [
     },
     response: response_nutlink_tickers_ticker_regular_1,
     network: 'mainnet',
+  },
+  {
+    name: 'respond with success and unpaged data on /nutlink/tickers/:ticker',
+    endpoint: '/nutlink/tickers/ADAUSD',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_nutlink_tickers_ticker_regular_1,
+    },
+    network: 'mainnet',
+    unpaged: true,
+    response: response_nutlink_tickers_ticker_regular_1,
   },
   {
     name: 'respond with empty data on /nutlink/tickers/:ticker',

@@ -2,10 +2,12 @@ import {
   getEndpointFromUrl,
   getAdditionalParametersFromRequest,
   sortKeysInObject,
+  toJSONStream,
 } from '../../../../src/utils/string-utils';
 import { describe, expect, test } from 'vitest';
+import stream from 'stream';
 
-describe('stringUtils', () => {
+describe('stringUtils', async () => {
   test('getRequestUrl', () => {
     expect(getEndpointFromUrl('/')).toStrictEqual('');
     expect(getEndpointFromUrl('')).toStrictEqual('');
@@ -118,24 +120,55 @@ describe('stringUtils', () => {
     // number-like indexes are always first regardless of the order of the insertion
     expect(Object.keys(object)).toStrictEqual(['1', 'b', 'a', 'c', 'abcd']);
     expect(Object.keys(sortKeysInObject(object))).toStrictEqual(['1', 'a', 'abcd', 'b', 'c']);
+    const nested = {
+      PlutusV2: {
+        b: 3,
+        abcd: 2,
+        a: 1,
+        1: 0,
+      },
+      PlutusV1: {
+        b: 3,
+        abcd: 2,
+        a: 1,
+        1: 0,
+      },
+    };
+
+    expect(Object.keys(sortKeysInObject(nested))).toStrictEqual(['PlutusV1', 'PlutusV2']);
+    expect(Object.keys(sortKeysInObject(nested)['PlutusV1'])).toStrictEqual([
+      '1',
+      'a',
+      'abcd',
+      'b',
+    ]);
+    expect(Object.keys(sortKeysInObject(nested)['PlutusV2'])).toStrictEqual([
+      '1',
+      'a',
+      'abcd',
+      'b',
+    ]);
   });
 
-  const nested = {
-    PlutusV2: {
-      b: 3,
-      abcd: 2,
-      a: 1,
-      1: 0,
-    },
-    PlutusV1: {
-      b: 3,
-      abcd: 2,
-      a: 1,
-      1: 0,
-    },
-  };
+  test('toJSONStream', async () => {
+    let data = '';
+    const w = new stream.Writable();
+    w._write = (chunk, _encoding, done) => {
+      data += Buffer.from(chunk);
+      done();
+    };
 
-  expect(Object.keys(sortKeysInObject(nested))).toStrictEqual(['PlutusV1', 'PlutusV2']);
-  expect(Object.keys(sortKeysInObject(nested)['PlutusV1'])).toStrictEqual(['1', 'a', 'abcd', 'b']);
-  expect(Object.keys(sortKeysInObject(nested)['PlutusV2'])).toStrictEqual(['1', 'a', 'abcd', 'b']);
+    await toJSONStream([{ a: 'a', b: 2, c: undefined, d: null }, { a: 10.2 }], w);
+
+    // we need to wait till stream calls 'finish' event to have all chunks processed
+    await new Promise((resolve, reject) => {
+      w.on('error', err => {
+        reject(err);
+      });
+      w.on('finish', () => {
+        expect(data).toStrictEqual(`[{"a":"a","b":2,"d":null},{"a":10.2}]`);
+        resolve(true);
+      });
+    });
+  });
 });

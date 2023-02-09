@@ -1,14 +1,15 @@
 import { handleInvalidAsset } from '@blockfrost/blockfrost-utils/lib/fastify';
+import { isUnpaged } from '../../../../utils/routes';
 import { validateAsset } from '@blockfrost/blockfrost-utils/lib/validation';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { SQLQuery } from '../../../../sql';
 import * as QueryTypes from '../../../../types/queries/addresses';
 import * as ResponseTypes from '../../../../types/responses/addresses';
 import { getDbSync } from '../../../../utils/database';
 import { handle404, handleInvalidAddress } from '../../../../utils/error-handler';
 import { getAddressTypeAndPaymentCred } from '../../../../utils/validation';
+import { toJSONStream } from '../../../../utils/string-utils';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -54,17 +55,23 @@ async function route(fastify: FastifyInstance) {
           }
         }
 
-        const { rows } = await clientDbSync.query<QueryTypes.AddressUtxosQuery>(
-          SQLQuery.get('addresses_address_utxos_asset'),
-          [
-            request.query.order,
-            request.query.count,
-            request.query.page,
-            request.params.address,
-            paymentCred,
-            request.params.asset,
-          ],
-        );
+        const unpaged = isUnpaged(request);
+        const { rows } = unpaged
+          ? await clientDbSync.query<QueryTypes.AddressUtxosQuery>(
+              SQLQuery.get('addresses_address_utxos_asset_unpaged'),
+              [request.query.order, request.params.address, paymentCred, request.params.asset],
+            )
+          : await clientDbSync.query<QueryTypes.AddressUtxosQuery>(
+              SQLQuery.get('addresses_address_utxos_asset'),
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                request.params.address,
+                paymentCred,
+                request.params.asset,
+              ],
+            );
 
         clientDbSync.release();
 
@@ -102,7 +109,15 @@ async function route(fastify: FastifyInstance) {
           });
         }
 
-        return reply.send(result);
+        if (unpaged) {
+          // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
+          // https://www.fastify.io/docs/latest/Reference/Reply/#raw
+          reply.raw.writeHead(200, { 'Content-Type': 'application/json' });
+          await toJSONStream(result, reply.raw);
+          return reply;
+        } else {
+          return reply.send(result);
+        }
       } catch (error) {
         if (clientDbSync) {
           clientDbSync.release();

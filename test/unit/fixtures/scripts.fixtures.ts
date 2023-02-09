@@ -95,6 +95,16 @@ export default [
     response: response_scripts,
   },
   {
+    name: 'respond with success and unpaged data on /scripts',
+    endpoint: '/scripts',
+    sqlQueryMock: {
+      rows: query_scripts,
+    },
+    network: 'mainnet',
+    unpaged: true,
+    response: response_scripts,
+  },
+  {
     name: 'respond with success and data on /scripts',
     endpoint: '/scripts',
     sqlQueryMock: {
@@ -122,6 +132,19 @@ export default [
       rows: query_scripts_script_hash_redeemers,
     },
     network: 'mainnet',
+    response: response_scripts_script_hash_redeemers,
+  },
+  {
+    name: 'respond with success and unpaged data on /scripts/:script_hash/redeemers',
+    endpoint: '/scripts/73e0949d28cca009e5dcb72f47414144b83652d1c14c1e75cd41101c/redeemers',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_scripts_script_hash_redeemers,
+    },
+    network: 'mainnet',
+    unpaged: true,
     response: response_scripts_script_hash_redeemers,
   },
   {

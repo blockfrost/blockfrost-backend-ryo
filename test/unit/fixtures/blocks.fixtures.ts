@@ -371,6 +371,18 @@ export default [
     response: response_blocks_hash_or_number_next,
   },
   {
+    name: 'respond with success and unpaged data on /blocks/:hash_or_number/next',
+    endpoint: '/blocks/85ca7e4f42b8df445021f502512a7f4497c86893ab211ca22772405f189b282b/next',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_blocks_hash_or_number_next,
+    },
+    unpaged: true,
+    response: response_blocks_hash_or_number_next,
+  },
+  {
     name: 'respond with success and data on /blocks/:hash_or_number/previous',
     endpoint: '/blocks/5158103/previous',
     sqlQueryMock: {
@@ -381,7 +393,18 @@ export default [
     },
     response: response_blocks_hash_or_number_previous,
   },
-
+  {
+    name: 'respond with success and unpaged data on /blocks/:hash_or_number/previous',
+    endpoint: '/blocks/5158103/previous',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_blocks_hash_or_number_previous,
+    },
+    unpaged: true,
+    response: response_blocks_hash_or_number_previous,
+  },
   {
     name: 'respond with success and data on /blocks/:hash_or_number/txs',
     endpoint: '/blocks/598945/txs',
@@ -394,11 +417,32 @@ export default [
     response: response_blocks_hash_or_number_txs,
   },
   {
+    name: 'respond with success and unpaged data on /blocks/:hash_or_number/txs',
+    endpoint: '/blocks/598945/txs',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_blocks_hash_or_number_txs,
+    },
+    unpaged: true,
+    response: response_blocks_hash_or_number_txs,
+  },
+  {
     name: 'respond with success and data on /blocks/latest/txs',
     endpoint: '/blocks/latest/txs',
     sqlQueryMock: {
       rows: query_blocks_hash_or_number_txs,
     },
+    response: response_blocks_hash_or_number_txs,
+  },
+  {
+    name: 'respond with success and unpaged data on /blocks/latest/txs',
+    endpoint: '/blocks/latest/txs',
+    sqlQueryMock: {
+      rows: query_blocks_hash_or_number_txs,
+    },
+    unpaged: true,
     response: response_blocks_hash_or_number_txs,
   },
   {
@@ -429,6 +473,18 @@ export default [
     sqlQueryMock2: {
       rows: query_blocks_hash_or_number_addresses,
     },
+    response: response_blocks_hash_or_number_addresses,
+  },
+  {
+    name: 'respond with success and unpaged data on /blocks/:hash_or_number/addresses',
+    endpoint: '/blocks/ff20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb/addresses',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_blocks_hash_or_number_addresses,
+    },
+    unpaged: true,
     response: response_blocks_hash_or_number_addresses,
   },
   {

@@ -46,6 +46,9 @@ export const generateTestSuite = (fixtures: Record<string, Fixture[]>) => {
     const f = fixtures[fixtureName];
 
     describe(`${noCase(fixtureName)} endpoints`, () => {
+      test('should have at least one endpoint', () => {
+        expect(1).toBe(1);
+      });
       for (const fixture of f) {
         for (const endpoint of fixture.endpoints) {
           generateTest(fixture, endpoint);

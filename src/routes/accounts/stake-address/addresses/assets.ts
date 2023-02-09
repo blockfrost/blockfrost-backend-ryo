@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../../../utils/routes';
 import * as ResponseTypes from '../../../../types/responses/accounts';
 import * as QueryTypes from '../../../../types/queries/accounts';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
@@ -6,6 +7,7 @@ import { getDbSync } from '../../../../utils/database';
 import { handle400Custom, handle404 } from '../../../../utils/error-handler';
 import { validateStakeAddress } from '../../../../utils/validation';
 import { SQLQuery } from '../../../../sql';
+import { toJSONStream } from '../../../../utils/string-utils';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -34,16 +36,21 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.AccountAssets[] } =
-          await clientDbSync.query<QueryTypes.AccountAssets>(
-            SQLQuery.get('accounts_stake_address_addresses_assets'),
-            [
-              request.query.order,
-              request.query.count,
-              request.query.page,
-              request.params.stake_address,
-            ],
-          );
+        const unpaged = isUnpaged(request);
+        const { rows }: { rows: ResponseTypes.AccountAssets[] } = unpaged
+          ? await clientDbSync.query<QueryTypes.AccountAssets>(
+              SQLQuery.get('accounts_stake_address_addresses_assets_unpaged'),
+              [request.query.order, request.params.stake_address],
+            )
+          : await clientDbSync.query<QueryTypes.AccountAssets>(
+              SQLQuery.get('accounts_stake_address_addresses_assets'),
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                request.params.stake_address,
+              ],
+            );
 
         clientDbSync.release();
 
@@ -51,7 +58,15 @@ async function route(fastify: FastifyInstance) {
           return reply.send([]);
         }
 
-        return reply.send(rows);
+        if (unpaged) {
+          // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
+          // https://www.fastify.io/docs/latest/Reference/Reply/#raw
+          reply.raw.writeHead(200, { 'Content-Type': 'application/json' });
+          await toJSONStream(rows, reply.raw);
+          return reply;
+        } else {
+          return reply.send(rows);
+        }
       } catch (error) {
         if (clientDbSync) {
           clientDbSync.release();

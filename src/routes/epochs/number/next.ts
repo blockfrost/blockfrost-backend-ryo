@@ -1,6 +1,8 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { FastifyInstance, FastifyRequest } from 'fastify';
+import { isUnpaged } from '../../../utils/routes';
+import { toJSONStream } from '../../../utils/string-utils';
 
+import { FastifyInstance, FastifyRequest } from 'fastify';
 import { getConfig } from '../../../config';
 import { GENESIS } from '../../../constants/genesis';
 import { SQLQuery } from '../../../sql';
@@ -37,13 +39,18 @@ async function route(fastify: FastifyInstance) {
         const network = getConfig().network;
         const epochLength = GENESIS[network].epoch_length;
 
-        const { rows }: { rows: ResponseTypes.Epoch[] } =
-          await clientDbSync.query<QueryTypes.Epoch>(SQLQuery.get('epochs_number_next'), [
-            request.params.number,
-            request.query.count,
-            request.query.page,
-            epochLength,
-          ]);
+        const unpaged = isUnpaged(request);
+        const { rows }: { rows: ResponseTypes.Epoch[] } = unpaged
+          ? await clientDbSync.query<QueryTypes.Epoch>(SQLQuery.get('epochs_number_next_unpaged'), [
+              request.params.number,
+              epochLength,
+            ])
+          : await clientDbSync.query<QueryTypes.Epoch>(SQLQuery.get('epochs_number_next'), [
+              request.params.number,
+              request.query.count,
+              request.query.page,
+              epochLength,
+            ]);
 
         clientDbSync.release();
 
@@ -51,7 +58,15 @@ async function route(fastify: FastifyInstance) {
           return reply.send([]);
         }
 
-        return reply.send(rows);
+        if (unpaged) {
+          // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
+          // https://www.fastify.io/docs/latest/Reference/Reply/#raw
+          reply.raw.writeHead(200, { 'Content-Type': 'application/json' });
+          await toJSONStream(rows, reply.raw);
+          return reply;
+        } else {
+          return reply.send(rows);
+        }
       } catch (error) {
         if (clientDbSync) {
           clientDbSync.release();
