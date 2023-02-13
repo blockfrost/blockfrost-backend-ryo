@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Nix Flake
 - Docker image build using Nix `dockerTools`
 
+#### Changed
+
+- nixpkgs updated to latest `nixos-22.11` and hence NodeJS to `16.18.1`
+
 ## [1.4.0] - 2023-02-07
 
 ### Added
