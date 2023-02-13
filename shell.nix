@@ -3,8 +3,8 @@ let
   # Pin the deployment package-set to a specific version of nixpkgs
   pkgs = import
     (builtins.fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/00e376e3f3c22d991052dfeaf154c42b09deeb29.tar.gz";
-      sha256 = "0sj2lhx5yfphgamdpf0by237c44699yrqw3whs3frjydpvaiplnp";
+      url = "https://github.com/NixOS/nixpkgs/archive/2f9fd351ec37f5d479556cd48be4ca340da59b8f.tar.gz";
+      sha256 = "0w3ysrhbqhgr1qnh0r9miyqd7yf7vsd4wcd21dffwjlb99lynla8";
     })
     { };
 
