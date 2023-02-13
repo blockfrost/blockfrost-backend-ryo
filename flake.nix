@@ -13,6 +13,10 @@
         inherit system;
         pkgs = legacyPkgs.${system};
       });
+      shell = lib.genAttrs supportedSystems (system: import ./shell.nix {
+        inherit system;
+        pkgs = legacyPkgs.${system};
+      });
     in
     {
       packages = forAllSystems (system: {
@@ -27,6 +31,9 @@
       });
       checks = forAllSystems (system: {
         inherit (self.packages.${system}) blockfrost-backend-ryo dockerImage;
+      });
+      devshells = forAllSystems (system: {
+        default = shell.${system};
       });
       apps = forAllSystems (system: {
         blockfrost-backend-ryo = {
