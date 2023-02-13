@@ -1,14 +1,14 @@
-{}:
-let
-  # Pin the deployment package-set to a specific version of nixpkgs
-  pkgs = import
+{ pkgs ? let
+    lockfile = builtins.fromJSON (builtins.readFile ./flake.lock);
+    nixpkgs = lockfile.nodes.nixpkgs.locked;
+  in
+  import
     (builtins.fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/00e376e3f3c22d991052dfeaf154c42b09deeb29.tar.gz";
-      sha256 = "0sj2lhx5yfphgamdpf0by237c44699yrqw3whs3frjydpvaiplnp";
+      url = "https://github.com/NixOS/nixpkgs/archive/${nixpkgs.rev}.tar.gz";
+      sha256 = nixpkgs.narHash;
     })
-    { };
-
-in
+    { }
+}:
 with pkgs;
 
 stdenv.mkDerivation {
