@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Nix Flake
+- Docker image build using Nix `dockerTools`
+
 ## [1.4.0] - 2023-02-07
 
 ### Added
