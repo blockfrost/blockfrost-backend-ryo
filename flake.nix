@@ -23,8 +23,14 @@
         inherit (default.${system}) blockfrost-backend-ryo;
         dockerImage = legacyPkgs.${system}.dockerTools.buildImage {
           name = "blockfrost";
+          runAsRoot = ''
+            #!${legacyPkgs.${system}.runtimeShell}
+            mkdir -p /app
+            cp -a ${self.packages.${system}.blockfrost-backend-ryo}/libexec/source/config /app/config
+          '';
           config = {
             Cmd = [ "${self.packages.${system}.blockfrost-backend-ryo}/bin/blockfrost-backend-ryo" ];
+            WorkingDir = "/app";
           };
         };
         default = self.packages.${system}.blockfrost-backend-ryo;
