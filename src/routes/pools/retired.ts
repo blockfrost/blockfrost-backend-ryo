@@ -5,6 +5,7 @@ import { SQLQuery } from '../../sql/index.js';
 import * as QueryTypes from '../../types/queries/pools.js';
 import * as ResponseTypes from '../../types/responses/pools.js';
 import { getDbSync } from '../../utils/database.js';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({

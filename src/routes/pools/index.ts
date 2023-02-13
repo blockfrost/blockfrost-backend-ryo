@@ -4,6 +4,7 @@ import { toJSONStream } from '../../utils/string-utils.js';
 import { SQLQuery } from '../../sql/index.js';
 import * as QueryTypes from '../../types/queries/pools.js';
 import { getDbSync } from '../../utils/database.js';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 
 async function pools(fastify: FastifyInstance) {
   fastify.route({
