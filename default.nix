@@ -29,7 +29,7 @@ let
 in
 rec {
 
- blockfrost-backend-ryo =
+  blockfrost-backend-ryo =
     with pkgs.lib;
     let
       src = cleanSource ./.;
@@ -82,7 +82,9 @@ rec {
     sha256 = "1sa64g9w2dcw890d51c5xdqnav29dh7fzzvyhhwwigq7j5vinx3r";
   };
 
- blockfrost-backend-ryo-test-mainnet = makeTest rec {
+  blockfrost-backend-ryo-test-mainnet = makeTest rec {
+
+    name = "blockfrost-backend-ryo-test-mainnet";
 
     machine = {
       # We have to increase memsize, otherwise we will get error:
@@ -117,6 +119,8 @@ rec {
 
   blockfrost-backend-ryo-test-preview = makeTest rec {
 
+    name = "blockfrost-backend-ryo-test-preview";
+
     machine = {
       # We have to increase memsize, otherwise we will get error:
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
@@ -149,6 +153,8 @@ rec {
   };
 
   blockfrost-backend-ryo-test-preprod = makeTest rec {
+
+    name = "blockfrost-backend-ryo-test-preprod";
 
     machine = {
       # We have to increase memsize, otherwise we will get error:
