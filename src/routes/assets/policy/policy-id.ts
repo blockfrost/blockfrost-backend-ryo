@@ -1,15 +1,14 @@
-import { handleInvalidPolicy } from '@blockfrost/blockfrost-utils/lib/fastify';
-import { isUnpaged } from '../../../utils/routes';
-import { toJSONStream } from '../../../utils/string-utils';
-
-import { validatePolicy } from '@blockfrost/blockfrost-utils/lib/validation';
+import { handleInvalidPolicy } from '@blockfrost/blockfrost-utils/lib/fastify.js';
+import { validatePolicy } from '@blockfrost/blockfrost-utils/lib/validation.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { SQLQuery } from '../../../sql';
-import * as QueryTypes from '../../../types/queries/assets';
-import * as ResponseTypes from '../../../types/responses/assets';
-import { getDbSync } from '../../../utils/database';
-import { handle404 } from '../../../utils/error-handler';
+import { isUnpaged } from '../../../utils/routes.js';
+import { toJSONStream } from '../../../utils/string-utils.js';
+import { SQLQuery } from '../../../sql/index.js';
+import * as QueryTypes from '../../../types/queries/assets.js';
+import * as ResponseTypes from '../../../types/responses/assets.js';
+import { getDbSync } from '../../../utils/database.js';
+import { handle404 } from '../../../utils/error-handler.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({

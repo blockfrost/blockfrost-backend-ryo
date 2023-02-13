@@ -1,11 +1,11 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { isUnpaged } from '../../utils/routes';
-import * as QueryTypes from '../../types/queries/scripts';
-import * as ResponseTypes from '../../types/responses/scripts';
-import { getDbSync } from '../../utils/database';
-import { SQLQuery } from '../../sql';
+import * as QueryTypes from '../../types/queries/scripts.js';
+import * as ResponseTypes from '../../types/responses/scripts.js';
+import { getDbSync } from '../../utils/database.js';
+import { SQLQuery } from '../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { toJSONStream } from '../../utils/string-utils';
+import { isUnpaged } from '../../utils/routes.js';
+import { toJSONStream } from '../../utils/string-utils.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({

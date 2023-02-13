@@ -1,12 +1,12 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance } from 'fastify';
 
-import { SQLQuery } from '../../../sql';
-import * as QueryTypes from '../../../types/queries/epochs';
-import * as ResponseTypes from '../../../types/responses/epochs';
-import { getDbSync } from '../../../utils/database';
-import { handle404 } from '../../../utils/error-handler';
-import { sortKeysInObject } from '../../../utils/string-utils';
+import { SQLQuery } from '../../../sql/index.js';
+import * as QueryTypes from '../../../types/queries/epochs.js';
+import * as ResponseTypes from '../../../types/responses/epochs.js';
+import { getDbSync } from '../../../utils/database.js';
+import { handle404 } from '../../../utils/error-handler.js';
+import { sortKeysInObject } from '../../../utils/string-utils.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({

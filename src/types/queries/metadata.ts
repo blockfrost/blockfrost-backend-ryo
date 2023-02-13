@@ -1,4 +1,4 @@
-import { Order } from '../common';
+import { Order } from '../common.js';
 
 export interface RequestLabels {
   Querystring: {

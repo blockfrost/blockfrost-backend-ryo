@@ -1,17 +1,16 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { isUnpaged } from '../../../utils/routes';
-import { toJSONStream } from '../../../utils/string-utils';
-
+import { isUnpaged } from '../../../utils/routes.js';
+import { toJSONStream } from '../../../utils/string-utils.js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { SQLQuery } from '../../../sql';
-import * as QueryTypes from '../../../types/queries/blocks';
-import { getDbSync } from '../../../utils/database';
-import { handle400Custom, handle404 } from '../../../utils/error-handler';
+import { SQLQuery } from '../../../sql/index.js';
+import * as QueryTypes from '../../../types/queries/blocks.js';
+import { getDbSync } from '../../../utils/database.js';
+import { handle400Custom, handle404 } from '../../../utils/error-handler.js';
 import {
   isNumber,
   validateBlockHash,
   validatePositiveInRangeSignedInt,
-} from '../../../utils/validation';
+} from '../../../utils/validation.js';
 
 async function blocks(fastify: FastifyInstance) {
   fastify.route({
@@ -91,4 +90,4 @@ async function blocks(fastify: FastifyInstance) {
   });
 }
 
-module.exports = blocks;
+export default blocks;

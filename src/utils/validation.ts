@@ -1,5 +1,5 @@
 import { validation } from '@blockfrost/blockfrost-utils';
-import { getConfig } from '../config';
+import { getConfig } from '../config.js';
 
 export const isNumber = validation.isNumber;
 export const validateHex = validation.validateHex;

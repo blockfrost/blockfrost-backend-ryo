@@ -1,12 +1,12 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { isUnpaged } from '../../../utils/routes';
-import { toJSONStream } from '../../../utils/string-utils';
+import { isUnpaged } from '../../../utils/routes.js';
+import { toJSONStream } from '../../../utils/string-utils.js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { SQLQuery } from '../../../sql';
-import * as QueryTypes from '../../../types/queries/addresses';
-import { getDbSync } from '../../../utils/database';
-import { handle404, handleInvalidAddress } from '../../../utils/error-handler';
-import { getAddressTypeAndPaymentCred } from '../../../utils/validation';
+import { SQLQuery } from '../../../sql/index.js';
+import * as QueryTypes from '../../../types/queries/addresses.js';
+import { getDbSync } from '../../../utils/database.js';
+import { handle404, handleInvalidAddress } from '../../../utils/error-handler.js';
+import { getAddressTypeAndPaymentCred } from '../../../utils/validation.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({

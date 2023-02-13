@@ -1,4 +1,4 @@
-export type { ResultFound } from '../common';
+export type { ResultFound } from '../common.js';
 
 export interface RequestParameters {
   Params: {

@@ -1,16 +1,16 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 
-import { getConfig } from '../../config';
-import { BYRON_GENESIS, GENESIS, PROTOCOL_VERSIONS } from '../../constants/genesis';
-import { SQLQuery } from '../../sql';
-import { ByronEraParameters } from '../../types/common';
-import { Block } from '../../types/queries/blocks';
-import * as QueryTypes from '../../types/queries/network';
-import * as LedgerResponseTypes from '../../types/responses/ledger';
-import { getDbSync } from '../../utils/database';
-import { handle500 } from '../../utils/error-handler';
-import { standardSafeZone } from '../../utils/routes';
+import { getConfig } from '../../config.js';
+import { BYRON_GENESIS, GENESIS, PROTOCOL_VERSIONS } from '../../constants/genesis.js';
+import { SQLQuery } from '../../sql/index.js';
+import { ByronEraParameters } from '../../types/common.js';
+import { Block } from '../../types/queries/blocks.js';
+import * as QueryTypes from '../../types/queries/network.js';
+import * as LedgerResponseTypes from '../../types/responses/ledger.js';
+import { getDbSync } from '../../utils/database.js';
+import { handle500 } from '../../utils/error-handler.js';
+import { standardSafeZone } from '../../utils/routes.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({

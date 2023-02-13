@@ -1,5 +1,5 @@
-import { Order } from '../common';
-export type { ResultFound } from '../common';
+import { Order } from '../common.js';
+export type { ResultFound } from '../common.js';
 
 export interface RequestParameters {
   Params: {

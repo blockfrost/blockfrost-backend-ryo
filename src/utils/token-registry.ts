@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as Sentry from '@sentry/node';
-import { Asset } from '../types/responses/assets';
-import { getConfig } from '../config';
+import { Asset } from '../types/responses/assets.js';
+import { getConfig } from '../config.js';
 
 const CONFIG_TOKEN_REGISTRY_URL = getConfig().tokenRegistryUrl;
 

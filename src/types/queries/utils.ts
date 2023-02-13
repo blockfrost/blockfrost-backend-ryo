@@ -1,3 +1,4 @@
+/* eslint-disable import/export */
 export interface Xpub {
   Params: {
     xpub: string;

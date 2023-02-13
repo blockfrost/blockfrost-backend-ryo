@@ -1,5 +1,5 @@
-import { OnchainMetadata, Order } from '../common';
-export type { ResultFound } from '../common';
+import { OnchainMetadata, Order } from '../common.js';
+export type { ResultFound } from '../common.js';
 
 export interface AssetsPolicyFound {
   result: number;

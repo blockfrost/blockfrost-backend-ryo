@@ -1,4 +1,4 @@
-import * as routesUtils from '../../../../src/utils/routes';
+import * as routesUtils from '../../../../src/utils/routes.js';
 import { describe, expect, test } from 'vitest';
 
 describe('routes utils', () => {

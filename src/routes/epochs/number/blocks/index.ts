@@ -1,12 +1,12 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { isUnpaged } from '../../../../utils/routes';
+import { isUnpaged } from '../../../../utils/routes.js';
+import { toJSONStream } from '../../../../utils/string-utils.js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { SQLQuery } from '../../../../sql';
-import * as QueryTypes from '../../../../types/queries/epochs';
-import { getDbSync } from '../../../../utils/database';
-import { handle404, handle400Custom } from '../../../../utils/error-handler';
-import { validatePositiveInRangeSignedInt } from '../../../../utils/validation';
-import { toJSONStream } from '../../../../utils/string-utils';
+import { SQLQuery } from '../../../../sql/index.js';
+import * as QueryTypes from '../../../../types/queries/epochs.js';
+import { getDbSync } from '../../../../utils/database.js';
+import { handle404, handle400Custom } from '../../../../utils/error-handler.js';
+import { validatePositiveInRangeSignedInt } from '../../../../utils/validation.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({

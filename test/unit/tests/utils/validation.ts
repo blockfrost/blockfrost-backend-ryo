@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest';
-import * as config from '../../../../src/config';
-import * as validationUtils from '../../../../src/utils/validation';
+import * as config from '../../../../src/config.js';
+import * as validationUtils from '../../../../src/utils/validation.js';
 import {
   convertStakeAddressFixture,
   isNumber,
@@ -12,7 +12,7 @@ import {
   validatePositiveInRangeSignedBigIntFixture,
   validatePositiveInRangeSignedIntFixture,
   validateStakeAddressFixture,
-} from '../../fixtures/validation.fixtures';
+} from '../../fixtures/validation.fixtures.js';
 
 describe('validation-format-utils', () => {
   validateStakeAddressFixture.map(fixture => {

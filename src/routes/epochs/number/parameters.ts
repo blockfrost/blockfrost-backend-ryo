@@ -1,13 +1,13 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 
-import { SQLQuery } from '../../../sql';
-import * as QueryTypes from '../../../types/queries/epochs';
-import * as ResponseTypes from '../../../types/responses/epochs';
-import { getDbSync } from '../../../utils/database';
-import { handle400Custom, handle404 } from '../../../utils/error-handler';
-import { sortKeysInObject } from '../../../utils/string-utils';
-import { validatePositiveInRangeSignedInt } from '../../../utils/validation';
+import { SQLQuery } from '../../../sql/index.js';
+import * as QueryTypes from '../../../types/queries/epochs.js';
+import * as ResponseTypes from '../../../types/responses/epochs.js';
+import { getDbSync } from '../../../utils/database.js';
+import { handle400Custom, handle404 } from '../../../utils/error-handler.js';
+import { sortKeysInObject } from '../../../utils/string-utils.js';
+import { validatePositiveInRangeSignedInt } from '../../../utils/validation.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({

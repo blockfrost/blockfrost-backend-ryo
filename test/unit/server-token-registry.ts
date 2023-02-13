@@ -1,6 +1,6 @@
 import express from 'express';
 import { Server } from 'http';
-import * as mocks from './fixtures/token-registry.fixtures';
+import * as mocks from './fixtures/token-registry.fixtures.js';
 
 let server: Server;
 const serverName = 'token registry server';
