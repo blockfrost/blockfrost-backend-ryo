@@ -1,7 +1,7 @@
 {
   description = "Blockfrost API backend";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-22.11";
 
   outputs = { self, nixpkgs }:
     let
