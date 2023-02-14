@@ -1,6 +1,6 @@
 import config from 'config';
 
-import { CARDANO_NETWORKS, Network } from './types/common';
+import { CARDANO_NETWORKS, Network } from './types/common.js';
 
 export const loadConfig = () => {
   // server

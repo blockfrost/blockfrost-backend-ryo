@@ -1,13 +1,13 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { isUnpaged } from '../../../../../utils/routes';
-import * as QueryTypes from '../../../../../types/queries/metadata';
-import * as ResponseTypes from '../../../../../types/responses/metadata';
-import { getDbSync } from '../../../../../utils/database';
-import { handle400Custom, handle404 } from '../../../../../utils/error-handler';
-import { validatePositiveInRangeSignedBigInt } from '../../../../../utils/validation';
-import { SQLQuery } from '../../../../../sql';
+import * as QueryTypes from '../../../../../types/queries/metadata.js';
+import * as ResponseTypes from '../../../../../types/responses/metadata.js';
+import { getDbSync } from '../../../../../utils/database.js';
+import { handle400Custom, handle404 } from '../../../../../utils/error-handler.js';
+import { validatePositiveInRangeSignedBigInt } from '../../../../../utils/validation.js';
+import { SQLQuery } from '../../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { toJSONStream } from '../../../../../utils/string-utils';
+import { toJSONStream } from '../../../../../utils/string-utils.js';
+import { isUnpaged } from '../../../../../utils/routes.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({

@@ -1,8 +1,8 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance } from 'fastify';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const packageJson = require('../../../package.json');
+import { createRequire } from 'module';
+const esmRequire = createRequire(import.meta.url);
+const packageJson = esmRequire('../../../package.json');
 
 async function route(fastify: FastifyInstance) {
   fastify.route({

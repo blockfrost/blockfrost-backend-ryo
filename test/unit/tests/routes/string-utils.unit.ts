@@ -3,7 +3,7 @@ import {
   getAdditionalParametersFromRequest,
   sortKeysInObject,
   toJSONStream,
-} from '../../../../src/utils/string-utils';
+} from '../../../../src/utils/string-utils.js';
 import { describe, expect, test } from 'vitest';
 import stream from 'stream';
 
@@ -153,6 +153,7 @@ describe('stringUtils', async () => {
   test('toJSONStream', async () => {
     let data = '';
     const w = new stream.Writable();
+
     w._write = (chunk, _encoding, done) => {
       data += Buffer.from(chunk);
       done();
@@ -162,8 +163,8 @@ describe('stringUtils', async () => {
 
     // we need to wait till stream calls 'finish' event to have all chunks processed
     await new Promise((resolve, reject) => {
-      w.on('error', err => {
-        reject(err);
+      w.on('error', error => {
+        reject(error);
       });
       w.on('finish', () => {
         expect(data).toStrictEqual(`[{"a":"a","b":2,"d":null},{"a":10.2}]`);

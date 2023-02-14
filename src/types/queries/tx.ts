@@ -1,5 +1,5 @@
-import { Amount } from '../common';
-export type { ResultFound } from '../common';
+import { Amount } from '../common.js';
+export type { ResultFound } from '../common.js';
 
 export interface RequestParameters {
   Params: {

@@ -1,5 +1,5 @@
-import app from './app';
-import { getConfig } from './config';
+import app from './app.js';
+import { getConfig } from './config.js';
 
 const port = getConfig().server.port;
 const address = getConfig().server.listenAddress;

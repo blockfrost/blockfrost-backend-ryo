@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import sinon from 'sinon';
 import supertest from 'supertest';
-import fixtures from '../../fixtures/nutlink.fixtures';
-import buildFastify from '../../../../src/app';
-import * as databaseUtils from '../../../../src/utils/database';
-import * as config from '../../../../src/config';
+import fixtures from '../../fixtures/nutlink.fixtures.js';
+import buildFastify from '../../../../src/app.js';
+import * as databaseUtils from '../../../../src/utils/database.js';
+import * as config from '../../../../src/config.js';
 import { describe, expect, test, vi } from 'vitest';
 
 describe('nutlink service', () => {

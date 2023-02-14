@@ -1,7 +1,8 @@
 import path from 'path';
 import toSatisfyApiSpecFunc from 'jest-openapi/dist/matchers/toSatisfyApiSpec.js';
-import { makeApiSpec } from 'openapi-validator';
+import openapiValidator from 'openapi-validator';
 import { expect } from 'vitest';
+import { fileURLToPath } from 'url';
 
 export interface OpenApiMatchers {
   toSatisfyApiSpec(): void;
@@ -15,15 +16,19 @@ declare global {
 }
 
 const openAPIMatcher = (filepathOrObject: string) => {
-  const openApiSpec = makeApiSpec(filepathOrObject);
+  const openApiSpec = openapiValidator.makeApiSpec(filepathOrObject);
 
   return {
     toSatisfyApiSpec(received: unknown) {
-      return toSatisfyApiSpecFunc(received, openApiSpec);
+      // https://github.com/vitest-dev/vitest/issues/2120#issuecomment-1295122098
+      // @ts-expect-error After ESM migration Vitest has a problem "TypeError: default is not a function", so .default() is needed
+      return toSatisfyApiSpecFunc.default(received, openApiSpec);
     },
   };
 };
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 // Load an OpenAPI file (YAML or JSON) into this plugin
 const matchers = openAPIMatcher(
   path.join(__dirname, '../../node_modules/@blockfrost/openapi/openapi.yaml'),

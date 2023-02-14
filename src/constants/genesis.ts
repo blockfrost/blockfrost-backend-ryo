@@ -1,5 +1,5 @@
-import * as ResponseTypes from '../types/responses/ledger';
-import { Network, ByronEraParameters, ProtocolInfo } from '../types/common';
+import * as ResponseTypes from '../types/responses/ledger.js';
+import { Network, ByronEraParameters, ProtocolInfo } from '../types/common.js';
 
 export const GENESIS: Record<Network, ResponseTypes.Ledger> = {
   mainnet: {

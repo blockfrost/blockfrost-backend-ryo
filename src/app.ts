@@ -4,12 +4,13 @@ import * as Sentry from '@sentry/node';
 import fastify, { FastifyInstance, FastifyRequest } from 'fastify';
 import os from 'os';
 
-import { getConfig } from './config';
-import { registerRoute } from './utils/common';
-import { errorHandler, notFoundHandler } from './utils/error-handler';
+import { getConfig } from './config.js';
+import { registerRoute } from './utils/common.js';
+import { errorHandler, notFoundHandler } from './utils/error-handler.js';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const packageJson = require('../package.json');
+import { createRequire } from 'module';
+const esmRequire = createRequire(import.meta.url);
+const packageJson = esmRequire('../package.json');
 
 const config = getConfig();
 const start = (options = {}): FastifyInstance => {
@@ -56,120 +57,120 @@ const start = (options = {}): FastifyInstance => {
   });
 
   // addresses
-  registerRoute(app, import('./routes/addresses/address/extended'));
-  registerRoute(app, import('./routes/addresses/address/index'));
-  registerRoute(app, import('./routes/addresses/address/total'));
-  registerRoute(app, import('./routes/addresses/address/transactions'));
-  registerRoute(app, import('./routes/addresses/address/txs'));
-  registerRoute(app, import('./routes/addresses/address/utxos/asset'));
-  registerRoute(app, import('./routes/addresses/address/utxos/index'));
+  registerRoute(app, import('./routes/addresses/address/extended.js'));
+  registerRoute(app, import('./routes/addresses/address/index.js'));
+  registerRoute(app, import('./routes/addresses/address/total.js'));
+  registerRoute(app, import('./routes/addresses/address/transactions.js'));
+  registerRoute(app, import('./routes/addresses/address/txs.js'));
+  registerRoute(app, import('./routes/addresses/address/utxos/asset.js'));
+  registerRoute(app, import('./routes/addresses/address/utxos/index.js'));
 
   // accounts
-  registerRoute(app, import('./routes/accounts/stake-address/index'));
-  registerRoute(app, import('./routes/accounts/stake-address/addresses/assets'));
-  registerRoute(app, import('./routes/accounts/stake-address/addresses/index'));
-  registerRoute(app, import('./routes/accounts/stake-address/addresses/total'));
-  registerRoute(app, import('./routes/accounts/stake-address/delegations'));
-  registerRoute(app, import('./routes/accounts/stake-address/history'));
-  registerRoute(app, import('./routes/accounts/stake-address/mirs'));
-  registerRoute(app, import('./routes/accounts/stake-address/registrations'));
-  registerRoute(app, import('./routes/accounts/stake-address/rewards'));
-  registerRoute(app, import('./routes/accounts/stake-address/withdrawals'));
+  registerRoute(app, import('./routes/accounts/stake-address/index.js'));
+  registerRoute(app, import('./routes/accounts/stake-address/addresses/assets.js'));
+  registerRoute(app, import('./routes/accounts/stake-address/addresses/index.js'));
+  registerRoute(app, import('./routes/accounts/stake-address/addresses/total.js'));
+  registerRoute(app, import('./routes/accounts/stake-address/delegations.js'));
+  registerRoute(app, import('./routes/accounts/stake-address/history.js'));
+  registerRoute(app, import('./routes/accounts/stake-address/mirs.js'));
+  registerRoute(app, import('./routes/accounts/stake-address/registrations.js'));
+  registerRoute(app, import('./routes/accounts/stake-address/rewards.js'));
+  registerRoute(app, import('./routes/accounts/stake-address/withdrawals.js'));
 
   // assets
-  registerRoute(app, import('./routes/assets/index'));
-  registerRoute(app, import('./routes/assets/policy/policy-id'));
-  registerRoute(app, import('./routes/assets/asset/addresses'));
-  registerRoute(app, import('./routes/assets/asset/history'));
-  registerRoute(app, import('./routes/assets/asset/index'));
-  registerRoute(app, import('./routes/assets/asset/transactions'));
-  registerRoute(app, import('./routes/assets/asset/txs'));
+  registerRoute(app, import('./routes/assets/index.js'));
+  registerRoute(app, import('./routes/assets/policy/policy-id.js'));
+  registerRoute(app, import('./routes/assets/asset/addresses.js'));
+  registerRoute(app, import('./routes/assets/asset/history.js'));
+  registerRoute(app, import('./routes/assets/asset/index.js'));
+  registerRoute(app, import('./routes/assets/asset/transactions.js'));
+  registerRoute(app, import('./routes/assets/asset/txs.js'));
 
   // blocks
-  registerRoute(app, import('./routes/blocks/slot/slot-number'));
-  registerRoute(app, import('./routes/blocks/latest/index'));
-  registerRoute(app, import('./routes/blocks/latest/txs'));
-  registerRoute(app, import('./routes/blocks/epoch/epoch-number/slot/slot-number'));
-  registerRoute(app, import('./routes/blocks/hash-or-number/index'));
-  registerRoute(app, import('./routes/blocks/hash-or-number/addresses'));
-  registerRoute(app, import('./routes/blocks/hash-or-number/txs'));
-  registerRoute(app, import('./routes/blocks/hash-or-number/previous'));
-  registerRoute(app, import('./routes/blocks/hash-or-number/next'));
+  registerRoute(app, import('./routes/blocks/slot/slot-number.js'));
+  registerRoute(app, import('./routes/blocks/latest/index.js'));
+  registerRoute(app, import('./routes/blocks/latest/txs.js'));
+  registerRoute(app, import('./routes/blocks/epoch/epoch-number/slot/slot-number.js'));
+  registerRoute(app, import('./routes/blocks/hash-or-number/index.js'));
+  registerRoute(app, import('./routes/blocks/hash-or-number/addresses.js'));
+  registerRoute(app, import('./routes/blocks/hash-or-number/txs.js'));
+  registerRoute(app, import('./routes/blocks/hash-or-number/previous.js'));
+  registerRoute(app, import('./routes/blocks/hash-or-number/next.js'));
 
   // epochs
-  registerRoute(app, import('./routes/epochs/latest/index'));
-  registerRoute(app, import('./routes/epochs/latest/parameters'));
-  registerRoute(app, import('./routes/epochs/number/index'));
-  registerRoute(app, import('./routes/epochs/number/next'));
-  registerRoute(app, import('./routes/epochs/number/previous'));
-  registerRoute(app, import('./routes/epochs/number/parameters'));
-  registerRoute(app, import('./routes/epochs/number/blocks/index'));
-  registerRoute(app, import('./routes/epochs/number/blocks/pool-id'));
-  registerRoute(app, import('./routes/epochs/number/stakes/index'));
-  registerRoute(app, import('./routes/epochs/number/stakes/pool-id'));
+  registerRoute(app, import('./routes/epochs/latest/index.js'));
+  registerRoute(app, import('./routes/epochs/latest/parameters.js'));
+  registerRoute(app, import('./routes/epochs/number/index.js'));
+  registerRoute(app, import('./routes/epochs/number/next.js'));
+  registerRoute(app, import('./routes/epochs/number/previous.js'));
+  registerRoute(app, import('./routes/epochs/number/parameters.js'));
+  registerRoute(app, import('./routes/epochs/number/blocks/index.js'));
+  registerRoute(app, import('./routes/epochs/number/blocks/pool-id.js'));
+  registerRoute(app, import('./routes/epochs/number/stakes/index.js'));
+  registerRoute(app, import('./routes/epochs/number/stakes/pool-id.js'));
 
   // health
-  registerRoute(app, import('./routes/health'));
-  registerRoute(app, import('./routes/health/clock'));
+  registerRoute(app, import('./routes/health/index.js'));
+  registerRoute(app, import('./routes/health/clock.js'));
 
   // ledger
-  registerRoute(app, import('./routes/ledger'));
+  registerRoute(app, import('./routes/ledger/index.js'));
 
   // metadata
-  registerRoute(app, import('./routes/metadata/txs/labels/label/cbor'));
-  registerRoute(app, import('./routes/metadata/txs/labels/label/index'));
-  registerRoute(app, import('./routes/metadata/txs/labels'));
+  registerRoute(app, import('./routes/metadata/txs/labels/label/cbor.js'));
+  registerRoute(app, import('./routes/metadata/txs/labels/label/index.js'));
+  registerRoute(app, import('./routes/metadata/txs/labels.js'));
 
   // network
-  registerRoute(app, import('./routes/network'));
-  registerRoute(app, import('./routes/network/eras'));
+  registerRoute(app, import('./routes/network/index.js'));
+  registerRoute(app, import('./routes/network/eras.js'));
 
   // nutlink
-  registerRoute(app, import('./routes/nutlink/address/index'));
-  registerRoute(app, import('./routes/nutlink/address/tickers/index'));
-  registerRoute(app, import('./routes/nutlink/address/tickers/ticker'));
-  registerRoute(app, import('./routes/nutlink/tickers/ticker'));
+  registerRoute(app, import('./routes/nutlink/address/index.js'));
+  registerRoute(app, import('./routes/nutlink/address/tickers/index.js'));
+  registerRoute(app, import('./routes/nutlink/address/tickers/ticker.js'));
+  registerRoute(app, import('./routes/nutlink/tickers/ticker.js'));
 
   // pools
-  registerRoute(app, import('./routes/pools/index'));
-  registerRoute(app, import('./routes/pools/extended'));
-  registerRoute(app, import('./routes/pools/retiring'));
-  registerRoute(app, import('./routes/pools/retired'));
-  registerRoute(app, import('./routes/pools/pool-id/index'));
-  registerRoute(app, import('./routes/pools/pool-id/blocks'));
-  registerRoute(app, import('./routes/pools/pool-id/delegators'));
-  registerRoute(app, import('./routes/pools/pool-id/history'));
-  registerRoute(app, import('./routes/pools/pool-id/metadata'));
-  registerRoute(app, import('./routes/pools/pool-id/relays'));
-  registerRoute(app, import('./routes/pools/pool-id/updates'));
+  registerRoute(app, import('./routes/pools/index.js'));
+  registerRoute(app, import('./routes/pools/extended.js'));
+  registerRoute(app, import('./routes/pools/retiring.js'));
+  registerRoute(app, import('./routes/pools/retired.js'));
+  registerRoute(app, import('./routes/pools/pool-id/index.js'));
+  registerRoute(app, import('./routes/pools/pool-id/blocks.js'));
+  registerRoute(app, import('./routes/pools/pool-id/delegators.js'));
+  registerRoute(app, import('./routes/pools/pool-id/history.js'));
+  registerRoute(app, import('./routes/pools/pool-id/metadata.js'));
+  registerRoute(app, import('./routes/pools/pool-id/relays.js'));
+  registerRoute(app, import('./routes/pools/pool-id/updates.js'));
 
   // root
-  registerRoute(app, import('./routes/root'));
+  registerRoute(app, import('./routes/root/index.js'));
 
   // scripts
-  registerRoute(app, import('./routes/scripts/index'));
-  registerRoute(app, import('./routes/scripts/script_hash/index'));
-  registerRoute(app, import('./routes/scripts/script_hash/cbor'));
-  registerRoute(app, import('./routes/scripts/script_hash/json'));
-  registerRoute(app, import('./routes/scripts/script_hash/redeemers'));
-  registerRoute(app, import('./routes/scripts/datum/datum-hash/index'));
-  registerRoute(app, import('./routes/scripts/datum/datum-hash/cbor'));
+  registerRoute(app, import('./routes/scripts/index.js'));
+  registerRoute(app, import('./routes/scripts/script_hash/index.js'));
+  registerRoute(app, import('./routes/scripts/script_hash/cbor.js'));
+  registerRoute(app, import('./routes/scripts/script_hash/json.js'));
+  registerRoute(app, import('./routes/scripts/script_hash/redeemers.js'));
+  registerRoute(app, import('./routes/scripts/datum/datum-hash/index.js'));
+  registerRoute(app, import('./routes/scripts/datum/datum-hash/cbor.js'));
 
   // txs
-  registerRoute(app, import('./routes/txs/hash/index'));
-  registerRoute(app, import('./routes/txs/hash/delegations'));
-  registerRoute(app, import('./routes/txs/hash/mirs'));
-  registerRoute(app, import('./routes/txs/hash/pool-retires'));
-  registerRoute(app, import('./routes/txs/hash/pool-updates'));
-  registerRoute(app, import('./routes/txs/hash/redeemers'));
-  registerRoute(app, import('./routes/txs/hash/stakes'));
-  registerRoute(app, import('./routes/txs/hash/utxos'));
-  registerRoute(app, import('./routes/txs/hash/withdrawals'));
-  registerRoute(app, import('./routes/txs/hash/metadata/index'));
-  registerRoute(app, import('./routes/txs/hash/metadata/cbor'));
+  registerRoute(app, import('./routes/txs/hash/index.js'));
+  registerRoute(app, import('./routes/txs/hash/delegations.js'));
+  registerRoute(app, import('./routes/txs/hash/mirs.js'));
+  registerRoute(app, import('./routes/txs/hash/pool-retires.js'));
+  registerRoute(app, import('./routes/txs/hash/pool-updates.js'));
+  registerRoute(app, import('./routes/txs/hash/redeemers.js'));
+  registerRoute(app, import('./routes/txs/hash/stakes.js'));
+  registerRoute(app, import('./routes/txs/hash/utxos.js'));
+  registerRoute(app, import('./routes/txs/hash/withdrawals.js'));
+  registerRoute(app, import('./routes/txs/hash/metadata/index.js'));
+  registerRoute(app, import('./routes/txs/hash/metadata/cbor.js'));
 
   // utils
-  registerRoute(app, import('./routes/utils/addresses/xpub/xpub/role/index'));
+  registerRoute(app, import('./routes/utils/addresses/xpub/xpub/role/index.js'));
 
   process.on('SIGINT', () => {
     app.close();

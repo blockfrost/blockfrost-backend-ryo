@@ -1,7 +1,7 @@
 before_script:
-  - cp -v $BUILD_CONFIG_FILE_PREVIEW config/preview.ts
-  - cp -v $BUILD_CONFIG_FILE_PREPROD config/preprod.ts
-  - cp -v $BUILD_CONFIG_FILE_MAINNET config/mainnet.ts
+  - cp -v $BUILD_CONFIG_FILE_PREVIEW_YAML config/preview.yaml
+  - cp -v $BUILD_CONFIG_FILE_PREPROD_YAML config/preprod.yaml
+  - cp -v $BUILD_CONFIG_FILE_MAINNET_YAML config/mainnet.yaml
 
 stages:
   - prebuild

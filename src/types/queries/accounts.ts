@@ -1,5 +1,5 @@
-import { Amount, Order } from '../common';
-export type { ResultFound } from '../common';
+import { Amount, Order } from '../common.js';
+export type { ResultFound } from '../common.js';
 export interface RequestAccountsQueryParameters {
   Params: {
     stake_address: string;
