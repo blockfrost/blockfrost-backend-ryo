@@ -81,13 +81,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockfrost/blockfrost-tests@npm:1.5.2":
-  version: 1.5.2
-  resolution: "@blockfrost/blockfrost-tests@npm:1.5.2"
+"@blockfrost/blockfrost-tests@npm:1.5.5":
+  version: 1.5.5
+  resolution: "@blockfrost/blockfrost-tests@npm:1.5.5"
   dependencies:
     expect: ^29.3.1
     node-match-path: ^0.6.3
-  checksum: f49cffe2ae180dd6010e38cb9c9fd90e2847b11e2d66868aad99c114b37975d0702836337706aae0dac2f33c8aeed0a9f3c5a6c6a319e38eef47d004e681a368
+  checksum: 833b26f7f9a7bcb87e82b3e8673ca1d13474e8f0fdb067485ba2bf2c12fc5f910a0461e94fa16a146833116a2801dc5894c20ba52a9995cf4791922af27bd95d
   languageName: node
   linkType: hard
 
@@ -291,6 +291,7 @@ __metadata:
 "@esbuild/linux-x64@npm:0.16.17":
   version: 0.16.17
   resolution: "@esbuild/linux-x64@npm:0.16.17"
+  checksum: 1ed275c47aba5602c48844dedf95e6ad9097b6c96b8b0b19d141009d1b0583956ee4ba96763528641d2fb7521607c2411f90e0908f61777d56922ba4a95cdb1a
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
@@ -1250,13 +1251,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/coverage-c8@npm:^0.27.1":
-  version: 0.27.1
-  resolution: "@vitest/coverage-c8@npm:0.27.1"
+"@vitest/coverage-c8@npm:^0.27":
+  version: 0.27.3
+  resolution: "@vitest/coverage-c8@npm:0.27.3"
   dependencies:
     c8: ^7.12.0
-    vitest: 0.27.1
-  checksum: 3d009c5c948b765113cd5003f52facbdd0629b91daaa14580a91efdb9d4d868718483b60fd291560a9327816ceaffcdf55b31b1696d9107ad48deba52ad38c00
+    vitest: 0.27.3
+  checksum: 57097da265b33326c484c4032cbddee12fe9a843d902ab00c95e008a069ace7ee2d426da372f91c08f55c22373703958a53a6db3a322fdce9230e34ae9695c9e
   languageName: node
   linkType: hard
 
@@ -1735,11 +1736,12 @@ __metadata:
   resolution: "blockfrost-backend-ryo@workspace:."
   dependencies:
     "@blockfrost/blockfrost-js": 5.2.0
-    "@blockfrost/blockfrost-tests": 1.5.2
+    "@blockfrost/blockfrost-tests": 1.5.5
     "@blockfrost/blockfrost-utils": 2.3.1
     "@blockfrost/openapi": 0.1.54
     "@emurgo/cardano-serialization-lib-nodejs": 11.2.0
     "@emurgo/cip14-js": ^3.0.1
+    "@esbuild/linux-x64": "npm:0.16.17"
     "@fastify/cors": ^8.2.0
     "@fastify/postgres": ^5.2.0
     "@sentry/node": ^7.12.1
@@ -1752,7 +1754,7 @@ __metadata:
     "@types/supertest": ^2.0.12
     "@typescript-eslint/eslint-plugin": ^5.36.1
     "@typescript-eslint/parser": 5.36.1
-    "@vitest/coverage-c8": ^0.27.1
+    "@vitest/coverage-c8": ^0.27
     JSONStream: ^1.3.5
     ajv: ^8.11.0
     axios: ^0.27.2
@@ -1781,7 +1783,7 @@ __metadata:
     supertest: ^6.2.4
     ts-node: ^10.9.1
     typescript: ^4.7.4
-    vitest: ^0.27.1
+    vitest: ^0.27
   languageName: unknown
   linkType: soft
 
@@ -6795,6 +6797,13 @@ resolve@^1.10.0:
   languageName: node
   linkType: hard
 
+"std-env@npm:^3.3.1":
+  version: 3.3.2
+  resolution: "std-env@npm:3.3.2"
+  checksum: c02256bb041ba1870d23f8360bc7e47a9cf1fabcd02c8b7c4246d48f2c6bb47b4f45c70964348844e6d36521df84c4a9d09d468654b51e0eb5c600e3392b4570
+  languageName: node
+  linkType: hard
+
 "string-width@npm:^1.0.1":
   version: 1.0.2
   resolution: "string-width@npm:1.0.2"
@@ -7462,9 +7471,9 @@ resolve@^1.10.0:
   languageName: node
   linkType: hard
 
-"vite-node@npm:0.27.1":
-  version: 0.27.1
-  resolution: "vite-node@npm:0.27.1"
+"vite-node@npm:0.27.3":
+  version: 0.27.3
+  resolution: "vite-node@npm:0.27.3"
   dependencies:
     cac: ^6.7.14
     debug: ^4.3.4
@@ -7476,7 +7485,7 @@ resolve@^1.10.0:
     vite: ^3.0.0 || ^4.0.0
   bin:
     vite-node: vite-node.mjs
-  checksum: 1cd6b40395365e30edaf926b7cfec03230c92a99ee6565c79b3b2ac9b35863843ad2f24536e80c1f816b49fae55e7ab9dabf3a40fe61ea65d4d5e4774b0f60af
+  checksum: f7acf7fcd378edad5ccfc36ced495f8981a69bf7ab60826edb36d4c08afcddf815221f46640e29ea81d1f25bf5719edd8b3c958a3a9e66a89c1fd0fba3be35ac
   languageName: node
   linkType: hard
 
@@ -7518,9 +7527,9 @@ resolve@^1.10.0:
   languageName: node
   linkType: hard
 
-"vitest@npm:0.27.1, vitest@npm:^0.27.1":
-  version: 0.27.1
-  resolution: "vitest@npm:0.27.1"
+"vitest@npm:0.27.3, vitest@npm:^0.27":
+  version: 0.27.3
+  resolution: "vitest@npm:0.27.3"
   dependencies:
     "@types/chai": ^4.3.4
     "@types/chai-subset": ^1.3.3
@@ -7533,12 +7542,13 @@ resolve@^1.10.0:
     local-pkg: ^0.4.2
     picocolors: ^1.0.0
     source-map: ^0.6.1
+    std-env: ^3.3.1
     strip-literal: ^1.0.0
     tinybench: ^2.3.1
     tinypool: ^0.3.0
     tinyspy: ^1.0.2
     vite: ^3.0.0 || ^4.0.0
-    vite-node: 0.27.1
+    vite-node: 0.27.3
     why-is-node-running: ^2.2.2
   peerDependencies:
     "@edge-runtime/vm": "*"
@@ -7559,7 +7569,7 @@ resolve@^1.10.0:
       optional: true
   bin:
     vitest: vitest.mjs
-  checksum: 635b83429c74db4b9e10954ffd7eb21c9927fc83ea4c53e935cf2d8d15636b07b7482fa0c9469a32248da6570bdabfee08b9bc3b57d7b2a52861533115f9c8bc
+  checksum: 79b787526311385c96a9ae5641094224e1258d663f3e858e874ab51663a9cdfc3dbc347eddcec8843921bb812bcf4fa5508145d9b2f9c7e6bf9a5c60c1cad8d3
   languageName: node
   linkType: hard
 

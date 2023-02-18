@@ -4,7 +4,7 @@ server:
   debug: true
 dbSync:
   host: "cdbsync-mainnet.mydomain.com"
-  user: "cexplorer"
+  user: "cdbsync"
   database: "cdbsync"
   maxConnections: 10
 network: "mainnet"

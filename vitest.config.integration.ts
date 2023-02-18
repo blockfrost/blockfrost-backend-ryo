@@ -1,14 +1,15 @@
+// eslint-disable-next-line import/extensions
 import { defineConfig } from 'vitest/config';
 
 if (!['mainnet', 'preprod', 'preview'].includes(process.env.NETWORK as string)) {
-  throw 'Error NETWORK env variable can be only `testnet, mainnet, preview, preprod`';
+  throw 'Error NETWORK env variable can be only `mainnet, preview, preprod`';
 }
 
 export default defineConfig({
   test: {
+    reporters: ['verbose'],
     testTimeout: 50_000,
     passWithNoTests: true,
-    setupFiles: ['./test/integration/setup.ts'],
     hookTimeout: 30_000,
     cache: false,
     include: [
