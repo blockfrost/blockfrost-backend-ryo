@@ -3,9 +3,9 @@ import stream from 'stream';
 
 export const getEndpointFromUrl = (url: string): string => {
   //remove queryparams
-  const endpointWithoutQueryparams = url.split('?')[0];
+  const endpointWithoutQueryParameters = url.split('?')[0];
   //split using /, case with ' ' handles accessing root (without endpoint)
-  const endpoint = endpointWithoutQueryparams.slice(1).split('/', 1)[0] || '';
+  const endpoint = endpointWithoutQueryParameters.slice(1).split('/', 1)[0] || '';
 
   return endpoint;
 };
@@ -85,7 +85,7 @@ export const sortKeysInObject = (object: any) => {
   return newObject;
 };
 
-export const toJSONStream = async (data: any[], serverResponse: stream.Writable) => {
+export const toJSONStream = async (data: unknown[], serverResponse: stream.Writable) => {
   // Converts array of JS objects to JSON using JSONStream because
   // JSON.stringify-ing large objects can result in out of memory errors.
   // Example usage:

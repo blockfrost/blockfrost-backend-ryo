@@ -1,5 +1,5 @@
 import { expect, test, describe } from 'vitest';
-import { Fixture } from '@blockfrost/blockfrost-tests';
+import type { Fixture } from '@blockfrost/blockfrost-tests';
 import { noCase } from 'change-case';
 import got from 'got';
 
@@ -30,6 +30,7 @@ export const generateTest = (fixture: Fixture, endpoint: string) => {
       try {
         await client.get(endpoint).json();
         throw new Error(`Expected ${fixture.response} but did not throw`);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         expect(error.response.body).toStrictEqual(fixture.response);
       }
