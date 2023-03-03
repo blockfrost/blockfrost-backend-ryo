@@ -26,7 +26,9 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/addresses/{address}/extended'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
-      const { addressType, paymentCred } = getAddressTypeAndPaymentCred(request.params.address);
+      const { addressType, paymentCred, paymentCredPrefix } = getAddressTypeAndPaymentCred(
+        request.params.address,
+      );
 
       if (!addressType) {
         return handleInvalidAddress(reply);
@@ -51,7 +53,7 @@ async function route(fastify: FastifyInstance) {
 
         // if paymentCred is used we have to convert it back to bech32
         if (paymentCred) {
-          const bech32paymentCred = paymentCredToBech32Address(rows[0].address);
+          const bech32paymentCred = paymentCredToBech32Address(rows[0].address, paymentCredPrefix);
 
           if (bech32paymentCred) rows[0].address = bech32paymentCred;
         }
