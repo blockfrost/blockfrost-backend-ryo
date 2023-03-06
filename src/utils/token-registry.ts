@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { isAxiosError } from 'axios';
 import * as Sentry from '@sentry/node';
 import { Asset } from '../types/responses/assets.js';
 import { getConfig } from '../config.js';
@@ -64,7 +64,7 @@ export const fetchAssetMetadata = async (
       return null;
     }
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.status === 404) {
+    if (isAxiosError(error) && error.response?.status === 404) {
       // 404 just means asset is not in token registry
       // console.info(`Failed to fetch metadata for asset ${asset}`, error.message);
       return null;

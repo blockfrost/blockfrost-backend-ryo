@@ -82,19 +82,19 @@ async function route(fastify: FastifyInstance) {
           let amount = null;
 
           amount =
-            row.amount !== null
+            row.amount === null
               ? [
                   {
                     unit: 'lovelace',
                     quantity: row.amount_lovelace,
                   },
-                  ...row.amount,
                 ]
               : [
                   {
                     unit: 'lovelace',
                     quantity: row.amount_lovelace,
                   },
+                  ...row.amount,
                 ];
           result.push({
             address: row.address,
