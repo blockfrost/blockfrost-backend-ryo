@@ -81,13 +81,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockfrost/blockfrost-tests@npm:1.5.5":
-  version: 1.5.5
-  resolution: "@blockfrost/blockfrost-tests@npm:1.5.5"
+"@blockfrost/blockfrost-tests@npm:1.6.0":
+  version: 1.6.0
+  resolution: "@blockfrost/blockfrost-tests@npm:1.6.0"
   dependencies:
     expect: ^29.3.1
     node-match-path: ^0.6.3
-  checksum: 833b26f7f9a7bcb87e82b3e8673ca1d13474e8f0fdb067485ba2bf2c12fc5f910a0461e94fa16a146833116a2801dc5894c20ba52a9995cf4791922af27bd95d
+  checksum: 9f965a339c0a6f45b7d21fa838052890e180c12a0d83381419cb3efa9f76eafec84bc4aa6c92365922407265b87f80814c7ba60a4939d47a525a53c2d593a9e8
   languageName: node
   linkType: hard
 
@@ -1736,7 +1736,7 @@ __metadata:
   resolution: "blockfrost-backend-ryo@workspace:."
   dependencies:
     "@blockfrost/blockfrost-js": 5.2.0
-    "@blockfrost/blockfrost-tests": 1.5.5
+    "@blockfrost/blockfrost-tests": 1.6.0
     "@blockfrost/blockfrost-utils": 2.3.1
     "@blockfrost/openapi": 0.1.54
     "@emurgo/cardano-serialization-lib-nodejs": 11.2.0
