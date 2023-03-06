@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Nix Flake
 - Docker image build using Nix `dockerTools`
 - cardano-db-sync port to config
+- Support for ScriptHash payment credential using `script` addresses.
 
 ### Changed
 
@@ -19,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - format of a config file changed from .ts to .yaml (due to ESM migration)
 - regenerated yarn.lock
 - nixpkgs updated to latest `nixos-22.11` and hence NodeJS to `16.18.1`
+- do not leak framework in errors
 
 ## [1.4.0] - 2023-02-07
 
