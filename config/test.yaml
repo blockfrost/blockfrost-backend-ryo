@@ -4,6 +4,7 @@ server:
   debug: true
 dbSync:
   host: "http://127.0.0.1"
+  port: 5432
   user: "you can type anything here, postgres is mocked"
   database: "you can type anything here, postgres is mocked"
   maxConnections: 0

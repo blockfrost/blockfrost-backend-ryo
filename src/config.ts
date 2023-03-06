@@ -20,11 +20,15 @@ export const loadConfig = () => {
       : config.get<boolean>('server.prometheusMetrics');
 
   // dbSync
-  const host = process.env.BLOCKFROST_CONFIG_DBSYNC_HOST ?? config.get<string>('dbSync.host');
-  const user = process.env.BLOCKFROST_CONFIG_DBSYNC_USER ?? config.get<string>('dbSync.user');
-  const database =
+  const databaseSyncHost =
+    process.env.BLOCKFROST_CONFIG_DBSYNC_HOST ?? config.get<string>('dbSync.host');
+  const databaseSyncUser =
+    process.env.BLOCKFROST_CONFIG_DBSYNC_USER ?? config.get<string>('dbSync.user');
+  const databaseSyncPort =
+    Number(process.env.BLOCKFROST_CONFIG_DBSYNC_PORT) ?? config.get<number>('dbSync.port');
+  const databaseSyncDatabase =
     process.env.BLOCKFROST_CONFIG_DBSYNC_DATABASE ?? config.get<string>('dbSync.database');
-  const maxConnections = process.env.BLOCKFROST_CONFIG_DBSYNC_MAX_CONN
+  const databaseSyncMaxConnections = process.env.BLOCKFROST_CONFIG_DBSYNC_MAX_CONN
     ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_MAX_CONN)
     : config.get<number>('dbSync.maxConnections');
 
@@ -46,10 +50,11 @@ export const loadConfig = () => {
       prometheusMetrics,
     },
     dbSync: {
-      host,
-      user,
-      database,
-      maxConnections,
+      host: databaseSyncHost,
+      port: databaseSyncPort,
+      user: databaseSyncUser,
+      database: databaseSyncDatabase,
+      maxConnections: databaseSyncMaxConnections,
     },
     network: network as Network,
     tokenRegistryUrl,

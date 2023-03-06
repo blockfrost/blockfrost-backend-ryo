@@ -51,6 +51,7 @@ const start = (options = {}): FastifyInstance => {
   app.register(fastifyPostgres, {
     name: 'dbSync',
     host: config.dbSync.host,
+    port: config.dbSync.port,
     user: config.dbSync.user,
     database: config.dbSync.database,
     max: config.dbSync.maxConnections,

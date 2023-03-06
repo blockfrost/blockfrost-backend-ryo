@@ -4,6 +4,7 @@ server:
   debug: true
 dbSync:
   host: "cdbsync-dev-testnet.mydomain.com"
+  port: 5432
   user: "cdbsync"
   database: "cdbsync"
   maxConnections: 10
