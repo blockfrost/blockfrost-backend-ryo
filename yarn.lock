@@ -88,14 +88,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockfrost/blockfrost-tests@npm:1.6.2":
-  version: 1.6.2
-  resolution: "@blockfrost/blockfrost-tests@npm:1.6.2"
+"@blockfrost/blockfrost-tests@npm:1.7.0-beta.1":
+  version: 1.7.0-beta.1
+  resolution: "@blockfrost/blockfrost-tests@npm:1.7.0-beta.1"
   dependencies:
     expect: ^29.3.1
     jest-extended: ^3.1.0
     node-match-path: ^0.6.3
-  checksum: 8c8f1bbda31e16828e826d07e743e4814a839d937e5aa98670047a6553a2b678a0c15b13a22ebc22355bbaf8ca9a44952c61ca03ed19595732e98d1060d22916
+  checksum: e5818ad2079870262242f6f87deda33c1f975e271acb5305733be27bc48a9f9fb87bf400b77e00605407747cd1d1d90cf406e40d6d183f7d0dcae04451cefc87
   languageName: node
   linkType: hard
 
@@ -110,16 +110,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockfrost/blockfrost-utils@npm:2.3.1":
-  version: 2.3.1
-  resolution: "@blockfrost/blockfrost-utils@npm:2.3.1"
+"@blockfrost/blockfrost-utils@npm:2.3.2":
+  version: 2.3.2
+  resolution: "@blockfrost/blockfrost-utils@npm:2.3.2"
   dependencies:
     "@emurgo/cardano-serialization-lib-nodejs": ^11.2.1
     bech32: ^2.0.0
     cbor: ^8.1.0
     crc: ^4.2.0
     yaml: ^2.1.1
-  checksum: caeb2a0215f3de2148f5b036ceeeb2b2f5111fe6cce6b36a9e072f9aa373c312aadc5298e5e8153e2cc3645145237b903a40e6ac18f54d143a46a535d1345ab0
+  checksum: 3e5d921cb1d641ee2564e2865609bcc50752010794b2f02de747e9941fbebe9575f2cfc5ce45d4cd18840aaa8aac9e636905ab844f6771a328be157547078385
   languageName: node
   linkType: hard
 
@@ -1790,8 +1790,8 @@ __metadata:
   resolution: "blockfrost-backend-ryo@workspace:."
   dependencies:
     "@blockfrost/blockfrost-js": 5.2.0
-    "@blockfrost/blockfrost-tests": 1.6.2
-    "@blockfrost/blockfrost-utils": 2.3.1
+    "@blockfrost/blockfrost-tests": 1.7.0-beta.1
+    "@blockfrost/blockfrost-utils": 2.3.2
     "@blockfrost/openapi": 0.1.54
     "@emurgo/cardano-serialization-lib-nodejs": 11.3.0
     "@emurgo/cip14-js": ^3.0.1
@@ -4533,14 +4533,14 @@ __metadata:
   linkType: hard
 
 "jest-diff@npm:^29.0.0":
-  version: 29.5.0
-  resolution: "jest-diff@npm:29.5.0"
+  version: 29.4.3
+  resolution: "jest-diff@npm:29.4.3"
   dependencies:
     chalk: ^4.0.0
     diff-sequences: ^29.4.3
     jest-get-type: ^29.4.3
-    pretty-format: ^29.5.0
-  checksum: dfd0f4a299b5d127779c76b40106c37854c89c3e0785098c717d52822d6620d227f6234c3a9291df204d619e799e3654159213bf93220f79c8e92a55475a3d39
+    pretty-format: ^29.4.3
+  checksum: 877fd1edffef6b319688c27b152e5b28e2bc4bcda5ce0ca90d7e137f9fafda4280bae25403d4c0bfd9806c2c0b15d966aa2dfaf5f9928ec8f1ccea7fa1d08ed6
   languageName: node
   linkType: hard
 
@@ -6142,14 +6142,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pretty-format@npm:^29.5.0":
-  version: 29.5.0
-  resolution: "pretty-format@npm:29.5.0"
+"pretty-format@npm:^29.4.3":
+  version: 29.4.3
+  resolution: "pretty-format@npm:29.4.3"
   dependencies:
     "@jest/schemas": ^29.4.3
     ansi-styles: ^5.0.0
     react-is: ^18.0.0
-  checksum: 4065356b558e6db25b4d41a01efb386935a6c06a0c9c104ef5ce59f2f476b8210edb8b3949b386e60ada0a6dc5ebcb2e6ccddc8c64dfd1a9943c3c3a9e7eaf89
+  checksum: 3258b9a010bd79b3cf73783ad1e4592b6326fc981b6e31b742f316f14e7fbac09b48a9dbf274d092d9bde404db9fe16f518370e121837dc078a597392e6e5cc5
   languageName: node
   linkType: hard
 
