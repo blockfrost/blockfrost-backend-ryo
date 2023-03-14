@@ -30,7 +30,7 @@
           '';
         in
           legacyPkgs.${system}.dockerTools.buildImage {
-            name = "blockfrost";
+            name = "backend-ryo";
             copyToRoot = [ configs ];
             config = {
               Cmd = [ "${self.packages.${system}.blockfrost-backend-ryo}/bin/blockfrost-backend-ryo" ];
