@@ -21,13 +21,21 @@
     {
       packages = forAllSystems (system: {
         inherit (default.${system}) blockfrost-backend-ryo;
-        dockerImage = legacyPkgs.${system}.dockerTools.buildImage {
+        dockerImage = let
+      configs = legacyPkgs.${system}.runCommand "app-configs" { }
+        ''
+          mkdir -p $out/app
+          cp -a ${self.packages.${system}.blockfrost-backend-ryo}/libexec/source/config $out/app/config
+        '';
+        in
+        legacyPkgs.${system}.dockerTools.buildImage {
           name = "blockfrost";
-          runAsRoot = ''
-            #!${legacyPkgs.${system}.runtimeShell}
-            mkdir -p /app
-            cp -a ${self.packages.${system}.blockfrost-backend-ryo}/libexec/source/config /app/config
-          '';
+          copyToRoot = [ configs ];
+#
+#            #!${legacyPkgs.${system}.runtimeShell}
+#            mkdir -p /app
+#            cp -a ${self.packages.${system}.blockfrost-backend-ryo}/libexec/source/config /app/config
+#          '';
           config = {
             Cmd = [ "${self.packages.${system}.blockfrost-backend-ryo}/bin/blockfrost-backend-ryo" ];
             WorkingDir = "/app";
