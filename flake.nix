@@ -29,7 +29,7 @@
         '';
         in
         legacyPkgs.${system}.dockerTools.buildImage {
-          name = "blockfrost";
+          name = "backend-ryo";
           copyToRoot = [ configs ];
 #
 #            #!${legacyPkgs.${system}.runtimeShell}
