@@ -24,6 +24,8 @@ jobs:
           docker images
           echo "b"
           docker images | grep backend-ryo
+          echo "f dangling"
+          docker images --filter "dangling=true" --format "{{.ID}}"
           echo "q"
           docker images -q
           IMG_ID="$( docker images -q )"
