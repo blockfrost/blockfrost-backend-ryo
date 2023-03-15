@@ -19,8 +19,13 @@ jobs:
       - name: Push docker image to DockerHub
         run: |
           docker load < result
-          ID=$( docker images -q )
-          docker tag $ID backend-ryo:latest
-          docker tag $ID backend-ryo:${{ github.event.release.tag_name }}
+          echo "fmt"
+          docker images --format "{{.Id}}"
+          echo "q"
+          docker images -q
+          IMG_ID="$( docker images -q )"
+          echo "IMG_ID $IMG_ID"
+          docker tag $IMG_ID backend-ryo:latest
+          docker tag $IMG_ID backend-ryo:${{ github.event.release.tag_name }}
           docker push srksrk/backend-ryo:latest
           docker push srksrk/backend-ryo:${{ github.event.release.tag_name }}
