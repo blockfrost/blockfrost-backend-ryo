@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2023-03-15
+
 ### Added
 
 - Nix Flake
@@ -22,6 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - regenerated yarn.lock
 - nixpkgs updated to latest `nixos-22.11` and hence NodeJS to `16.18.1`
 - do not leak framework in errors
+- bumped blockfrost-tests to 1.7.0
+- bumped blockfrost-utils to 2.4.0
+- bumped blockfrost-openapi to 0.1.55
 
 ### Fixed
 
