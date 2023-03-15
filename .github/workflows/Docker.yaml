@@ -19,8 +19,9 @@ jobs:
       - name: Push docker image to DockerHub
         run: |
           docker load < result
+          set -ex
           echo "fmt"
-          docker images --format "{{.Id}}"
+          docker images --format "{{.Id}}" || true
           echo "q"
           docker images -q
           IMG_ID="$( docker images -q )"
