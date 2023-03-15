@@ -20,15 +20,11 @@ jobs:
         run: |
           docker load < result
           set -ex
-          echo "fmt"
-          docker images
           echo "b"
           docker images | grep backend-ryo
           echo "f ref"
           docker images --filter "reference=backend-ryo" --format "{{.ID}}"
-          echo "q"
-          docker images -q
-          IMG_ID="$( docker images -q )"
+          IMG_ID=$( docker images --filter "reference=backend-ryo" --format "{{.ID}}" )
           echo "IMG_ID $IMG_ID"
           docker tag $IMG_ID backend-ryo:latest
           docker tag $IMG_ID backend-ryo:${{ github.event.release.tag_name }}
