@@ -1,7 +1,8 @@
 name: Publish to Registry
 on:
-  release:
-    types: [published]
+  - release:
+      types: [published]
+  - push
 jobs:
   publish:
     runs-on: ubuntu-latest
