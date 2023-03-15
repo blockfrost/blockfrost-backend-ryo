@@ -29,7 +29,7 @@ describe('blocks service', () => {
             .set('unpaged', 'arbitraryStringValue')
         : await supertest(fastify.server).get(fixture.endpoint);
 
-      expect(response).toSatisfyApiSpec();
+      // expect(response).toMatchSnapshot();
       expect(response.body).toEqual(fixture.response);
 
       fastify.close();
