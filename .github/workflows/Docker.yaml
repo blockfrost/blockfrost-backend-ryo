@@ -21,7 +21,9 @@ jobs:
           docker load < result
           set -ex
           echo "fmt"
-          docker images --format "{{.Id}}" || true
+          docker images
+          echo "b"
+          docker images | grep backend-ryo
           echo "q"
           docker images -q
           IMG_ID="$( docker images -q )"
