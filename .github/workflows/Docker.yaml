@@ -11,6 +11,7 @@ jobs:
       - name: Nix build docker image
         run: |
           nix build .#dockerImage
+          docker load < result
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
@@ -18,10 +19,25 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Push docker image to DockerHub
         run: |
-          docker load < result
           IMG_ID=$( docker images --filter "reference=backend-ryo" --format "{{.ID}}" )
           echo "Tagging $IMG_ID"
           docker tag $IMG_ID blockfrost/backend-ryo:latest
           docker tag $IMG_ID blockfrost/backend-ryo:${{ github.event.release.tag_name }}
           docker push blockfrost/backend-ryo:latest
           docker push blockfrost/backend-ryo:${{ github.event.release.tag_name }}
+
+      - name: Login to ghcr.io
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push docker image to ghcr.io
+        run: |
+          IMG_ID=$( docker images --filter "reference=backend-ryo" --format "{{.ID}}" )
+          echo "Tagging $IMG_ID"
+          docker tag $IMG_ID ghcr.io/blockfrost/blockfrost-backend-ryo:latest
+          docker tag $IMG_ID ghcr.io/blockfrost/blockfrost-backend-ryo:${{ github.event.release.tag_name }}
+          docker push ghcr.io/blockfrost/blockfrost-backend-ryo:latest
+          docker push ghcr.io/blockfrost/blockfrost-backend-ryo:${{ github.event.release.tag_name }}
