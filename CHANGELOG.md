@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - nixpkgs updated to latest `nixos-22.11` and hence NodeJS to `16.18.1`
 - do not leak framework in errors
 
+### Fixed
+
+- `/scripts/datum/{datum-hash}/cbor` endpoint adjusted to return `CBOR` of redeemers as well (similar to JSON variant at `/scripts/datum/{datum-hash}` endpoint)
+
 ## [1.4.0] - 2023-02-07
 
 ### Added
