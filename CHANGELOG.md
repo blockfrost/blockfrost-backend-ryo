@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Nix Flake
 - Docker image build using Nix `dockerTools`
+- Registry published Docker image is now the Nix built one, publish to ghcr.io as well
 - cardano-db-sync port to config
 - Support for ScriptHash payment credential using `script` addresses.
 
