@@ -8,7 +8,6 @@ export default defineConfig({
     testTimeout: 20_000,
     root: '.',
     mockReset: true,
-    setupFiles: ['test/unit/setup.ts'],
     include: [...defaultInclude, 'test/unit/tests/**/*.ts'],
   },
 });

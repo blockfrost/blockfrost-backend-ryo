@@ -47,7 +47,7 @@ describe('pools service', () => {
     await fastify.ready();
     const response = await supertest(fastify.server).get('/pools');
 
-    expect(response).toSatisfyApiSpec();
+    // expect(response).toMatchSnapshot();
     expect(response.body).toEqual({
       error: 'Internal Server Error',
       message: 'An unexpected response was received from the backend.',

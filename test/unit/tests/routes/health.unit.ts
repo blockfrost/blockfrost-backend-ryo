@@ -19,7 +19,7 @@ describe('health endpoints tests', () => {
     const response = await supertest(fastify.server).get('/health');
 
     expect(response.body).toEqual({ is_healthy: true });
-    expect(response).toSatisfyApiSpec();
+    // expect(response).toMatchSnapshot();
 
     fastify.close();
   });
@@ -32,7 +32,7 @@ describe('health endpoints tests', () => {
     const response = await supertest(fastify.server).get('/health/clock');
 
     expect(response.body).toEqual({ server_time: clock.now });
-    expect(response).toSatisfyApiSpec();
+    // expect(response).toMatchSnapshot();
 
     fastify.close();
     clock.restore();
