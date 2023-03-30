@@ -5,15 +5,19 @@ export const isNumber = validation.isNumber;
 export const validateHex = validation.validateHex;
 
 export const detectAndValidateAddressType = (address: string) =>
+  //@ts-ignore
   validation.detectAndValidateAddressType(address, getConfig().network);
 
 export const getAddressTypeAndPaymentCred = (address: string) =>
+  //@ts-ignore
   validation.getAddressTypeAndPaymentCred(address, getConfig().network);
 
 export const validateStakeAddress = (address: string) =>
+  //@ts-ignore
   validation.validateStakeAddress(address, getConfig().network);
 
 export const convertStakeAddress = (address: string) =>
+  //@ts-ignore
   validation.convertStakeAddress(address, getConfig().network);
 
 export const validateAndConvertPool = validation.validateAndConvertPool;

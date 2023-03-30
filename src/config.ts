@@ -38,9 +38,23 @@ export const loadConfig = () => {
   if (!network || !CARDANO_NETWORKS.includes(network)) {
     throw new Error('Invalid network in the config.');
   }
+
   // token registry
   const tokenRegistryUrl =
     process.env.BLOCKFROST_CONFIG_TOKEN_REGISTRY_URL ?? config.get('tokenRegistryUrl');
+
+  // custom network config
+  let genesisByronPath: string | null = null;
+  let genesisShelleyPath: string | null = null;
+
+  if (network === 'custom') {
+    genesisByronPath = config.get<string>('customConfigFiles.genesisByron');
+    genesisShelleyPath = config.get<string>('customConfigFiles.genesisShelley');
+
+    if (!genesisByronPath || !genesisShelleyPath) {
+      throw new Error('Invalid custom network paths in the config.');
+    }
+  }
 
   return {
     server: {
@@ -58,6 +72,10 @@ export const loadConfig = () => {
     },
     network: network as Network,
     tokenRegistryUrl,
+    customNetworkConfig: {
+      genesisByronPath,
+      genesisShelleyPath,
+    },
   };
 };
 

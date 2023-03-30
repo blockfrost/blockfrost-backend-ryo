@@ -20,6 +20,7 @@ async function route(fastify: FastifyInstance) {
       try {
         const network = getConfig().network;
         const epochLength = GENESIS[network].epoch_length;
+
         const { rows }: { rows: ResponseTypes.Epoch[] } =
           await clientDbSync.query<QueryTypes.Epoch>(SQLQuery.get('epochs_latest'), [epochLength]);
 

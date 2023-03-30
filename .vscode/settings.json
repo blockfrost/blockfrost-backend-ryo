@@ -5,6 +5,7 @@
     "cardano",
     "cbor",
     "cdbsync",
+    "Coeff",
     "dbsync",
     "delegators",
     "elgohr",

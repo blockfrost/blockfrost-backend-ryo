@@ -1,0 +1,15 @@
+server:
+  listenAddress: "localhost"
+  port: 3000
+  debug: true
+dbSync:
+  host: "cdbsync-dev-custom.mydomain.com"
+  port: 5432
+  user: "cdbsync"
+  database: "cdbsync"
+  maxConnections: 10
+network: "custom"
+tokenRegistryUrl: "https://metadata.cardano-custom.iohkdev.io"
+customConfigFiles:
+  genesisShelley: "/tmp/shelley.json"
+  genesisByron: "/tmp/byron.json"

@@ -11,6 +11,7 @@
     "coverage": "vitest run --coverage",
     "dev": "cross-env NODE_OPTIONS='--max-http-header-size 32768' NODE_ENV=development yarn run-dev",
     "dev-testnet": "cross-env NODE_OPTIONS='--max-http-header-size 32768' NODE_ENV=development-testnet yarn run-dev",
+    "dev-custom": "cross-env NODE_OPTIONS='--max-http-header-size 32768' NODE_ENV=development-custom yarn run-dev",
     "lint": "eslint ./src/**/*.ts",
     "run-dev": "nodemon src/server.ts",
     "start": "yarn build && node --max-http-header-size=32768 dist/server.js",

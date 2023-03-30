@@ -1,13 +1,15 @@
 import { components } from '@blockfrost/openapi';
 
 // generic types
-
 export type Order = 'asc' | 'desc';
 export type AddressType = 'byron' | 'shelley';
+export type Network = 'mainnet' | 'testnet' | 'preview' | 'preprod' | 'custom';
+export type CustomConfigFiles = {
+  genesisShelley: string;
+  genesisByron: string;
+};
 
-export const CARDANO_NETWORKS = ['mainnet', 'testnet', 'preview', 'preprod'];
-
-export type Network = 'mainnet' | 'testnet' | 'preview' | 'preprod';
+export const CARDANO_NETWORKS = ['mainnet', 'testnet', 'preview', 'preprod', 'custom'];
 
 export interface ResultFound {
   result: number;

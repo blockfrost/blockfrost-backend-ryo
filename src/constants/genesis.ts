@@ -1,5 +1,6 @@
 import * as ResponseTypes from '../types/responses/ledger.js';
 import { Network, ByronEraParameters, ProtocolInfo } from '../types/common.js';
+import { loadByronCustomConfig, loadShelleyCustomConfig } from '../utils/routes.js';
 
 export const GENESIS: Record<Network, ResponseTypes.Ledger> = {
   mainnet: {
@@ -50,6 +51,7 @@ export const GENESIS: Record<Network, ResponseTypes.Ledger> = {
     max_kes_evolutions: 62,
     security_param: 2160,
   },
+  custom: loadShelleyCustomConfig(),
 };
 
 export const BYRON_GENESIS: Record<Network, ByronEraParameters> = {
@@ -77,6 +79,7 @@ export const BYRON_GENESIS: Record<Network, ByronEraParameters> = {
     safe_zone: 864,
     end_epoch: 0,
   },
+  custom: loadByronCustomConfig(),
 };
 
 export const PROTOCOL_VERSIONS: Record<number, ProtocolInfo> = {
