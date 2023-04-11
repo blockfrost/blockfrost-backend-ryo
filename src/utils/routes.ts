@@ -68,7 +68,7 @@ export const loadByronCustomConfig = (): ByronEraParameters => {
         epoch_length: k * 10,
         slot_length: byronGenesis['blockVersionData']['slotDuration'] / 1000,
         safe_zone: k * 2,
-        end_epoch: 0,
+        end_epoch: customNetworkConfig.byronEndEpoch || 0,
       };
     } catch {
       throw new Error(`Could not load custom config file: ${customNetworkConfig.genesisByronPath}`);

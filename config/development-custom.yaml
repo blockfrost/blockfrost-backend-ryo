@@ -10,6 +10,7 @@ dbSync:
   maxConnections: 10
 network: "custom"
 tokenRegistryUrl: "https://metadata.cardano-custom.iohkdev.io"
-customConfigFiles:
+customNetworkConfig:
   genesisShelley: "/tmp/shelley-genesis.json"
   genesisByron: "/tmp/byron-genesis.json"
+  byronEndEpoch: 0

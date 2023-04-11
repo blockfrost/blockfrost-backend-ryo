@@ -46,13 +46,18 @@ export const loadConfig = () => {
   // custom network config
   let genesisByronPath: string | null = null;
   let genesisShelleyPath: string | null = null;
+  let byronEndEpoch: number | null = null;
 
   if (network === 'custom') {
-    genesisByronPath = config.get<string>('customConfigFiles.genesisByron');
-    genesisShelleyPath = config.get<string>('customConfigFiles.genesisShelley');
+    genesisByronPath = config.get<string>('customNetworkConfig.genesisByron');
+    genesisShelleyPath = config.get<string>('customNetworkConfig.genesisShelley');
+    byronEndEpoch = config.get<number>('customNetworkConfig.byronEndEpoch');
 
     if (!genesisByronPath || !genesisShelleyPath) {
       throw new Error('Invalid custom network paths in the config.');
+    }
+    if (!byronEndEpoch) {
+      throw new Error('customNetworkConfig section missing byronEndEpoch setting (number)');
     }
   }
 
@@ -75,6 +80,7 @@ export const loadConfig = () => {
     customNetworkConfig: {
       genesisByronPath,
       genesisShelleyPath,
+      byronEndEpoch,
     },
   };
 };
