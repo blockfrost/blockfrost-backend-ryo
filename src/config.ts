@@ -54,9 +54,11 @@ export const loadConfig = () => {
     byronEndEpoch = config.get<number>('customNetworkConfig.byronEndEpoch');
 
     if (!genesisByronPath || !genesisShelleyPath) {
-      throw new Error('Invalid custom network paths in the config.');
+      throw new Error(
+        'customNetworkConfig section missing genesisByron or genesisShelley setting (filepath)',
+      );
     }
-    if (!byronEndEpoch) {
+    if (byronEndEpoch === null) {
       throw new Error('customNetworkConfig section missing byronEndEpoch setting (number)');
     }
   }

@@ -36,7 +36,8 @@ export const loadShelleyCustomConfig = (): ResponseTypes.Ledger => {
       };
     } catch {
       throw new Error(
-        `Could not load custom config file: ${customNetworkConfig.genesisShelleyPath}`,
+        `Could not load custom network config file: ${customNetworkConfig.genesisShelleyPath}. ` +
+          `Make sure you are loading shelley-genesis.json config file as expected by cardano-node.`,
       );
     }
   } else {
@@ -71,7 +72,10 @@ export const loadByronCustomConfig = (): ByronEraParameters => {
         end_epoch: customNetworkConfig.byronEndEpoch || 0,
       };
     } catch {
-      throw new Error(`Could not load custom config file: ${customNetworkConfig.genesisByronPath}`);
+      throw new Error(
+        `Could not load custom network config file: ${customNetworkConfig.genesisByronPath}. ` +
+          `Make sure you are loading byron-genesis.json config file as expected by cardano-node.`,
+      );
     }
   } else {
     // custom network is not used so we return some don't care value
