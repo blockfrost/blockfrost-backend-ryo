@@ -14,6 +14,7 @@ module.exports = {
     'plugin:import/recommended',
   ],
   rules: {
+    '@typescript-eslint/ban-ts-comment': 'off',
     'no-console': 'off',
     'import/extensions': ['error', 'always'],
     'import/no-unresolved': 'off',
