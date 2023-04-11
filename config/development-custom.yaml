@@ -11,5 +11,5 @@ dbSync:
 network: "custom"
 tokenRegistryUrl: "https://metadata.cardano-custom.iohkdev.io"
 customConfigFiles:
-  genesisShelley: "/tmp/shelley.json"
-  genesisByron: "/tmp/byron.json"
+  genesisShelley: "/tmp/shelley-genesis.json"
+  genesisByron: "/tmp/byron-genesis.json"
