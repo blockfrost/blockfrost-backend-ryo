@@ -980,7 +980,7 @@ cacheEntries = {
 "object.assign@npm:4.1.2" = { filename = "object.assign-npm-4.1.2-d52edada1c-d621d832ed.zip"; sha512 = "d621d832ed7b16ac74027adb87196804a500d80d9aca536fccb7ba48d33a7e9306a75f94c1d29cbfa324bc091bfc530bc24789568efdaee6a47fcfa298993814"; };
 "unbox-primitive@npm:1.0.1" = { filename = "unbox-primitive-npm-1.0.1-50b9fde246-89d950e18f.zip"; sha512 = "89d950e18fb45672bc6b3c961f1e72c07beb9640c7ceed847b571ba6f7d2af570ae1a2584cfee268b9d9ea1e3293f7e33e0bc29eaeb9f8e8a0bab057ff9e6bba"; };
 "has-bigints@npm:1.0.1" = { filename = "has-bigints-npm-1.0.1-1b93717a74-44ab558681.zip"; sha512 = "44ab55868174470065d2e0f8f6def1c990d12b82162a8803c679699fa8a39f966e336f2a33c185092fe8aea7e8bf2e85f1c26add5f29d98f2318bd270096b183"; };
-"@blockfrost/blockfrost-tests@npm:1.7.1" = { filename = "@blockfrost-blockfrost-tests-npm-1.7.1-a3a4ce8f63-665478bf51.zip"; sha512 = "665478bf51f594606b626cf8eb0c6018e05afcbf64c927183106506a243e70b2ee26f30c87267dd5ad13f94f2da713d537a5221e3885c680e640a52261250c10"; };
+"@blockfrost/blockfrost-tests@npm:1.7.2" = { filename = "@blockfrost-blockfrost-tests-npm-1.7.2-8987e7a0c7-b4aa144b14.zip"; sha512 = "b4aa144b14c69860720296182856b7b778b8ec1bec77bcc8859bbebed1759a6f350eda798b2da7ceb330b5c39baf11e039efa9d8b19b2c7ae2d7468e0f4112bc"; };
 "node-match-path@npm:0.6.3" = { filename = "node-match-path-npm-0.6.3-0c492cdac8-d515bc069f.zip"; sha512 = "d515bc069f293688109c058ee02567528fdaa856290d362b80a2254734975014e4eefcdcc5164a8adfd5560aa870e277c97fe8be648074d5088056cf61553c7c"; };
 "jest-extended@npm:3.2.4" = { filename = "jest-extended-npm-3.2.4-b882af7fa5-16e4f300d9.zip"; sha512 = "16e4f300d9c5bf110f7f3422e49e06c968a99a44cede2b2821ddd480c33b3d9cd4dc58035b2f022e6018247da8f887295d6c2499647675dedb6e305142604e7d"; };
 "expect@npm:29.3.1" = { filename = "expect-npm-29.3.1-2892df60b8-e9588c2a43.zip"; sha512 = "e9588c2a430b558b9a3dc72d4ad05f36b047cb477bc6a7bb9cfeef7614fe7e5edbab424c2c0ce82739ee21ecbbbd24596259528209f84cd72500cc612d910d30"; };
@@ -1012,6 +1012,8 @@ cacheEntries = {
 "@types/yargs@npm:17.0.19" = { filename = "@types-yargs-npm-17.0.19-851791a920-89a664ba6c.zip"; sha512 = "89a664ba6cef795a5b14a1b2cdc0e2a943cd654e61cc4286b6a704b944051bc30b0d7fec249dd2685cb6cfd17fdf0750d60ec69859aa5a5911c48a288284e842"; };
 "@types/yargs-parser@npm:21.0.0" = { filename = "@types-yargs-parser-npm-21.0.0-c8a3b32c52-b2f4c8d12a.zip"; sha512 = "b2f4c8d12ac18a567440379909127cf2cec393daffb73f246d0a25df36ea983b93b7e9e824251f959e9f928cbc7c1aab6728d0a0ff15d6145f66cec2be67d9a2"; };
 "@types/istanbul-lib-report@npm:3.0.0" = { filename = "@types-istanbul-lib-report-npm-3.0.0-50de3e6b3b-656398b62d.zip"; sha512 = "656398b62dc288e1b5226f8880af98087233cdb90100655c989a09f3052b5775bf98ba58a16c5ae642fb66c61aba402e07a9f2bff1d1569e3b306026c59f3f36"; };
+"jdenticon@npm:3.2.0" = { filename = "jdenticon-npm-3.2.0-da0f1bbe59-cdc0651532.zip"; sha512 = "cdc0651532f38e02c8e6661f0185735dcd29b7cd17677c69be31916ed38d81ded8bc749deb79925ad8aaf68da0b7a49f0835879c70a7dea042caa6c47faaebee"; };
+"canvas-renderer@npm:2.2.1" = { filename = "canvas-renderer-npm-2.2.1-c863d920bc-91d8807aee.zip"; sha512 = "91d8807aee0fa0549862a4124455bea7833d4c739df39b6519df367ec4f57683735d6bf873dfbc0d47ce49e4d92a02cc2bd15eda2a025fa961d3d1c0539d85e8"; };
 };
 
 in optionalOverride overrideAttrs project

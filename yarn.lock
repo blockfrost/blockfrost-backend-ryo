@@ -218,14 +218,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockfrost/blockfrost-tests@npm:1.7.1":
-  version: 1.7.1
-  resolution: "@blockfrost/blockfrost-tests@npm:1.7.1"
+"@blockfrost/blockfrost-tests@npm:1.7.2":
+  version: 1.7.2
+  resolution: "@blockfrost/blockfrost-tests@npm:1.7.2"
   dependencies:
+    "@blockfrost/openapi": ^0.1.57
     expect: ^29.3.1
+    form-data: ^4.0.0
+    jdenticon: ^3.2.0
     jest-extended: ^3.1.0
     node-match-path: ^0.6.3
-  checksum: 665478bf51f594606b626cf8eb0c6018e05afcbf64c927183106506a243e70b2ee26f30c87267dd5ad13f94f2da713d537a5221e3885c680e640a52261250c10
+  checksum: b4aa144b14c69860720296182856b7b778b8ec1bec77bcc8859bbebed1759a6f350eda798b2da7ceb330b5c39baf11e039efa9d8b19b2c7ae2d7468e0f4112bc
   languageName: node
   linkType: hard
 
@@ -263,7 +266,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockfrost/openapi@npm:0.1.57":
+"@blockfrost/openapi@npm:0.1.57, @blockfrost/openapi@npm:^0.1.57":
   version: 0.1.57
   resolution: "@blockfrost/openapi@npm:0.1.57"
   dependencies:
@@ -1986,7 +1989,7 @@ __metadata:
   resolution: "blockfrost-backend-ryo@workspace:."
   dependencies:
     "@blockfrost/blockfrost-js": 5.2.0
-    "@blockfrost/blockfrost-tests": 1.7.1
+    "@blockfrost/blockfrost-tests": 1.7.2
     "@blockfrost/blockfrost-utils": 2.4.0
     "@blockfrost/openapi": 0.1.57
     "@emurgo/cardano-serialization-lib-nodejs": 11.3.0
@@ -2208,6 +2211,15 @@ __metadata:
   version: 1.0.1
   resolution: "camelize@npm:1.0.1"
   checksum: 91d8611d09af725e422a23993890d22b2b72b4cabf7239651856950c76b4bf53fe0d0da7c5e4db05180e898e4e647220e78c9fbc976113bd96d603d1fcbfcb99
+  languageName: node
+  linkType: hard
+
+"canvas-renderer@npm:~2.2.0":
+  version: 2.2.1
+  resolution: "canvas-renderer@npm:2.2.1"
+  dependencies:
+    "@types/node": "*"
+  checksum: 91d8807aee0fa0549862a4124455bea7833d4c739df39b6519df367ec4f57683735d6bf873dfbc0d47ce49e4d92a02cc2bd15eda2a025fa961d3d1c0539d85e8
   languageName: node
   linkType: hard
 
@@ -4790,6 +4802,17 @@ __metadata:
     html-escaper: ^2.0.0
     istanbul-lib-report: ^3.0.0
   checksum: 7867228f83ed39477b188ea07e7ccb9b4f5320b6f73d1db93a0981b7414fa4ef72d3f80c4692c442f90fc250d9406e71d8d7ab65bb615cb334e6292b73192b89
+  languageName: node
+  linkType: hard
+
+"jdenticon@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "jdenticon@npm:3.2.0"
+  dependencies:
+    canvas-renderer: ~2.2.0
+  bin:
+    jdenticon: bin/jdenticon.js
+  checksum: cdc0651532f38e02c8e6661f0185735dcd29b7cd17677c69be31916ed38d81ded8bc749deb79925ad8aaf68da0b7a49f0835879c70a7dea042caa6c47faaebee
   languageName: node
   linkType: hard
 
