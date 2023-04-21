@@ -70,22 +70,6 @@ rec {
 
     });
 
-  # https://github.com/cardano-foundation/cardano-token-registry
-  mainnet-token-registry = pkgs.fetchFromGitHub {
-    owner = "cardano-foundation";
-    repo = "cardano-token-registry";
-    rev = "56c1270af943ae0d86ed09d9945e105bef1a2998";
-    sha256 = "0fh1qlfb7z2fymwaamgpihilr47zch284hv7l6mqvizrkr8zf1dw";
-  };
-
-  # https://github.com/input-output-hk/metadata-registry-testnet
-  testnet-token-registry = pkgs.fetchFromGitHub {
-    owner = "input-output-hk";
-    repo = "metadata-registry-testnet";
-    rev = "f1844e2f4ce8cc54103ef75357e4a034c52be181";
-    sha256 = "1sa64g9w2dcw890d51c5xdqnav29dh7fzzvyhhwwigq7j5vinx3r";
-  };
-
   blockfrost-backend-ryo-test-mainnet = makeTest rec {
 
     name = "blockfrost-backend-ryo-test-mainnet";
