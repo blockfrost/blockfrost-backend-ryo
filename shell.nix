@@ -9,13 +9,14 @@
     })
     { }
 }:
-with pkgs;
-
-stdenv.mkDerivation {
+let
+  nodejs = pkgs.nodejs-16_x;
+in
+pkgs.stdenv.mkDerivation {
   name = "blockfrost-backend";
   buildInputs = [
-    nodejs-16_x
-    (yarn.override { nodejs = nodejs-16_x; })
+    nodejs
+    (pkgs.yarn.override { inherit nodejs; })
   ];
   shellHook = ''
     export PATH="$PATH:$(pwd)/node_modules/.bin"
