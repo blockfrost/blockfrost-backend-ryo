@@ -130,6 +130,11 @@ nix run # inside this repo folder
 # nix run github:blockfrost/blockfrost-backend-ryo
 ```
 
+## Running on custom network
+
+It is possible to run `blockfrost-backend-ryo` on top of custom network by configuring network type to `custom`, providing paths to genesis configuration files
+as used by `cardano-node` and setting `byronEndEpoch` to the last epoch of Byron era. See [`config/development-custom.yaml`](config/development-custom.yaml).
+
 ## Developing
 
 This is an open-source project and anyone is welcome to contribute, please see [CONTRIBUTING](CONTRIBUTING.md) for more information.
