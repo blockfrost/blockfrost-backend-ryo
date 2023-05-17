@@ -48,7 +48,7 @@ async function route(fastify: FastifyInstance) {
         const referenceNFT = getReferenceNFT(unit);
 
         if (referenceNFT) {
-          // asset is NFT 222 or FT 333, retrieve its reference NFT metadata (CIP68)
+          // Retrieve reference NFT metadata for CIP68 asset
           const { rows } = await clientDbSync.query<QueryTypes.AssetOutputDatum>(
             SQLQuery.get('assets_asset_utxo_datum'),
             [referenceNFT.hex],
