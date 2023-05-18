@@ -10,7 +10,7 @@ const query_nutlink_address_regular_1 = [
   },
 ];
 
-const response_nutlink_address_regular_1 = {
+export const response_nutlink_address_regular_1 = {
   address:
     'addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t',
   metadata_url: 'https://nut.link/metadata.json',
