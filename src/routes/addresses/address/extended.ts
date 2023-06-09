@@ -93,7 +93,8 @@ async function route(fastify: FastifyInstance) {
                   if (result) {
                     onchainMetadata = result.metadata;
                     decimals =
-                      referenceNFT.standard === 'ft' && typeof result.metadata.decimals === 'number'
+                      (referenceNFT.standard === 'ft' || referenceNFT.standard === 'rft') &&
+                      typeof result.metadata.decimals === 'number'
                         ? result.metadata.decimals
                         : decimals;
                   }

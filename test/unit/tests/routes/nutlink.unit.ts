@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import axios from 'axios';
 import sinon from 'sinon';
 import supertest from 'supertest';
-import fixtures from '../../fixtures/nutlink.fixtures.js';
+import fixtures, { response_nutlink_address_regular_1 } from '../../fixtures/nutlink.fixtures.js';
 import buildFastify from '../../../../src/app.js';
 import * as databaseUtils from '../../../../src/utils/database.js';
 import * as config from '../../../../src/config.js';
@@ -27,6 +28,15 @@ describe('nutlink service', () => {
       });
 
       await fastify.ready();
+
+      // mock metadata fetch
+      axios.get = vi.fn(
+        async () =>
+          new Promise(resolve => {
+            // @ts-expect-error partial mock of axios response
+            resolve({ data: response_nutlink_address_regular_1.metadata });
+          }),
+      );
 
       queryMock.onCall(0).resolves(fixture.sqlQueryMock);
       queryMock.onCall(1).resolves(fixture.sqlQueryMock2);

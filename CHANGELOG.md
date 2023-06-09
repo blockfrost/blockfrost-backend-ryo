@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `onchain_metadata_extra` field to `/assets/:asset`
+- CIP68 RFT 444 support
+
 ### Changed
 
 - bump @blockfrost/blockfrost-tests to 1.7.2
