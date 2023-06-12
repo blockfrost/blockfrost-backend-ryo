@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- pm2 metrics
+
 ### Changed
 
 - bump @blockfrost/blockfrost-tests to 1.7.2
