@@ -42,12 +42,13 @@ async function route(fastify: FastifyInstance) {
         }
 
         let onchainMetadata: unknown | null = null;
+        let onchainMetadataExtra: string | null = null;
         let onchainMetadataStandard: string | null = null;
         const unit = `${rows[0].policy_id}${rows[0].asset_name}`;
         const referenceNFT = getReferenceNFT(unit);
 
         if (referenceNFT) {
-          // asset is NFT 222 or FT 333, retrieve its reference NFT metadata (CIP68)
+          // Retrieve reference NFT metadata for CIP68 asset
           const { rows } = await clientDbSync.query<QueryTypes.AssetOutputDatum>(
             SQLQuery.get('assets_asset_utxo_datum'),
             [referenceNFT.hex],
@@ -55,6 +56,7 @@ async function route(fastify: FastifyInstance) {
 
           const datumHex = rows[0] ? rows[0].cbor : null;
 
+          console.log('datumHex', JSON.stringify(datumHex));
           if (datumHex) {
             try {
               const datumMetadata = getMetadataFromOutputDatum(datumHex, {
@@ -63,8 +65,10 @@ async function route(fastify: FastifyInstance) {
               const result = validateCIP68Metadata(datumMetadata, referenceNFT.standard);
 
               if (result) {
+                console.log('result.extra', JSON.stringify(result.extra));
                 onchainMetadata = result.metadata;
                 onchainMetadataStandard = result.version;
+                onchainMetadataExtra = result.extra ?? null;
               }
             } catch (error) {
               // Invalid datum hex, should not happen
@@ -104,6 +108,7 @@ async function route(fastify: FastifyInstance) {
           metadata,
           onchain_metadata: onchainMetadata,
           onchain_metadata_standard: onchainMetadataStandard,
+          onchain_metadata_extra: onchainMetadataExtra,
           fingerprint,
         });
       } catch (error) {
