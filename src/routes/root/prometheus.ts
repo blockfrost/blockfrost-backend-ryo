@@ -1,4 +1,5 @@
 import { MetricsCollector } from '@blockfrost/blockfrost-utils';
+import { pm2Metrics } from '@blockfrost/blockfrost-utils/lib/metrics-collector/pm2.js';
 import { FastifyInstance } from 'fastify';
 import { getConfig } from '../../config.js';
 
@@ -15,6 +16,18 @@ async function route(fastify: FastifyInstance) {
       method: 'GET',
       handler: async (_request, reply) =>
         reply.header('Content-Type', 'text/plain').send(metricsCollector.toPrometheus()),
+    });
+  }
+
+  if (config.server.prometheusMetricsPM2) {
+    fastify.route({
+      url: '/prometheus-pm2',
+      method: 'GET',
+      handler: async (_request, reply) => {
+        const metrics = pm2Metrics();
+
+        reply.header('Content-Type', 'text/plain').send(metrics);
+      },
     });
   }
 }

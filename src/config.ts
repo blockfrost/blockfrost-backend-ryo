@@ -18,6 +18,11 @@ export const loadConfig = () => {
     !config.has('server.prometheusMetrics')
       ? process.env.BLOCKFROST_CONFIG_SERVER_PROMETHEUS_METRICS === 'true'
       : config.get<boolean>('server.prometheusMetrics');
+  const prometheusMetricsPM2 =
+    process.env.BLOCKFROST_CONFIG_SERVER_PROMETHEUS_METRICS_PM2 ||
+    !config.has('server.prometheusMetricsPM2')
+      ? process.env.BLOCKFROST_CONFIG_SERVER_PROMETHEUS_METRICS_PM2 === 'true'
+      : config.get<boolean>('server.prometheusMetricsPM2');
 
   // dbSync
   const databaseSyncHost =
@@ -48,6 +53,7 @@ export const loadConfig = () => {
       port,
       debug,
       prometheusMetrics,
+      prometheusMetricsPM2,
     },
     dbSync: {
       host: databaseSyncHost,
