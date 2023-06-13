@@ -130,6 +130,62 @@ nix run # inside this repo folder
 # nix run github:blockfrost/blockfrost-backend-ryo
 ```
 
+#### NixOS module
+
+It's also possible enabling the Blockfrost backend on NixOS using the module provided by the flake.
+A minimal usage example is:
+
+```nix
+{config, ...}: {
+  imports = [
+    # official IOG cardano node NixOS  module
+    # official IOG cardano-db-sync NixOS module
+    # module provided by this flake
+  ];
+  services = {
+    cardano-node = {
+      enable = true;
+      # rest of you config...
+    };
+    cardano-db-sync = {
+      enable = true;
+      socketPath = config.services.cardano-node.socketPath;
+      # rest of your config...
+    };
+    postgresql = {
+      enable = true;
+      ensureDatabases = [ config.services.cardano-db-sync.postgres.database ];
+      ensureUsers = [{
+        name = config.services.cardano-db-sync.postgres.user;
+        ensurePermissions = {
+          "DATABASE ${config.services.cardano-db-sync.postgres.database}" = "ALL PRIVILEGES";
+        };
+      }];
+       identMap = ''
+        users root ${config.services.cardano-db-sync.postgres.user}
+        users cardano-db-sync ${config.services.cardano-db-sync.postgres.user}
+        users ${config.services.blockfrost.user} ${config.services.cardano-db-sync.postgres.user}
+        users postgres postgres
+      '';
+      authentication = ''
+        local all all ident map=users
+      '';
+    };
+    blockfrost = {
+      enable = true;
+      settings.dbSync = {
+        user = config.services.cardano-db-sync.postgres.user;
+        port = config.services.cardano-db-sync.postgres.port;
+        database = config.services.cardano-db-sync.postgres.database;
+        host = config.services.cardano-db-sync.postgres.socketdir;
+      };
+    };      
+  };
+}
+```
+
+Check the [nixos-module.nix file](./nixos-module.nix) to check options and the default values.
+
 ## Developing
 
 This is an open-source project and anyone is welcome to contribute, please see [CONTRIBUTING](CONTRIBUTING.md) for more information.
