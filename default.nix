@@ -16,21 +16,6 @@ let
   testing = import (pkgs.path + "/nixos/lib/testing-python.nix") { inherit system; };
   packageJSON = builtins.fromJSON (builtins.readFile ./package.json);
 
-  # Use this if you want to override config/default.yaml
-  /*
-    blockfrost-backend-test-config = pkgs.writeText "default.yaml" ''
-      server:
-        port: 3000
-        debug: true
-      dbSync:
-        host: "cdbsync-testnet.mydomain.com"
-        user: "cexplorer"
-        database: "cdbsync"
-        network: "mainnet"
-        tokenRegistryUrl: "https://tokens.cardano.org"
-    '';
-  */
-
   blockfrost-backend-ryo =
     let
       src = pkgs.lib.cleanSource ./.;
@@ -77,23 +62,23 @@ in
     name = "blockfrost-backend-ryo-test-mainnet";
 
     nodes.machine = {
+      imports = [ ./nixos-module.nix ];
       # We have to increase memsize, otherwise we will get error:
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
       virtualisation.memorySize = 4096;
-      # Backend service
-      systemd.services.blockfrost-backend-ryo = {
-        wantedBy = [ "multi-user.target" ];
-        script = "${blockfrost-backend-ryo}/bin/blockfrost-backend-ryo";
-        environment = {
-          # Use config file from repository
-          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-ryo}/libexec/source/config/mainnet.yaml";
-          /*
-            # Use this if you want to override config/default.yaml
-            NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-test-config}";
-          */
+
+      services.blockfrost = {
+        enable = true;
+        package = blockfrost-backend-ryo;
+        settings = {
+          dbSync = {
+            host = builtins.getEnv "DBSYNC_HOST_MAINNET";
+            user = "csyncdb";
+            database = "csyncdb";
+          };
+          tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_MAINNET";
         };
       };
-
     };
 
     testScript = ''
@@ -112,23 +97,24 @@ in
     name = "blockfrost-backend-ryo-test-preview";
 
     nodes.machine = {
+      imports = [ ./nixos-module.nix ];
       # We have to increase memsize, otherwise we will get error:
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
       virtualisation.memorySize = 4096;
-      # Backend service
-      systemd.services.blockfrost-backend-ryo = {
-        wantedBy = [ "multi-user.target" ];
-        script = "${blockfrost-backend-ryo}/bin/blockfrost-backend-ryo";
-        environment = {
-          # Use config file from repository
-          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-ryo}/libexec/source/config/preview.yaml";
-          /*
-            # Use this if you want to override config/default.yaml
-            NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-test-config}";
-          */
+
+      services.blockfrost = {
+        enable = true;
+        package = blockfrost-backend-ryo;
+        settings = {
+          dbSync = {
+            host = builtins.getEnv "DBSYNC_HOST_PREVIEW";
+            user = "csyncdb";
+            database = "csyncdb";
+          };
+          network = "preview";
+          tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_TESTNETS";
         };
       };
-
     };
 
     testScript = ''
@@ -147,23 +133,24 @@ in
     name = "blockfrost-backend-ryo-test-preprod";
 
     nodes.machine = {
+      imports = [ ./nixos-module.nix ];
       # We have to increase memsize, otherwise we will get error:
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
       virtualisation.memorySize = 4096;
-      # Backend service
-      systemd.services.blockfrost-backend-ryo = {
-        wantedBy = [ "multi-user.target" ];
-        script = "${blockfrost-backend-ryo}/bin/blockfrost-backend-ryo";
-        environment = {
-          # Use config file from repository
-          NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-ryo}/libexec/source/config/preprod.yaml";
-          /*
-            # Use this if you want to override config/default.yaml
-            NODE_CONFIG_RUNTIME_JSON = "${blockfrost-backend-test-config}";
-          */
+
+      services.blockfrost = {
+        enable = true;
+        package = blockfrost-backend-ryo;
+        settings = {
+          dbSync = {
+            host = builtins.getEnv "DBSYNC_HOST_PREPROD";
+            user = "csyncdb";
+            database = "csyncdb";
+          };
+          network = "preprod";
+          tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_TESTNETS";
         };
       };
-
     };
 
     testScript = ''
