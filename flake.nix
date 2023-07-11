@@ -1,7 +1,7 @@
 {
   description = "Blockfrost API backend";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-22.11";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/release-23.05";
 
   outputs = { self, nixpkgs }:
     let
@@ -55,8 +55,12 @@
         };
         default = self.apps.${system}.blockfrost-backend-ryo;
       });
-      overlays.default = self: super: {
-        inherit (self.packages.${super.system}) blockfrost-backend;
+      overlays.default = final: prev: {
+        inherit (self.packages.${prev.system}) blockfrost-backend-ryo;
+      };
+      nixosModules.default = {pkgs, ...}: {
+        imports = [ ./nixos-module.nix ];
+        services.blockfrost.package = self.packages.${pkgs.system}.blockfrost-backend-ryo;
       };
     };
 }
