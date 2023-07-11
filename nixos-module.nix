@@ -7,6 +7,7 @@ in {
       enable = lib.mkEnableOption "Blockfrost";
       package = lib.mkOption {
         type = lib.types.package;
+        default = pkgs.blockfrost-backend-ryo;
       };
       stateDir = lib.mkOption {
         type = lib.types.path;
