@@ -51,7 +51,7 @@ in {
               };
               port = lib.mkOption {
                 type = lib.types.port;
-                default = 3000;
+                default = 5432;
               };
               user = lib.mkOption {
                 type = lib.types.str;
