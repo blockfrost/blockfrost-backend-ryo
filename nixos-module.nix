@@ -113,7 +113,7 @@ in {
       "d /etc/pm2 770 ${cfg.user} ${cfg.group}"
     ];
 
-    systemd.services.blockfrost = {
+    systemd.services.blockfrost-backend-ryo = {
       inherit (cfg) requires;
       wantedBy = [ "multi-user.target" ];
       environment.NODE_CONFIG_RUNTIME_JSON = settingsFormat.generate "blockfrost-settings.json" cfg.settings;
