@@ -10,7 +10,7 @@
     { }
 }:
 let
-  nodejs = pkgs.nodejs-16_x;
+  nodejs = pkgs.nodejs-18_x;
 in
 pkgs.stdenv.mkDerivation {
   name = "blockfrost-backend";
