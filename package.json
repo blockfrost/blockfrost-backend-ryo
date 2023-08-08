@@ -26,7 +26,7 @@
   "dependencies": {
     "@blockfrost/blockfrost-js": "5.2.0",
     "@blockfrost/blockfrost-utils": "2.6.2",
-    "@blockfrost/openapi": "0.1.58",
+    "@blockfrost/openapi": "0.1.60-beta.0",
     "@emurgo/cardano-serialization-lib-nodejs": "11.3.0",
     "@emurgo/cip14-js": "^3.0.1",
     "@fastify/cors": "^8.2.0",
@@ -47,7 +47,7 @@
     "rimraf": "^4.3.1"
   },
   "devDependencies": {
-    "@blockfrost/blockfrost-tests": "1.8.1",
+    "@blockfrost/blockfrost-tests": "1.8.4",
     "@esbuild/darwin-x64": "npm:0.16.17",
     "@esbuild/linux-x64": "npm:0.16.17",
     "@types/config": "3.3.0",
