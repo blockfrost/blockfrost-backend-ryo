@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- support defining a postgres password in config or env
+
 ### Fixed
 
 - bump blockfrost-utils to 2.6.2

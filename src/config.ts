@@ -28,6 +28,9 @@ export const loadConfig = () => {
     Number(process.env.BLOCKFROST_CONFIG_DBSYNC_PORT) ?? config.get<number>('dbSync.port');
   const databaseSyncDatabase =
     process.env.BLOCKFROST_CONFIG_DBSYNC_DATABASE ?? config.get<string>('dbSync.database');
+  const databaseSyncPassword =
+    process.env.BLOCKFROST_CONFIG_DBSYNC_PASSWORD ??
+    (config.has('dbSync.password') ? config.get('dbSync.password') : undefined);
   const databaseSyncMaxConnections = process.env.BLOCKFROST_CONFIG_DBSYNC_MAX_CONN
     ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_MAX_CONN)
     : config.get<number>('dbSync.maxConnections');
@@ -53,6 +56,7 @@ export const loadConfig = () => {
       host: databaseSyncHost,
       port: databaseSyncPort,
       user: databaseSyncUser,
+      password: databaseSyncPassword,
       database: databaseSyncDatabase,
       maxConnections: databaseSyncMaxConnections,
     },
