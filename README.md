@@ -55,7 +55,7 @@ If you are using an authenticated db connection that requires a password, you'd 
   dbSync: {
     host: 'cdbsync-dev.mydomain.com',
     user: 'username',
-    database: 'password',
+    database: 'dbname',
     // Optionally define a password
     password: 'randomstringthatissolongandpowerfulthatnoonecanguess'
   },
@@ -75,7 +75,7 @@ These values are `BLOCKFROST_CONFIG_SERVER_PORT`, `BLOCKFROST_CONFIG_SERVER_DEBU
 
 #### Token registry
 
-Blockfrost Backend uses token registry to provide off-chain metadata for native assets (eg. number of decimals). [The token registry](https://developers.cardano.org/docs/native-tokens/token-registry/cardano-token-registry/) operated by Cardano Foundation and hosted at https://tokens.cardano.org is used by default. You can use self-hosted registry by setting `tokenRegistryUrl` in the config file.
+Blockfrost Backend uses token registry to provide off-chain metadata for native assets (eg. number of decimals). [The token registry](https://developers.cardano.org/docs/native-tokens/token-registry/cardano-token-registry/) operated by Cardano Foundation and hosted at <https://tokens.cardano.org> is used by default. You can use self-hosted registry by setting `tokenRegistryUrl` in the config file.
 
 #### Indices
 
@@ -95,6 +95,7 @@ CREATE INDEX IF NOT EXISTS bf_idx_tx_hash ON tx USING HASH (encode(hash, 'hex'))
 CREATE UNIQUE INDEX IF NOT EXISTS bf_u_idx_epoch_stake_epoch_and_id ON epoch_stake (epoch_no, id);
 CREATE INDEX IF NOT EXISTS bf_idx_reference_tx_in_tx_in_id ON reference_tx_in (tx_in_id);
 CREATE INDEX IF NOT EXISTS bf_idx_collateral_tx_in_tx_in_id ON collateral_tx_in (tx_in_id);
+CREATE INDEX IF NOT EXISTS bf_idx_redeemer_script_hash ON redeemer USING HASH (encode(script_hash, 'hex'));
 ```
 
 ### Docker

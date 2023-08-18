@@ -12,13 +12,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flake now exports NixOS module
 
 ### Changed
+
 - support defining a postgres password in config or env
+- new custom index on `redeemer` table to README
+- bump blockfrost-utils to 2.7.1
+- bump blockfrost-tests to 1.9.2
+- CI to run on Node 18
 
 ### Fixed
 
 - nixpkgs updated to latest `nixos-23.05`
 - NodeJS updated to `18.16.1`
-- blockfrost-utils updated to `2.6.2`
+- README config example
+- shell.nix default to Node 18
 
 ## [1.6.0] - 2023-06-28
 
