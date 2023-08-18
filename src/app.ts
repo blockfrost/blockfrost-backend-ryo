@@ -55,6 +55,7 @@ const start = (options = {}): FastifyInstance => {
     user: config.dbSync.user,
     database: config.dbSync.database,
     max: config.dbSync.maxConnections,
+    password: config.dbSync.password,
   });
 
   // addresses

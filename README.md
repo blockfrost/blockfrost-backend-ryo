@@ -56,6 +56,8 @@ If you are using an authenticated db connection that requires a password, you'd 
     host: 'cdbsync-dev.mydomain.com',
     user: 'username',
     database: 'password',
+    // Optionally define a password
+    password: 'randomstringthatissolongandpowerfulthatnoonecanguess'
   },
   // Cardano network - mainnet, testnet, preview, preprod
   network: 'mainnet',
@@ -179,7 +181,7 @@ A minimal usage example is:
         database = config.services.cardano-db-sync.postgres.database;
         host = config.services.cardano-db-sync.postgres.socketdir;
       };
-    };      
+    };
   };
 }
 ```

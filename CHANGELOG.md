@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flake now exports NixOS module
 
 ### Changed
+- support defining a postgres password in config or env
+
+### Fixed
 
 - nixpkgs updated to latest `nixos-23.05`
 - NodeJS updated to `18.16.1`
