@@ -1,8 +1,3 @@
-before_script:
-  - cp -v $BUILD_CONFIG_FILE_PREVIEW_YAML config/preview.yaml
-  - cp -v $BUILD_CONFIG_FILE_PREPROD_YAML config/preprod.yaml
-  - cp -v $BUILD_CONFIG_FILE_MAINNET_YAML config/mainnet.yaml
-
 stages:
   - prebuild
   - build

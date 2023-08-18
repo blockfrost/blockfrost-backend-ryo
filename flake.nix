@@ -60,7 +60,7 @@
       };
       nixosModules.default = {pkgs, ...}: {
         imports = [ ./nixos-module.nix ];
-        services.blockfrost.package = self.packages.${pkgs.system}.blockfrost-backend-ryo;
+        nixpkgs.overlays = [ self.overlays.default ];
       };
     };
 }

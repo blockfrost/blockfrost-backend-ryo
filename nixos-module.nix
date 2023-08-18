@@ -7,6 +7,7 @@ in {
       enable = lib.mkEnableOption "Blockfrost";
       package = lib.mkOption {
         type = lib.types.package;
+        default = pkgs.blockfrost-backend-ryo;
       };
       stateDir = lib.mkOption {
         type = lib.types.path;
@@ -51,7 +52,7 @@ in {
               };
               port = lib.mkOption {
                 type = lib.types.port;
-                default = 3000;
+                default = 5432;
               };
               user = lib.mkOption {
                 type = lib.types.str;
@@ -110,13 +111,16 @@ in {
     users.groups.blockfrost = lib.mkIf (cfg.group == "blockfrost") { };
 
     systemd.tmpfiles.rules = [
-      "d /etc/pm2 770 ${cfg.user} ${cfg.group}"
+      "d /var/lib/blockfrost-backend-ryo 770 ${cfg.user} ${cfg.group}"
     ];
 
-    systemd.services.blockfrost = {
+    systemd.services.blockfrost-backend-ryo = {
       inherit (cfg) requires;
       wantedBy = [ "multi-user.target" ];
-      environment.NODE_CONFIG_RUNTIME_JSON = settingsFormat.generate "blockfrost-settings.json" cfg.settings;
+      environment = {
+        NODE_CONFIG_RUNTIME_JSON = settingsFormat.generate "blockfrost-settings.json" cfg.settings;
+        HOME = "/var/lib/blockfrost-backend-ryo";
+      };
       serviceConfig = {
         ExecStart = "${cfg.package}/bin/blockfrost-backend-ryo";
         Group = cfg.group;
