@@ -6,9 +6,9 @@
   outputs = { self, nixpkgs }:
     let
       lib = nixpkgs.lib;
-      supportedSystems = [ 
+      supportedSystems = [
         "x86_64-linux"
-        "x86_64-darwin" 
+        "x86_64-darwin"
       ];
       forAllSystems = f: lib.genAttrs supportedSystems (system: f system);
       legacyPkgs = nixpkgs.legacyPackages;
@@ -25,13 +25,13 @@
       packages = forAllSystems (system: {
         inherit (default.${system}) blockfrost-backend-ryo;
         dockerImage =
-        let
-          configs = legacyPkgs.${system}.runCommand "app-configs" { }
-          ''
-            mkdir -p $out/app
-            cp -a ${self.packages.${system}.blockfrost-backend-ryo}/libexec/source/config $out/app/config
-          '';
-        in
+          let
+            configs = legacyPkgs.${system}.runCommand "app-configs" { }
+              ''
+                mkdir -p $out/app
+                cp -a ${self.packages.${system}.blockfrost-backend-ryo}/libexec/source/config $out/app/config
+              '';
+          in
           legacyPkgs.${system}.dockerTools.buildImage {
             name = "backend-ryo";
             copyToRoot = [ configs ];
@@ -58,7 +58,7 @@
       overlays.default = final: prev: {
         inherit (self.packages.${prev.system}) blockfrost-backend-ryo;
       };
-      nixosModules.default = {pkgs, ...}: {
+      nixosModules.default = { pkgs, ... }: {
         imports = [ ./nixos-module.nix ];
         nixpkgs.overlays = [ self.overlays.default ];
       };

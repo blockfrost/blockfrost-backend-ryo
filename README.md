@@ -55,7 +55,7 @@ If you are using an authenticated db connection that requires a password, you'd 
   dbSync: {
     host: 'cdbsync-dev.mydomain.com',
     user: 'username',
-    database: 'password',
+    database: 'dbname',
     // Optionally define a password
     password: 'randomstringthatissolongandpowerfulthatnoonecanguess'
   },
