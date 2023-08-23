@@ -50,6 +50,18 @@ export const GENESIS: Record<Network, ResponseTypes.Ledger> = {
     max_kes_evolutions: 62,
     security_param: 2160,
   },
+  sanchonet: {
+    active_slots_coefficient: 0.05,
+    update_quorum: 3,
+    max_lovelace_supply: '45000000000000000',
+    network_magic: 4,
+    epoch_length: 86_400,
+    system_start: 1_686_789_000,
+    slots_per_kes_period: 129_600,
+    slot_length: 1,
+    max_kes_evolutions: 62,
+    security_param: 432,
+  },
 };
 
 export const BYRON_GENESIS: Record<Network, ByronEraParameters> = {
@@ -72,6 +84,12 @@ export const BYRON_GENESIS: Record<Network, ByronEraParameters> = {
     end_epoch: 4,
   },
   preview: {
+    epoch_length: 4320,
+    slot_length: 20,
+    safe_zone: 864,
+    end_epoch: 0,
+  },
+  sanchonet: {
     epoch_length: 4320,
     slot_length: 20,
     safe_zone: 864,

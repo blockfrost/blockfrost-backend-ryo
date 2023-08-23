@@ -5,9 +5,9 @@ import { components } from '@blockfrost/openapi';
 export type Order = 'asc' | 'desc';
 export type AddressType = 'byron' | 'shelley';
 
-export const CARDANO_NETWORKS = ['mainnet', 'testnet', 'preview', 'preprod'];
+export const CARDANO_NETWORKS = ['mainnet', 'testnet', 'preview', 'preprod', 'sanchonet'];
 
-export type Network = 'mainnet' | 'testnet' | 'preview' | 'preprod';
+export type Network = 'mainnet' | 'testnet' | 'preview' | 'preprod' | 'sanchonet';
 
 export interface ResultFound {
   result: number;
