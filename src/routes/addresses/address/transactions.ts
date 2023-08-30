@@ -6,7 +6,8 @@ import * as QueryTypes from '../../../types/queries/addresses.js';
 import * as ResponseTypes from '../../../types/responses/addresses.js';
 import { getDbSync } from '../../../utils/database.js';
 import { handle400Custom, handle404, handleInvalidAddress } from '../../../utils/error-handler.js';
-import { getAdditionalParametersFromRequest, toJSONStream } from '../../../utils/string-utils.js';
+import { toJSONStream } from '../../../utils/string-utils.js';
+import { getAdditionalParametersFromRequest } from '@blockfrost/blockfrost-utils/lib/fastify.js';
 import { getAddressTypeAndPaymentCred } from '../../../utils/validation.js';
 
 async function route(fastify: FastifyInstance) {

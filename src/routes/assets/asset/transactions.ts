@@ -1,4 +1,8 @@
-import { handleInvalidAsset } from '@blockfrost/blockfrost-utils/lib/fastify.js';
+import {
+  getAdditionalParametersFromRequest,
+  handle400Custom,
+  handleInvalidAsset,
+} from '@blockfrost/blockfrost-utils/lib/fastify.js';
 import { validateAsset } from '@blockfrost/blockfrost-utils/lib/validation.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
@@ -20,6 +24,15 @@ async function route(fastify: FastifyInstance) {
 
       if (!isAssetValid) {
         return handleInvalidAsset(reply);
+      }
+
+      const fromToParameters = getAdditionalParametersFromRequest(
+        request.query.from,
+        request.query.to,
+      );
+
+      if (fromToParameters === 'outOfRangeOrMalformedErr') {
+        return handle400Custom(reply, 'Invalid (malformed or out of range) from/to parameter(s).');
       }
 
       const clientDbSync = await getDbSync(fastify);
