@@ -10,67 +10,6 @@ export const getEndpointFromUrl = (url: string): string => {
   return endpoint;
 };
 
-export const getAdditionalParametersFromRequest = (
-  from?: string,
-  to?: string,
-): unknown[] | 'outOfRangeOrMalformedErr' => {
-  // eslint-disable-next-line unicorn/no-useless-undefined
-  const parameterArray: unknown[] = Array.from({ length: 4 }).fill(undefined);
-
-  try {
-    const minInt = 0;
-    const maxInt = 2_147_483_647;
-
-    if (from !== undefined) {
-      const fromTokens = from.split(':');
-      const requestParameterIsOK = fromTokens.length <= 2;
-
-      if (requestParameterIsOK) {
-        const [heightString, indexString] = fromTokens;
-        const height = Number.parseInt(heightString, 10);
-        const index = Number.parseInt(indexString, 10); // NaN in case of missing index
-
-        if (
-          height >= minInt &&
-          height <= maxInt &&
-          (indexString === undefined || (index >= minInt && index <= maxInt))
-        ) {
-          parameterArray[0] = heightString;
-          parameterArray[1] = indexString;
-        } else {
-          return 'outOfRangeOrMalformedErr';
-        }
-      }
-    }
-
-    if (to !== undefined) {
-      const toTokens = to.split(':');
-      const requestParameterIsOK = toTokens.length <= 2;
-
-      if (requestParameterIsOK) {
-        const [heightString, indexString] = toTokens;
-        const height = Number.parseInt(heightString, 10);
-        const index = Number.parseInt(indexString, 10); // NaN in case of missing index
-
-        if (
-          height >= minInt &&
-          height <= maxInt &&
-          (indexString === undefined || (index >= minInt && index <= maxInt))
-        ) {
-          parameterArray[2] = heightString;
-          parameterArray[3] = indexString;
-        } else {
-          return 'outOfRangeOrMalformedErr';
-        }
-      }
-    }
-  } catch (error) {
-    console.error(error);
-    return 'outOfRangeOrMalformedErr';
-  }
-  return parameterArray;
-};
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const sortKeysInObject = (object: any) => {
   if (object === null || typeof object !== 'object') return object;
