@@ -47,7 +47,7 @@
     "rimraf": "^4.3.1"
   },
   "devDependencies": {
-    "@blockfrost/blockfrost-tests": "1.9.2",
+    "@blockfrost/blockfrost-tests": "1.9.4",
     "@esbuild/darwin-x64": "npm:0.16.17",
     "@esbuild/linux-x64": "npm:0.16.17",
     "@types/config": "3.3.0",
