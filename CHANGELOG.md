@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- bumped blockfrost-tests to 2.8.0
+- !from&to breaking change [] -> 400
+
 ### Added
 
 - Flake now exports NixOS module

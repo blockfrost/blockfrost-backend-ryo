@@ -19,6 +19,8 @@ export interface RequestAssetsParameters {
     count: number;
     page: number;
     order: Order;
+    from: string;
+    to: string;
   };
 }
 
