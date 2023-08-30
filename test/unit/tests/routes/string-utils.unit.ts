@@ -1,6 +1,5 @@
 import {
   getEndpointFromUrl,
-  getAdditionalParametersFromRequest,
   sortKeysInObject,
   toJSONStream,
 } from '../../../../src/utils/string-utils.js';
@@ -26,64 +25,6 @@ describe('stringUtils', async () => {
     expect(getEndpointFromUrl('/pools')).toStrictEqual('pools');
     expect(getEndpointFromUrl('/pools?order=desc')).toStrictEqual('pools');
     expect(getEndpointFromUrl('/pools?order=desc&count=5')).toStrictEqual('pools');
-  });
-
-  test('getAdditionalParametersFromRequest', () => {
-    expect(getAdditionalParametersFromRequest('1', '2')).toStrictEqual([
-      '1',
-      undefined,
-      '2',
-      undefined,
-    ]);
-    expect(getAdditionalParametersFromRequest('1:3', '2')).toStrictEqual([
-      '1',
-      '3',
-      '2',
-      undefined,
-    ]);
-    expect(getAdditionalParametersFromRequest('1', '2:4')).toStrictEqual([
-      '1',
-      undefined,
-      '2',
-      '4',
-    ]);
-    expect(getAdditionalParametersFromRequest('1:3', '2:4')).toStrictEqual(['1', '3', '2', '4']);
-    expect(getAdditionalParametersFromRequest('1')).toStrictEqual([
-      '1',
-      undefined,
-      undefined,
-      undefined,
-    ]);
-    expect(getAdditionalParametersFromRequest('1:3')).toStrictEqual([
-      '1',
-      '3',
-      undefined,
-      undefined,
-    ]);
-    expect(getAdditionalParametersFromRequest(undefined, '2')).toStrictEqual([
-      undefined,
-      undefined,
-      '2',
-      undefined,
-    ]);
-    expect(getAdditionalParametersFromRequest(undefined, '2:4')).toStrictEqual([
-      undefined,
-      undefined,
-      '2',
-      '4',
-    ]);
-    expect(getAdditionalParametersFromRequest()).toStrictEqual([
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-    ]);
-    expect(getAdditionalParametersFromRequest('1:54545454545')).toStrictEqual(
-      'outOfRangeOrMalformedErr',
-    );
-    expect(getAdditionalParametersFromRequest(undefined, '-1:44')).toStrictEqual(
-      'outOfRangeOrMalformedErr',
-    );
   });
 
   test('sortKeysInObject', () => {
