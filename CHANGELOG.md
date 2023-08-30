@@ -7,10 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
-
-- bumped blockfrost-tests to 2.8.0
-- !from&to breaking change [] -> 400
+## [1.7.0] - 2023-08-30
 
 ### Added
 
@@ -20,8 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - support defining a postgres password in config or env
 - new custom index on `redeemer` table to README
-- bump blockfrost-utils to 2.7.1
-- bump blockfrost-tests to 1.9.2
+- bumped blockfrost-utils to 2.8.0
+  - !from&to breaking change [] -> 400
+- bump blockfrost-tests to 1.9.4
 - CI to run on Node 18
 
 ### Fixed
