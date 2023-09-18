@@ -6,7 +6,7 @@
 
 let
 
-  yarnPath = ./.yarn/releases/yarn-3.4.1.cjs;
+  yarnPath = ./.yarn/releases/yarn-3.6.3.cjs;
   lockfile = ./yarn.lock;
   cacheFolder = ".yarn/cache";
 
@@ -192,7 +192,7 @@ cacheEntries = {
 "fast-diff@npm:1.2.0" = { filename = "fast-diff-npm-1.2.0-5ba4171bb6-1b5306eaa9.zip"; sha512 = "1b5306eaa9e826564d9e5ffcd6ebd881eb5f770b3f977fcbf38f05c824e42172b53c79920e8429c54eb742ce15a0caf268b0fdd5b38f6de52234c4a8368131ae"; };
 "nodemon@npm:2.0.21" = { filename = "nodemon-npm-2.0.21-71d1d44354-0b9fe2d11f.zip"; sha512 = "0b9fe2d11fd95c51b66d61bd1ee85cddf579c9e674c9429752a74f445f1b98576235ae860858783728baa3666c87e4ef938ab67167cc34fe4bb8fcec74d6885b"; };
 "diff@npm:5.0.0" = { filename = "diff-npm-5.0.0-ad6900db18-f19fe29284.zip"; sha512 = "f19fe29284b633afdb2725c2a8bb7d25761ea54d321d8e67987ac851c5294be4afeab532bd84531e02583a3fe7f4014aa314a3eda84f5590e7a9e6b371ef3b46"; };
-"typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76" = { filename = "typescript-patch-72dc6f164f-ab417a2f39.zip"; sha512 = "ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d"; };
+"typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=289587" = { filename = "typescript-patch-f8edcd7439-1f8f3b6aae.zip"; sha512 = "1f8f3b6aaea19f0f67cba79057674ba580438a7db55057eb89cc06950483c5d632115c14077f6663ea76fd09fce3c190e6414bb98582ec80aa5a4eaf345d5b68"; };
 "@emurgo/cardano-serialization-lib-nodejs@npm:10.2.0" = { filename = "@emurgo-cardano-serialization-lib-nodejs-npm-10.2.0-220a08c8b9-4337c4b57d.zip"; sha512 = "4337c4b57d6c980ffa0263e9c4d1819deb25d4b70042524f4f61b24826e6aef5e316e0a29026bc53f423a2337013b33e201b18cd4abe5bc5591f3214dbeda244"; };
 "bottleneck@npm:2.19.5" = { filename = "bottleneck-npm-2.19.5-2c6092aa17-c5eef1bbea.zip"; sha512 = "c5eef1bbea12cef1f1405e7306e7d24860568b0f7ac5eeab706a86762b3fc65ef6d1c641c8a166e4db90f412fc5c948fc5ce8008a8cd3d28c7212ef9c3482bda"; };
 "node-match-path@npm:0.6.3" = { filename = "node-match-path-npm-0.6.3-0c492cdac8-d515bc069f.zip"; sha512 = "d515bc069f293688109c058ee02567528fdaa856290d362b80a2254734975014e4eefcdcc5164a8adfd5560aa870e277c97fe8be648074d5088056cf61553c7c"; };
