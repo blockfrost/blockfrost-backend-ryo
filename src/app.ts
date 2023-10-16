@@ -148,6 +148,7 @@ const start = (options = {}): FastifyInstance => {
 
   // root
   registerRoute(app, import('./routes/root/index.js'));
+  registerRoute(app, import('./routes/root/prometheus.js'));
 
   // scripts
   registerRoute(app, import('./routes/scripts/index.js'));
