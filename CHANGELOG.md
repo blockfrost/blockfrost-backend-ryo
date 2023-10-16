@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - NodeJS updated to `18.16.1`
 - README config example
 - shell.nix default to Node 18
+- registered missing /prometheus endpoint
 
 ## [1.6.0] - 2023-06-28
 
