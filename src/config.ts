@@ -34,6 +34,7 @@ export const loadConfig = () => {
   const databaseSyncMaxConnections = process.env.BLOCKFROST_CONFIG_DBSYNC_MAX_CONN
     ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_MAX_CONN)
     : config.get<number>('dbSync.maxConnections');
+  const ssl = config.has('dbSync.ssl') ? { rejectUnauthorized: false } : false;
 
   // blockfrost network
   const network = process.env.BLOCKFROST_CONFIG_NETWORK ?? config.get('network');
@@ -59,6 +60,7 @@ export const loadConfig = () => {
       password: databaseSyncPassword,
       database: databaseSyncDatabase,
       maxConnections: databaseSyncMaxConnections,
+      ssl,
     },
     network: network as Network,
     tokenRegistryUrl,
