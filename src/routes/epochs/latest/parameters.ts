@@ -6,7 +6,7 @@ import * as QueryTypes from '../../../types/queries/epochs.js';
 import * as ResponseTypes from '../../../types/responses/epochs.js';
 import { getDbSync } from '../../../utils/database.js';
 import { handle404 } from '../../../utils/error-handler.js';
-import { sortKeysInObject } from '../../../utils/string-utils.js';
+import { costModelsMap } from '../../../utils/cost-models-map.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -29,7 +29,7 @@ async function route(fastify: FastifyInstance) {
         }
 
         if (rows[0].cost_models) {
-          rows[0].cost_models = sortKeysInObject(rows[0].cost_models);
+          rows[0].cost_models = costModelsMap(rows[0].cost_models);
         }
 
         return reply.send(rows[0]);
