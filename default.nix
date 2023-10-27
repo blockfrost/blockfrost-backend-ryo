@@ -123,7 +123,7 @@ in
       machine.wait_for_open_port(3000)
       machine.succeed("cp -r ${blockfrost-backend-ryo}/libexec/source /tmp")
       machine.succeed(
-          "cd /tmp/source && ${pkgs.yarn}/bin/yarn set version berry && ${pkgs.yarn}/bin/yarn test-integration:preview"
+          "cd /tmp/source && ${pkgs.yarn}/bin/yarn set version 3.6.3 && ${pkgs.yarn}/bin/yarn test-integration:preview"
       )
     '';
   };
@@ -159,7 +159,7 @@ in
       machine.wait_for_open_port(3000)
       machine.succeed("cp -r ${blockfrost-backend-ryo}/libexec/source /tmp")
       machine.succeed(
-          "cd /tmp/source && ${pkgs.yarn}/bin/yarn set version berry && ${pkgs.yarn}/bin/yarn test-integration:preprod"
+          "cd /tmp/source && ${pkgs.yarn}/bin/yarn set version 3.6.3 && ${pkgs.yarn}/bin/yarn test-integration:preprod"
       )
     '';
   };
