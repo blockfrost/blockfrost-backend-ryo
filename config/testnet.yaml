@@ -8,5 +8,6 @@ dbSync:
   user: "cdbsync"
   database: "cdbsync"
   maxConnections: 10
+  ssl: true
 network: "testnet"
 tokenRegistryUrl: "https://metadata.cardano-testnet.iohkdev.io"

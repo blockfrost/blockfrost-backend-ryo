@@ -11,8 +11,8 @@ declare module 'JSONStream' {
     recurse: boolean;
   }
 
-  export declare function parse(pattern: any): NodeJS.ReadWriteStream;
-  export declare function parse(patterns: any[]): NodeJS.ReadWriteStream;
+  export declare function parse(pattern: unknown): NodeJS.ReadWriteStream;
+  export declare function parse(patterns: unknown[]): NodeJS.ReadWriteStream;
 
   /**
    * Create a writable stream.

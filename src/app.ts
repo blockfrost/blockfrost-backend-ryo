@@ -3,12 +3,11 @@ import fastifyPostgres from '@fastify/postgres';
 import * as Sentry from '@sentry/node';
 import fastify, { FastifyInstance, FastifyRequest } from 'fastify';
 import os from 'os';
-
 import { getConfig } from './config.js';
 import { registerRoute } from './utils/common.js';
 import { errorHandler, notFoundHandler } from './utils/error-handler.js';
-
 import { createRequire } from 'module';
+
 const esmRequire = createRequire(import.meta.url);
 const packageJson = esmRequire('../package.json');
 
@@ -56,6 +55,7 @@ const start = (options = {}): FastifyInstance => {
     database: config.dbSync.database,
     max: config.dbSync.maxConnections,
     password: config.dbSync.password,
+    ssl: config.dbSync.ssl,
   });
 
   // addresses

@@ -8,5 +8,6 @@ dbSync:
   user: "you can type anything here, postgres is mocked"
   database: "you can type anything here, postgres is mocked"
   maxConnections: 0
+  ssl: true
 network: "mainnet"
 tokenRegistryUrl: "http://localhost:3100"
