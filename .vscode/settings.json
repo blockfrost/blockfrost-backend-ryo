@@ -21,6 +21,7 @@
     "pino",
     "prebuild",
     "preprod",
+    "sanchonet",
     "SECP",
     "ts",
     "utxo",
