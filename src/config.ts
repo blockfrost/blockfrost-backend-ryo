@@ -24,8 +24,9 @@ export const loadConfig = () => {
     process.env.BLOCKFROST_CONFIG_DBSYNC_HOST ?? config.get<string>('dbSync.host');
   const databaseSyncUser =
     process.env.BLOCKFROST_CONFIG_DBSYNC_USER ?? config.get<string>('dbSync.user');
-  const databaseSyncPort =
-    Number(process.env.BLOCKFROST_CONFIG_DBSYNC_PORT) ?? config.get<number>('dbSync.port');
+  const databaseSyncPort = process.env.BLOCKFROST_CONFIG_DBSYNC_PORT
+    ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_PORT)
+    : config.get<number>('dbSync.port');
   const databaseSyncDatabase =
     process.env.BLOCKFROST_CONFIG_DBSYNC_DATABASE ?? config.get<string>('dbSync.database');
   const databaseSyncPassword =

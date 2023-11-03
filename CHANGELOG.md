@@ -7,19 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-| :warning:  WARNING                                                                                                                 |
-| ---------------------------------------------------------------------------------------------------------------------------------- |
-| This version of `blockfrost-backend-ryo` requires `cardano-db-sync 13.1.1.3` or newer. Use version `1.7.x` for earlier releases.   |
+| :warning: WARNING                                                                                                                |
+| -------------------------------------------------------------------------------------------------------------------------------- |
+| This version of `blockfrost-backend-ryo` requires `cardano-db-sync 13.1.1.3` or newer. Use version `1.7.x` for earlier releases. |
 
 ### Added
 
 - translation of cost models from numerical IDs to strings,
   required for `cardano-db-sync 13.1.1.3` and newer [#130](https://github.com/blockfrost/blockfrost-backend-ryo/pull/130)
 
-### Updated
+### Changed
 
 - node_modules
 - yarn
+
+### Fixed
+
+- port configuration via config option `dbSync.port`
 
 ## [1.7.0] - 2023-08-30
 
