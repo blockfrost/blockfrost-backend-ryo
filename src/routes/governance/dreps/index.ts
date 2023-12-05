@@ -3,6 +3,7 @@ import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/epochs.js';
 import * as ResponseTypes from '../../../types/responses/epochs.js';
 import { getDbSync } from '../../../utils/database.js';
+import { DrepRequestParameters } from '../../../types/queries/governance.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -10,7 +11,7 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     // TODO: add schema when available
     // schema: getSchemaForEndpoint('/epochs/latest'),
-    handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
+    handler: async (request: FastifyRequest<DrepRequestParameters>, reply) => {
       const clientDbSync = await getDbSync(fastify);
 
       try {
