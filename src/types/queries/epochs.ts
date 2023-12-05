@@ -7,6 +7,7 @@ export interface RequestParameters {
   Querystring: {
     count: number;
     page: number;
+    order: 'asc' | 'desc';
   };
 }
 

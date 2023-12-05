@@ -4,6 +4,7 @@ export type { ResultFound } from '../common.js';
 export interface RequestParameters {
   Params: {
     hash_or_number: string;
+    hash: string;
   };
   Querystring: {
     count: number;
