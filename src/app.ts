@@ -12,6 +12,10 @@ const esmRequire = createRequire(import.meta.url);
 const packageJson = esmRequire('../package.json');
 
 const config = getConfig();
+const isCIP1694Active = config.server.features.some(
+  feature => feature.toLowerCase() === 'CIP-1694'.toLowerCase(),
+);
+
 const start = (options = {}): FastifyInstance => {
   const app = fastify(options);
 
@@ -111,11 +115,12 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/epochs/number/stakes/index.js'));
   registerRoute(app, import('./routes/epochs/number/stakes/pool-id.js'));
 
-  // governance
-  registerRoute(app, import('./routes/governance/dreps/index.js'));
-  registerRoute(app, import('./routes/governance/dreps/hash/index.js'));
-  registerRoute(app, import('./routes/governance/dreps/hash/distribution.js'));
-
+  if (isCIP1694Active) {
+    // governance
+    registerRoute(app, import('./routes/governance/dreps/index.js'));
+    registerRoute(app, import('./routes/governance/dreps/hash/index.js'));
+    registerRoute(app, import('./routes/governance/dreps/hash/distribution.js'));
+  }
   // health
   registerRoute(app, import('./routes/health/index.js'));
   registerRoute(app, import('./routes/health/clock.js'));
