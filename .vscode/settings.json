@@ -7,6 +7,8 @@
     "cdbsync",
     "dbsync",
     "delegators",
+    "Drep",
+    "dreps",
     "elgohr",
     "emurgo",
     "esbuild",
@@ -37,5 +39,4 @@
   "eslint.nodePath": ".yarn/sdks",
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "prettier.prettierPath": ".yarn/sdks/prettier/index.js"
 }

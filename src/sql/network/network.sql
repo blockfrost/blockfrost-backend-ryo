@@ -27,7 +27,7 @@ circulating_supply AS (
           )
       ) + (
         SELECT COALESCE(SUM(amount), 0)
-        FROM instant_reward
+        FROM reward_rest
         WHERE spendable_epoch <= (
             SELECT *
             FROM current_epoch
