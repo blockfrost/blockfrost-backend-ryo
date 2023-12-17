@@ -14,12 +14,10 @@ async function route(fastify: FastifyInstance) {
       const clientDbSync = await getDbSync(fastify);
 
       try {
-        const { rows }: { rows: ResponseTypes.DReps } =
-          await clientDbSync.query<QueryTypes.DReps>(SQLQuery.get('governance_dreps'), [
-            request.query.order,
-            request.query.count,
-            request.query.page,
-          ]);
+        const { rows }: { rows: ResponseTypes.DReps } = await clientDbSync.query<QueryTypes.DReps>(
+          SQLQuery.get('governance_dreps'),
+          [request.query.order, request.query.count, request.query.page],
+        );
 
         clientDbSync.release();
 
