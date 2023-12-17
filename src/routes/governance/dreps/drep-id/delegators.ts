@@ -3,14 +3,13 @@ import * as QueryTypes from '../../../../types/queries/governance.js';
 import * as ResponseTypes from '../../../../types/responses/governance.js';
 import { getDbSync } from '../../../../utils/database.js';
 import { SQLQuery } from '../../../../sql/index.js';
-//import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
     url: '/governance/dreps/:drep_id/delegators',
     method: 'GET',
-    // TODO: SCHEMA
-    // schema: getSchemaForEndpoint('/governance/dreps/{drep_id}/delegators'),
+    schema: getSchemaForEndpoint('/governance/dreps/{drep_id}/delegators'),
 
     handler: async (request: FastifyRequest<QueryTypes.RequestParametersDRepID>, reply) => {
       const clientDbSync = await getDbSync(fastify);

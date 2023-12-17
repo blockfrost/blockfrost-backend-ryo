@@ -176,11 +176,6 @@ __metadata:
     yaml: ^2.3.4
   checksum: a743deeded6b709864fead7570a48676d0ee2a4f8cca56076ee6d3dc62f03cd0a803443bedbfeb26ed8aee8c713f778c6446b25816777d69731e835fdc559004
   languageName: node
-  linkType: hard
-
-"@cspotcode/source-map-support@npm:^0.8.0":
-  version: 0.8.1
-  resolution: "@cspotcode/source-map-support@npm:0.8.1"
   dependencies:
     "@jridgewell/trace-mapping": 0.3.9
   checksum: 5718f267085ed8edb3e7ef210137241775e607ee18b77d95aa5bd7514f47f5019aa2d82d96b3bf342ef7aa890a346fa1044532ff7cc3009e7d24fce3ce6200fa

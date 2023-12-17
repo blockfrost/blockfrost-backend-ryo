@@ -4,18 +4,18 @@ import * as ResponseTypes from '../../../../types/responses/governance.js';
 import { getDbSync } from '../../../../utils/database.js';
 import { handle404 } from '../../../../utils/error-handler.js';
 import { SQLQuery } from '../../../../sql/index.js';
-//import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
     url: '/governance/dreps/:drep_id/metadata',
     method: 'GET',
-    // TODO: SCHEMA
-    // schema: getSchemaForEndpoint('/governance/dreps/{drep_id}/metadata'),
+    schema: getSchemaForEndpoint('/governance/dreps/{drep_id}/metadata'),
+
     handler: async (request: FastifyRequest<QueryTypes.RequestDRepID>, reply) => {
       const clientDbSync = await getDbSync(fastify);
 
-      const { rows }: { rows: ResponseTypes.DRepsDrepIDMetadata } =
+      const { rows }: { rows: ResponseTypes.DRepsDrepIDMetadata[] } =
         await clientDbSync.query<QueryTypes.DRepsDrepIDMetadata>(
           SQLQuery.get('governance_dreps_drep_id_metadata'),
           [request.params.drep_id],
