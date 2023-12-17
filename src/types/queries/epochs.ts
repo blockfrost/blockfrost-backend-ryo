@@ -101,6 +101,27 @@ export interface EpochParameters {
   max_collateral_inputs: number;
   coins_per_utxo_word: string; // deprecated
   coins_per_utxo_size: string;
+  p1: number | null;
+  p2a: number | null;
+  p2b: number | null;
+  p3: number | null;
+  p4: number | null;
+  p5a: number | null;
+  p5b: number | null;
+  p5c: number | null;
+  p5d: number | null;
+  p6: number | null;
+  p7: number | null;
+  q1: number | null;
+  q2a: number | null;
+  q2b: number | null;
+  q4: number | null;
+  min_c_c_size: string | null;
+  cc_term_limit: string | null;
+  gov_expiration: string | null;
+  gov_deposit: string | null;
+  drep_activity: string | null;
+  registered_tx_id: number | null;
 }
 
 export interface EpochStake {
