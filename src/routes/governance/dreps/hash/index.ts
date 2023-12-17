@@ -1,10 +1,9 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import * as QueryTypes from '../../../../types/queries/blocks.js';
-import * as ResponseTypes from '../../../../types/responses/blocks.js';
+import * as QueryTypes from '../../../../types/queries/governance.js';
+import * as ResponseTypes from '../../../../types/responses/governance.js';
 import { getDbSync } from '../../../../utils/database.js';
 import { handle404 } from '../../../../utils/error-handler.js';
 import { SQLQuery } from '../../../../sql/index.js';
-import { DrepRequestParameters } from '../../../../types/queries/governance.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -12,12 +11,12 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     // TODO: add schema when available
     // schema: getSchemaForEndpoint('/governance/dreps/{hash}'),
-    handler: async (request: FastifyRequest<DrepRequestParameters>, reply) => {
+    handler: async (request: FastifyRequest<QueryTypes.RequestParametersDRepID>, reply) => {
       const clientDbSync = await getDbSync(fastify);
 
-      const { rows }: { rows: ResponseTypes.Block[] } = await clientDbSync.query<QueryTypes.Block>(
-        SQLQuery.get('governance_dreps_details'),
-        [request.params.hash],
+      const { rows }: { rows: ResponseTypes.DRepsDrepID } = await clientDbSync.query<QueryTypes.DRepsDrepID>(
+        SQLQuery.get('governance_dreps_drep_id'),
+        [request.params.drep_id],
       );
 
       clientDbSync.release();

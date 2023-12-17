@@ -1,1 +1,0 @@
-drep_details
