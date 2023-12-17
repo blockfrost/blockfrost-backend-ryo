@@ -118,9 +118,12 @@ const start = (options = {}): FastifyInstance => {
   if (isCIP1694Active) {
     // governance
     registerRoute(app, import('./routes/governance/dreps/index.js'));
-    registerRoute(app, import('./routes/governance/dreps/hash/index.js'));
-    registerRoute(app, import('./routes/governance/dreps/hash/distribution.js'));
+    registerRoute(app, import('./routes/governance/dreps/drep-id/index.js'));
+    registerRoute(app, import('./routes/governance/dreps/drep-id/delegators.js'));
+    registerRoute(app, import('./routes/governance/dreps/drep-id/metadata.js'));
+    registerRoute(app, import('./routes/governance/dreps/drep-id/updates.js'));
   }
+
   // health
   registerRoute(app, import('./routes/health/index.js'));
   registerRoute(app, import('./routes/health/clock.js'));
