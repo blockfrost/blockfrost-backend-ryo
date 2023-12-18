@@ -12,7 +12,7 @@ SELECT dh.view AS "drep_id",
       WHEN dr.deposit >= 0 THEN true
       ELSE false
     END
-  ) AS "is_registered",
+  ) AS "active",
   (
     CASE
       WHEN dr.deposit >= 0 THEN (
