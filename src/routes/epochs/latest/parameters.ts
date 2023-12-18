@@ -1,4 +1,4 @@
-import { getSchemaForEndpoint } from '@blockfrost/openapi';
+//import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance } from 'fastify';
 
 import { SQLQuery } from '../../../sql/index.js';
@@ -12,7 +12,8 @@ async function route(fastify: FastifyInstance) {
   fastify.route({
     url: '/epochs/latest/parameters',
     method: 'GET',
-    schema: getSchemaForEndpoint('/epochs/latest/parameters'),
+    // TODO: once it gets into openapi
+    //schema: getSchemaForEndpoint('/epochs/latest/parameters'),
     handler: async (_request, reply) => {
       const clientDbSync = await getDbSync(fastify);
 
