@@ -10,7 +10,7 @@ async function route(fastify: FastifyInstance) {
   fastify.route({
     url: '/txs/:hash/required_signers',
     method: 'GET',
-    schema: getSchemaForEndpoint('/txs/:hash:/required_signers'),
+    schema: getSchemaForEndpoint('/txs/{hash}/required_signers'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
       const clientDbSync = await getDbSync(fastify);
 
