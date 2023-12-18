@@ -13,7 +13,7 @@ const packageJson = esmRequire('../package.json');
 
 const config = getConfig();
 const isCIP1694Active = config.server.features.some(
-  feature => feature.toLowerCase() === 'CIP-1694'.toLowerCase(),
+  (feature: string) => feature.toLowerCase() === 'CIP-1694'.toLowerCase(),
 );
 
 const start = (options = {}): FastifyInstance => {
