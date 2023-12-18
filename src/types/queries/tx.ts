@@ -154,3 +154,7 @@ export interface TxRedeemers {
   fee: string;
   redeemer_data_hash: string;
 }
+
+export interface TxWits {
+  hash: string;
+}
