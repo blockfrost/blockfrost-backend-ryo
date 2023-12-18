@@ -29,7 +29,7 @@ SELECT dh.view AS "drep_id",
   ) AS "active_epoch",
   dh.has_script AS "has_script"
 FROM drep_hash dh
-  JOIN drep_registration dr ON (dh.id = dr.drep_hash_id)
+  LEFT JOIN drep_registration dr ON (dh.id = dr.drep_hash_id)
   LEFT JOIN drep_distr dd ON (
     dh.id = dd.hash_id
     AND dd.epoch_no = (
