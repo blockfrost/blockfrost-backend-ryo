@@ -26,11 +26,7 @@ async function route(fastify: FastifyInstance) {
           return reply.send([]);
         }
 
-        const list: string[] = [];
-
-        for (const row of rows) {
-          list.push(row.hash);
-        }
+        const list = rows.map(row => row.hash);
 
         const unpaged = isUnpaged(request);
 
