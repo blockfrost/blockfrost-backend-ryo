@@ -12,6 +12,7 @@
     "esbuild",
     "fastify",
     "hardfork",
+    "libc",
     "milkomeda",
     "mirs",
     "mydomain",
