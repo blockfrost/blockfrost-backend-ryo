@@ -1,0 +1,47 @@
+SELECT encode(tx.hash, 'hex') AS "tx_hash",
+  vp.index AS "cert_index",
+  (
+    CASE
+      WHEN vp.voter_role = 'ConstitutionalCommittee' THEN 'constitutional_committee'
+      ELSE LOWER(vp.voter_role::TEXT)
+    END
+  ) AS "voter_role",
+  -- ConstitutionalCommittee, DRep, SPO -> constitutional_committee, drep, spo
+  (
+    CASE
+      WHEN vp.voter_role::TEXT = 'ConstitutionalCommittee' THEN 'constitutional_committee'
+      ELSE LOWER(vp.voter_role::TEXT)
+    END
+  ) AS "voter_role",
+  -- ConstitutionalCommittee, DRep, SPO -> constitutional_committee, drep, spo
+  (
+    COALESCE(encode(committee_voter, 'hex'), dh.view, ph.view)
+  ) AS "voter",
+  LOWER(vote::TEXT) AS "vote" -- Yes, No, Abstain -> yes,no,abstain
+FROM voting_procedure vp
+  JOIN governance_action ga ON (ga.id = vp.governance_action_id)
+  JOIN tx ON (vp.tx_id = tx.id)
+  LEFT JOIN drep_hash dh ON (vp.drep_voter = dh.id)
+  LEFT JOIN pool_hash ph ON (vp.pool_voter = ph.id)
+ORDER BY CASE
+    WHEN LOWER($1) = 'desc' THEN vp.id
+  END DESC,
+  CASE
+    WHEN LOWER($1) <> 'desc'
+    OR $1 IS NULL THEN vp.id
+  END ASC
+LIMIT CASE
+    WHEN $2 >= 1
+    AND $2 <= 100 THEN $2
+    ELSE 100
+  END OFFSET CASE
+    WHEN $3 > 1
+    AND $3 < 2147483647 THEN ($3 - 1) * (
+      CASE
+        WHEN $2 >= 1
+        AND $2 <= 100 THEN $2
+        ELSE 100
+      END
+    )
+    ELSE 0
+  END
