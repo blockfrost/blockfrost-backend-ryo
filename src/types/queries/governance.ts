@@ -51,11 +51,72 @@ export interface DRepsDrepIDMetadata {
 }
 export interface DRepsDrepIDUpdates {
   tx_hash: string;
-  /** @description Certificate within the transaction */
   cert_index: number;
-  /**
-   * @description Action in the certificate
-   * @enum {string}
-   */
   action: 'registered' | 'deregistered';
+}
+
+export interface DRepsDrepIDVotes {
+  tx_hash: string;
+  cert_index: number;
+  voter_role: 'constitutional_committee' | 'drep' | 'spo';
+  committee_voter_hash: string | null;
+  vote: 'yes' | 'no' | 'abstain';
+}
+
+export interface RequestParametersProposal {
+  Params: {
+    tx_hash: string;
+    cert_index: number;
+  };
+}
+
+export interface RequestParametersProposalVotes {
+  Params: {
+    tx_hash: string;
+    cert_index: number;
+  };
+  Querystring: {
+    count: number;
+    page: number;
+    order: Order;
+  };
+}
+
+export interface Votes {
+  tx_hash: string;
+  cert_index: number;
+  voter_role: 'constitutional_committee' | 'drep' | 'spo';
+  committee_voter_hash: string | null;
+  vote: 'yes' | 'no' | 'abstain';
+}
+
+export interface ProposalsProposal {
+  tx_hash: string;
+  cert_index: number;
+  governance_type:
+    | 'hard_fork_initiation'
+    | 'new_committee'
+    | 'new_constitution'
+    | 'info_action'
+    | 'no_confidence'
+    | 'parameter_change'
+    | 'treasury_withdrawals';
+  governance_description: string | null;
+  deposit: string;
+  return_address: string;
+  ratified_epoch: number | null;
+  enacted_epoch: number | null;
+  dropped_epoch: number | null;
+  expired_epoch: number | null;
+  expiration: number;
+  anchor_url: string | null;
+  anchor_hash: string | null;
+}
+
+export interface ProposalsProposalVote {
+  tx_hash: string;
+  cert_index: number;
+  voter_role: 'constitutional_committee' | 'drep' | 'spo';
+  voter: string;
+  vote: 'yes' | 'no' | 'abstain';
 }
