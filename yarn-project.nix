@@ -1085,7 +1085,7 @@ cacheEntries = {
 "word-wrap@npm:1.2.3" = { filename = "word-wrap-npm-1.2.3-7fb15ab002-30b48f91fc.zip"; sha512 = "30b48f91fcf12106ed3186ae4fa86a6a1842416df425be7b60485de14bec665a54a68e4b5156647dec3a70f25e84d270ca8bc8cd23182ed095f5c7206a938c1f"; };
 "type-check@npm:0.3.2" = { filename = "type-check-npm-0.3.2-a4a38bb0b6-dd3b149564.zip"; sha512 = "dd3b1495642731bc0e1fc40abe5e977e0263005551ac83342ecb6f4f89551d106b368ec32ad3fb2da19b3bd7b2d1f64330da2ea9176d8ddbfe389fb286eb5124"; };
 "levn@npm:0.3.0" = { filename = "levn-npm-0.3.0-48d774b1c2-0d084a5242.zip"; sha512 = "0d084a524231a8246bb10fec48cdbb35282099f6954838604f3c7fc66f2e16fa66fd9cc2f3f20a541a113c4dafdf181e822c887c8a319c9195444e6c64ac395e"; };
-"@blockfrost/openapi@npm:0.1.61-beta.4" = { filename = "@blockfrost-openapi-npm-0.1.61-beta.4-39389caccd-734bf9bcdd.zip"; sha512 = "734bf9bcdd31a785f85752a93b7704c705d17f502282164f7fd18c5b3c12db39fd17f8aa4b4639186c473261eccbf5d55d75d88ee7cbf7ac3154af3b5d874c72"; };
+"@blockfrost/openapi@npm:0.1.61-beta.15" = { filename = "@blockfrost-openapi-npm-0.1.61-beta.15-cb8ef7f224-29385370a8.zip"; sha512 = "29385370a8981efc37cd1948ffb157e34b3a52c2a3231d27f87043cd86856120a0ecdc5fe01919ffb00853acf4be5b3bc085a842869a17c4f35ac6631a1166ed"; };
 "yaml@npm:2.3.4" = { filename = "yaml-npm-2.3.4-8bb6dc2c0d-e6d1dae1c6.zip"; sha512 = "e6d1dae1c6383bcc8ba11796eef3b8c02d5082911c6723efeeb5ba50fc8e881df18d645e64de68e421b577296000bea9c75d6d9097c2f6699da3ae0406c030d8"; };
 "cbor@npm:9.0.1" = { filename = "cbor-npm-9.0.1-3a5a6b7751-42333ac3d4.zip"; sha512 = "42333ac3d42cc3f6fcc7a529e68417a2dd8099eda43ca4be1304cdc5bc7494efe058e2db8a3d3b46ae60d69c7331ea813c22dbd019c4ac592d23e599d72bbcc9"; };
 };
