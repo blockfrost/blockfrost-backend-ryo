@@ -99,3 +99,11 @@ export interface PoolRelays {
   dns_srv: string;
   port: number;
 }
+
+export interface PoolVotes {
+  tx_hash: string;
+  cert_index: number;
+  voter_role: 'constitutional_committee' | 'drep' | 'spo';
+  committee_voter_hash: string | null;
+  vote: 'yes' | 'no' | 'abstain';
+}

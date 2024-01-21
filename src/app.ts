@@ -122,6 +122,11 @@ const start = (options = {}): FastifyInstance => {
     registerRoute(app, import('./routes/governance/dreps/drep-id/delegators.js'));
     registerRoute(app, import('./routes/governance/dreps/drep-id/metadata.js'));
     registerRoute(app, import('./routes/governance/dreps/drep-id/updates.js'));
+    registerRoute(app, import('./routes/governance/dreps/drep-id/votes.js'));
+    registerRoute(app, import('./routes/governance/proposals/index.js'));
+    registerRoute(app, import('./routes/governance/proposals/tx-hash/cert-index/index.js'));
+    registerRoute(app, import('./routes/governance/proposals/tx-hash/cert-index/votes.js'));
+    registerRoute(app, import('./routes/governance/votes.js'));
   }
 
   // health
@@ -158,6 +163,7 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/pools/pool-id/metadata.js'));
   registerRoute(app, import('./routes/pools/pool-id/relays.js'));
   registerRoute(app, import('./routes/pools/pool-id/updates.js'));
+  registerRoute(app, import('./routes/pools/pool-id/votes.js'));
 
   // root
   registerRoute(app, import('./routes/root/index.js'));
