@@ -1138,17 +1138,17 @@ const response_txs_redeemers = [
 ];
 
 const query_txs_required_signers = [
-  { hash: 'd52e11f3e48436dd42dbec6d88c239732e503b8b7a32af58e5f87625' },
-  { hash: '41b32682c413535dbca5178f92f3cee5dede31b995400b8c371e2469' },
-  { hash: 'd52e11f3e48436dd42dbec6d88c239732e503b8b7a32af58e5f87625' },
-  { hash: '666414964a05b01cef36427b8a0fb0f621806c43e66e7a4d3cca3bfb' },
+  { witness_hash: 'd52e11f3e48436dd42dbec6d88c239732e503b8b7a32af58e5f87625' },
+  { witness_hash: '41b32682c413535dbca5178f92f3cee5dede31b995400b8c371e2469' },
+  { witness_hash: 'd52e11f3e48436dd42dbec6d88c239732e503b8b7a32af58e5f87625' },
+  { witness_hash: '666414964a05b01cef36427b8a0fb0f621806c43e66e7a4d3cca3bfb' },
 ];
 
 const response_txs_required_signers = [
-  'd52e11f3e48436dd42dbec6d88c239732e503b8b7a32af58e5f87625',
-  '41b32682c413535dbca5178f92f3cee5dede31b995400b8c371e2469',
-  'd52e11f3e48436dd42dbec6d88c239732e503b8b7a32af58e5f87625',
-  '666414964a05b01cef36427b8a0fb0f621806c43e66e7a4d3cca3bfb',
+  { witness_hash: 'd52e11f3e48436dd42dbec6d88c239732e503b8b7a32af58e5f87625' },
+  { witness_hash: '41b32682c413535dbca5178f92f3cee5dede31b995400b8c371e2469' },
+  { witness_hash: 'd52e11f3e48436dd42dbec6d88c239732e503b8b7a32af58e5f87625' },
+  { witness_hash: '666414964a05b01cef36427b8a0fb0f621806c43e66e7a4d3cca3bfb' },
 ];
 
 const response_404 = {
