@@ -1,4 +1,4 @@
-SELECT encode(wit.hash, 'hex') AS "hash"
+SELECT encode(wit.hash, 'hex') AS "witness_hash"
 FROM tx
   JOIN extra_key_witness wit ON (wit.tx_id = tx.id)
 WHERE encode(tx.hash, 'hex') = $1

@@ -155,6 +155,6 @@ export interface TxRedeemers {
   redeemer_data_hash: string;
 }
 
-export interface TxWits {
-  hash: string;
+export interface TxWitnesses {
+  witness_hash: string;
 }
