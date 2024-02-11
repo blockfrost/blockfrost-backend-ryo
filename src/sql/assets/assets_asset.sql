@@ -1,17 +1,24 @@
-WITH queried_metadata AS (
+WITH queried_asset AS (
+  SELECT id AS "asset_id"
+  FROM multi_asset ma
+  WHERE (
+      encode(ma.policy, 'hex') || encode(ma.name, 'hex')
+    ) = $1
+),
+queried_metadata AS (
   SELECT txm.json AS "onchain_metadata",
     encode(txm.bytes, 'hex') AS "onchain_metadata_cbor"
   FROM tx_metadata txm
   WHERE txm.tx_id = (
       SELECT MAX(txmmax.tx_id)
       FROM ma_tx_mint mtmmax
-        JOIN multi_asset ma ON (mtmmax.ident = ma.id)
         JOIN tx_metadata txmmax ON (mtmmax.tx_id = txmmax.tx_id)
-      WHERE txmmax.key = 721
+      WHERE mtmmax.id = (
+          SELECT asset_id
+          FROM queried_asset
+        )
+        AND txmmax.key = 721
         AND quantity > 0
-        AND (
-          encode(ma.policy, 'hex') || encode(ma.name, 'hex')
-        ) = $1
     )
     AND txm.key = 721
 )
@@ -23,7 +30,8 @@ SELECT (
     WHEN encode(ma.name, 'hex') <> '' THEN encode(ma.name, 'hex')
     ELSE null
   END AS "asset_name",
-  SUM(mtm.quantity)::TEXT AS "quantity", -- cast to TEXT to avoid number overflow
+  SUM(mtm.quantity)::TEXT AS "quantity",
+  -- cast to TEXT to avoid number overflow
   (
     SELECT encode(tx.hash, 'hex')
     FROM tx
