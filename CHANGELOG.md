@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - port configuration via config option `dbSync.port`
+- live_stake for retired pools in `/pools/{pool_id}` was always 0, instead of displaying the delegated amount
 
 ## [1.7.0] - 2023-08-30
 
@@ -53,7 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `onchain_metadata_extra` field to `/assets/:asset`
+- `onchain_metadata_extra` field to `/assets/{asset}`
 - CIP68 RFT 444 support
 
 ### Changed
