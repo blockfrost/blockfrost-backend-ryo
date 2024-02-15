@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - port configuration via config option `dbSync.port`
+- error in `/epochs/n/parameters` for epochs without PlutusV1/PlutusV2 cost models
 
 ## [1.7.0] - 2023-08-30
 
