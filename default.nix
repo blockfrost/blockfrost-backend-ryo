@@ -69,7 +69,7 @@ in
       imports = [ ./nixos-module.nix ];
       # We have to increase memsize, otherwise we will get error:
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
-      virtualisation.memorySize = 4096;
+      virtualisation.memorySize = 8192;
 
       services.blockfrost = {
         enable = true;
@@ -104,7 +104,7 @@ in
       imports = [ ./nixos-module.nix ];
       # We have to increase memsize, otherwise we will get error:
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
-      virtualisation.memorySize = 4096;
+      virtualisation.memorySize = 8192;
 
       services.blockfrost = {
         enable = true;
@@ -140,7 +140,7 @@ in
       imports = [ ./nixos-module.nix ];
       # We have to increase memsize, otherwise we will get error:
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
-      virtualisation.memorySize = 4096;
+      virtualisation.memorySize = 8192;
 
       services.blockfrost = {
         enable = true;
