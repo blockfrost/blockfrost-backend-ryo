@@ -91,7 +91,7 @@ in
       machine.wait_for_open_port(3000)
       machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
       machine.succeed(
-          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ yarn test:mainnet --run' >&2"
+          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ IS_CACHED=true yarn test:mainnet --run' >&2"
       )
     '';
   };
@@ -127,7 +127,7 @@ in
       machine.wait_for_open_port(3000)
       machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
       machine.succeed(
-          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ yarn test:preview --run' >&2"
+          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ IS_CACHED=true yarn test:preview --run' >&2"
       )
     '';
   };
@@ -163,7 +163,7 @@ in
       machine.wait_for_open_port(3000)
       machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
       machine.succeed(
-          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ yarn test:preprod --run' >&2"
+          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ IS_CACHED=true yarn test:preprod --run' >&2"
       )
     '';
   };
