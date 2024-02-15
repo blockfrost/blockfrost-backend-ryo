@@ -18,9 +18,6 @@
     "start-testnet": "cross-env-shell NODE_ENV=testnet \"yarn start\"",
     "test": "cross-env NODE_OPTIONS='--max-http-header-size 32768' NODE_ENV=test vitest",
     "test-badges": "make-coverage-badge --output-path ./docs/images/badge.svg",
-    "test-integration:mainnet": "cross-env NETWORK=mainnet vitest -c vitest.config.integration.ts --run --segfault-retry=3",
-    "test-integration:preprod": "cross-env NETWORK=preprod vitest -c vitest.config.integration.ts --run --segfault-retry=3",
-    "test-integration:preview": "cross-env NETWORK=preview vitest -c vitest.config.integration.ts --run --segfault-retry=3",
     "type-check": "tsc --project tsconfig.json"
   },
   "dependencies": {
@@ -57,7 +54,6 @@
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "6.7.2",
     "@vitest/coverage-c8": "^0.27",
-    "change-case": "^4.1.2",
     "eslint": "8.49.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-import": "^2.28.1",
