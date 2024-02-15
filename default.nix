@@ -1,13 +1,17 @@
-{ pkgs ? let
+{ nixpkgs ? let
     lockfile = builtins.fromJSON (builtins.readFile ./flake.lock);
     nixpkgs = lockfile.nodes.nixpkgs.locked;
   in
-  import
-    (builtins.fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/${nixpkgs.rev}.tar.gz";
+   (builtins.fetchTarball {
+          url = "https://github.com/NixOS/nixpkgs/archive/${nixpkgs.rev}.tar.gz";
       sha256 = nixpkgs.narHash;
+    }),
+pkgs ? import nixpkgs {}
+, blockfrost-tests ?
+    (builtins.fetchGit {
+      url = "ssh://git@github.com/blockfrost/blockfrost-tests.git";
+      rev = "767d37cfd49e346fee5e005701dc840beffbcb32";
     })
-    { }
 , system ? builtins.currentSystem
 }:
 let
@@ -85,9 +89,9 @@ in
       start_all()
       machine.wait_for_unit("blockfrost-backend-ryo.service")
       machine.wait_for_open_port(3000)
-      machine.succeed("cp -r ${blockfrost-backend-ryo}/libexec/source /tmp")
+      machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
       machine.succeed(
-          "cd /tmp/source && ${pkgs.yarn}/bin/yarn set version 3.6.3 && ${pkgs.yarn}/bin/yarn test-integration:mainnet"
+          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ yarn test:mainnet --run' >&2"
       )
     '';
   };
@@ -121,9 +125,9 @@ in
       start_all()
       machine.wait_for_unit("blockfrost-backend-ryo.service")
       machine.wait_for_open_port(3000)
-      machine.succeed("cp -r ${blockfrost-backend-ryo}/libexec/source /tmp")
+      machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
       machine.succeed(
-          "cd /tmp/source && ${pkgs.yarn}/bin/yarn set version 3.6.3 && ${pkgs.yarn}/bin/yarn test-integration:preview"
+          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ yarn test:preview --run' >&2"
       )
     '';
   };
@@ -157,9 +161,9 @@ in
       start_all()
       machine.wait_for_unit("blockfrost-backend-ryo.service")
       machine.wait_for_open_port(3000)
-      machine.succeed("cp -r ${blockfrost-backend-ryo}/libexec/source /tmp")
+      machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
       machine.succeed(
-          "cd /tmp/source && ${pkgs.yarn}/bin/yarn set version 3.6.3 && ${pkgs.yarn}/bin/yarn test-integration:preprod"
+          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ yarn test:preprod --run' >&2"
       )
     '';
   };
