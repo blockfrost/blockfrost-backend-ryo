@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - node_modules
 - yarn
+- updated vitest
+- removed token registry mock server, using function mocking instead
 
 ### Fixed
 
