@@ -1,8 +1,8 @@
 import express from 'express';
-import { Server } from 'http';
+// import { Server } from 'http';
 import * as mocks from './fixtures/token-registry.fixtures.js';
 
-let server: Server;
+// let server: Server;
 const serverName = 'token registry server';
 const port = 3100;
 
@@ -17,10 +17,11 @@ export const setup = () => {
     },
   );
 
-  server = app.listen({ port });
+  // server = app.listen({ port });
+  app.listen({ port });
 };
 
-export const teardown = () => {
-  console.log(`Closing ${serverName} mock on port ${port}`);
-  server.close();
-};
+// export const teardown = () => {
+//   console.log(`Closing ${serverName} mock on port ${port}`);
+//   // server.close();
+// };
