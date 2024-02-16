@@ -1,13 +1,20 @@
 import * as databaseUtils from '../../../../src/utils/database.js';
+import * as tokenRegistryUtils from '../../../../src/utils/token-registry.js';
 import sinon from 'sinon';
 import supertest from 'supertest';
 import fixtures from '../../fixtures/addresses.fixtures.js';
 import buildFastify from '../../../../src/app.js';
-import { describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 import * as config from '../../../../src/config.js';
 
 describe('address service', () => {
+  beforeEach(() => {
+    vi.spyOn(tokenRegistryUtils, 'fetchAssetMetadata').mockImplementation(() => {
+      return Promise.resolve(null);
+    });
+  });
+
   fixtures.map(fixture => {
     test(fixture.name, async () => {
       const fastify = buildFastify({ maxParamLength: 32_768 });
