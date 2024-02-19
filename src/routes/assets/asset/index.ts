@@ -93,10 +93,13 @@ async function route(fastify: FastifyInstance) {
         // retrieve off-chain metadata
         const metadata = await fetchAssetMetadata(request.params.asset);
 
-        const fingerprint = AssetFingerprint.fromParts(
-          Uint8Array.from(Buffer.from(rows[0].policy_id, 'hex')),
-          Uint8Array.from(Buffer.from(rows[0].asset_name ?? '', 'hex')),
-        ).fingerprint();
+        // @ts-expect-error .default necessary due to some ESM import weirdness
+        const fingerprint = AssetFingerprint.default
+          .fromParts(
+            Uint8Array.from(Buffer.from(rows[0].policy_id, 'hex')),
+            Uint8Array.from(Buffer.from(rows[0].asset_name ?? '', 'hex')),
+          )
+          .fingerprint();
 
         return reply.send({
           ...rows[0],
