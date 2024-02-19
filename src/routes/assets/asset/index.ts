@@ -9,7 +9,7 @@ import {
   getSchemaForEndpoint,
   validateCIP68Metadata,
 } from '@blockfrost/openapi';
-import AssetFingerprint from '@emurgo/cip14-js';
+import { AssetFingerprint } from '../../../utils/cip14.js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/assets.js';
@@ -93,13 +93,10 @@ async function route(fastify: FastifyInstance) {
         // retrieve off-chain metadata
         const metadata = await fetchAssetMetadata(request.params.asset);
 
-        // @ts-expect-error .default necessary due to some ESM import weirdness
-        const fingerprint = AssetFingerprint.default
-          .fromParts(
-            Uint8Array.from(Buffer.from(rows[0].policy_id, 'hex')),
-            Uint8Array.from(Buffer.from(rows[0].asset_name ?? '', 'hex')),
-          )
-          .fingerprint();
+        const fingerprint = AssetFingerprint.fromParts(
+          Uint8Array.from(Buffer.from(rows[0].policy_id, 'hex')),
+          Uint8Array.from(Buffer.from(rows[0].asset_name ?? '', 'hex')),
+        ).fingerprint();
 
         return reply.send({
           ...rows[0],
