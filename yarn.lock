@@ -207,7 +207,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emurgo/cip14-js@npm:3.0.1, @emurgo/cip14-js@npm:^3.0.1":
+"@emurgo/cip14-js@npm:3.0.1":
   version: 3.0.1
   resolution: "@emurgo/cip14-js@npm:3.0.1"
   dependencies:
@@ -1103,6 +1103,13 @@ __metadata:
   version: 1.0.3
   resolution: "@tsconfig/node16@npm:1.0.3"
   checksum: 3a8b657dd047495b7ad23437d6afd20297ce90380ff0bdee93fc7d39a900dbd8d9e26e53ff6b465e7967ce2adf0b218782590ce9013285121e6a5928fbd6819f
+  languageName: node
+  linkType: hard
+
+"@types/blake2b@npm:^2.1.3":
+  version: 2.1.3
+  resolution: "@types/blake2b@npm:2.1.3"
+  checksum: 55a6ed7123a7adc82cc51131644b6c035c28142d028fbc23fe06251c76583ee3303d73204e21de8ea075ef84a04c4ed424754f5035fed20730a85272620a0de3
   languageName: node
   linkType: hard
 
@@ -2119,6 +2126,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"b4a@npm:^1.0.1":
+  version: 1.6.6
+  resolution: "b4a@npm:1.6.6"
+  checksum: c46a27e3ac9c84426ae728f0fc46a6ae7703a7bc03e771fa0bef4827fd7cf3bb976d1a3d5afff54606248372ab8fdf595bd0114406690edf37f14d120630cf7f
+  languageName: node
+  linkType: hard
+
 "balanced-match@npm:^1.0.0":
   version: 1.0.0
   resolution: "balanced-match@npm:1.0.0"
@@ -2179,6 +2193,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"blake2b-wasm@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "blake2b-wasm@npm:2.4.0"
+  dependencies:
+    b4a: ^1.0.1
+    nanoassert: ^2.0.0
+  checksum: 1839dd0693681228d81f781dd8680a6803a629ca374aed5ac02fa649ce40a67a85eb49eeb2ec6aeb7ef3ef5aa169b3579b50eabf7afa360d190338bc3e8666bd
+  languageName: node
+  linkType: hard
+
 "blake2b@npm:2.1.3":
   version: 2.1.3
   resolution: "blake2b@npm:2.1.3"
@@ -2186,6 +2210,16 @@ __metadata:
     blake2b-wasm: ^1.1.0
     nanoassert: ^1.0.0
   checksum: e652234249cbdb3345488d52b5e76e8572b8e5333f3f0d5e716772b7c5d2142f433c3fe86130e92117329532e1d1235cdaa89f40bbca27a8ae528bef428241ef
+  languageName: node
+  linkType: hard
+
+"blake2b@npm:^2.1.4":
+  version: 2.1.4
+  resolution: "blake2b@npm:2.1.4"
+  dependencies:
+    blake2b-wasm: ^2.4.0
+    nanoassert: ^2.0.0
+  checksum: cd598c96d459017714b7f9cb8892ef2b0a94f362e26e6baa46b7b8b189af0006ce25ab1713e3ec1484eb18ce7ebe1eb24e07d01e42ab1147067de2419c7f6158
   languageName: node
   linkType: hard
 
@@ -2207,10 +2241,10 @@ __metadata:
     "@blockfrost/blockfrost-utils": 2.8.0
     "@blockfrost/openapi": 0.1.60
     "@emurgo/cardano-serialization-lib-nodejs": 11.5.0
-    "@emurgo/cip14-js": ^3.0.1
     "@fastify/cors": ^8.3.0
     "@fastify/postgres": ^5.2.0
     "@sentry/node": ^7.69.0
+    "@types/blake2b": ^2.1.3
     "@types/config": 3.3.1
     "@types/express": ^4.17.17
     "@types/node": ^20.6.2
@@ -2224,6 +2258,7 @@ __metadata:
     JSONStream: ^1.3.5
     ajv: ^8.12.0
     axios: ^1.5.0
+    blake2b: ^2.1.4
     config: 3.3.9
     crc: ^4.3.2
     cross-env: ^7.0.3
@@ -6241,6 +6276,13 @@ __metadata:
   version: 1.1.0
   resolution: "nanoassert@npm:1.1.0"
   checksum: f360fe639db8edc422de9f5a8a7d384ba9c11e9c6fac149f7ad3b0a94e4ec9d5aa44ce55b3e4c7682658efad792604fc96c336b0e80a3590744104ba58af80c7
+  languageName: node
+  linkType: hard
+
+"nanoassert@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "nanoassert@npm:2.0.0"
+  checksum: b1d366f9524405f3337192d32dda6ac0b02374e4d0550c9aad33480caf2eb3c84c06f18f41f4c5404c14f6fc1ae6b84692b4375166dcb9f2d04a2ea9b9bccba0
   languageName: node
   linkType: hard
 
