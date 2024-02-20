@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - translation of cost models from numerical IDs to strings,
   required for `cardano-db-sync 13.1.1.3` and newer [#130](https://github.com/blockfrost/blockfrost-backend-ryo/pull/130)
 - indices improving `/assets/{asset}` when querying CIP68 assets and `/txs/{tx_hash}` with redeemers
-- IS_LOCAL env fro testing
+- IS_LOCAL env for testing
 
 ### Changed
 
