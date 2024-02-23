@@ -1,9 +1,9 @@
 WITH queried_proposal AS (
-  SELECT ga.id AS "id"
-  FROM governance_action ga
-    JOIN tx ON (ga.tx_id = tx.id)
+  SELECT gap.id AS "id"
+  FROM gov_action_proposal gap
+    JOIN tx ON (gap.tx_id = tx.id)
   WHERE encode(tx.hash, 'hex') = $4
-    AND ga.index = $5
+    AND gap.index = $5
 )
 SELECT encode(tx.hash, 'hex') AS "tx_hash",
   vp.index AS "cert_index",
@@ -19,11 +19,11 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
   ) AS "voter",
   LOWER(vote::TEXT) AS "vote" -- Yes, No, Abstain -> yes,no,abstain
 FROM voting_procedure vp
-  JOIN governance_action ga ON (ga.id = vp.governance_action_id)
+  JOIN gov_action_proposal gap ON (gap.id = vp.governance_action_id)
   JOIN tx ON (vp.tx_id = tx.id)
   LEFT JOIN drep_hash dh ON (vp.drep_voter = dh.id)
   LEFT JOIN pool_hash ph ON (vp.pool_voter = ph.id)
-WHERE ga.id = (
+WHERE gap.id = (
     SELECT id
     FROM queried_proposal
   )
