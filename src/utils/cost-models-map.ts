@@ -355,15 +355,17 @@ const plutusV2Names: Array<string> = [
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const costModelsMap = (costModels: any) => {
+  if (costModels === null || typeof costModels !== 'object') return null;
+
   costModels = sortKeysInObject(costModels);
 
-  if (Object.keys(costModels.PlutusV1).length !== plutusV1Names.length)
+  if ('PlutusV1' in costModels && Object.keys(costModels.PlutusV1).length !== plutusV1Names.length)
     throw new Error('The size of the Plutus V1 cost model mismatched');
 
-  if (Object.keys(costModels.PlutusV2).length !== plutusV2Names.length)
+  if ('PlutusV2' in costModels && Object.keys(costModels.PlutusV2).length !== plutusV2Names.length)
     throw new Error('The size of the Plutus V1 cost model mismatched');
 
-  if (validation.isNumber(Object.keys(costModels.PlutusV1)[0])) {
+  if ('PlutusV1' in costModels && validation.isNumber(Object.keys(costModels.PlutusV1)[0])) {
     const PlutusV1: Record<string, number> = {};
 
     for (let index = 0; index < plutusV1Names.length; index++)
@@ -372,7 +374,7 @@ export const costModelsMap = (costModels: any) => {
     costModels = { ...costModels, PlutusV1 };
   }
 
-  if (validation.isNumber(Object.keys(costModels.PlutusV2)[0])) {
+  if ('PlutusV2' in costModels && validation.isNumber(Object.keys(costModels.PlutusV2)[0])) {
     const PlutusV2: Record<string, number> = {};
 
     for (let index = 0; index < plutusV2Names.length; index++)

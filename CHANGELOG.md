@@ -16,16 +16,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - support for Cardano Sanchonet
 - translation of cost models from numerical IDs to strings,
   required for `cardano-db-sync 13.1.1.3` and newer [#130](https://github.com/blockfrost/blockfrost-backend-ryo/pull/130)
+- indices improving `/assets/{asset}` when querying CIP68 assets and `/txs/{tx_hash}` with redeemers
+- IS_LOCAL env for testing
 
 ### Changed
 
 - node_modules
 - yarn
+- updated vitest
+- removed token registry mock server, using function mocking instead
 
 ### Fixed
 
 - port configuration via config option `dbSync.port`
 - live_stake for retired pools in `/pools/{pool_id}` was always 0, instead of displaying the delegated amount
+- error in `/epochs/n/parameters` for epochs without PlutusV1/PlutusV2 cost models
 
 ## [1.7.0] - 2023-08-30
 

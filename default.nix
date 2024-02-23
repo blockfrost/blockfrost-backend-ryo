@@ -1,13 +1,17 @@
-{ pkgs ? let
+{ nixpkgs ? let
     lockfile = builtins.fromJSON (builtins.readFile ./flake.lock);
     nixpkgs = lockfile.nodes.nixpkgs.locked;
   in
-  import
-    (builtins.fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/${nixpkgs.rev}.tar.gz";
+   (builtins.fetchTarball {
+          url = "https://github.com/NixOS/nixpkgs/archive/${nixpkgs.rev}.tar.gz";
       sha256 = nixpkgs.narHash;
+    }),
+pkgs ? import nixpkgs {}
+, blockfrost-tests ?
+    (builtins.fetchGit {
+      url = "ssh://git@github.com/blockfrost/blockfrost-tests.git";
+      rev = "19350708ee2e401f0f50dc6bd25c71a6d030ce6f";
     })
-    { }
 , system ? builtins.currentSystem
 }:
 let
@@ -65,7 +69,7 @@ in
       imports = [ ./nixos-module.nix ];
       # We have to increase memsize, otherwise we will get error:
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
-      virtualisation.memorySize = 4096;
+      virtualisation.memorySize = 8192;
 
       services.blockfrost = {
         enable = true;
@@ -85,9 +89,9 @@ in
       start_all()
       machine.wait_for_unit("blockfrost-backend-ryo.service")
       machine.wait_for_open_port(3000)
-      machine.succeed("cp -r ${blockfrost-backend-ryo}/libexec/source /tmp")
+      machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
       machine.succeed(
-          "cd /tmp/source && ${pkgs.yarn}/bin/yarn set version 3.6.3 && ${pkgs.yarn}/bin/yarn test-integration:mainnet"
+          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ IS_LOCAL=true TEST_AUTH=false IS_CACHED=true yarn test:mainnet --run' >&2"
       )
     '';
   };
@@ -100,7 +104,7 @@ in
       imports = [ ./nixos-module.nix ];
       # We have to increase memsize, otherwise we will get error:
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
-      virtualisation.memorySize = 4096;
+      virtualisation.memorySize = 8192;
 
       services.blockfrost = {
         enable = true;
@@ -121,9 +125,9 @@ in
       start_all()
       machine.wait_for_unit("blockfrost-backend-ryo.service")
       machine.wait_for_open_port(3000)
-      machine.succeed("cp -r ${blockfrost-backend-ryo}/libexec/source /tmp")
+      machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
       machine.succeed(
-          "cd /tmp/source && ${pkgs.yarn}/bin/yarn set version 3.6.3 && ${pkgs.yarn}/bin/yarn test-integration:preview"
+          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ IS_LOCAL=true TEST_AUTH=false IS_CACHED=true yarn test:preview --run' >&2"
       )
     '';
   };
@@ -136,7 +140,7 @@ in
       imports = [ ./nixos-module.nix ];
       # We have to increase memsize, otherwise we will get error:
       # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
-      virtualisation.memorySize = 4096;
+      virtualisation.memorySize = 8192;
 
       services.blockfrost = {
         enable = true;
@@ -157,9 +161,9 @@ in
       start_all()
       machine.wait_for_unit("blockfrost-backend-ryo.service")
       machine.wait_for_open_port(3000)
-      machine.succeed("cp -r ${blockfrost-backend-ryo}/libexec/source /tmp")
+      machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
       machine.succeed(
-          "cd /tmp/source && ${pkgs.yarn}/bin/yarn set version 3.6.3 && ${pkgs.yarn}/bin/yarn test-integration:preprod"
+          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ IS_LOCAL=true TEST_AUTH=false IS_CACHED=true yarn test:preprod --run' >&2"
       )
     '';
   };
