@@ -1,8 +1,7 @@
 stages:
   - prebuild
   - build
-  - integration tests - mainnet
-  - integration tests - testnets
+  - integration tests
 
 Lint, Typescript:
   stage: prebuild
@@ -22,21 +21,21 @@ Nix build:
     - nix-build -A blockfrost-backend-ryo
 
 Integration tests - mainnet:
-  stage: integration tests - mainnet
+  stage: integration tests
   needs:
     - Nix build
   script:
     - nix-build -A blockfrost-backend-ryo-test-mainnet --option sandbox false
 
 Integration tests - preview:
-  stage: integration tests - testnets
+  stage: integration tests
   needs:
     - Nix build
   script:
     - nix-build -A blockfrost-backend-ryo-test-preview --option sandbox false
 
 Integration tests - preprod:
-  stage: integration tests - testnets
+  stage: integration tests
   needs:
     - Nix build
   script:
