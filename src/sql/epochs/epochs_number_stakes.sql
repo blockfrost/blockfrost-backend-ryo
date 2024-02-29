@@ -2,7 +2,8 @@ SELECT sa.view AS "stake_address",
   ph.view AS "pool_id",
   sorted_limited.amount::TEXT AS "amount" -- cast to TEXT to avoid number overflow
 FROM(
-    SELECT es.amount AS "amount",
+    SELECT es.id,
+      es.amount AS "amount",
       es.addr_id,
       es.pool_id
     FROM epoch_stake es
@@ -26,3 +27,4 @@ FROM(
   ) AS "sorted_limited"
   JOIN pool_hash ph ON (ph.id = sorted_limited.pool_id)
   JOIN stake_address sa ON (sorted_limited.addr_id = sa.id)
+ORDER BY sorted_limited.id ASC

@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- ordering in `/assets/asset/txs`, `/assets/asset/transactions` and `/epochs/{number}/stakes`
 - port configuration via config option `dbSync.port`
 - error in `/epochs/n/parameters` for epochs without PlutusV1/PlutusV2 cost models
 
