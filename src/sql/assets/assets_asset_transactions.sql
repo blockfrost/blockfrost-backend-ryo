@@ -37,3 +37,10 @@ FROM (
   ) AS "sorted_limited"
   JOIN tx ON (sorted_limited.tx_id = tx.id)
   JOIN block b ON (b.id = tx.block_id)
+    ORDER BY CASE
+    WHEN LOWER($1) = 'desc' THEN sorted_limited.tx_id
+  END DESC,
+  CASE
+    WHEN LOWER($1) <> 'desc'
+    OR $1 IS NULL THEN sorted_limited.tx_id
+  END ASC
