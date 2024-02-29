@@ -260,10 +260,196 @@ live_stake_queried_pool_sum AS (
       )
     ) AS "live_stake_pool"
 )
-SELECT (
+SELECT ph.view AS "pool_id",
+  encode(ph.hash_raw, 'hex') AS "hex",
+  encode(pu.vrf_key_hash, 'hex') AS "vrf_key",
+  (
+    SELECT COUNT(*)
+    FROM block b
+      JOIN slot_leader sl ON (sl.id = b.slot_leader_id)
+      JOIN pool_hash ph ON (ph.id = sl.pool_hash_id)
+    WHERE ph.view = $1
+  ) AS "blocks_minted",
+  (
+    SELECT COUNT(*)
+    FROM block b
+      JOIN slot_leader sl ON (sl.id = b.slot_leader_id)
+      JOIN pool_hash ph ON (ph.id = sl.pool_hash_id)
+    WHERE ph.view = $1
+      AND b.epoch_no = (
+        SELECT epoch_no
+        FROM current_epoch
+      )
+  ) AS "blocks_epoch",
+  (
+    SELECT amount_pool
+    FROM queried_stake
+  )::TEXT AS "active_stake",
+  -- cast to TEXT to avoid number overflow
+  (
+    (
+      SELECT amount_pool
+      FROM queried_stake
+    ) / (
+      SELECT amount
+      FROM queried_stake
+    )
+  )::FLOAT AS "active_size",
+  (
     SELECT live_stake_pool
     FROM live_stake_queried_pool_sum
-  )::TEXT AS "live_stake"
+  )::TEXT AS "live_stake",
+  -- cast to TEXT to avoid number overflow
+  (
+    (
+      SELECT live_stake_pool
+      FROM live_stake_queried_pool_sum
+    ) / (
+      SELECT SUM(live_stake)
+      FROM live_stake_sum
+    )
+  )::FLOAT AS "live_size",
+  (
+    COALESCE(
+      (
+        SELECT live_stake_pool
+        FROM live_stake_queried_pool_sum
+      ) / (
+        (
+          SELECT *
+          FROM circulating_supply
+        ) / (
+          SELECT optimal_pool_count
+          FROM epoch_param
+          ORDER BY epoch_no DESC
+          LIMIT 1
+        )
+      ), 0
+    )
+  )::FLOAT AS "live_saturation",
+  (
+    SELECT COUNT(DISTINCT d.id)
+    FROM delegation d
+      JOIN pool_hash ph ON (ph.id = d.pool_hash_id)
+      JOIN stake_address sa ON (sa.id = d.addr_id)
+      JOIN stake_registration sr ON (sr.addr_id = d.addr_id)
+      LEFT JOIN stake_deregistration sd ON (sd.addr_id = d.addr_id)
+      LEFT JOIN (
+        SELECT addr_id,
+          MAX(tx_id) AS tempmax
+        FROM stake_deregistration
+        GROUP BY addr_id
+      ) deregmax ON (deregmax.addr_id = d.addr_id)
+      AND (deregmax.tempmax = sd.tx_id)
+    WHERE ph.view = $1
+      AND d.id = (
+        SELECT MAX(id)
+        FROM delegation
+        WHERE addr_id = d.addr_id
+      )
+      AND sr.tx_id = (
+        SELECT MAX(tx_id)
+        FROM stake_registration
+        WHERE addr_id = d.addr_id
+      )
+      AND (
+        (
+          sd.tx_id IS NOT NULL
+          AND sr.tx_id > (
+            SELECT MAX(tx_id)
+            FROM stake_deregistration
+            WHERE addr_id = d.addr_id
+          )
+        )
+        OR (sd.tx_id IS NULL)
+      )
+  ) AS "live_delegators",
+  pu.pledge::TEXT AS "declared_pledge",
+  -- cast to TEXT to avoid number overflow
+  (
+    SELECT COALESCE((amount + rewards_minus_withdrawals), 0)
+    FROM (
+        SELECT (
+            SELECT COALESCE(SUM(txo.value), 0)
+            FROM tx_out txo
+              LEFT JOIN tx_in txi ON (txo.tx_id = txi.tx_out_id)
+              AND (txo.index = txi.tx_out_index)
+            WHERE txi IS NULL
+              AND txo.stake_address_id IN (
+                SELECT *
+                FROM queried_addr
+              )
+          ) AS "amount",
+          (
+            (
+              COALESCE(
+                (
+                  SELECT SUM(amount) AS "amount"
+                  FROM reward
+                  WHERE (
+                      addr_id IN (
+                        SELECT *
+                        FROM queried_addr
+                      )
+                    )
+                    AND spendable_epoch <= (
+                      SELECT epoch_no
+                      FROM current_epoch
+                    )
+                ),
+                0
+              ) - COALESCE(
+                (
+                  SELECT SUM(amount) AS "amount"
+                  FROM withdrawal
+                  WHERE (
+                      addr_id IN (
+                        SELECT *
+                        FROM queried_addr
+                      )
+                    )
+                ),
+                0
+              )
+            )
+          ) AS "rewards_minus_withdrawals"
+      ) AS "temppledge"
+  )::TEXT AS "live_pledge",
+  -- cast to TEXT to avoid number overflow
+  pu.margin AS "margin_cost",
+  pu.fixed_cost::TEXT AS "fixed_cost",
+  -- cast to TEXT to avoid number overflow
+  sa.view AS "reward_account",
+  ARRAY (
+    SELECT sa.view
+    FROM pool_owner po
+      JOIN pool_update pu ON (pu.id = po.pool_update_id)
+      JOIN stake_address sa ON (sa.id = po.addr_id)
+      JOIN pool_hash ph ON (ph.id = pu.hash_id)
+    WHERE ph.view = $1
+      AND pu.id = (
+        SELECT update_id
+        FROM queried_pool
+      )
+    GROUP BY po.id,
+      sa.view
+  ) AS "owners",
+  ARRAY (
+    SELECT encode(HASH, 'hex')
+    FROM tx
+      JOIN pool_update pu ON (pu.registered_tx_id = tx.id)
+      JOIN pool_hash ph ON (ph.id = pu.hash_id)
+    WHERE ph.view = $1
+    ORDER BY tx.id
+  ) AS "registration",
+  ARRAY (
+    SELECT encode(HASH, 'hex')
+    FROM tx
+      JOIN pool_retire pr ON (pr.announced_tx_id = tx.id)
+      JOIN pool_hash ph ON (ph.id = pr.hash_id)
+    WHERE ph.view = $1
+    ORDER BY tx.id
+  ) AS "retirement"
 FROM pool_hash ph
   JOIN pool_update pu ON (pu.hash_id = ph.id)
   LEFT JOIN stake_address sa ON (sa.id = pu.reward_addr_id)
