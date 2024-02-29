@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - ordering in `/assets/asset/txs`, `/assets/asset/transactions` and `/epochs/{number}/stakes`
 - port configuration via config option `dbSync.port`
+- live_stake for retired pools in `/pools/{pool_id}` was always 0, instead of displaying the delegated amount
 - error in `/epochs/n/parameters` for epochs without PlutusV1/PlutusV2 cost models
 
 ## [1.7.0] - 2023-08-30
@@ -60,7 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `onchain_metadata_extra` field to `/assets/:asset`
+- `onchain_metadata_extra` field to `/assets/{asset}`
 - CIP68 RFT 444 support
 
 ### Changed
