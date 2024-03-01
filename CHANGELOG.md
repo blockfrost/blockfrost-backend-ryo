@@ -21,7 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- improved `/assets/:asset` performance for assets with many mint txs
 - node_modules
 - yarn
 - updated vitest
