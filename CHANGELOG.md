@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - yarn
 - updated vitest
 - removed token registry mock server, using function mocking instead
+- bump blockfrost-tests to `dd9b2fe5ed7fa5cad60b34555b3c05d287382226`
 
 ### Fixed
 
