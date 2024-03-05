@@ -149,6 +149,7 @@ const QUERY_FILES = {
   txs_hash_mirs: 'txs/txs_hash_mirs.sql',
   txs_hash_pool_updates: 'txs/txs_hash_pool_updates.sql',
   txs_hash_metadata: 'txs/txs_hash_metadata.sql',
+  txs_hash_wits: 'txs/txs_hash_wits.sql',
 } as const;
 
 type QueryKey = keyof typeof QUERY_FILES;
