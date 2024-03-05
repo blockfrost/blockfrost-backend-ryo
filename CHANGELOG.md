@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - indices improving `/assets/{asset}` when querying CIP68 assets and `/txs/{tx_hash}` with redeemers
 - IS_LOCAL env for testing
 - Parsing version 2 of CIP68 metadata (`@blockfrost/openapi` 0.1.62)
+- `/txs/:hash/required_signers` endpoint
 
 ### Changed
 
