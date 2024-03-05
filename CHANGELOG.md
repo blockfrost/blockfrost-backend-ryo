@@ -34,7 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ordering in `/assets/asset/txs`, `/assets/asset/transactions` and `/epochs/{number}/stakes`
 - port configuration via config option `dbSync.port`
 - live_stake for retired pools in `/pools/{pool_id}` was always 0, instead of displaying the delegated amount
-- error in `/epochs/n/parameters` for epochs without PlutusV1/PlutusV2 cost models
 - `metadata/txs/labels/:num` and `/scripts/:hash/json` json encoding for primitive types (eg. string) (`@blockfrost/openapi` 0.1.62)
 
 
