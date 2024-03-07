@@ -25,7 +25,8 @@ FROM (
       JOIN tx_out txo ON (txo.tx_id = tx.id)
       LEFT JOIN datum dat ON (txo.inline_datum_id = dat.id)
       LEFT JOIN script scr ON (txo.reference_script_id = scr.id)
-    WHERE encode(tx.hash, 'hex') = $1 -- UNION with collateral outputs
+    WHERE encode(tx.hash, 'hex') = $1
+    -- UNION with collateral outputs
     UNION ALL
     SELECT txo.address AS "address",
       txo.value::TEXT AS "amount_lovelace",
