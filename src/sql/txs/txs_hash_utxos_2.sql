@@ -30,20 +30,7 @@ FROM (
     UNION ALL
     SELECT txo.address AS "address",
       txo.value::TEXT AS "amount_lovelace",
-      -- cast to TEXT to avoid number overflow
-      (
-        SELECT json_agg(
-            json_build_object(
-              'unit',
-              CONCAT(encode(policy, 'hex'), encode(name, 'hex')),
-              'quantity',
-              mto.quantity::TEXT -- cast to TEXT to avoid number overflow
-            )
-          )
-        FROM ma_tx_out mto
-          JOIN multi_asset ma ON (mto.ident = ma.id)
-        WHERE mto.tx_out_id = txo.id
-      ) AS "amount",
+      null AS "amount",
       encode(txo.data_hash, 'hex') AS "data_hash",
       encode(dat.bytes, 'hex') AS "inline_datum",
       true AS "collateral",
