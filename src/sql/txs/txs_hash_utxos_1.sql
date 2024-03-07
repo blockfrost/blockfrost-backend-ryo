@@ -1,6 +1,6 @@
 SELECT *
 FROM (
--- normal inputs
+    -- normal inputs
     SELECT txi.id AS "tx_in_id",
       txo.address AS "address",
       encode(tx2.hash, 'hex') AS "tx_hash", -- output hash of previous UTxO
@@ -32,7 +32,8 @@ FROM (
       )
       JOIN tx tx2 ON (txi.tx_out_id = tx2.id)
       LEFT JOIN datum dat ON (txo.inline_datum_id = dat.id)
-    WHERE encode(tx.hash, 'hex') = $1 -- UNION with reference inputs
+    WHERE encode(tx.hash, 'hex') = $1
+    -- UNION with reference inputs
     UNION ALL
     SELECT rtxi.id AS "tx_in_id",
       txo.address AS "address",
@@ -66,7 +67,8 @@ FROM (
       JOIN tx tx2 ON (rtxi.tx_out_id = tx2.id)
       LEFT JOIN datum dat ON (txo.inline_datum_id = dat.id)
       LEFT JOIN script scr ON (txo.reference_script_id = scr.id)
-    WHERE encode(tx.hash, 'hex') = $1 -- UNION with collateral inputs
+    WHERE encode(tx.hash, 'hex') = $1
+    -- UNION with collateral inputs
     UNION ALL
     SELECT ctxi.id AS "tx_in_id",
       txo.address AS "address",
