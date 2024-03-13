@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - live_stake for retired pools in `/pools/{pool_id}` was always 0, instead of displaying the delegated amount
 - `metadata/txs/labels/:num` and `/scripts/:hash/json` json encoding for primitive types (eg. string) (`@blockfrost/openapi` 0.1.62)
 - `/txs/{hash}/utxos` rendering of wrong asset in collateral output [#161](https://github.com/blockfrost/blockfrost-backend-ryo/pull/161)
+- In `/epochs/:num/parameters` set `min_utxo` to `coins_per_utxo_size` with a fallback to `min_utxo_value` if `coins_per_utxo_size` is null
 
 
 ## [1.7.0] - 2023-08-30
