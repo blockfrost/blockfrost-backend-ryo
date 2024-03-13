@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2024-03-13
+
 | :warning: WARNING                                                                                                                |
 | -------------------------------------------------------------------------------------------------------------------------------- |
 | This version of `blockfrost-backend-ryo` requires `cardano-db-sync 13.1.1.3` or newer. Use version `1.7.x` for earlier releases. |
