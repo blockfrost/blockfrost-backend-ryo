@@ -15,7 +15,7 @@ SELECT epoch_no AS "epoch",
   extra_entropy AS "extra_entropy",
   protocol_major AS "protocol_major_ver",
   protocol_minor AS "protocol_minor_ver",
-  min_utxo_value::TEXT AS "min_utxo", -- cast to TEXT to avoid number overflow
+  COALESCE(coins_per_utxo_size, min_utxo_value)::TEXT AS "min_utxo", -- cast to TEXT to avoid number overflow; DEPRECATED since Alonzo, uses coins_per_utxo_size for backwards compatibility despite dbsync 13.2+ setting this to 0
   min_pool_cost::TEXT AS "min_pool_cost", -- cast to TEXT to avoid number overflow
   encode(nonce, 'hex') AS "nonce",
   cm.costs AS "cost_models",
