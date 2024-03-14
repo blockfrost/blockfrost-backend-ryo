@@ -33,7 +33,12 @@ boundary_blocks AS (
     b.epoch_no AS "epoch",
     b.epoch_slot_no AS "epoch_slot",
     CASE
-      WHEN ph.view IS NULL THEN sl.description
+      WHEN ph.view IS NULL THEN 
+        CASE 
+          WHEN sl.description LIKE '%Key-%' THEN 
+            REPLACE(sl.description, 'Key-', '-')
+          ELSE sl.description
+        END
       ELSE ph.view
     END AS "slot_leader",
     b.size AS "size",
@@ -167,7 +172,12 @@ FROM (
               b.epoch_no AS "epoch",
               b.epoch_slot_no AS "epoch_slot",
               CASE
-                WHEN ph.view IS NULL THEN sl.description
+                WHEN ph.view IS NULL THEN 
+                  CASE 
+                    WHEN sl.description LIKE '%Key-%' THEN 
+                      REPLACE(sl.description, 'Key-', '-')
+                    ELSE sl.description
+                  END
                 ELSE ph.view
               END AS "slot_leader",
               b.size AS "size",
@@ -323,7 +333,12 @@ FROM (
               b.epoch_no AS "epoch",
               b.epoch_slot_no AS "epoch_slot",
               CASE
-                WHEN ph.view IS NULL THEN sl.description
+                WHEN ph.view IS NULL THEN 
+                  CASE 
+                    WHEN sl.description LIKE '%Key-%' THEN 
+                      REPLACE(sl.description, 'Key-', '-')
+                    ELSE sl.description
+                  END
                 ELSE ph.view
               END AS "slot_leader",
               b.size AS "size",
@@ -431,7 +446,12 @@ FROM (
               b.epoch_no AS "epoch",
               b.epoch_slot_no AS "epoch_slot",
               CASE
-                WHEN ph.view IS NULL THEN sl.description
+                WHEN ph.view IS NULL THEN 
+                  CASE 
+                    WHEN sl.description LIKE '%Key-%' THEN 
+                      REPLACE(sl.description, 'Key-', '-')
+                    ELSE sl.description
+                  END
                 ELSE ph.view
               END AS "slot_leader",
               b.size AS "size",

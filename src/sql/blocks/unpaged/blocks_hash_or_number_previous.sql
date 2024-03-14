@@ -24,7 +24,12 @@ SELECT selected_blocks.time AS "time",
   selected_blocks.epoch AS "epoch",
   selected_blocks.epoch_slot AS "epoch_slot",
   CASE
-    WHEN ph.view IS NULL THEN sl.description
+    WHEN ph.view IS NULL THEN 
+      CASE 
+        WHEN sl.description LIKE '%Key-%' THEN 
+          REPLACE(sl.description, 'Key-', '-')
+        ELSE sl.description
+      END
     ELSE ph.view
   END AS "slot_leader",
   selected_blocks.size AS "size",
