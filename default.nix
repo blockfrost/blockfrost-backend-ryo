@@ -10,7 +10,8 @@ pkgs ? import nixpkgs {}
 , blockfrost-tests ?
     (builtins.fetchGit {
       url = "ssh://git@github.com/blockfrost/blockfrost-tests.git";
-      rev = "399a601197026f4ebb2050dfe9f744cbce86e398";
+      rev = "2062031b75d26ddb794d887ff27d629e3d36d939";
+      allRefs = true;
     })
 , system ? builtins.currentSystem
 }:
@@ -91,7 +92,7 @@ in
       machine.wait_for_open_port(3000)
       machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
       machine.succeed(
-          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ IS_LOCAL=true TEST_AUTH=false IS_CACHED=true yarn test:mainnet --run' >&2"
+          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ IS_LOCAL=true SERVICE_NAME=ryo yarn test:mainnet --run' >&2"
       )
     '';
   };
@@ -127,7 +128,7 @@ in
       machine.wait_for_open_port(3000)
       machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
       machine.succeed(
-          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ IS_LOCAL=true TEST_AUTH=false IS_CACHED=true yarn test:preview --run' >&2"
+          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ IS_LOCAL=true SERVICE_NAME=ryo yarn test:preview --run' >&2"
       )
     '';
   };
@@ -163,7 +164,7 @@ in
       machine.wait_for_open_port(3000)
       machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
       machine.succeed(
-          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ IS_LOCAL=true TEST_AUTH=false IS_CACHED=true yarn test:preprod --run' >&2"
+          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ IS_LOCAL=true SERVICE_NAME=ryo yarn test:preprod --run' >&2"
       )
     '';
   };
