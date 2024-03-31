@@ -82,7 +82,7 @@ SELECT sa.view AS "stake_address",
   COALESCE(treasury_sum.amount, 0)::TEXT AS "treasury_sum", -- cast to TEXT to avoid number overflow
   (
     (
-      COALESCE(rewards_sum.amount, 0) + COALESCE(instant_rewards_sum.amount, 0) - COALESCE(withdrawals_sum.amount, 0)
+      COALESCE(rewards_sum.amount, 0) + COALESCE(instant_rewards_sum.amount, 0) + COALESCE(refunds_sum.amount, 0) - COALESCE(withdrawals_sum.amount, 0)
     )
   )::TEXT AS "withdrawable_amount", -- cast to TEXT to avoid number overflow
   (
