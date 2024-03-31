@@ -25,6 +25,13 @@ circulating_supply AS (
             SELECT *
             FROM current_epoch
           )
+      ) + (
+        SELECT COALESCE(SUM(amount), 0)
+        FROM instant_reward
+        WHERE spendable_epoch <= (
+            SELECT *
+            FROM current_epoch
+          )
       ) - (
         SELECT COALESCE(SUM(amount), 0)
         FROM withdrawal
@@ -33,7 +40,7 @@ circulating_supply AS (
     /*
      circulating_supply = SUM of all utxos + withdrawables
      withdrawables = rewards (all types including rewards + refunds + treasury + reserves) - withdrawals
-    */
+     */
   FROM tx_out txo
     LEFT JOIN tx_in txi ON (txo.tx_id = txi.tx_out_id)
     AND (txo.index = txi.tx_out_index)
@@ -192,21 +199,25 @@ FROM (
     FROM (
         SELECT (
             SELECT 45000000000000000
-          )::TEXT AS "max_supply", -- cast to TEXT to avoid number overflow
+          )::TEXT AS "max_supply",
+          -- cast to TEXT to avoid number overflow
           (
             SELECT *
             FROM circulating_supply
-          )::TEXT AS "circulating_supply", -- cast to TEXT to avoid number overflow
+          )::TEXT AS "circulating_supply",
+          -- cast to TEXT to avoid number overflow
           (
             SELECT 45000000000000000 - reserves
             FROM ada_pots
             ORDER BY epoch_no desc
             LIMIT 1
-          )::TEXT AS "total_supply", -- cast to TEXT to avoid number overflow
+          )::TEXT AS "total_supply",
+          -- cast to TEXT to avoid number overflow
           (
             SELECT *
             FROM locked_supply
-          )::TEXT AS "locked_supply", -- cast to TEXT to avoid number overflow
+          )::TEXT AS "locked_supply",
+          -- cast to TEXT to avoid number overflow
           (
             SELECT treasury
             FROM ada_pots
@@ -214,7 +225,8 @@ FROM (
                 SELECT *
                 FROM current_epoch
               )
-          )::TEXT AS "treasury_supply", -- cast to TEXT to avoid number overflow
+          )::TEXT AS "treasury_supply",
+          -- cast to TEXT to avoid number overflow
           (
             SELECT reserves
             FROM ada_pots
@@ -231,7 +243,8 @@ FROM (
         SELECT (
             SELECT SUM(live_stake)
             FROM live_stake_sum
-          )::TEXT AS "live_stake", -- cast to TEXT to avoid number overflow
+          )::TEXT AS "live_stake",
+          -- cast to TEXT to avoid number overflow
           (
             SELECT amount
             FROM active_stake

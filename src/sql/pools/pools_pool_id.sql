@@ -41,6 +41,13 @@ circulating_supply AS (
             SELECT epoch_no
             FROM current_epoch
           )
+      ) + (
+        SELECT COALESCE(SUM(amount), 0)
+        FROM instant_reward
+        WHERE spendable_epoch <= (
+            SELECT epoch_no
+            FROM current_epoch
+          )
       ) - (
         SELECT COALESCE(SUM(amount), 0)
         FROM withdrawal
@@ -173,6 +180,7 @@ live_stake_accounts AS (
       )
       OR (deregmax.tempmax IS NULL)
     )
+    AND ap.state = 'active'
 ),
 live_stake_accounts_amounts AS (
   SELECT COALESCE(SUM(txo.value), 0) AS "amounts",
@@ -195,14 +203,14 @@ live_stake_accounts_amounts AS (
   WHERE txi IS NULL
 ),
 live_stake_accounts_rewards AS (
-  SELECT COALESCE(SUM(amount), 0) AS "amount_rewards",
+  SELECT (COALESCE(SUM(r.amount), 0)) AS "amount_rewards",
     COALESCE(
       SUM(
         CASE
           WHEN lsa.pool_id = (
             SELECT pool_id
             FROM queried_pool
-          ) THEN amount
+          ) THEN r.amount
           ELSE 0
         END
       ),
@@ -210,7 +218,16 @@ live_stake_accounts_rewards AS (
     ) AS "amount_rewards_pool"
   FROM live_stake_accounts lsa
     JOIN reward r ON (lsa.stake_address_id = r.addr_id)
-  WHERE spendable_epoch <= (
+  WHERE r.spendable_epoch <= (
+      SELECT epoch_no
+      FROM current_epoch
+    )
+),
+live_stake_accounts_instant_rewards AS (
+  SELECT (COALESCE(SUM(ir.amount), 0)) AS "amount_instant_rewards"
+  FROM live_stake_accounts lsa
+    JOIN instant_reward ir ON (lsa.stake_address_id = ir.addr_id)
+  WHERE ir.spendable_epoch <= (
       SELECT epoch_no
       FROM current_epoch
     )
@@ -240,6 +257,9 @@ live_stake_sum AS (
       ) + (
         SELECT COALESCE(amount_rewards, 0)
         FROM live_stake_accounts_rewards
+      ) + (
+        SELECT COALESCE(amount_instant_rewards, 0)
+        FROM live_stake_accounts_instant_rewards
       ) - (
         SELECT COALESCE(amount_withdrawals, 0)
         FROM live_stake_accounts_withdrawal
@@ -386,6 +406,22 @@ SELECT ph.view AS "pool_id",
                 (
                   SELECT SUM(amount) AS "amount"
                   FROM reward
+                  WHERE (
+                      addr_id IN (
+                        SELECT *
+                        FROM queried_addr
+                      )
+                    )
+                    AND spendable_epoch <= (
+                      SELECT epoch_no
+                      FROM current_epoch
+                    )
+                ),
+                0
+              ) + COALESCE(
+                (
+                  SELECT SUM(amount) AS "amount"
+                  FROM instant_reward
                   WHERE (
                       addr_id IN (
                         SELECT *

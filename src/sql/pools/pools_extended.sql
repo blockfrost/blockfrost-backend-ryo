@@ -137,6 +137,17 @@ live_stake_accounts_rewards AS (
     )
   GROUP BY lsa.pool_hash_id
 ),
+live_stake_accounts_instant_rewards AS (
+  SELECT lsa.pool_hash_id,
+    COALESCE(SUM(amount), 0) AS "amount_instant_rewards_pool"
+  FROM live_stake_accounts lsa
+    JOIN instant_reward ir ON (lsa.stake_address_id = ir.addr_id)
+  WHERE spendable_epoch <= (
+      SELECT epoch_no
+      FROM current_epoch
+    )
+  GROUP BY lsa.pool_hash_id
+),
 live_stake_accounts_refunds AS (
   SELECT lsa.pool_hash_id,
     COALESCE(SUM(amount), 0) AS "amount_refunds_pool"
@@ -159,16 +170,18 @@ live_stake_accounts_withdrawal AS (
 live_stake_queried_pools_sum AS (
   SELECT qp.pool_hash_id AS "pool_hash_id",
     (
-      (COALESCE(amounts_pool, 0)) + (COALESCE(amount_rewards_pool, 0)) + (COALESCE(amount_refunds_pool, 0)) - (COALESCE(amount_withdrawals_pool, 0))
+      (COALESCE(amounts_pool, 0)) + (COALESCE(amount_rewards_pool, 0)) + (COALESCE(amount_instant_rewards_pool, 0)) + (COALESCE(amount_refunds_pool, 0)) - (COALESCE(amount_withdrawals_pool, 0))
     ) AS "live_stake_pool"
   FROM queried_pools qp
     LEFT JOIN live_stake_accounts_amounts USING (pool_hash_id)
     LEFT JOIN live_stake_accounts_rewards USING (pool_hash_id)
+    LEFT JOIN live_stake_accounts_instant_rewards USING (pool_hash_id)
     LEFT JOIN live_stake_accounts_refunds USING (pool_hash_id)
     LEFT JOIN live_stake_accounts_withdrawal USING (pool_hash_id)
   GROUP BY pool_hash_id,
     amounts_pool,
     amount_rewards_pool,
+    amount_instant_rewards_pool,
     amount_refunds_pool,
     amount_withdrawals_pool
 )
@@ -185,7 +198,8 @@ SELECT qp.pool_id AS "pool_id",
         )
     ),
     0
-  )::TEXT AS "active_stake", -- cast to TEXT to avoid number overflow
+  )::TEXT AS "active_stake",
+  -- cast to TEXT to avoid number overflow
   (
     COALESCE(
       (
