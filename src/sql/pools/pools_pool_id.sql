@@ -218,7 +218,6 @@ live_stake_accounts_rewards AS (
     ) AS "amount_rewards_pool"
   FROM live_stake_accounts lsa
     JOIN reward r ON (lsa.stake_address_id = r.addr_id)
-    LEFT JOIN instant_reward ir ON (lsa.stake_address_id = ir.addr_id)
   WHERE r.spendable_epoch <= (
       SELECT epoch_no
       FROM current_epoch
