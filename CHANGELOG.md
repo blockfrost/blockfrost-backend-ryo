@@ -11,17 +11,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | :warning: WARNING                                                                                                                |
 | -------------------------------------------------------------------------------------------------------------------------------- |
-| This version of `blockfrost-backend-ryo` requires `cardano-db-sync 13.1.1.3` or newer. Use version `1.7.x` for earlier releases. |
+| This version of `blockfrost-backend-ryo` requires `cardano-db-sync 13.2.0.1` or newer. Use version `1.7.x` for earlier releases. |
 
 ### Added
 
 - support for Cardano Sanchonet
 - translation of cost models from numerical IDs to strings,
   required for `cardano-db-sync 13.1.1.3` and newer [#130](https://github.com/blockfrost/blockfrost-backend-ryo/pull/130)
-- indices improving `/assets/{asset}` when querying CIP68 assets and `/txs/{tx_hash}` with redeemers
+- indices improving `/assets/{asset}` when querying CIP68 assets and `/txs/{hash}` with redeemers
 - IS_LOCAL env for testing
 - Parsing version 2 of CIP68 metadata (`@blockfrost/openapi` 0.1.62)
-- `/txs/:hash/required_signers` endpoint
+- `/txs/{hash}/required_signers` endpoint
 
 ### Changed
 
@@ -33,12 +33,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- ordering in `/assets/asset/txs`, `/assets/asset/transactions` and `/epochs/{number}/stakes`
+- ordering in `/assets/{asset}/txs`, `/assets/{asset}/transactions` and `/epochs/{number}/stakes`
 - port configuration via config option `dbSync.port`
 - live_stake for retired pools in `/pools/{pool_id}` was always 0, instead of displaying the delegated amount
-- `metadata/txs/labels/:num` and `/scripts/:hash/json` json encoding for primitive types (eg. string) (`@blockfrost/openapi` 0.1.62)
+- `metadata/txs/labels/{number}` and `/scripts/{hash}/json` json encoding for primitive types (eg. string) (`@blockfrost/openapi` 0.1.62)
 - `/txs/{hash}/utxos` rendering of wrong asset in collateral output [#161](https://github.com/blockfrost/blockfrost-backend-ryo/pull/161)
-- In `/epochs/:num/parameters` set `min_utxo` to `coins_per_utxo_size` with a fallback to `min_utxo_value` if `coins_per_utxo_size` is null
+- in `/epochs/{number}/parameters` set `min_utxo` to `coins_per_utxo_size` with a fallback to `min_utxo_value` if `coins_per_utxo_size` is null
+- calculation of endpoints affected by moving MIRs into `instant_reward` table required for `cardano-db-sync 13.2.0.1`
+  - `/accounts/{stake_address}`
+  - `/pools/extended`
+  - `/pools/{pool_id}`
+  - `/network`
+- calculation of `live_size` for `/pools/{pool_id}` only taking into account live pools (ommiting retired from the calculation)
+
 
 
 ## [1.7.0] - 2023-08-30
