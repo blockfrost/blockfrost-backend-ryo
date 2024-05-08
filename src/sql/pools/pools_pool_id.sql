@@ -1,4 +1,4 @@
-/* circulating_supply and live_stake_* CTEs are potentially (mainnet) heavy queries => use cache if needed */
+/* total_supply and live_stake_* CTEs are potentially (mainnet) heavy queries => use cache if needed */
 WITH current_epoch AS (
   SELECT b.epoch_no AS "epoch_no"
   FROM block b
@@ -30,39 +30,13 @@ queried_stake AS (
       FROM current_epoch
     )
 ),
-circulating_supply AS (
-  SELECT (
-      (
-        SELECT COALESCE(SUM(txo.value), 0)
-      ) + (
-        SELECT COALESCE(SUM(amount), 0)
-        FROM reward
-        WHERE spendable_epoch <= (
-            SELECT epoch_no
-            FROM current_epoch
-          )
-      ) + (
-        SELECT COALESCE(SUM(amount), 0)
-        FROM instant_reward
-        WHERE spendable_epoch <= (
-            SELECT epoch_no
-            FROM current_epoch
-          )
-      ) - (
-        SELECT COALESCE(SUM(amount), 0)
-        FROM withdrawal
-      )
-    ) AS "circulating_supply"
-    /*
-     circulating_supply = SUM of all utxos + withdrawables
-     withdrawables = rewards (all types including rewards + refunds + treasury + reserves) - withdrawals
-     */
-  FROM tx_out txo
-    LEFT JOIN tx_in txi ON (txo.tx_id = txi.tx_out_id)
-    AND (txo.index = txi.tx_out_index)
-  WHERE txi IS NULL
-),
-queried_addr AS (
+-- although it's called circulation in the ledger code, we actually need total_supply instead for the calculations
+total_supply AS (
+  SELECT 45000000000000000 - reserves
+  FROM ada_pots
+  ORDER BY epoch_no desc
+  LIMIT 1
+), queried_addr AS (
   SELECT id
   FROM (
       (
@@ -337,7 +311,7 @@ SELECT ph.view AS "pool_id",
       ) / (
         (
           SELECT *
-          FROM circulating_supply
+          FROM total_supply
         ) / (
           SELECT optimal_pool_count
           FROM epoch_param
