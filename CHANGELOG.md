@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.2] - 2024-05-09
+
 ### Fixed
 
 - calculation of `live_saturation` in `/pools/{pool_id}` as although ledger specifies the variable as circulating supply, total supply (45B-reserves) is used in this calculation instead
