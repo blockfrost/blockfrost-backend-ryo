@@ -10,3 +10,6 @@ dbSync:
   maxConnections: 10
 network: "mainnet"
 tokenRegistryUrl: "https://tokens.cardano.org"
+mithril:
+  enabled: true
+  aggregator: "https://aggregator.release-mainnet.api.mithril.network/aggregator"

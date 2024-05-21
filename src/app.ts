@@ -7,6 +7,7 @@ import { getConfig } from './config.js';
 import { registerRoute } from './utils/common.js';
 import { errorHandler, notFoundHandler } from './utils/error-handler.js';
 import { createRequire } from 'module';
+import { registerMithrilProxy } from './proxies/mithril.js';
 
 const esmRequire = createRequire(import.meta.url);
 const packageJson = esmRequire('../package.json');
@@ -57,6 +58,12 @@ const start = (options = {}): FastifyInstance => {
     password: config.dbSync.password,
     ssl: config.dbSync.ssl,
   });
+
+  // proxies
+  if (config.mithril.enabled) {
+    console.log(`Mithril proxy enabled. Aggregator: ${config.mithril.aggregator}.`);
+    registerMithrilProxy(app);
+  }
 
   // addresses
   registerRoute(app, import('./routes/addresses/address/extended.js'));
