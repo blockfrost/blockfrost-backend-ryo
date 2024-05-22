@@ -6,10 +6,10 @@ import { convertStreamToString } from '@blockfrost/blockfrost-utils/lib/fastify.
 import { matchUrlToEndpoint } from '../utils/string-utils.js';
 import { appendLocationToSnapshot } from '../utils/mithril.js';
 
-const config = getConfig();
-const snapshotCDN = config.mithril.snapshotCDN;
-
 export const registerMithrilProxy = (app: FastifyInstance) => {
+  const config = getConfig();
+  const snapshotCDN = config.mithril.snapshotCDN;
+
   app.register(fastifyHttpProxy, {
     upstream: config.mithril.aggregator,
     prefix: '/mithril',
@@ -56,7 +56,7 @@ export const registerMithrilProxy = (app: FastifyInstance) => {
               error: 'Api Version mismatch',
               message:
                 'Api Version mismatch. Please check https://docs.blockfrost.io/#section/Mithril',
-              status_code: 400,
+              status_code: 412,
             });
           } else {
             const errorBody = await convertStreamToString(response);
