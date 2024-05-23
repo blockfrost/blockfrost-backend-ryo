@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- calculation of `live_stake` in `/pools/{pool_id}/delegators` to reflect the split of MIRs into a separate table (`instant_reward`) in new dbsync, which was omitted in 2.0.1 for this endpoint
+
 ## [2.0.2] - 2024-05-09
 
 ### Fixed

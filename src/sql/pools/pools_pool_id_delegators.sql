@@ -21,6 +21,14 @@ SELECT "address" AS "address",
           SELECT *
           FROM current_epoch
         )
+    ) + (
+      SELECT COALESCE(SUM(amount), 0)
+      FROM instant_reward ir
+      WHERE (ir.addr_id = address_id)
+        AND ir.spendable_epoch <= (
+          SELECT *
+          FROM current_epoch
+        )
     ) - (
       SELECT COALESCE(SUM(amount), 0)
       FROM withdrawal w
