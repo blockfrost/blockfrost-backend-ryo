@@ -4,6 +4,7 @@ dist
 result
 coverage
 yarn-error.log
+.DS_Store
 .yarn/*
 !.yarn/cache
 !.yarn/patches
