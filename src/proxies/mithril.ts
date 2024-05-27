@@ -1,13 +1,20 @@
 import fastifyHttpProxy from '@fastify/http-proxy';
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { getConfig } from '../config.js';
-import { handle404, handle500 } from '../utils/error-handler.js';
+import { handle500 } from '../utils/error-handler.js';
 import { convertStreamToString } from '@blockfrost/blockfrost-utils/lib/fastify.js';
 import { matchUrlToEndpoint } from '../utils/string-utils.js';
 import { appendLocationToSnapshot } from '../utils/mithril.js';
 
 export const registerMithrilProxy = (app: FastifyInstance) => {
   const config = getConfig();
+
+  if (!config.mithril.enabled) {
+    return;
+  }
+
+  console.log(`Mithril proxy enabled. Aggregator: ${config.mithril.aggregator}.`);
+
   const snapshotCDN = config.mithril.snapshotCDN;
 
   app.register(fastifyHttpProxy, {
@@ -43,23 +50,22 @@ export const registerMithrilProxy = (app: FastifyInstance) => {
         const isErrorResponse = reply.statusCode >= 400;
 
         if (isErrorResponse) {
-          // When replying with a body of a different length it is necessary to remove the content-length header.
-          reply.removeHeader('content-length');
-
           // error response returned from the proxy can originate from:
-          // 1) Mithril Aggregator, 2) varnish, 3) nginx, 4) whatever
-          // Mithril Aggregator returns only error status codes without body
-          if (reply.statusCode === 404) {
-            return handle404(reply as FastifyReply);
-          } else if (reply.statusCode === 412) {
-            return reply.code(412).send({
-              error: 'Api Version mismatch',
-              message:
-                'Api Version mismatch. Please check https://docs.blockfrost.io/#section/Mithril',
-              status_code: 412,
-            });
+          // 1) Mithril Aggregator or 2) some middleware in between (nginx/varnish/etc)
+          // Mithril Aggregator returns 404, 412 error status codes without body
+          // 500 comes with label and message props
+          const isMithrilError = reply.hasHeader('mithril-api-version');
+
+          if (isMithrilError) {
+            // Set custom header for errors that originate from Mithril
+            reply.header('X-Mithril-Error', '1');
+            return reply.send(response);
           } else {
+            // Unexpected error
             const errorBody = await convertStreamToString(response);
+            // When replying with a body of a different length it is necessary to remove the content-length header.
+
+            reply.removeHeader('content-length');
 
             return handle500(reply as FastifyReply, errorBody, request as FastifyRequest);
           }

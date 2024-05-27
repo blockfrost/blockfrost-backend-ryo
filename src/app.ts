@@ -60,10 +60,7 @@ const start = (options = {}): FastifyInstance => {
   });
 
   // proxies
-  if (config.mithril.enabled) {
-    console.log(`Mithril proxy enabled. Aggregator: ${config.mithril.aggregator}.`);
-    registerMithrilProxy(app);
-  }
+  registerMithrilProxy(app);
 
   // addresses
   registerRoute(app, import('./routes/addresses/address/extended.js'));

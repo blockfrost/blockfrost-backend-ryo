@@ -348,7 +348,7 @@ describe('mithril proxy text', () => {
   test('error handling - mithril aggregator error (404) should be forwarded', async () => {
     const app = buildFastify();
 
-    nock(mithrilAggregatorURL).get('/').reply(404);
+    nock(mithrilAggregatorURL).get('/').reply(404, undefined, { 'mithril-api-version': '0.1.21' });
 
     const response = await app.inject({
       method: 'GET',
@@ -356,19 +356,13 @@ describe('mithril proxy text', () => {
     });
 
     expect(response.statusCode).toBe(404);
-    expect(response.body).toBe(
-      JSON.stringify({
-        error: 'Not Found',
-        message: 'The requested component has not been found.',
-        status_code: 404,
-      }),
-    );
+    expect(response.body).toBe('');
   });
 
   test('error handling - mithril aggregator error (412) should be forwarded', async () => {
     const app = buildFastify();
 
-    nock(mithrilAggregatorURL).get('/').reply(412);
+    nock(mithrilAggregatorURL).get('/').reply(412, undefined, { 'mithril-api-version': '0.1.21' });
 
     const response = await app.inject({
       method: 'GET',
@@ -376,31 +370,21 @@ describe('mithril proxy text', () => {
     });
 
     expect(response.statusCode).toBe(412);
-    expect(response.body).toBe(
-      JSON.stringify({
-        error: 'Api Version mismatch',
-        message: 'Api Version mismatch. Please check https://docs.blockfrost.io/#section/Mithril',
-        status_code: 412,
-      }),
-    );
+    expect(response.body).toBe('');
   });
-  test('error handling - unknown mithril aggregator error (400) returns as 500', async () => {
+  test('error handling - unknown mithril aggregator error (400) forwarded', async () => {
     const app = buildFastify();
 
-    nock(mithrilAggregatorURL).get('/').reply(400, 'unexpected body');
+    nock(mithrilAggregatorURL)
+      .get('/')
+      .reply(400, 'unexpected body', { 'mithril-api-version': '0.1.21' });
 
     const response = await app.inject({
       method: 'GET',
       url: '/mithril/',
     });
 
-    expect(response.statusCode).toBe(500);
-    expect(response.body).toBe(
-      JSON.stringify({
-        error: 'Internal Server Error',
-        message: 'An unexpected response was received from the backend.',
-        status_code: 500,
-      }),
-    );
+    expect(response.statusCode).toBe(400);
+    expect(response.body).toBe('unexpected body');
   });
 });
