@@ -158,3 +158,7 @@ export interface TxRedeemers {
 export interface TxWitnesses {
   witness_hash: string;
 }
+
+export interface TxCbor {
+  cbor: string;
+}

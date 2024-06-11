@@ -172,6 +172,7 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/txs/hash/metadata/index.js'));
   registerRoute(app, import('./routes/txs/hash/metadata/cbor.js'));
   registerRoute(app, import('./routes/txs/hash/required-signers.js'));
+  registerRoute(app, import('./routes/txs/hash/cbor.js'));
 
   // utils
   registerRoute(app, import('./routes/utils/addresses/xpub/xpub/role/index.js'));

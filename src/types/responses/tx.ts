@@ -14,3 +14,4 @@ export type TxRedeemers = OpenApiResponseTypes['tx_content_redeemers'];
 export type TxMetadataCbor = OpenApiResponseTypes['tx_content_metadata_cbor'];
 export type TxMetadata = OpenApiResponseTypes['tx_content_metadata'];
 export type TxWitnesses = OpenApiResponseTypes['tx_content_required_signers'];
+export type TxCbor = OpenApiResponseTypes['tx_content_cbor'];
