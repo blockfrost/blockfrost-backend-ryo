@@ -2,7 +2,7 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
   gap.index AS "cert_index",
   (
     LOWER(
-      regexp_replace(type::TEXT, '(?<=.{1})([A-Z])', '_\1', 'g')
+      regexp_replace(gap.type::TEXT, '(?<=.{1})([A-Z])', '_\1', 'g')
     )
   ) AS "governance_type",
   -- type HardForkInitiation, NewCommittee, NewConstitution, InfoAction, NoConfidence, ParameterChange, TreasuryWithdrawals
