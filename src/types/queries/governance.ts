@@ -101,7 +101,8 @@ export interface ProposalsProposal {
     | 'no_confidence'
     | 'parameter_change'
     | 'treasury_withdrawals';
-  governance_description: string | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  governance_description: any;
   deposit: string;
   return_address: string;
   ratified_epoch: number | null;
