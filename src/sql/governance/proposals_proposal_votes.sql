@@ -15,7 +15,7 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
   ) AS "voter_role",
   -- ConstitutionalCommittee, DRep, SPO -> constitutional_committee, drep, spo
   (
-    COALESCE(encode(committee_voter, 'hex'), dh.view, ph.view)
+    COALESCE(encode(ch.raw, 'hex'), dh.view, ph.view)
   ) AS "voter",
   LOWER(vote::TEXT) AS "vote" -- Yes, No, Abstain -> yes,no,abstain
 FROM voting_procedure vp
@@ -23,6 +23,7 @@ FROM voting_procedure vp
   JOIN tx ON (vp.tx_id = tx.id)
   LEFT JOIN drep_hash dh ON (vp.drep_voter = dh.id)
   LEFT JOIN pool_hash ph ON (vp.pool_voter = ph.id)
+  LEFT JOIN committee_hash ch ON (vp.committee_voter = ch.id)
 WHERE gap.id = (
     SELECT id
     FROM queried_proposal
