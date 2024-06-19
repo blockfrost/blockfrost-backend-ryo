@@ -2,6 +2,8 @@ server:
   listenAddress: "localhost"
   port: 3000
   debug: true
+  features:
+    - CIP-1694
 dbSync:
   host: "cdbsync-dev.mydomain.com"
   port: 5432

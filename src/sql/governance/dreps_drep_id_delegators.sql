@@ -21,63 +21,35 @@ SELECT "address" AS "address",
           SELECT *
           FROM current_epoch
         )
-    ) + (
-      SELECT COALESCE(SUM(amount), 0)
-      FROM reward_rest rr
-      WHERE (rr.addr_id = address_id)
-        AND rr.spendable_epoch <= (
-          SELECT *
-          FROM current_epoch
-        )
     ) - (
       SELECT COALESCE(SUM(amount), 0)
       FROM withdrawal w
       WHERE (w.addr_id = address_id)
     )
-  )::TEXT AS "live_stake" -- cast to TEXT to avoid number overflow
+  )::TEXT AS "amount" -- cast to TEXT to avoid number overflow
 FROM (
     SELECT sa.view AS "address",
-      d.addr_id AS "address_id",
-      d.id AS "did"
-    FROM delegation d
-      JOIN pool_hash ph ON (ph.id = d.pool_hash_id)
-      JOIN stake_address sa ON (sa.id = d.addr_id)
-      JOIN stake_registration sr ON (sr.addr_id = d.addr_id)
-      LEFT JOIN (
-        SELECT addr_id,
-          MAX(tx_id) AS tempmax
-        FROM stake_deregistration
-        GROUP BY addr_id
-      ) deregmax ON (deregmax.addr_id = d.addr_id)
-    WHERE ph.view = $4
-      AND d.id = (
+      dv.addr_id AS "address_id",
+      dv.id AS "did"
+    FROM delegation_vote dv
+      JOIN drep_hash dh ON (dh.id = dv.drep_hash_id)
+      JOIN stake_address sa ON (sa.id = dv.addr_id)
+    WHERE dh.view = $4
+      AND dv.id = (
         SELECT MAX(id)
-        FROM delegation
-        WHERE addr_id = d.addr_id
-      )
-      AND sr.tx_id = (
-        SELECT MAX(tx_id)
-        FROM stake_registration
-        WHERE addr_id = d.addr_id
-      )
-      AND (
-        (
-          deregmax.tempmax IS NOT NULL
-          AND sr.tx_id > deregmax.tempmax
-        )
-        OR (deregmax.tempmax IS NULL)
+        FROM delegation_vote
+        WHERE addr_id = dv.addr_id
       )
     GROUP BY sa.view,
-      d.pool_hash_id,
-      d.addr_id,
-      d.id,
-      sr.tx_id
+      dv.drep_hash_id,
+      dv.addr_id,
+      dv.id
     ORDER BY CASE
-        WHEN LOWER($1) = 'desc' THEN d.id
+        WHEN LOWER($1) = 'desc' THEN dv.id
       END DESC,
       CASE
         WHEN LOWER($1) <> 'desc'
-        OR $1 IS NULL THEN d.id
+        OR $1 IS NULL THEN dv.id
       END ASC
     LIMIT CASE
         WHEN $2 >= 1

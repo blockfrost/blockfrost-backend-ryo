@@ -19,6 +19,8 @@ export const loadConfig = () => {
       ? process.env.BLOCKFROST_CONFIG_SERVER_PROMETHEUS_METRICS === 'true'
       : config.get<boolean>('server.prometheusMetrics');
 
+  const features = config.has('server.features') ? config.get<string[]>('server.features') : [];
+
   // dbSync
   const databaseSyncHost =
     process.env.BLOCKFROST_CONFIG_DBSYNC_HOST ?? config.get<string>('dbSync.host');
@@ -53,6 +55,7 @@ export const loadConfig = () => {
       port,
       debug,
       prometheusMetrics,
+      features,
     },
     dbSync: {
       host: databaseSyncHost,
