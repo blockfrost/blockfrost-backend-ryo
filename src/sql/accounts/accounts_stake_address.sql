@@ -32,6 +32,18 @@ queried_pool AS (
         WHERE addr_id = sa.id
       )
     )
+),
+queried_drep AS (
+  SELECT dh.view AS "drep_id"
+  FROM stake_address sa
+    JOIN delegation_vote dv ON (dv.addr_id = sa.id)
+    JOIN drep_hash dh ON (dh.id = dv.drep_hash_id)
+  WHERE sa.view = $1
+    AND dv.id = (
+      SELECT MAX(id)
+      FROM delegation_vote
+      WHERE addr_id = sa.id
+    )
 )
 SELECT sa.view AS "stake_address",
   (
@@ -90,7 +102,11 @@ SELECT sa.view AS "stake_address",
   (
     SELECT pool_id
     FROM queried_pool
-  ) AS "pool_id"
+  ) AS "pool_id",
+  (
+    SELECT drep_id
+    FROM queried_drep
+  ) AS "drep_id"
 FROM stake_address sa
   LEFT JOIN (
     SELECT addr_id,

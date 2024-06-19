@@ -22,6 +22,7 @@ export interface Account {
   treasury_sum: string;
   withdrawable_amount: string;
   pool_id: string;
+  drep_id: string;
 }
 
 export interface AccountRewards {
