@@ -10,6 +10,10 @@ import { describe, expect, test, vi } from 'vitest';
 describe('txs service', () => {
   fixtures.map(fixture => {
     test(fixture.name, async () => {
+      vi.spyOn(config, 'getConfig').mockReturnValue({
+        ...config.mainConfig,
+        network: fixture.network === 'testnet' ? 'testnet' : 'mainnet',
+      });
       const queryMock = sinon.stub();
       const fastify = buildFastify({ maxParamLength: 32_768 });
 
@@ -20,11 +24,6 @@ describe('txs service', () => {
       });
 
       await fastify.ready();
-
-      vi.spyOn(config, 'getConfig').mockReturnValue({
-        ...config.mainConfig,
-        network: fixture.network === 'testnet' ? 'testnet' : 'mainnet',
-      });
 
       queryMock.onCall(0).resolves(fixture.sqlQueryMock);
       queryMock.onCall(1).resolves(fixture.sqlQueryMock2);

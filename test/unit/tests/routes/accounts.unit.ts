@@ -9,6 +9,11 @@ import * as databaseUtils from '../../../../src/utils/database.js';
 describe('accounts service', () => {
   fixtures.map(fixture => {
     test(fixture.name, async () => {
+      vi.spyOn(config, 'getConfig').mockReturnValue({
+        ...config.mainConfig,
+        network: fixture.network === 'testnet' ? 'testnet' : 'mainnet',
+      });
+
       const fastify = buildFastify({ maxParamLength: 32_768 });
       const queryMock = sinon.stub();
 
@@ -19,11 +24,6 @@ describe('accounts service', () => {
       });
 
       await fastify.ready();
-
-      vi.spyOn(config, 'getConfig').mockReturnValue({
-        ...config.mainConfig,
-        network: fixture.network === 'testnet' ? 'testnet' : 'mainnet',
-      });
 
       queryMock.onCall(0).resolves(fixture.sqlQueryMock);
       queryMock.onCall(1).resolves(fixture.sqlQueryMock2);

@@ -28,6 +28,7 @@ module.exports = {
     'unicorn/no-process-exit': 0,
     'unicorn/prefer-ternary': 0,
     'unicorn/no-null': 'off',
+    'no-nested-ternary': 'off',
     'unicorn/prevent-abbreviations': [
       'error',
       {
