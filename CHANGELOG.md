@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `/txs/{hash}/cbor` endpoint
+- Proxy for Mithril Aggregator API
+  - config options `mithril.enabled`, `mithril.aggregator`, `mithril.snapshotCDN` (optional) and `mithril.allowedEndpoints` (optional)
+  - ENV var options `BLOCKFROST_MITHRIL_ENABLED`, `BLOCKFROST_MITHRIL_AGGREGATOR` and `BLOCKFROST_MITHRIL_SNAPSHOT_CDN`
+
+### Changed
+
+- Upgraded Fastify dependencies
+- Upgraded Typescript
 
 ## [2.0.3] - 2024-05-23
 

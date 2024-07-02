@@ -1,4 +1,5 @@
 import JSONStream from 'JSONStream';
+import { pathToRegexp } from 'path-to-regexp';
 import stream from 'stream';
 
 export const getEndpointFromUrl = (url: string): string => {
@@ -8,6 +9,34 @@ export const getEndpointFromUrl = (url: string): string => {
   const endpoint = endpointWithoutQueryParameters.slice(1).split('/', 1)[0] || '';
 
   return endpoint;
+};
+
+/**
+ * Matches a given request URL against a list of allowed endpoint patterns.
+ *
+ * @param requestUrl - The URL of the incoming request to match.
+ * @param allowedEndpointPatterns - An array of endpoint patterns to match the request URL against. Each pattern should be a string in the format accepted by `path-to-regexp`.
+ * @returns `true` if the request URL matches any of the allowed endpoint patterns, otherwise `false`.
+ *
+ * @example
+ * ```
+ * const requestUrl = '/api/user/123';
+ * const allowedPatterns = ['/api/user/:id', '/api/admin/:id'];
+ * const isMatch = matchUrlToEndpoint(requestUrl, allowedPatterns);
+ * console.log(isMatch); // true
+ * ```
+ */
+export const matchUrlToEndpoint = (requestUrl: string, allowedEndpointPatterns: string[]) => {
+  for (const allowedEndpointPattern of allowedEndpointPatterns) {
+    const regexp = pathToRegexp(allowedEndpointPattern);
+    const match = requestUrl.match(regexp);
+
+    if (match) {
+      return true;
+    }
+  }
+
+  return false;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

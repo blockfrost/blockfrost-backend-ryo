@@ -1,6 +1,22 @@
 import config from 'config';
-
 import { CARDANO_NETWORKS, Network } from './types/common.js';
+
+const MITHRIL_ENDPOINT_ALLOWLIST_DEFAULT = [
+  '/',
+  '/epoch-settings',
+  '/certificate-pending',
+  '/certificates',
+  '/certificate/:certificate_hash',
+  '/artifact/snapshots',
+  '/artifact/snapshot/:digest',
+  '/artifact/snapshot/:digest/download',
+  '/artifact/mithril-stake-distributions',
+  '/artifact/cardano-transactions',
+  '/artifact/cardano-transaction/:hash',
+  '/proof/cardano-transaction',
+  '/signers/registered/:epoch',
+  '/signers/tickers',
+];
 
 export const loadConfig = () => {
   // server
@@ -41,11 +57,43 @@ export const loadConfig = () => {
   const network = process.env.BLOCKFROST_CONFIG_NETWORK ?? config.get('network');
 
   if (!network || !CARDANO_NETWORKS.includes(network)) {
-    throw new Error('Invalid network in the config.');
+    throw new Error('Invalid network configuration.');
   }
   // token registry
   const tokenRegistryUrl =
     process.env.BLOCKFROST_CONFIG_TOKEN_REGISTRY_URL ?? config.get('tokenRegistryUrl');
+
+  // Mithril
+  let mithrilEnabled = config.has('mithril.enabled')
+    ? config.get<boolean>('mithril.enabled')
+    : false;
+
+  let mithrilAggregator =
+    process.env.BLOCKFROST_MITHRIL_AGGREGATOR ?? config.has('mithril.aggregator')
+      ? config.get<string>('mithril.aggregator')
+      : undefined;
+
+  const mithrilSnapshotCDN =
+    process.env.BLOCKFROST_MITHRIL_SNAPSHOT_CDN ?? config.has('mithril.snapshotCDN')
+      ? config.get<string>('mithril.snapshotCDN')
+      : undefined;
+
+  const mithrilAllowedEndpoints = config.has('mithril.mithrilAllowedEndpoints')
+    ? config.get<string[]>('mithril.mithrilAllowedEndpoints')
+    : MITHRIL_ENDPOINT_ALLOWLIST_DEFAULT;
+
+  // ENV vars override config
+  if (process.env.BLOCKFROST_MITHRIL_ENABLED) {
+    mithrilEnabled = process.env.BLOCKFROST_MITHRIL_ENABLED === 'true';
+  }
+
+  if (process.env.BLOCKFROST_MITHRIL_AGGREGATOR) {
+    mithrilAggregator = process.env.BLOCKFROST_MITHRIL_AGGREGATOR;
+  }
+
+  if (mithrilEnabled && !mithrilAggregator) {
+    throw new Error('Invalid Mithril Aggregator configuration');
+  }
 
   return {
     server: {
@@ -65,11 +113,18 @@ export const loadConfig = () => {
     },
     network: network as Network,
     tokenRegistryUrl,
+    mithril: {
+      enabled: mithrilEnabled,
+      aggregator: mithrilAggregator as string,
+      snapshotCDN: mithrilSnapshotCDN,
+      allowedEndpoints: mithrilAllowedEndpoints,
+    },
   };
 };
 
 export const mainConfig = loadConfig();
 
+// Use this function to load config to allow easier mocking in unit tests
 export const getConfig = () => {
   return mainConfig;
 };

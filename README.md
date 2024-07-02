@@ -38,32 +38,34 @@ If you are using an authenticated db connection that requires a password, you'd 
 
 #### Schema
 
-```ts
-{
+```yaml
+
   // Blockfrost backend settings
-  server: {
-    // Server listen address, you need to set this to 0.0.0.0 if running within docker
-    listenAddress: 'localhost',
-    // Server port
-    port: 3000,
-    // Whether to enable verbose logging, when disabled only ERRORs are printed to a console
-    debug: true,
-    // Whether to expose /prometheus endpoint
-    prometheusMetrics: false,
-  },
-  // Cardano DB Sync SQL connection
-  dbSync: {
-    host: 'cdbsync-dev.mydomain.com',
-    user: 'username',
-    database: 'dbname',
-    // Optionally define a password
+  server:
+    # Server listen address, you need to set this to 0.0.0.0 if running within docker
+    listenAddress: 'localhost'
+    # Server port
+    port: 3000
+    # Whether to enable verbose logging, when disabled only ERRORs are printed to a console
+    debug: true
+    # Whether to expose /prometheus endpoint
+    prometheusMetrics: false
+  # Cardano DB Sync SQL connection
+  dbSync:
+    host: 'cdbsync-dev.mydomain.com'
+    user: 'username'
+    database: 'dbname'
+    # Optionally define a password
     password: 'randomstringthatissolongandpowerfulthatnoonecanguess'
-  },
-  // Cardano network - mainnet, testnet, preview, preprod
-  network: 'mainnet',
-  // Path to token registry directory (see next section for more details)
-  tokenRegistryUrl: 'https://tokens.cardano.org',
-}
+  # Cardano network - mainnet, testnet, preview, preprod
+  network: 'mainnet'
+  # Path to token registry directory (see next section for more details)
+  tokenRegistryUrl: 'https://tokens.cardano.org'
+  # Experimental Mithril proxy
+  mithril:
+    enabled: true # ENV var BLOCKFROST_MITHRIL_ENABLED=true
+    aggregator: "https://aggregator.pre-release-preview.api.mithril.network/aggregator" # ENV var BLOCKFROST_MITHRIL_AGGREGATOR
+    snapshotCDN: "https://example.com/" # ENV var BLOCKFROST_MITHRIL_SNAPSHOT_CDN
 ```
 
 <details>
@@ -103,6 +105,34 @@ CREATE INDEX IF NOT EXISTS bf_idx_ma_tx_out_ident ON ma_tx_out USING btree (iden
 CREATE INDEX IF NOT EXISTS bf_idx_instant_reward_addr_id ON instant_reward USING btree (addr_id);
 CREATE INDEX IF NOT EXISTS bf_idx_instant_reward_spendable_epoch ON instant_reward USING btree (spendable_epoch);
 ```
+
+### Experimental features
+
+### Mithril
+
+Blockfrost Backend optionally provides a proxy for the Mithril aggregator API. This feature allows users to interact with Mithril's endpoints through Blockfrost, with additional enhancements and customizations specific to Blockfrost.
+
+> This is an experimental feature. Mithril is currently a work in progress and its API may change.
+
+All Mithril-related endpoints are available under the `/mithril` path.
+For list of available endpoints please visit https://mithril.network/doc/aggregator-api/.
+
+To enable this experimental feature add following lines to your config:
+```yaml
+mithril:
+    enabled: true # ENV var BLOCKFROST_MITHRIL_ENABLED=true
+    aggregator: "https://aggregator.pre-release-preview.api.mithril.network/aggregator" # ENV var BLOCKFROST_MITHRIL_AGGREGATOR
+    snapshotCDN: "https://example.com/"  # Optional, ENV var BLOCKFROST_MITHRIL_SNAPSHOT_CDN
+```
+
+Then you can simply query Mithril API using Blockfrost Backend:
+
+```
+curl localhost:3000/mithril/artifact/snapshots
+```
+
+If you set `mithril.snapshotCDN` option, then the response of `/artifact/snapshots` and `/artifact/snapshot/{digest}` endpoints is enhanced with additional link to the list of snapshot locations.
+
 
 ### Docker
 

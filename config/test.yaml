@@ -11,3 +11,7 @@ dbSync:
   ssl: true
 network: "mainnet"
 tokenRegistryUrl: "http://localhost:3100"
+mithril:
+  enabled: true
+  aggregator: "https://aggregator.release-mainnet.api.mithril.network/aggregator"
+  snapshotCDN: "https://dummy-mithril-snapshot-cdn.com"
