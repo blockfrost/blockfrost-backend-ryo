@@ -2,6 +2,7 @@ import config from 'config';
 import { CARDANO_NETWORKS, Network } from './types/common.js';
 
 const MITHRIL_ENDPOINT_ALLOWLIST_DEFAULT = [
+  '', // root endpoint, same as "/", but some env are trimming trailing slash so request to /mithril/ could be received as /mithril
   '/',
   '/epoch-settings',
   '/certificate-pending',
