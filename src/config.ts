@@ -2,6 +2,7 @@ import config from 'config';
 import { CARDANO_NETWORKS, Network } from './types/common.js';
 
 const MITHRIL_ENDPOINT_ALLOWLIST_DEFAULT = [
+  '',
   '/',
   '/epoch-settings',
   '/certificate-pending',
