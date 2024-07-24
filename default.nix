@@ -172,4 +172,41 @@ in
     '';
   };
 
+  blockfrost-backend-ryo-test-sanchonet = testing.makeTest rec {
+
+    name = "blockfrost-backend-ryo-test-sanchonet";
+
+    nodes.machine = {
+      imports = [ ./nixos-module.nix ];
+      # We have to increase memsize, otherwise we will get error:
+      # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
+      virtualisation.memorySize = 8192;
+      virtualisation.diskSize = 2048;
+
+      services.blockfrost = {
+        enable = true;
+        package = blockfrost-backend-ryo;
+        settings = {
+          dbSync = {
+            host = builtins.getEnv "DBSYNC_HOST_SANCHONET";
+            user = "csyncdb";
+            database = "csyncdb";
+          };
+          network = "sanchonet";
+          tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_TESTNETS";
+        };
+      };
+    };
+
+    testScript = ''
+      start_all()
+      machine.wait_for_unit("blockfrost-backend-ryo.service")
+      machine.wait_for_open_port(3000)
+      machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
+      machine.succeed(
+          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ SERVICE_NAME=ryo yarn test:sanchonet --run' >&2"
+      )
+    '';
+  };
+
 }
