@@ -9,3 +9,4 @@ export type PoolBlocks = OpenApiResponseTypes['pool_blocks'];
 export type PoolHistory = OpenApiResponseTypes['pool_history'];
 export type PoolUpdates = OpenApiResponseTypes['pool_updates'];
 export type PoolRelays = OpenApiResponseTypes['pool_relays'];
+export type PoolVotes = OpenApiResponseTypes['pool_votes'];

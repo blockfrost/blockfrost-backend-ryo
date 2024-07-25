@@ -102,8 +102,8 @@ CREATE INDEX IF NOT EXISTS bf_idx_redeemer_tx_id ON redeemer USING btree (tx_id)
 CREATE INDEX IF NOT EXISTS bf_idx_col_tx_out ON collateral_tx_out USING btree (tx_id);
 CREATE INDEX IF NOT EXISTS bf_idx_ma_tx_mint_ident ON ma_tx_mint USING btree (ident);
 CREATE INDEX IF NOT EXISTS bf_idx_ma_tx_out_ident ON ma_tx_out USING btree (ident);
-CREATE INDEX IF NOT EXISTS bf_idx_instant_reward_addr_id ON instant_reward USING btree (addr_id);
-CREATE INDEX IF NOT EXISTS bf_idx_instant_reward_spendable_epoch ON instant_reward USING btree (spendable_epoch);
+CREATE INDEX IF NOT EXISTS bf_idx_reward_rest_addr_id ON reward_rest USING btree (addr_id);
+CREATE INDEX IF NOT EXISTS bf_idx_reward_rest_spendable_epoch ON reward_rest USING btree (spendable_epoch);
 ```
 
 ### Experimental features

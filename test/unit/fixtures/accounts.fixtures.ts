@@ -11,6 +11,7 @@ const query_accounts_regular_1 = {
   treasury_sum: '0',
   withdrawable_amount: '12411737689',
   pool_id: 'pool108zdflss3ayqlm5c7vr6mtqj2uwl99vk28ur8dv4zswdzt6yauc',
+  drep_id: null,
 };
 
 const response_accounts_regular_1 = {
@@ -24,6 +25,7 @@ const response_accounts_regular_1 = {
   treasury_sum: '0',
   withdrawable_amount: '12411737689',
   pool_id: 'pool108zdflss3ayqlm5c7vr6mtqj2uwl99vk28ur8dv4zswdzt6yauc',
+  drep_id: null,
 };
 
 const query_accounts_regular_testnet_1 = {
@@ -37,6 +39,7 @@ const query_accounts_regular_testnet_1 = {
   treasury_sum: '0',
   withdrawable_amount: '2978218',
   pool_id: 'pool1rnsw42f2q0u9fc32ttxy9l085n736jxz07lvwutz63wpyef03zh',
+  drep_id: 'stake_test1uqa4ssuylkytuwx5svd3lmkhct07fthgd3ydptxuj8gk5pch90z3d',
 };
 
 const response_accounts_regular_testnet_1 = {
@@ -50,6 +53,7 @@ const response_accounts_regular_testnet_1 = {
   treasury_sum: '0',
   withdrawable_amount: '2978218',
   pool_id: 'pool1rnsw42f2q0u9fc32ttxy9l085n736jxz07lvwutz63wpyef03zh',
+  drep_id: 'stake_test1uqa4ssuylkytuwx5svd3lmkhct07fthgd3ydptxuj8gk5pch90z3d',
 };
 
 const query_accounts_rewards_regular_1 = [

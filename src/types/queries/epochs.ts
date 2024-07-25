@@ -101,6 +101,29 @@ export interface EpochParameters {
   max_collateral_inputs: number;
   coins_per_utxo_word: string; // deprecated
   coins_per_utxo_size: string;
+  pvt_motion_no_confidence: number | null;
+  pvt_committee_normal: number | null;
+  pvt_committee_no_confidence: number | null;
+  pvt_hard_fork_initiation: number | null;
+  dvt_motion_no_confidence: number | null;
+  dvt_committee_normal: number | null;
+  dvt_committee_no_confidence: number | null;
+  dvt_update_to_constitution: number | null;
+  dvt_hard_fork_initiation: number | null;
+  dvt_p_p_network_group: number | null;
+  dvt_p_p_economic_group: number | null;
+  dvt_p_p_technical_group: number | null;
+  dvt_p_p_gov_group: number | null;
+  dvt_treasury_withdrawal: number | null;
+  committee_min_size: string | null;
+  committee_max_term_length: string | null;
+  gov_action_lifetime: string | null;
+  gov_action_deposit: string | null;
+  drep_deposit: string | null;
+  drep_activity: string | null;
+  registered_tx_id: number | null;
+  pvtpp_security_group: number | null;
+  min_fee_ref_script_cost_per_byte: number | null;
 }
 
 export interface EpochStake {

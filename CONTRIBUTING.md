@@ -6,7 +6,7 @@
 - Mark your pull request as a `Draft` while still working on it
 - Provide informative commit messages
 - Try to clean-up your commit history before submitting the pull request for review
-  - Squash the formatting, whitespace or other minor changes to relevant commits using interactive rebase (`git rebase -i`)
+- Squash the formatting, whitespace or other minor changes to relevant commits using interactive rebase (`git rebase -i`)
 
 ## Development environment
 
@@ -16,30 +16,30 @@ You will need also the [yarn-plugin-nixify](https://github.com/stephank/yarn-plu
 
 After that, make sure you install all the dependencies.
 
-```
-$ yarn
+```typescript
+yarn
 ```
 
 Next, you can run your local development environment.
 
-```
-$ yarn dev
+```typescript
+yarn dev
 ```
 
 ### Generating TS types from Blockfrost OpenAPI
 
 In `package.json` you will find script `generate-types`. Running it generates types from [@blockfrost/openapi](https://github.com/blockfrost/openapi) and generates typescript types into `/src/types/openapi.ts` file. These types are used in the implementation of API endpoints to ensure that response returned to a client matches the specification.
 
-```
-$ yarn generate-types
+```typescript
+yarn generate-types
 ```
 
 ## Testing
 
 ### Unit tests
 
-```
-$ yarn test
+```typescript
+yarn test
 ```
 
 ### Integration tests
@@ -48,14 +48,14 @@ When running integration tests, make sure that you have updated appropriate conf
 
 Mainnet:
 
-```
-$ yarn dev
-$ yarn test-integration-local-mainnet
+```typescript
+yarn dev
+yarn test-integration-local-mainnet
 ```
 
 Testnet:
 
-```
-$ yarn dev-testnet
-$ yarn test-integration-local-testnet
+```typescript
+yarn dev-testnet
+yarn test-integration-local-testnet
 ```

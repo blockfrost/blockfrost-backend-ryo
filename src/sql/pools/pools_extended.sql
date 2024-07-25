@@ -141,7 +141,7 @@ live_stake_accounts_instant_rewards AS (
   SELECT lsa.pool_hash_id,
     COALESCE(SUM(amount), 0) AS "amount_instant_rewards_pool"
   FROM live_stake_accounts lsa
-    JOIN instant_reward ir ON (lsa.stake_address_id = ir.addr_id)
+    JOIN reward_rest rr ON (lsa.stake_address_id = rr.addr_id)
   WHERE spendable_epoch <= (
       SELECT epoch_no
       FROM current_epoch

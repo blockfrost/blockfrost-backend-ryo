@@ -13,6 +13,10 @@ const esmRequire = createRequire(import.meta.url);
 const packageJson = esmRequire('../package.json');
 
 const config = getConfig();
+const isCIP1694Active = config.server.features.some(
+  (feature: string) => feature.toLowerCase() === 'CIP-1694'.toLowerCase(),
+);
+
 const start = (options = {}): FastifyInstance => {
   const app = fastify(options);
 
@@ -115,6 +119,22 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/epochs/number/stakes/index.js'));
   registerRoute(app, import('./routes/epochs/number/stakes/pool-id.js'));
 
+  if (isCIP1694Active) {
+    // governance
+    registerRoute(app, import('./routes/governance/dreps/index.js'));
+    registerRoute(app, import('./routes/governance/dreps/drep-id/index.js'));
+    registerRoute(app, import('./routes/governance/dreps/drep-id/delegators.js'));
+    registerRoute(app, import('./routes/governance/dreps/drep-id/metadata.js'));
+    registerRoute(app, import('./routes/governance/dreps/drep-id/updates.js'));
+    registerRoute(app, import('./routes/governance/dreps/drep-id/votes.js'));
+    registerRoute(app, import('./routes/governance/proposals/index.js'));
+    registerRoute(app, import('./routes/governance/proposals/tx-hash/cert-index/index.js'));
+    registerRoute(app, import('./routes/governance/proposals/tx-hash/cert-index/metadata.js'));
+    registerRoute(app, import('./routes/governance/proposals/tx-hash/cert-index/parameters.js'));
+    registerRoute(app, import('./routes/governance/proposals/tx-hash/cert-index/votes.js'));
+    registerRoute(app, import('./routes/governance/proposals/tx-hash/cert-index/withdrawals.js'));
+  }
+
   // health
   registerRoute(app, import('./routes/health/index.js'));
   registerRoute(app, import('./routes/health/clock.js'));
@@ -149,6 +169,7 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/pools/pool-id/metadata.js'));
   registerRoute(app, import('./routes/pools/pool-id/relays.js'));
   registerRoute(app, import('./routes/pools/pool-id/updates.js'));
+  registerRoute(app, import('./routes/pools/pool-id/votes.js'));
 
   // root
   registerRoute(app, import('./routes/root/index.js'));

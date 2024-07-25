@@ -23,9 +23,9 @@ SELECT "address" AS "address",
         )
     ) + (
       SELECT COALESCE(SUM(amount), 0)
-      FROM instant_reward ir
-      WHERE (ir.addr_id = address_id)
-        AND ir.spendable_epoch <= (
+      FROM reward_rest rr
+      WHERE (rr.addr_id = address_id)
+        AND rr.spendable_epoch <= (
           SELECT *
           FROM current_epoch
         )

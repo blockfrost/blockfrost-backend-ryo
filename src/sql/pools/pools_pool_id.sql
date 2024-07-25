@@ -198,10 +198,10 @@ live_stake_accounts_rewards AS (
     )
 ),
 live_stake_accounts_instant_rewards AS (
-  SELECT (COALESCE(SUM(ir.amount), 0)) AS "amount_instant_rewards"
+  SELECT (COALESCE(SUM(rr.amount), 0)) AS "amount_instant_rewards"
   FROM live_stake_accounts lsa
-    JOIN instant_reward ir ON (lsa.stake_address_id = ir.addr_id)
-  WHERE ir.spendable_epoch <= (
+    JOIN reward_rest rr ON (lsa.stake_address_id = rr.addr_id)
+  WHERE rr.spendable_epoch <= (
       SELECT epoch_no
       FROM current_epoch
     )
@@ -395,7 +395,7 @@ SELECT ph.view AS "pool_id",
               ) + COALESCE(
                 (
                   SELECT SUM(amount) AS "amount"
-                  FROM instant_reward
+                  FROM reward_rest
                   WHERE (
                       addr_id IN (
                         SELECT *
