@@ -68,7 +68,7 @@ in {
               };
             };
             network = lib.mkOption {
-              type = lib.types.enum [ "mainnet" "preprod" "preview" "testnet" ];
+              type = lib.types.enum [ "mainnet" "preprod" "preview" "testnet" "sanchonet" ];
               default = "mainnet";
             };
             tokenRegistryUrl = lib.mkOption {
