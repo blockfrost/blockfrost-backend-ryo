@@ -1,11 +1,6 @@
 WITH queried_address AS (
   SELECT CASE
-      WHEN $2::BYTEA IS NOT NULL THEN (
-        SELECT stake_address_id AS "stake_address_id"
-        FROM tx_out txo
-        WHERE txo.payment_cred = $2
-        LIMIT 1
-      )
+      WHEN $2::BYTEA IS NOT NULL THEN (0)
       ELSE (
         SELECT stake_address_id AS "stake_address_id"
         FROM tx_out txo
