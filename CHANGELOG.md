@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgraded Fastify dependencies
 - Upgraded Typescript
 
+### Fixed
+
+- `/addresses/{payment_cred}` and `/addresses/{payment_cred}/extended` to always show `stake_address: null`
+
 ## [2.0.3] - 2024-05-23
 
 ### Fixed
