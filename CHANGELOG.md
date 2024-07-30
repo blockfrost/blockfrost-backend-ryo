@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgraded Fastify dependencies
 - Upgraded Typescript
 
+### Fixed
+
+- ordering in `/scripts`
+
 ## [2.0.3] - 2024-05-23
 
 ### Fixed
