@@ -134,4 +134,8 @@ export const PROTOCOL_VERSIONS: Record<number, ProtocolInfo> = {
     name: 'Babbage with SECP256K1 support (intra era hardfork)',
     is_era_hardfork: false,
   },
+  9: {
+    name: 'Conway',
+    is_era_hardfork: true,
+  },
 };
