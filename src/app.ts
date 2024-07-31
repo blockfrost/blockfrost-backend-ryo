@@ -208,3 +208,5 @@ const start = (options = {}): FastifyInstance => {
 };
 
 start();
+
+export default start;
