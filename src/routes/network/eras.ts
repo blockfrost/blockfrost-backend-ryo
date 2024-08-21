@@ -34,8 +34,6 @@ async function route(fastify: FastifyInstance) {
           SQLQuery.get('network_protocols'),
         );
 
-        clientDbSync.release();
-
         // First summary item is Byron era parameters
         const first = {
           start: {
@@ -146,6 +144,7 @@ async function route(fastify: FastifyInstance) {
 
         return reply.send(summary);
       } catch (error) {
+        console.error(error);
         if (clientDbSync) {
           clientDbSync.release();
         }

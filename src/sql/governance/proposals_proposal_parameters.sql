@@ -116,6 +116,4 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
 FROM gov_action_proposal gap
   JOIN tx ON (gap.tx_id = tx.id)
   JOIN epoch_param ep ON (gap.param_proposal = ep.id)
-  LEFT JOIN cost_model cm ON (ep.cost_model_id = cm.id)
-WHERE encode(tx.hash, 'hex') = $1
-  AND gap.index = $2
+  LEFT JOIN cost_model cm ON (ep.cost_model_id = cm.id);
