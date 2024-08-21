@@ -146,8 +146,12 @@ async function route(fastify: FastifyInstance) {
 
         return reply.send(summary);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
+        try {
+          if (clientDbSync) {
+            clientDbSync.release();
+          }
+        } catch {
+          // client probably already released
         }
         throw error;
       }
