@@ -27,6 +27,6 @@ FROM tx
   JOIN pool_hash ph ON (ph.id = pu.hash_id)
   LEFT JOIN stake_address sa ON (sa.id = pu.reward_addr_id)
   LEFT JOIN pool_metadata_ref pmr ON (pmr.id = pu.meta_id)
-  LEFT JOIN off_chain_pool_data pod ON (pmr.hash = pod.hash)
+  LEFT JOIN off_chain_pool_data pod ON (pod.pmr_id = pmr.id)
 WHERE encode(tx.hash, 'hex') = $1
 ORDER BY pu.cert_index ASC
