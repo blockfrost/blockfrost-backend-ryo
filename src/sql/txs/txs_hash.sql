@@ -16,6 +16,7 @@ SELECT encode(tx.hash, 'hex') AS "hash",
           'quantity',
           mto.quantity::TEXT -- cast to TEXT to avoid number overflow
         )
+        ORDER BY CONCAT(encode(policy, 'hex'), encode(name, 'hex')) -- Order by unit name
       )
     FROM ma_tx_out mto
       JOIN multi_asset ma ON (mto.ident = ma.id)
@@ -115,4 +116,4 @@ SELECT encode(tx.hash, 'hex') AS "hash",
   ) AS "redeemer_count"
 FROM tx
   JOIN block b ON (tx.block_id = b.id)
-WHERE encode(tx.hash, 'hex') = $1
+WHERE encode(tx.hash, 'hex') = $1;
