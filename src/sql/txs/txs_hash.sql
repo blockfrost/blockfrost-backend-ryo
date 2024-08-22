@@ -16,6 +16,7 @@ SELECT encode(tx.hash, 'hex') AS "hash",
           'quantity',
           mto.quantity::TEXT -- cast to TEXT to avoid number overflow
         )
+      ORDER BY mto.tx_out_id -- order by tx output
       )
     FROM ma_tx_out mto
       JOIN multi_asset ma ON (mto.ident = ma.id)
