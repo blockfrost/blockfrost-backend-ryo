@@ -1,4 +1,4 @@
-SELECT pu.id AS "pu_id",
+SELECT DISTINCT pu.id AS "pu_id",
   pu.cert_index AS "cert_index",
   encode(pu.vrf_key_hash, 'hex') AS "vrf_key",
   pu.pledge::TEXT AS "pledge", -- cast to TEXT to avoid number overflow
@@ -29,4 +29,4 @@ FROM tx
   LEFT JOIN pool_metadata_ref pmr ON (pmr.id = pu.meta_id)
   LEFT JOIN off_chain_pool_data pod ON (pod.pmr_id = pmr.id)
 WHERE encode(tx.hash, 'hex') = $1
-ORDER BY pu.cert_index ASC
+ORDER BY pu.cert_index ASC;
