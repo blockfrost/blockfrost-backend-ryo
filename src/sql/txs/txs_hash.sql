@@ -116,4 +116,4 @@ SELECT encode(tx.hash, 'hex') AS "hash",
   ) AS "redeemer_count"
 FROM tx
   JOIN block b ON (tx.block_id = b.id)
-WHERE encode(tx.hash, 'hex') = $1;
+WHERE encode(tx.hash, 'hex') = $1
