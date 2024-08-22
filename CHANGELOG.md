@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Asset in `output_amount` of `/txs` is now sorted by the unit name
+
 ### Fixed
 
 - Plutus V3 cost model mapping
