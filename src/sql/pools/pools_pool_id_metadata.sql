@@ -19,7 +19,7 @@ SELECT (
   pod.ticker_name AS "ticker",
   pod.json AS "metadata_text"
 FROM pool_metadata_ref pmr
-  LEFT JOIN off_chain_pool_data pod ON (pod.pmr_id = pmr.id)
+  LEFT JOIN off_chain_pool_data pod ON (pmr.hash = pod.hash)
 WHERE pmr.id = (
     SELECT meta_id
     FROM pool_update pu
