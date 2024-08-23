@@ -1,4 +1,4 @@
-SELECT pu.id AS "pu_id",
+SELECT DISTINCT pu.id AS "pu_id",
   pu.cert_index AS "cert_index",
   encode(pu.vrf_key_hash, 'hex') AS "vrf_key",
   pu.pledge::TEXT AS "pledge", -- cast to TEXT to avoid number overflow

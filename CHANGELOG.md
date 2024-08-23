@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Plutus V3 cost model mapping
+- `/txs/{hash}/pool_updates` returning multiple rows
 
 ## [2.1.0] - 2024-07-31
 
