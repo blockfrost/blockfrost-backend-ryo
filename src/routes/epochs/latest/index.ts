@@ -2,7 +2,6 @@ import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance } from 'fastify';
 
 import { getConfig } from '../../../config.js';
-import { GENESIS } from '../../../constants/genesis.js';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/epochs.js';
 import * as ResponseTypes from '../../../types/responses/epochs.js';
@@ -18,8 +17,7 @@ async function route(fastify: FastifyInstance) {
       const clientDbSync = await getDbSync(fastify);
 
       try {
-        const network = getConfig().network;
-        const epochLength = GENESIS[network].epoch_length;
+        const epochLength = getConfig().genesis.epoch_length;
         const { rows }: { rows: ResponseTypes.Epoch[] } =
           await clientDbSync.query<QueryTypes.Epoch>(SQLQuery.get('epochs_latest'), [epochLength]);
 

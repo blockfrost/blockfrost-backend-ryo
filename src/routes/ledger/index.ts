@@ -2,7 +2,6 @@ import { FastifyInstance } from 'fastify';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import * as ResponseTypes from '../../types/responses/ledger.js';
 import { getConfig } from '../../config.js';
-import { GENESIS } from '../../constants/genesis.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -10,8 +9,7 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/genesis'),
     handler: async (_request, reply) => {
-      const network = getConfig().network;
-      const genesisData: ResponseTypes.Ledger | undefined = GENESIS[network];
+      const genesisData: ResponseTypes.Ledger = getConfig().genesis;
 
       if (genesisData) {
         return reply.send(genesisData);

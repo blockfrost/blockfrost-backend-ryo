@@ -4,7 +4,6 @@ import { toJSONStream } from '../../../utils/string-utils.js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 
 import { getConfig } from '../../../config.js';
-import { GENESIS } from '../../../constants/genesis.js';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/epochs.js';
 import * as ResponseTypes from '../../../types/responses/epochs.js';
@@ -36,8 +35,7 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const network = getConfig().network;
-        const epochLength = GENESIS[network].epoch_length;
+        const epochLength = getConfig().genesis.epoch_length;
 
         const unpaged = isUnpaged(request);
         const { rows }: { rows: ResponseTypes.Epoch[] } = unpaged

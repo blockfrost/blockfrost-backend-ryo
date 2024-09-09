@@ -2,7 +2,7 @@ import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 
 import { getConfig } from '../../config.js';
-import { BYRON_GENESIS, GENESIS, PROTOCOL_VERSIONS } from '../../constants/genesis.js';
+import { PROTOCOL_VERSIONS } from '../../constants/genesis.js';
 import { SQLQuery } from '../../sql/index.js';
 import { ByronEraParameters } from '../../types/common.js';
 import { Block } from '../../types/queries/blocks.js';
@@ -18,9 +18,8 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/network/eras'),
     handler: async (request: FastifyRequest, reply) => {
-      const network = getConfig().network;
-      const genesisData: LedgerResponseTypes.Ledger | undefined = GENESIS[network];
-      const byronGenesisData: ByronEraParameters | undefined = BYRON_GENESIS[network];
+      const genesisData: LedgerResponseTypes.Ledger = getConfig().genesis;
+      const byronGenesisData: ByronEraParameters = getConfig().byronGenesis;
 
       if (!genesisData && !byronGenesisData) {
         return handle500(reply, 'No genesis or Byron genesis data', request);
