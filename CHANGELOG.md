@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Addded
+
+- `/epochs/{number}/parameters` and `/epochs/latest/parameters`
+  - `cost_models_raw` field, list variant of cost_models without name mapping
+
 ## [2.1.1] - 2024-08-23
 
 ### Changed

@@ -90,6 +90,7 @@ export interface EpochParameters {
   min_pool_cost: string;
   nonce: string;
   cost_models: Record<string, unknown> | null;
+  cost_models_raw: Record<string, unknown> | null;
   price_mem: number;
   price_step: number;
   max_tx_ex_mem: string;
