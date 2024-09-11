@@ -20,7 +20,11 @@ FROM (
       encode(dat.bytes, 'hex') AS "inline_datum",
       false AS "collateral",
       encode(scr.hash, 'hex') AS "reference_script_hash",
-      txo.index AS "output_index"
+      txo.index AS "output_index",
+      (
+        SELECT encode(tx.hash, 'hex')
+        FROM tx WHERE tx.id = txo.consumed_by_tx_id
+      ) AS "consumed_by_tx"
     FROM tx
       JOIN tx_out txo ON (txo.tx_id = tx.id)
       LEFT JOIN datum dat ON (txo.inline_datum_id = dat.id)
@@ -35,7 +39,8 @@ FROM (
       encode(dat.bytes, 'hex') AS "inline_datum",
       true AS "collateral",
       encode(scr.hash, 'hex') AS "reference_script_hash",
-      txo.index AS "output_index"
+      txo.index AS "output_index",
+      NULL as "consumed_by_tx"
     FROM tx
       JOIN collateral_tx_out txo ON (txo.tx_id = tx.id)
       LEFT JOIN datum dat ON (txo.inline_datum_id = dat.id)

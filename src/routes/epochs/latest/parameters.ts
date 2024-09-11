@@ -29,6 +29,7 @@ async function route(fastify: FastifyInstance) {
         }
 
         if (rows[0].cost_models) {
+          rows[0].cost_models_raw = rows[0].cost_models;
           rows[0].cost_models = costModelsMap(rows[0].cost_models);
         }
 

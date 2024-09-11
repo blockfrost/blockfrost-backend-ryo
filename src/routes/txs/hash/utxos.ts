@@ -84,6 +84,7 @@ async function route(fastify: FastifyInstance) {
               data_hash: row.data_hash,
               inline_datum: row.inline_datum,
               reference_script_hash: row.reference_script_hash,
+              consumed_by_tx: row.consumed_by_tx,
             });
           } else {
             responseOutputs.push({
@@ -94,6 +95,7 @@ async function route(fastify: FastifyInstance) {
               data_hash: row.data_hash,
               inline_datum: row.inline_datum,
               reference_script_hash: row.reference_script_hash,
+              consumed_by_tx: row.consumed_by_tx,
             });
           }
         }

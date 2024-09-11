@@ -109,6 +109,8 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
       drep_activity,
       'pvtpp_security_group',
       pvtpp_security_group,
+      'pvt_p_p_security_group',
+      pvtpp_security_group,
       'min_fee_ref_script_cost_per_byte',
       min_fee_ref_script_cost_per_byte
     )::JSONB

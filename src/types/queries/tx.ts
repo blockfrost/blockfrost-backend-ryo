@@ -54,6 +54,7 @@ export interface TxUtxoOutputs {
   data_hash: string | null;
   inline_datum: string | null;
   reference_script_hash: string | null;
+  consumed_by_tx: string | null;
 }
 
 export interface TxStakes {
