@@ -62,6 +62,7 @@ SELECT epoch_no AS "epoch",
   drep_deposit AS "drep_deposit",
   drep_activity AS "drep_activity",
   pvtpp_security_group AS "pvtpp_security_group",
+  pvtpp_security_group AS "pvt_p_p_security_group",
   min_fee_ref_script_cost_per_byte AS "min_fee_ref_script_cost_per_byte"
 FROM epoch_param ep
   LEFT JOIN cost_model cm ON (ep.cost_model_id = cm.id)

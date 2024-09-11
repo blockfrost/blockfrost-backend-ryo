@@ -124,6 +124,7 @@ export interface EpochParameters {
   drep_activity: string | null;
   registered_tx_id: number | null;
   pvtpp_security_group: number | null;
+  pvt_p_p_security_group: number | null;
   min_fee_ref_script_cost_per_byte: number | null;
 }
 

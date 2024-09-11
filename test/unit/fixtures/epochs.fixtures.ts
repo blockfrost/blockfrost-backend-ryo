@@ -415,6 +415,7 @@ const query_epoch_number_parameters_regular = {
   drep_deposit: null,
   drep_activity: null,
   pvtpp_security_group: null,
+  pvt_p_p_security_group: null,
   min_fee_ref_script_cost_per_byte: null,
 };
 
@@ -1114,6 +1115,7 @@ const response_epoch_number_parameters_regular = {
   drep_deposit: null,
   drep_activity: null,
   pvtpp_security_group: null,
+  pvt_p_p_security_group: null,
   min_fee_ref_script_cost_per_byte: null,
 };
 
