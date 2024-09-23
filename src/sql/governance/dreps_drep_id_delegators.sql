@@ -34,7 +34,7 @@ FROM (
     FROM delegation_vote dv
       JOIN drep_hash dh ON (dh.id = dv.drep_hash_id)
       JOIN stake_address sa ON (sa.id = dv.addr_id)
-    WHERE dh.view = $4
+    WHERE dh.raw = $4
       AND dv.id = (
         SELECT MAX(id)
         FROM delegation_vote

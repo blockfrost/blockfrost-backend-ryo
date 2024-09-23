@@ -38,6 +38,6 @@ FROM drep_hash dh
       FROM queried_epoch
     )
   )
-WHERE dh.view = $1
+WHERE dh.raw = $1
 ORDER BY (tx_id, cert_index) DESC
 LIMIT 1

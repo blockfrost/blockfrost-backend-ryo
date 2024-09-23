@@ -4,7 +4,7 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
 FROM voting_procedure vp
   JOIN drep_hash dh ON (vp.drep_voter = dh.id)
   JOIN tx ON (vp.tx_id = tx.id)
-WHERE dh.view = $4
+WHERE dh.raw = $4
 ORDER BY CASE
     WHEN LOWER($1) = 'desc' THEN vp.id
   END DESC,
