@@ -9,7 +9,7 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
 FROM drep_hash dh
   JOIN drep_registration dr ON (dh.id = dr.drep_hash_id)
   JOIN tx ON (dr.tx_id = tx.id)
-WHERE dh.view = $4
+WHERE dh.raw = $4
 ORDER BY CASE
     WHEN LOWER($1) = 'desc' THEN dr.id
   END DESC,

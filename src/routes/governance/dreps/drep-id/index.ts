@@ -2,9 +2,10 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../../types/queries/governance.js';
 import * as ResponseTypes from '../../../../types/responses/governance.js';
 import { getDbSync } from '../../../../utils/database.js';
-import { handle404 } from '../../../../utils/error-handler.js';
+import { handle400Custom, handle404 } from '../../../../utils/error-handler.js';
 import { SQLQuery } from '../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { drepIdToRaw } from '../../../../utils/bech32.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -13,13 +14,21 @@ async function route(fastify: FastifyInstance) {
     schema: getSchemaForEndpoint('/governance/dreps/{drep_id}'),
 
     handler: async (request: FastifyRequest<QueryTypes.RequestDRepID>, reply) => {
+      let drepHex;
+
+      try {
+        drepHex = drepIdToRaw(request.params.drep_id);
+      } catch {
+        return handle400Custom(reply, 'Invalid or malformed drep id.');
+      }
+
       const clientDbSync = await getDbSync(fastify);
 
       try {
         const { rows }: { rows: ResponseTypes.DRepsDrepID[] } =
           await clientDbSync.query<QueryTypes.DRepsDrepID>(
             SQLQuery.get('governance_dreps_drep_id'),
-            [request.params.drep_id],
+            [drepHex],
           );
 
         clientDbSync.release();
