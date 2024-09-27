@@ -65,6 +65,12 @@ export const loadConfig = () => {
     throw new Error(`Invalid network configuration: ${network}`);
   }
   // token registry
+  const tokenRegistryEnabled = Boolean(
+    process.env.BLOCKFROST_CONFIG_TOKEN_REGISTRY_ENABLED ?? config.has('tokenRegistryEnabled')
+      ? config.get<boolean>('tokenRegistryEnabled')
+      : true,
+  );
+
   const tokenRegistryUrl =
     process.env.BLOCKFROST_CONFIG_TOKEN_REGISTRY_URL ?? config.get('tokenRegistryUrl');
 
@@ -134,6 +140,7 @@ export const loadConfig = () => {
     genesis,
     byronGenesis,
     tokenRegistryUrl,
+    tokenRegistryEnabled,
     mithril: {
       enabled: mithrilEnabled,
       aggregator: mithrilAggregator as string,
