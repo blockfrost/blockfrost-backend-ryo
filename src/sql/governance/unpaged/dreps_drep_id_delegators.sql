@@ -34,7 +34,10 @@ FROM (
     FROM delegation_vote dv
       JOIN drep_hash dh ON (dh.id = dv.drep_hash_id)
       JOIN stake_address sa ON (sa.id = dv.addr_id)
-    WHERE dh.view = $2
+    WHERE (
+        ($2::bytea IS NOT NULL AND dh.raw = $2) OR
+        ($2 IS NULL AND dh.view = $3)
+      )
       AND dv.id = (
         SELECT MAX(id)
         FROM delegation_vote
