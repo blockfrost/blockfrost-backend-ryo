@@ -6,7 +6,7 @@ import { SQLQuery } from '../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { isUnpaged } from '../../../../utils/routes.js';
 import { handle400Custom } from '@blockfrost/blockfrost-utils/lib/fastify.js';
-import { drepIdToRaw } from '../../../../utils/bech32.js';
+import { validateDRepId } from '../../../../utils/validation.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -15,10 +15,10 @@ async function route(fastify: FastifyInstance) {
     schema: getSchemaForEndpoint('/governance/dreps/{drep_id}/updates'),
 
     handler: async (request: FastifyRequest<QueryTypes.RequestParametersDRepID>, reply) => {
-      let drepHex;
+      let drepValidation;
 
       try {
-        drepHex = drepIdToRaw(request.params.drep_id);
+        drepValidation = validateDRepId(request.params.drep_id);
       } catch {
         return handle400Custom(reply, 'Invalid or malformed drep id.');
       }
@@ -30,11 +30,17 @@ async function route(fastify: FastifyInstance) {
         const { rows }: { rows: ResponseTypes.DRepsDrepIDUpdates } = unpaged
           ? await clientDbSync.query<QueryTypes.DRepsDrepIDUpdates>(
               SQLQuery.get('governance_dreps_drep_id_updates_unpaged'),
-              [request.query.order, request.params.drep_id],
+              [request.query.order, drepValidation.raw, drepValidation.id],
             )
           : await clientDbSync.query<QueryTypes.DRepsDrepIDUpdates>(
               SQLQuery.get('governance_dreps_drep_id_updates'),
-              [request.query.order, request.query.count, request.query.page, drepHex],
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                drepValidation.raw,
+                drepValidation.id,
+              ],
             );
 
         clientDbSync.release();

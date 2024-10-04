@@ -9,7 +9,10 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
 FROM drep_hash dh
   JOIN drep_registration dr ON (dh.id = dr.drep_hash_id)
   JOIN tx ON (dr.tx_id = tx.id)
-WHERE dh.view = $2
+WHERE (
+    ($2::bytea IS NOT NULL AND dh.raw = $2) OR
+    ($2 IS NULL AND dh.view = $3)
+  )
 ORDER BY CASE
     WHEN LOWER($1) = 'desc' THEN dr.id
   END DESC,
