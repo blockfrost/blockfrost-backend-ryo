@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.2] - 2024-05-10
+
 ### Fixed
 
 - Retrieving data for special dreps `drep_always_abstain` and `drep_always_no_confidence`
