@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.3] - 2024-10-14
+
+### Changed
+
+- CIP68v3: allow byte string fields to be encoded as an array of bytes
+- CIP25v1: allow alternative metadata encoding where asset name not utf8 encoded
+
 ## [2.2.2] - 2024-05-10
 
 ### Fixed
