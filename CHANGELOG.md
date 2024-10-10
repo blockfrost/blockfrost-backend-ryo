@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.3] - 2024-10-10
+
+### Changed
+
+- CIP68: allow byte string fields to be encoded as an array of bytes (from blockfrost-utils 2.8.1)
+- CIP25v1: allow alternative metadata encoding where asset name not utf8 encoded (from blockfrost-openapi 0.1.68)
+
 ## [2.2.2] - 2024-05-10
 
 ### Fixed
