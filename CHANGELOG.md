@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `/account/:stake_addr/utxos` for retrieving utxos associated with a stake account
+
 ## [2.2.4] - 2024-10-31
 
 ### Fixed

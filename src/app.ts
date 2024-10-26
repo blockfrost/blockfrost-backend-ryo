@@ -82,6 +82,7 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/accounts/stake-address/mirs.js'));
   registerRoute(app, import('./routes/accounts/stake-address/registrations.js'));
   registerRoute(app, import('./routes/accounts/stake-address/rewards.js'));
+  registerRoute(app, import('./routes/accounts/stake-address/utxos.js'));
   registerRoute(app, import('./routes/accounts/stake-address/withdrawals.js'));
 
   // assets
