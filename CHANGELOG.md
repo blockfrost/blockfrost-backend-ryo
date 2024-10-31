@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Added instant rewards, reserves, treasury and proposal_refund to the calculation of delegators' total amount in `/governance/dreps/:drep/delegators`
+- Handle `PlutusV3 Chang+1` cost model mapping
 
 ## [2.2.3] - 2024-10-14
 
