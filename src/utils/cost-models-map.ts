@@ -608,6 +608,57 @@ const plutusV3Names: Array<string> = [
   'byteStringToInteger-memory-arguments-slope',
 ];
 
+// https://github.com/IntersectMBO/plutus/commit/87b61b185bccb87ecff29f73043583ec7afc7a78#diff-1c4211ce3772100a5478e416a57c1f461e5151eb4c272a7434d04cd563b3a945R270
+const plutusV3NamesChangPlus1: Array<string> = [
+  ...plutusV3Names,
+  'andByteString-cpu-arguments-intercept',
+  'andByteString-cpu-arguments-slope1',
+  'andByteString-cpu-arguments-slope2',
+  'andByteString-memory-arguments-intercept',
+  'andByteString-memory-arguments-slope',
+  'orByteString-cpu-arguments-intercept',
+  'orByteString-cpu-arguments-slope1',
+  'orByteString-cpu-arguments-slope2',
+  'orByteString-memory-arguments-intercept',
+  'orByteString-memory-arguments-slope',
+  'xorByteString-cpu-arguments-intercept',
+  'xorByteString-cpu-arguments-slope1',
+  'xorByteString-cpu-arguments-slope2',
+  'xorByteString-memory-arguments-intercept',
+  'xorByteString-memory-arguments-slope',
+  'complementByteString-cpu-arguments-intercept',
+  'complementByteString-cpu-arguments-slope',
+  'complementByteString-memory-arguments-intercept',
+  'complementByteString-memory-arguments-slope',
+  'readBit-cpu-arguments',
+  'readBit-memory-arguments',
+  'writeBits-cpu-arguments-intercept',
+  'writeBits-cpu-arguments-slope',
+  'writeBits-memory-arguments-intercept',
+  'writeBits-memory-arguments-slope',
+  'replicateByte-cpu-arguments-intercept',
+  'replicateByte-cpu-arguments-slope',
+  'replicateByte-memory-arguments-intercept',
+  'replicateByte-memory-arguments-slope',
+  'shiftByteString-cpu-arguments-intercept',
+  'shiftByteString-cpu-arguments-slope',
+  'shiftByteString-memory-arguments-intercept',
+  'shiftByteString-memory-arguments-slope',
+  'rotateByteString-cpu-arguments-intercept',
+  'rotateByteString-cpu-arguments-slope',
+  'rotateByteString-memory-arguments-intercept',
+  'rotateByteString-memory-arguments-slope',
+  'countSetBits-cpu-arguments-intercept',
+  'countSetBits-cpu-arguments-slope',
+  'countSetBits-memory-arguments',
+  'findFirstSetBit-cpu-arguments-intercept',
+  'findFirstSetBit-cpu-arguments-slope',
+  'findFirstSetBit-memory-arguments',
+  'ripemd_160-cpu-arguments-intercept',
+  'ripemd_160-cpu-arguments-slope',
+  'ripemd_160-memory-arguments',
+];
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const costModelsMap = (costModels: any) => {
   if (costModels === null || typeof costModels !== 'object') return null;
@@ -620,7 +671,11 @@ export const costModelsMap = (costModels: any) => {
   if ('PlutusV2' in costModels && Object.keys(costModels.PlutusV2).length !== plutusV2Names.length)
     throw new Error('The size of the Plutus V2 cost model mismatched');
 
-  if ('PlutusV3' in costModels && Object.keys(costModels.PlutusV3).length !== plutusV3Names.length)
+  if (
+    'PlutusV3' in costModels &&
+    Object.keys(costModels.PlutusV3).length !== plutusV3Names.length &&
+    Object.keys(costModels.PlutusV3).length !== plutusV3NamesChangPlus1.length
+  )
     throw new Error('The size of the Plutus V3 cost model mismatched');
 
   if ('PlutusV1' in costModels && validation.isNumber(Object.keys(costModels.PlutusV1)[0])) {
@@ -644,8 +699,15 @@ export const costModelsMap = (costModels: any) => {
   if ('PlutusV3' in costModels && validation.isNumber(Object.keys(costModels.PlutusV3)[0])) {
     const PlutusV3: Record<string, number> = {};
 
-    for (let index = 0; index < plutusV3Names.length; index++)
-      PlutusV3[plutusV3Names[index]] = costModels.PlutusV3[index];
+    // PlutusV3
+    if (Object.keys(costModels.PlutusV3).length === plutusV3Names.length) {
+      for (let index = 0; index < plutusV3Names.length; index++)
+        PlutusV3[plutusV3Names[index]] = costModels.PlutusV3[index];
+    } else {
+      // PlutusV3ChangPlus1
+      for (let index = 0; index < plutusV3NamesChangPlus1.length; index++)
+        PlutusV3[plutusV3NamesChangPlus1[index]] = costModels.PlutusV3[index];
+    }
 
     costModels = { ...costModels, PlutusV3 };
   }
