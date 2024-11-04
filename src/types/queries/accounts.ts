@@ -71,3 +71,16 @@ export interface AccountAddressesTotal {
   received_amount: Amount[];
   tx_count: number;
 }
+
+export interface AccountUtxosQuery {
+  address: string;
+  tx_hash: string;
+  tx_index: number;
+  output_index: number;
+  amount_lovelace: string;
+  amount: Amount[];
+  block: string;
+  data_hash: string;
+  inline_datum: string;
+  reference_script_hash: string;
+}

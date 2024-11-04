@@ -11,3 +11,12 @@ export const getDbSync = async (fastify: FastifyInstance): Promise<PoolClient> =
     throw error;
   }
 };
+
+export const gracefulRelease = (clientDbSync: PoolClient) => {
+  if (!clientDbSync) return;
+  try {
+    clientDbSync.release();
+  } catch (error) {
+    console.warn(error);
+  }
+};
