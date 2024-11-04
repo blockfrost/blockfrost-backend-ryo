@@ -38,7 +38,7 @@ async function route(fastify: FastifyInstance) {
         const unpaged = isUnpaged(request);
         const { rows } = unpaged
           ? await clientDbSync.query<QueryTypes.AccountUtxosQuery>(
-              SQLQuery.get('accounts_stake_address_rewards_unpaged'),
+              SQLQuery.get('accounts_stake_address_utxos_unpaged'),
               [request.query.order, request.params.stake_address],
             )
           : await clientDbSync.query<QueryTypes.AccountUtxosQuery>(

@@ -7,6 +7,7 @@
     "cdbsync",
     "dbsync",
     "delegators",
+    "deregistration",
     "Drep",
     "dreps",
     "elgohr",
@@ -38,5 +39,5 @@
   },
   "eslint.nodePath": ".yarn/sdks",
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }
