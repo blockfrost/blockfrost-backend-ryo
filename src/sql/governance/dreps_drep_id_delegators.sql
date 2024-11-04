@@ -9,9 +9,7 @@ SELECT "address" AS "address",
     (
       SELECT COALESCE(SUM(txo.value), 0)
       FROM tx_out txo
-        LEFT JOIN tx_in txi ON (txo.tx_id = txi.tx_out_id)
-        AND (txo.index = txi.tx_out_index)
-      WHERE txi IS NULL
+      WHERE txo.consumed_by_tx_id IS NULL
         AND txo.stake_address_id = address_id
     ) + (
       SELECT COALESCE(SUM(amount), 0)
