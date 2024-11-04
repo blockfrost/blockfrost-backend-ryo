@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.1] - 2024-11-04
+
 ### Fixed
 
 - Don't list unregistered stake addresses in `/governance/dreps/:drep/delegators`
+- SQL optimization in `/governance/dreps/:drep/delegators`
 
 ## [2.3.0] - 2024-11-04
 

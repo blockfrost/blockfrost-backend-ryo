@@ -104,6 +104,10 @@ CREATE INDEX IF NOT EXISTS bf_idx_ma_tx_mint_ident ON ma_tx_mint USING btree (id
 CREATE INDEX IF NOT EXISTS bf_idx_ma_tx_out_ident ON ma_tx_out USING btree (ident);
 CREATE INDEX IF NOT EXISTS bf_idx_reward_rest_addr_id ON reward_rest USING btree (addr_id);
 CREATE INDEX IF NOT EXISTS bf_idx_reward_rest_spendable_epoch ON reward_rest USING btree (spendable_epoch);
+CREATE INDEX bf_idx_stake_address_raw ON public.drep_hash USING hash (raw);
+CREATE INDEX bf_idx_stake_address_view ON public.drep_hash USING hash (view);
+CREATE INDEX bf_idx_delegation_vote_addr_id ON delegation_vote USING HASH (addr_id);
+
 ```
 
 ### Experimental features
@@ -118,11 +122,12 @@ All Mithril-related endpoints are available under the `/mithril` path.
 For list of available endpoints please visit https://mithril.network/doc/aggregator-api/.
 
 To enable this experimental feature add following lines to your config:
+
 ```yaml
 mithril:
-    enabled: true # ENV var BLOCKFROST_MITHRIL_ENABLED=true
-    aggregator: "https://aggregator.pre-release-preview.api.mithril.network/aggregator" # ENV var BLOCKFROST_MITHRIL_AGGREGATOR
-    snapshotCDN: "https://example.com/"  # Optional, ENV var BLOCKFROST_MITHRIL_SNAPSHOT_CDN
+  enabled: true # ENV var BLOCKFROST_MITHRIL_ENABLED=true
+  aggregator: 'https://aggregator.pre-release-preview.api.mithril.network/aggregator' # ENV var BLOCKFROST_MITHRIL_AGGREGATOR
+  snapshotCDN: 'https://example.com/' # Optional, ENV var BLOCKFROST_MITHRIL_SNAPSHOT_CDN
 ```
 
 Then you can simply query Mithril API using Blockfrost Backend:
@@ -132,7 +137,6 @@ curl localhost:3000/mithril/artifact/snapshots
 ```
 
 If you set `mithril.snapshotCDN` option, then the response of `/artifact/snapshots` and `/artifact/snapshot/{digest}` endpoints is enhanced with additional link to the list of snapshot locations.
-
 
 ### Docker
 
