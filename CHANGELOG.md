@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Added custom network support
+- Added option to disable token registery lookups
+
 ## [2.3.1] - 2024-11-04
 
 ### Fixed
