@@ -1,0 +1,6 @@
+{
+  "epoch_length": 4320,
+  "slot_length": 20,
+  "safe_zone": 864,
+  "end_epoch": 0
+}

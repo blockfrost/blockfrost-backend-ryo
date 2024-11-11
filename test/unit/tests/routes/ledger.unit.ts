@@ -5,10 +5,8 @@ import { describe, expect, test, vi } from 'vitest';
 
 describe('ledger service', () => {
   test('network - Mainnet', async () => {
-    vi.spyOn(config, 'getConfig').mockReturnValue({
-      ...config.mainConfig,
-      network: 'mainnet',
-    });
+    vi.stubEnv('BLOCKFROST_CONFIG_NETWORK', 'mainnet');
+    vi.spyOn(config, 'getConfig').mockReturnValue(config.loadConfig());
 
     const fastify = buildFastify();
 
@@ -33,10 +31,9 @@ describe('ledger service', () => {
   });
 
   test('network - Testnet', async () => {
-    vi.spyOn(config, 'getConfig').mockReturnValue({
-      ...config.mainConfig,
-      network: 'testnet',
-    });
+    vi.stubEnv('BLOCKFROST_CONFIG_NETWORK', 'testnet');
+    vi.spyOn(config, 'getConfig').mockReturnValue(config.loadConfig());
+
     const fastify = buildFastify();
 
     await fastify.ready();

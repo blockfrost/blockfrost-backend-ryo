@@ -1,5 +1,7 @@
 import config from 'config';
-import { CARDANO_NETWORKS, Network } from './types/common.js';
+import { ByronEraParameters, CARDANO_NETWORKS, Network } from './types/common.js';
+import { readFileSync } from 'node:fs';
+import * as ResponseTypes from './types/responses/ledger.js';
 
 const MITHRIL_ENDPOINT_ALLOWLIST_DEFAULT = [
   '', // root endpoint, same as "/", but some env are trimming trailing slash so request to /mithril/ could be received as /mithril
@@ -60,9 +62,15 @@ export const loadConfig = () => {
   const network = process.env.BLOCKFROST_CONFIG_NETWORK ?? config.get('network');
 
   if (!network || !CARDANO_NETWORKS.includes(network)) {
-    throw new Error('Invalid network configuration.');
+    throw new Error(`Invalid network configuration: ${network}`);
   }
   // token registry
+  const tokenRegistryEnabled = Boolean(
+    process.env.BLOCKFROST_CONFIG_TOKEN_REGISTRY_ENABLED ?? config.has('tokenRegistryEnabled')
+      ? config.get<boolean>('tokenRegistryEnabled')
+      : true,
+  );
+
   const tokenRegistryUrl =
     process.env.BLOCKFROST_CONFIG_TOKEN_REGISTRY_URL ?? config.get('tokenRegistryUrl');
 
@@ -98,6 +106,19 @@ export const loadConfig = () => {
     throw new Error('Invalid Mithril Aggregator configuration');
   }
 
+  // genesis
+  const genesisDataFolder =
+    process.env.BLOCKFROST_CONFIG_GENESIS_DATA_FOLDER ?? config.has('genesisDataFolder')
+      ? config.get<string>('genesisDataFolder')
+      : `./genesis/${network}`;
+
+  const genesis = JSON.parse(
+    readFileSync(genesisDataFolder + '/genesis.json', 'utf8'),
+  ) as ResponseTypes.Ledger;
+  const byronGenesis = JSON.parse(
+    readFileSync(genesisDataFolder + '/byron_genesis.json', 'utf8'),
+  ) as ByronEraParameters;
+
   return {
     server: {
       listenAddress,
@@ -116,7 +137,10 @@ export const loadConfig = () => {
       ssl,
     },
     network: network as Network,
+    genesis,
+    byronGenesis,
     tokenRegistryUrl,
+    tokenRegistryEnabled,
     mithril: {
       enabled: mithrilEnabled,
       aggregator: mithrilAggregator as string,

@@ -9,10 +9,9 @@ import { describe, expect, test, vi } from 'vitest';
 describe('network service', () => {
   fixtures.map(fixture => {
     test(fixture.name, async () => {
-      vi.spyOn(config, 'getConfig').mockReturnValue({
-        ...config.mainConfig,
-        network: fixture.network,
-      });
+      vi.stubEnv('BLOCKFROST_CONFIG_NETWORK', fixture.network);
+      vi.spyOn(config, 'getConfig').mockReturnValue(config.loadConfig());
+
       const fastify = buildFastify({ maxParamLength: 32_768 });
       const queryMock = sinon.stub();
 

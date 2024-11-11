@@ -4,6 +4,7 @@ import { Asset } from '../types/responses/assets.js';
 import { getConfig } from '../config.js';
 
 const CONFIG_TOKEN_REGISTRY_URL = getConfig().tokenRegistryUrl;
+const CONFIG_TOKEN_REGISTRY_ENABLED = getConfig().tokenRegistryEnabled;
 
 interface TokenRegistryValue<TValueType extends string | number> {
   signatures: {
@@ -43,8 +44,11 @@ export const transformTokenRegistryAsset = (
 export const fetchAssetMetadata = async (
   asset: string,
   tokenRegistryUrl = CONFIG_TOKEN_REGISTRY_URL,
+  tokenRegistryEnabled: boolean = CONFIG_TOKEN_REGISTRY_ENABLED,
 ) => {
   try {
+    if (!tokenRegistryEnabled) return null;
+
     const url = `${tokenRegistryUrl}/metadata/${asset}`;
 
     const response = await axios.get<TokenRegistryMetadata>(url, {
