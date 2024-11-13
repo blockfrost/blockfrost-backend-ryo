@@ -2,6 +2,12 @@ import config from 'config';
 import { ByronEraParameters, CARDANO_NETWORKS, Network } from './types/common.js';
 import { readFileSync } from 'node:fs';
 import * as ResponseTypes from './types/responses/ledger.js';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+// Get the directory name of the current module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const MITHRIL_ENDPOINT_ALLOWLIST_DEFAULT = [
   '', // root endpoint, same as "/", but some env are trimming trailing slash so request to /mithril/ could be received as /mithril
@@ -110,7 +116,7 @@ export const loadConfig = () => {
   const genesisDataFolder =
     process.env.BLOCKFROST_CONFIG_GENESIS_DATA_FOLDER ?? config.has('genesisDataFolder')
       ? config.get<string>('genesisDataFolder')
-      : `./genesis/${network}`;
+      : path.resolve(__dirname, '../', 'genesis', network);
 
   const genesis = JSON.parse(
     readFileSync(genesisDataFolder + '/genesis.json', 'utf8'),
