@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../../../types/queries/metadata.js';
 import * as ResponseTypes from '../../../../../types/responses/metadata.js';
-import { getDbSync } from '../../../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../../utils/error-handler.js';
 import { validatePositiveInRangeSignedBigInt } from '../../../../../utils/validation.js';
 import { SQLQuery } from '../../../../../sql/index.js';
@@ -19,7 +19,7 @@ async function route(fastify: FastifyInstance) {
 
       try {
         if (!validatePositiveInRangeSignedBigInt(request.params.label)) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Missing, out of range or malformed label.');
         }
 
@@ -34,7 +34,7 @@ async function route(fastify: FastifyInstance) {
               [request.query.order, request.query.count, request.query.page, request.params.label],
             );
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return handle404(reply);
@@ -50,9 +50,7 @@ async function route(fastify: FastifyInstance) {
           return reply.send(rows);
         }
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

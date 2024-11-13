@@ -3,7 +3,7 @@ import { isUnpaged } from '../../utils/routes.js';
 import { toJSONStream } from '../../utils/string-utils.js';
 import { SQLQuery } from '../../sql/index.js';
 import * as QueryTypes from '../../types/queries/pools.js';
-import { getDbSync } from '../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../utils/database.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 
 async function pools(fastify: FastifyInstance) {
@@ -26,7 +26,7 @@ async function pools(fastify: FastifyInstance) {
               request.query.page,
             ]);
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -48,9 +48,7 @@ async function pools(fastify: FastifyInstance) {
           return reply.send(list);
         }
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

@@ -4,7 +4,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/tx.js';
 import * as ResponseTypes from '../../../types/responses/tx.js';
-import { getDbSync } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { handle404, handle500 } from '../../../utils/error-handler.js';
 import { convertStakeAddress } from '../../../utils/validation.js';
 
@@ -22,7 +22,7 @@ async function route(fastify: FastifyInstance) {
         ]);
 
         if (query404.rows.length === 0) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle404(reply);
         }
         const { rows } = await clientDbSync.query<QueryTypes.TxPoolUpdates>(
@@ -31,7 +31,7 @@ async function route(fastify: FastifyInstance) {
         );
 
         if (rows.length === 0) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return reply.send([]);
         }
 
@@ -65,7 +65,7 @@ async function route(fastify: FastifyInstance) {
             }
 
             if (!reward_account) {
-              clientDbSync.release();
+              gracefulRelease(clientDbSync);
               return handle500(reply, 'Reward account conversion failed', request);
             }
 
@@ -102,12 +102,10 @@ async function route(fastify: FastifyInstance) {
           }),
         );
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
         return reply.send(results);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

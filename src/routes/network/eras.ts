@@ -8,7 +8,7 @@ import { ByronEraParameters } from '../../types/common.js';
 import { Block } from '../../types/queries/blocks.js';
 import * as QueryTypes from '../../types/queries/network.js';
 import * as LedgerResponseTypes from '../../types/responses/ledger.js';
-import { getDbSync } from '../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../utils/database.js';
 import { handle500 } from '../../utils/error-handler.js';
 import { standardSafeZone } from '../../utils/routes.js';
 
@@ -33,7 +33,7 @@ async function route(fastify: FastifyInstance) {
           SQLQuery.get('network_protocols'),
         );
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         // First summary item is Byron era parameters
         const first = {
@@ -145,9 +145,7 @@ async function route(fastify: FastifyInstance) {
 
         return reply.send(summary);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../../types/queries/governance.js';
 import * as ResponseTypes from '../../../../types/responses/governance.js';
-import { getDbSync } from '../../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../utils/error-handler.js';
 import { SQLQuery } from '../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
@@ -31,7 +31,7 @@ async function route(fastify: FastifyInstance) {
             [drepValidation.raw, drepValidation.id],
           );
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         const row = rows[0];
 
@@ -40,9 +40,7 @@ async function route(fastify: FastifyInstance) {
         }
         return reply.send(row);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

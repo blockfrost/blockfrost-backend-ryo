@@ -4,7 +4,7 @@ import { FastifyInstance } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/epochs.js';
 import * as ResponseTypes from '../../../types/responses/epochs.js';
-import { getDbSync } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { handle404 } from '../../../utils/error-handler.js';
 import { costModelsMap } from '../../../utils/cost-models-map.js';
 
@@ -22,7 +22,7 @@ async function route(fastify: FastifyInstance) {
             SQLQuery.get('epochs_latest_parameters'),
           );
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return handle404(reply);
@@ -35,9 +35,7 @@ async function route(fastify: FastifyInstance) {
 
         return reply.send(rows[0]);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

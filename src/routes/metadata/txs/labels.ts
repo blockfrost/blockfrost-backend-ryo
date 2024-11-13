@@ -3,7 +3,7 @@ import { isUnpaged } from '../../../utils/routes.js';
 import { toJSONStream } from '../../../utils/string-utils.js';
 import * as QueryTypes from '../../../types/queries/metadata.js';
 import * as ResponseTypes from '../../../types/responses/metadata.js';
-import { getDbSync } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { SQLQuery } from '../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 
@@ -27,7 +27,7 @@ async function route(fastify: FastifyInstance) {
               [request.query.order, request.query.count, request.query.page],
             );
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -43,9 +43,7 @@ async function route(fastify: FastifyInstance) {
           return reply.send(rows);
         }
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

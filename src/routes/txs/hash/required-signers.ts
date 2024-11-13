@@ -3,7 +3,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/tx.js';
 import * as ResponseTypes from '../../../types/responses/tx.js';
-import { getDbSync } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { handle404 } from '@blockfrost/blockfrost-utils/lib/fastify.js';
 
 async function route(fastify: FastifyInstance) {
@@ -20,7 +20,7 @@ async function route(fastify: FastifyInstance) {
         ]);
 
         if (query404.rows.length === 0) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle404(reply);
         }
 
@@ -29,7 +29,7 @@ async function route(fastify: FastifyInstance) {
             request.params.hash,
           ]);
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -37,9 +37,7 @@ async function route(fastify: FastifyInstance) {
 
         return reply.send(rows);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

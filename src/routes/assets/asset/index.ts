@@ -13,7 +13,7 @@ import { AssetFingerprint } from '../../../utils/cip14.js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/assets.js';
-import { getDbSync } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { handle404 } from '../../../utils/error-handler.js';
 import { fetchAssetMetadata } from '../../../utils/token-registry.js';
 
@@ -37,7 +37,7 @@ async function route(fastify: FastifyInstance) {
         ]);
 
         if (rows.length === 0) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle404(reply);
         }
 
@@ -75,7 +75,7 @@ async function route(fastify: FastifyInstance) {
           }
         }
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         if (!onchainMetadata) {
           // validate CIP25 on-chain metadata if CIP68 metadata are not present (or not valid)
@@ -107,9 +107,7 @@ async function route(fastify: FastifyInstance) {
           fingerprint,
         });
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

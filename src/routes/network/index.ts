@@ -4,7 +4,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../sql/index.js';
 import * as QueryTypes from '../../types/queries/network.js';
 import * as ResponseTypes from '../../types/responses/network.js';
-import { getDbSync } from '../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../utils/database.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -18,12 +18,10 @@ async function route(fastify: FastifyInstance) {
         const { rows }: { rows: ResponseTypes.Network[] } =
           await clientDbSync.query<QueryTypes.Network>(SQLQuery.get('network'));
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
         return reply.send(rows[0]);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

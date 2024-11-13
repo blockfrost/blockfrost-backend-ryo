@@ -4,7 +4,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/addresses.js';
 import * as ResponseTypes from '../../../types/responses/addresses.js';
-import { getDbSync } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { handle404, handleInvalidAddress } from '../../../utils/error-handler.js';
 import {
   getAddressTypeAndPaymentCred,
@@ -34,7 +34,7 @@ async function route(fastify: FastifyInstance) {
         );
 
         if (query404.rows.length === 0) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle404(reply);
         }
 
@@ -43,7 +43,7 @@ async function route(fastify: FastifyInstance) {
           [request.params.address, paymentCred],
         );
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         // if paymentCred is used we have to convert it back to bech32
         if (paymentCred) {
@@ -96,9 +96,7 @@ async function route(fastify: FastifyInstance) {
 
         return reply.send(result);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

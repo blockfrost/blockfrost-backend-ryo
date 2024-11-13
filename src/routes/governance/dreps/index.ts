@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/governance.js';
 import * as ResponseTypes from '../../../types/responses/governance.js';
-import { getDbSync } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { isUnpaged } from '../../../utils/routes.js';
 
@@ -26,13 +26,11 @@ async function route(fastify: FastifyInstance) {
               request.query.page,
             ]);
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         return reply.send(rows);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

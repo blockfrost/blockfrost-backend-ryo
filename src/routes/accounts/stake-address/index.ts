@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as ResponseTypes from '../../../types/responses/accounts.js';
 import * as QueryTypes from '../../../types/queries/accounts.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { getDbSync } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../utils/error-handler.js';
 import { validateStakeAddress } from '../../../utils/validation.js';
 import { SQLQuery } from '../../../sql/index.js';
@@ -20,7 +20,7 @@ async function route(fastify: FastifyInstance) {
         const isStakeAddressValid = validateStakeAddress(request.params.stake_address);
 
         if (!isStakeAddressValid) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Invalid or malformed stake address format.');
         }
 
@@ -29,7 +29,7 @@ async function route(fastify: FastifyInstance) {
             request.params.stake_address,
           ]);
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return handle404(reply);
@@ -37,9 +37,7 @@ async function route(fastify: FastifyInstance) {
 
         return reply.send(rows[0]);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

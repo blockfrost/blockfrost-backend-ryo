@@ -4,7 +4,7 @@ import { toJSONStream } from '../../../utils/string-utils.js';
 import * as QueryTypes from '../../../types/queries/assets.js';
 import * as ResponseTypes from '../../../types/responses/assets.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { getDbSync } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { handle404 } from '../../../utils/error-handler.js';
 import { SQLQuery } from '../../../sql/index.js';
 import { validateAsset } from '@blockfrost/blockfrost-utils/lib/validation.js';
@@ -31,7 +31,7 @@ async function route(fastify: FastifyInstance) {
         );
 
         if (query404.rows.length === 0) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle404(reply);
         }
 
@@ -46,7 +46,7 @@ async function route(fastify: FastifyInstance) {
               [request.query.order, request.query.count, request.query.page, request.params.asset],
             );
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         if (unpaged) {
           // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
@@ -58,9 +58,7 @@ async function route(fastify: FastifyInstance) {
           return reply.send(rows);
         }
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },
