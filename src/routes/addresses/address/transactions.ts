@@ -4,7 +4,7 @@ import { isUnpaged } from '../../../utils/routes.js';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/addresses.js';
 import * as ResponseTypes from '../../../types/responses/addresses.js';
-import { getDbSync } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { handle400Custom, handle404, handleInvalidAddress } from '../../../utils/error-handler.js';
 import { toJSONStream } from '../../../utils/string-utils.js';
 import { getAdditionalParametersFromRequest } from '@blockfrost/blockfrost-utils/lib/fastify.js';
@@ -30,7 +30,7 @@ async function route(fastify: FastifyInstance) {
         );
 
         if (query404.rows.length === 0) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle404(reply);
         }
 
@@ -42,7 +42,7 @@ async function route(fastify: FastifyInstance) {
         );
 
         if (fromToParameters === 'outOfRangeOrMalformedErr') {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle400Custom(
             reply,
             'Invalid (malformed or out of range) from/to parameter(s).',
@@ -78,7 +78,7 @@ async function route(fastify: FastifyInstance) {
               ],
             );
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         if (unpaged) {
           // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
@@ -90,9 +90,7 @@ async function route(fastify: FastifyInstance) {
           return reply.send(rows);
         }
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

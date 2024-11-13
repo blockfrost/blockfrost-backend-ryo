@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../types/queries/nutlink.js';
 import * as ResponseTypes from '../../../types/responses/nutlink.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { getDbSync } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import axios from 'axios';
 import * as Sentry from '@sentry/node';
 import { handle404, handleInvalidAddress } from '../../../utils/error-handler.js';
@@ -34,7 +34,7 @@ async function route(fastify: FastifyInstance) {
         );
 
         if (query404.rows.length === 0) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle404(reply);
         }
 
@@ -44,7 +44,7 @@ async function route(fastify: FastifyInstance) {
             paymentCred,
           ]);
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         // if paymentCred is used we have to convert it back to bech32
         if (paymentCred) {
@@ -78,9 +78,7 @@ async function route(fastify: FastifyInstance) {
 
         return reply.send(rows[0]);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

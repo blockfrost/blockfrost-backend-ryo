@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../../types/queries/scripts.js';
 import * as ResponseTypes from '../../../../types/responses/scripts.js';
-import { getDbSync } from '../../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
 import { handle404 } from '../../../../utils/error-handler.js';
 import { SQLQuery } from '../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
@@ -20,7 +20,7 @@ async function network(fastify: FastifyInstance) {
             request.params.datum_hash,
           ]);
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return handle404(reply);
@@ -28,9 +28,7 @@ async function network(fastify: FastifyInstance) {
 
         return reply.send(rows[0]);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

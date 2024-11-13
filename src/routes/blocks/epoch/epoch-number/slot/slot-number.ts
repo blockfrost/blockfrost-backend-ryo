@@ -4,7 +4,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../../../sql/index.js';
 import * as QueryTypes from '../../../../../types/queries/blocks.js';
 import * as ResponseTypes from '../../../../../types/responses/blocks.js';
-import { getDbSync } from '../../../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../../utils/error-handler.js';
 import { validatePositiveInRangeSignedInt } from '../../../../../utils/validation.js';
 
@@ -18,12 +18,12 @@ async function route(fastify: FastifyInstance) {
 
       try {
         if (!validatePositiveInRangeSignedInt(request.params.epoch_number)) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Missing, out of range or malformed epoch_number.');
         }
 
         if (!validatePositiveInRangeSignedInt(request.params.slot_number)) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Missing, out of range or malformed slot_number.');
         }
 
@@ -33,7 +33,7 @@ async function route(fastify: FastifyInstance) {
             [request.params.epoch_number, request.params.slot_number],
           );
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         const row = rows[0];
 
@@ -42,9 +42,7 @@ async function route(fastify: FastifyInstance) {
         }
         return reply.send(row);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

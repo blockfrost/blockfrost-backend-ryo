@@ -4,7 +4,7 @@ import { FastifyInstance } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/blocks.js';
 import * as ResponseTypes from '../../../types/responses/blocks.js';
-import { getDbSync } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { handle404 } from '../../../utils/error-handler.js';
 
 async function route(fastify: FastifyInstance) {
@@ -18,7 +18,7 @@ async function route(fastify: FastifyInstance) {
       try {
         const { rows } = await clientDbSync.query<QueryTypes.Block>(SQLQuery.get('blocks_latest'));
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         const row = rows[0];
 
@@ -36,9 +36,7 @@ async function route(fastify: FastifyInstance) {
 
         return reply.send(response);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

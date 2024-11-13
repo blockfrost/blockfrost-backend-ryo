@@ -3,7 +3,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../sql/index.js';
 import * as QueryTypes from '../../types/queries/pools.js';
 import * as ResponseTypes from '../../types/responses/pools.js';
-import { getDbSync } from '../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../utils/database.js';
 import { isUnpaged } from '../../utils/routes.js';
 import { toJSONStream } from '../../utils/string-utils.js';
 
@@ -28,7 +28,7 @@ async function route(fastify: FastifyInstance) {
               request.query.page,
             ]);
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -44,9 +44,7 @@ async function route(fastify: FastifyInstance) {
           return reply.send(rows);
         }
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

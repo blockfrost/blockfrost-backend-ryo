@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { getDbSync } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { isUnpaged } from '../../../utils/routes.js';
 import { toJSONStream } from '../../../utils/string-utils.js';
 import * as ResponseTypes from '../../../types/responses/blocks.js';
@@ -24,12 +24,12 @@ async function route(fastify: FastifyInstance) {
       try {
         if (isNumber(request.params.hash_or_number)) {
           if (!validatePositiveInRangeSignedInt(request.params.hash_or_number)) {
-            clientDbSync.release();
+            gracefulRelease(clientDbSync);
             return handle400Custom(reply, 'Missing, out of range or malformed block number.');
           }
         } else {
           if (!validateBlockHash(request.params.hash_or_number)) {
-            clientDbSync.release();
+            gracefulRelease(clientDbSync);
             return handle400Custom(reply, 'Missing or malformed block hash.');
           }
         }
@@ -40,7 +40,7 @@ async function route(fastify: FastifyInstance) {
         );
 
         if (query404.rows.length === 0) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle404(reply);
         }
 
@@ -55,7 +55,7 @@ async function route(fastify: FastifyInstance) {
               [request.params.hash_or_number, request.query.count, request.query.page],
             );
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -71,9 +71,7 @@ async function route(fastify: FastifyInstance) {
           return reply.send(rows);
         }
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

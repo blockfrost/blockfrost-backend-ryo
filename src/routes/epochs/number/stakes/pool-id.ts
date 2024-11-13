@@ -5,7 +5,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../../sql/index.js';
 import * as QueryTypes from '../../../../types/queries/epochs.js';
 import * as ResponseTypes from '../../../../types/responses/epochs.js';
-import { getDbSync } from '../../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../utils/error-handler.js';
 import {
   validateAndConvertPool,
@@ -22,7 +22,7 @@ async function route(fastify: FastifyInstance) {
 
       try {
         if (!validatePositiveInRangeSignedInt(request.params.number)) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Missing, out of range or malformed epoch_number.');
         }
 
@@ -32,7 +32,7 @@ async function route(fastify: FastifyInstance) {
         );
 
         if (query404_epoch.rows.length === 0) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle404(reply);
         }
 
@@ -40,7 +40,7 @@ async function route(fastify: FastifyInstance) {
         const pool_id = validateAndConvertPool(request.params.pool_id);
 
         if (!pool_id) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Invalid or malformed pool id format.');
         }
 
@@ -50,7 +50,7 @@ async function route(fastify: FastifyInstance) {
         );
 
         if (query404_pool.rows.length === 0) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle404(reply);
         }
 
@@ -65,7 +65,7 @@ async function route(fastify: FastifyInstance) {
               [request.params.number, request.query.count, request.query.page, pool_id],
             );
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -81,9 +81,7 @@ async function route(fastify: FastifyInstance) {
           return reply.send(rows);
         }
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },

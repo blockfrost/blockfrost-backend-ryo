@@ -10,7 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Custom network support
-- Option to disable token registery lookups
+- Option to disable token registry lookups
+
+### Fixed
+
+- Issue with attempting to release an already-released PostgreSQL client during error handling
 
 ## [2.3.1] - 2024-11-04
 

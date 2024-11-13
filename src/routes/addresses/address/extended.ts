@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../types/queries/addresses.js';
 import * as AssetQueryTypes from '../../../types/queries/assets.js';
 import * as ResponseTypes from '../../../types/responses/addresses.js';
-import { getDbSync } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import {
   getSchemaForEndpoint,
   getOnchainMetadata,
@@ -43,7 +43,7 @@ async function route(fastify: FastifyInstance) {
         );
 
         if (query404.rows.length === 0) {
-          clientDbSync.release();
+          gracefulRelease(clientDbSync);
           return handle404(reply);
         }
         const { rows } = await clientDbSync.query<QueryTypes.AddressExtendedQuery>(
@@ -126,7 +126,7 @@ async function route(fastify: FastifyInstance) {
           }
         }
 
-        clientDbSync.release();
+        gracefulRelease(clientDbSync);
 
         // quantities/amounts are returned as string from database so they won't overflow JS number
         const result: ResponseTypes.AddressExtended = rows[0].amount
@@ -162,9 +162,7 @@ async function route(fastify: FastifyInstance) {
 
         return reply.send(result);
       } catch (error) {
-        if (clientDbSync) {
-          clientDbSync.release();
-        }
+        gracefulRelease(clientDbSync);
         throw error;
       }
     },
