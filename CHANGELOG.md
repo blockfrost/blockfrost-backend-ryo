@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Custom network support
 - Option to disable token registry lookups
 
+### Changed
+
+- Mithril: Snapshot mirrors are now configured via config option `mithril.snapshotMirrors`, `mithril.snapshotCDN` config option and `BLOCKFROST_MITHRIL_SNAPSHOT_CDN` env config variable were removed
+
 ### Fixed
 
 - Issue with attempting to release an already-released PostgreSQL client during error handling

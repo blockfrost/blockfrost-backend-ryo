@@ -35,3 +35,8 @@ type OnchainMetadataItem = components['schemas']['asset']['onchain_metadata'];
 export type OnchainMetadata = {
   version?: number;
 } & Record<string, Record<string, OnchainMetadataItem>>;
+
+export interface SnapshotMirror {
+  originalUrl: string;
+  mirrorUrl: string;
+}
