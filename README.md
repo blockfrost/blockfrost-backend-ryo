@@ -106,9 +106,10 @@ CREATE INDEX IF NOT EXISTS bf_idx_ma_tx_mint_ident ON ma_tx_mint USING btree (id
 CREATE INDEX IF NOT EXISTS bf_idx_ma_tx_out_ident ON ma_tx_out USING btree (ident);
 CREATE INDEX IF NOT EXISTS bf_idx_reward_rest_addr_id ON reward_rest USING btree (addr_id);
 CREATE INDEX IF NOT EXISTS bf_idx_reward_rest_spendable_epoch ON reward_rest USING btree (spendable_epoch);
-CREATE INDEX bf_idx_stake_address_raw ON public.drep_hash USING hash (raw);
-CREATE INDEX bf_idx_stake_address_view ON public.drep_hash USING hash (view);
-CREATE INDEX bf_idx_delegation_vote_addr_id ON delegation_vote USING HASH (addr_id);
+CREATE INDEX IF NOT EXISTS bf_idx_drep_hash_raw ON drep_hash USING hash (raw);
+CREATE INDEX IF NOT EXISTS bf_idx_drep_hash_view ON drep_hash USING hash (view);
+CREATE INDEX IF NOT EXISTS bf_idx_drep_hash_has_script ON drep_hash USING hash (has_script);
+CREATE INDEX IF NOT EXISTS bf_idx_delegation_vote_addr_id ON delegation_vote USING hash (addr_id);
 
 ```
 
@@ -232,6 +233,7 @@ A minimal usage example is:
 Check the [nixos-module.nix file](./nixos-module.nix) to check options and the default values.
 
 ## Custom Networks
+
 blockfrost-ryo can be configured to run with any genesis parameters. Setting network to `custom`, and using `genesisDataFolder` value in the yaml configuration or environment variable `BLOCKFROST_CONFIG_GENESIS_DATA_FOLDER` you can specify your genesis details.
 
 ## Developing
