@@ -30,7 +30,12 @@ async function route(fastify: FastifyInstance) {
         const { rows }: { rows: ResponseTypes.DRepsDrepIDUpdates } = unpaged
           ? await clientDbSync.query<QueryTypes.DRepsDrepIDUpdates>(
               SQLQuery.get('governance_dreps_drep_id_votes_unpaged'),
-              [request.query.order, drepValidation.raw, drepValidation.id],
+              [
+                request.query.order,
+                drepValidation.raw,
+                drepValidation.id,
+                drepValidation.hasScript,
+              ],
             )
           : await clientDbSync.query<QueryTypes.DRepsDrepIDUpdates>(
               SQLQuery.get('governance_dreps_drep_id_votes'),
@@ -40,6 +45,7 @@ async function route(fastify: FastifyInstance) {
                 request.query.page,
                 drepValidation.raw,
                 drepValidation.id,
+                drepValidation.hasScript,
               ],
             );
 

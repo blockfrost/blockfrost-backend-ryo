@@ -8,6 +8,7 @@ WHERE (
     ($2::bytea IS NOT NULL AND dh.raw = $2) OR
     ($2 IS NULL AND dh.view = $3)
   )
+  AND dh.has_script = $4
 ORDER BY CASE
     WHEN LOWER($1) = 'desc' THEN vp.id
   END DESC,

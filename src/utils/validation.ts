@@ -64,6 +64,7 @@ export const validateDRepId = (
 ): {
   id: string;
   raw: string | null;
+  hasScript: boolean;
 } => {
   const SPECIAL_DREP_IDS = ['drep_always_abstain', 'drep_always_no_confidence'];
 
@@ -71,6 +72,7 @@ export const validateDRepId = (
     return {
       id: bechDrepId,
       raw: null,
+      hasScript: false,
     };
   }
   const { prefix, words } = bech32.decode(bechDrepId);
@@ -85,5 +87,6 @@ export const validateDRepId = (
   return {
     id: bechDrepId,
     raw: drepIdRaw,
+    hasScript: prefix === 'drep_script',
   };
 };

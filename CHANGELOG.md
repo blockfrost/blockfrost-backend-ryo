@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Issue with attempting to release an already-released PostgreSQL client during error handling
+- Incorrectly retrieving DRep when registered under both keyHash and scriptHash
 
 ## [2.3.1] - 2024-11-04
 

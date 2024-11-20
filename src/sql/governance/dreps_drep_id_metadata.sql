@@ -12,5 +12,6 @@ WHERE (
     ($1::bytea IS NOT NULL AND dh.raw = $1) OR
     ($1 IS NULL AND dh.view = $2)
   )
+  AND dh.has_script = $3
 ORDER BY (dr.tx_id, dr.cert_index) DESC
 LIMIT 1
