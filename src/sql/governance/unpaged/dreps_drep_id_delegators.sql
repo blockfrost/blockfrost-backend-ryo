@@ -19,6 +19,7 @@ active_delegators AS (
       ($4::bytea IS NOT NULL AND dh.raw = $4) OR
       ($4 IS NULL AND dh.view = $5)
     )
+    AND dh.has_script = $6
     AND dv.id = (
       SELECT MAX(dv_inner.id)
       FROM delegation_vote dv_inner

@@ -28,7 +28,7 @@ async function route(fastify: FastifyInstance) {
         const { rows }: { rows: ResponseTypes.DRepsDrepIDMetadata[] } =
           await clientDbSync.query<QueryTypes.DRepsDrepIDMetadata>(
             SQLQuery.get('governance_dreps_drep_id_metadata'),
-            [drepValidation.raw, drepValidation.id],
+            [drepValidation.raw, drepValidation.id, drepValidation.hasScript],
           );
 
         gracefulRelease(clientDbSync);

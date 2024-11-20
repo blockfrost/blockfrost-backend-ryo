@@ -13,6 +13,7 @@ WHERE (
     ($4::bytea IS NOT NULL AND dh.raw = $4) OR
     ($4 IS NULL AND dh.view = $5)
   )
+  AND dh.has_script = $6
 ORDER BY CASE
     WHEN LOWER($1) = 'desc' THEN dr.id
   END DESC,
