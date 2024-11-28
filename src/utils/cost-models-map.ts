@@ -665,16 +665,16 @@ export const costModelsMap = (costModels: any) => {
 
   costModels = sortKeysInObject(costModels);
 
-  if ('PlutusV1' in costModels && Object.keys(costModels.PlutusV1).length !== plutusV1Names.length)
+  if ('PlutusV1' in costModels && Object.keys(costModels.PlutusV1).length < plutusV1Names.length)
     throw new Error('The size of the Plutus V1 cost model mismatched');
 
-  if ('PlutusV2' in costModels && Object.keys(costModels.PlutusV2).length !== plutusV2Names.length)
+  if ('PlutusV2' in costModels && Object.keys(costModels.PlutusV2).length < plutusV2Names.length)
     throw new Error('The size of the Plutus V2 cost model mismatched');
 
   if (
     'PlutusV3' in costModels &&
     Object.keys(costModels.PlutusV3).length !== plutusV3Names.length &&
-    Object.keys(costModels.PlutusV3).length !== plutusV3NamesChangPlus1.length
+    Object.keys(costModels.PlutusV3).length < plutusV3NamesChangPlus1.length
   )
     throw new Error('The size of the Plutus V3 cost model mismatched');
 
