@@ -29,6 +29,7 @@ module.exports = {
     'unicorn/prefer-ternary': 0,
     'unicorn/no-null': 'off',
     'no-nested-ternary': 'off',
+    'unicorn/number-literal-case': 'off',
     'unicorn/prevent-abbreviations': [
       'error',
       {

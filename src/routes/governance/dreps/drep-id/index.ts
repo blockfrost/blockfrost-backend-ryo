@@ -5,7 +5,7 @@ import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../utils/error-handler.js';
 import { SQLQuery } from '../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { validateDRepId } from '../../../../utils/validation.js';
+import { DRepValidationResult, validateDRepId, enhanceDRep } from '../../../../utils/governance.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -14,7 +14,7 @@ async function route(fastify: FastifyInstance) {
     schema: getSchemaForEndpoint('/governance/dreps/{drep_id}'),
 
     handler: async (request: FastifyRequest<QueryTypes.RequestDRepID>, reply) => {
-      let drepValidation;
+      let drepValidation: DRepValidationResult;
 
       try {
         drepValidation = validateDRepId(request.params.drep_id);
@@ -28,7 +28,7 @@ async function route(fastify: FastifyInstance) {
         const { rows }: { rows: ResponseTypes.DRepsDrepID[] } =
           await clientDbSync.query<QueryTypes.DRepsDrepID>(
             SQLQuery.get('governance_dreps_drep_id'),
-            [drepValidation.raw, drepValidation.id, drepValidation.hasScript],
+            [drepValidation.dbSync.raw, drepValidation.dbSync.id, drepValidation.dbSync.hasScript],
           );
 
         gracefulRelease(clientDbSync);
@@ -37,7 +37,9 @@ async function route(fastify: FastifyInstance) {
         if (!row) {
           return handle404(reply);
         }
-        return reply.send(row);
+        const data = enhanceDRep(row, drepValidation);
+
+        return reply.send(data);
       } catch (error) {
         gracefulRelease(clientDbSync);
         throw error;
