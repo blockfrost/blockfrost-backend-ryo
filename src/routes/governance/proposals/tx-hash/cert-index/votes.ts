@@ -35,6 +35,7 @@ async function route(fastify: FastifyInstance) {
 
         gracefulRelease(clientDbSync);
 
+        // TODO: CIP-0129 compatible voter field
         return reply.send(rows);
       } catch (error) {
         gracefulRelease(clientDbSync);
