@@ -28,6 +28,8 @@ async function route(fastify: FastifyInstance) {
 
         gracefulRelease(clientDbSync);
 
+        // TODO: how to handle cip-0129 in list of dreps?
+
         return reply.send(rows);
       } catch (error) {
         gracefulRelease(clientDbSync);
