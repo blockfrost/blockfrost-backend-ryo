@@ -1,5 +1,42 @@
 import { bech32 } from 'bech32';
 
+const SPECIAL_DREP_IDS = new Set(['drep_always_abstain', 'drep_always_no_confidence']);
+
+// eslint-disable-next-line unicorn/prevent-abbreviations
+export const dbSyncDRepToCIP129 = <T extends { drep_id: string; has_script: boolean }>(dRep: T) => {
+  if (SPECIAL_DREP_IDS.has(dRep.drep_id)) {
+    return {
+      id: dRep.drep_id,
+      hex: null,
+    };
+  }
+
+  const { prefix, words } = bech32.decode(dRep.drep_id);
+
+  if (prefix !== 'drep' && prefix !== 'drep_script') {
+    throw new Error('Invalid drep id prefix');
+  }
+
+  const hexBuf = Buffer.from(bech32.fromWords(words));
+
+  const keyTypeNibble = 0x2 << 4; // set keyType to dRep
+  const credentialTypeNibble = dRep.has_script ? 0x3 : 0x2;
+
+  const header = keyTypeNibble | credentialTypeNibble;
+
+  const headerBuff = Buffer.alloc(1); // Allocate a 1-byte buffer (adjust size as needed)
+
+  headerBuff.writeUInt8(header, 0);
+
+  const hexWithHeader = Buffer.concat([headerBuff, hexBuf]);
+  const idWithHeader = bech32.encode('drep', bech32.toWords(hexWithHeader));
+
+  return {
+    id: idWithHeader,
+    hex: hexWithHeader.toString('hex'),
+  };
+};
+
 export interface DRepValidationResult {
   // TODO: maybe rename to raw, raw prop to hex,
   dbSync: {
@@ -28,9 +65,7 @@ export interface DRepValidationResult {
  * @throws {Error} If the DRep ID prefix is invalid, an error is thrown.
  */
 export const validateDRepId = (bechDrepId: string): DRepValidationResult => {
-  const SPECIAL_DREP_IDS = ['drep_always_abstain', 'drep_always_no_confidence'];
-
-  if (SPECIAL_DREP_IDS.includes(bechDrepId)) {
+  if (SPECIAL_DREP_IDS.has(bechDrepId)) {
     return {
       dbSync: {
         id: bechDrepId,
@@ -56,20 +91,13 @@ export const validateDRepId = (bechDrepId: string): DRepValidationResult => {
     // 28 bytes of keyHash/scriptHash
     // Legacy dbSync-compatible format
     const drepIdRaw = `\\x${hexBuf.toString('hex')}`;
-
     const hasScript = prefix === 'drep_script';
 
-    const keyTypeNibble = 0x2 << 4; // set keyType to dRep
-    const credentialTypeNibble = hasScript ? 0x3 : 0x2;
-
-    const header = keyTypeNibble | credentialTypeNibble;
-
-    const headerBuff = Buffer.alloc(1); // Allocate a 1-byte buffer (adjust size as needed)
-
-    headerBuff.writeUInt8(header, 0);
-
-    const hexWithHeader = Buffer.concat([headerBuff, hexBuf]);
-    const idWithHeader = bech32.encode('drep', bech32.toWords(hexWithHeader));
+    const cip129Id = dbSyncDRepToCIP129({
+      drep_id: bechDrepId,
+      hex: hexBuf.toString('hex'),
+      has_script: hasScript,
+    });
 
     return {
       dbSync: {
@@ -77,10 +105,7 @@ export const validateDRepId = (bechDrepId: string): DRepValidationResult => {
         raw: drepIdRaw,
         hasScript: hasScript,
       },
-      cip129: {
-        id: idWithHeader,
-        hex: hexWithHeader.toString('hex'),
-      },
+      cip129: cip129Id,
       isCip129: false,
     };
   } else {

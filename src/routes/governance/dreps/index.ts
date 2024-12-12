@@ -5,6 +5,7 @@ import * as ResponseTypes from '../../../types/responses/governance.js';
 import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { isUnpaged } from '../../../utils/routes.js';
+import { dbSyncDRepToCIP129 as databaseSyncDRepToCIP129 } from '../../../utils/governance.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -16,7 +17,7 @@ async function route(fastify: FastifyInstance) {
 
       try {
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.DReps } = unpaged
+        const { rows } = unpaged
           ? await clientDbSync.query<QueryTypes.DReps>(SQLQuery.get('governance_dreps_unpaged'), [
               request.query.order,
             ])
@@ -28,9 +29,15 @@ async function route(fastify: FastifyInstance) {
 
         gracefulRelease(clientDbSync);
 
-        // TODO: how to handle cip-0129 in list of dreps?
+        for (const row of rows) {
+          // Convert drep ids to cip129 format
+          const cip129DRep = databaseSyncDRepToCIP129(row);
 
-        return reply.send(rows);
+          row.drep_id = cip129DRep.id;
+          row.hex = cip129DRep.hex ?? '';
+        }
+
+        return reply.send(rows as ResponseTypes.DReps);
       } catch (error) {
         gracefulRelease(clientDbSync);
         throw error;

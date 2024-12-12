@@ -38,6 +38,7 @@ module.exports = {
           CardanoDbSync: true,
           getDbSync: true,
           clientDbSync: true,
+          dbSyncDRepToCIP129: true,
         },
       },
     ],

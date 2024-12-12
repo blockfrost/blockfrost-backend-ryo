@@ -4,6 +4,7 @@ import * as ResponseTypes from '../../../../../types/responses/governance.js';
 import { getDbSync, gracefulRelease } from '../../../../../utils/database.js';
 import { SQLQuery } from '../../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { dbSyncDRepToCIP129 } from '../../../../../utils/governance.js';
 import { isUnpaged } from '../../../../../utils/routes.js';
 
 async function route(fastify: FastifyInstance) {
@@ -17,7 +18,7 @@ async function route(fastify: FastifyInstance) {
 
       try {
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.ProposalsProposalVotes } = unpaged
+        const { rows } = unpaged
           ? await clientDbSync.query<QueryTypes.ProposalsProposalVotes>(
               SQLQuery.get('governance_proposals_proposal_votes_unpaged'),
               [request.query.order, request.params.tx_hash, request.params.cert_index],
@@ -35,8 +36,17 @@ async function route(fastify: FastifyInstance) {
 
         gracefulRelease(clientDbSync);
 
-        // TODO: CIP-0129 compatible voter field
-        return reply.send(rows);
+        for (const row of rows) {
+          // Convert voter id to cip129 format
+          const cip129DRep = dbSyncDRepToCIP129({
+            drep_id: row.voter,
+            has_script: row.voter_has_script,
+          });
+
+          row.voter = cip129DRep.id;
+        }
+
+        return reply.send(rows as ResponseTypes.ProposalsProposalVotes);
       } catch (error) {
         gracefulRelease(clientDbSync);
         throw error;
