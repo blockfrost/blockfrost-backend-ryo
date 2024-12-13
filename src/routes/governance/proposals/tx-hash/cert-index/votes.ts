@@ -37,7 +37,12 @@ async function route(fastify: FastifyInstance) {
         gracefulRelease(clientDbSync);
 
         for (const row of rows) {
-          // Convert voter id to cip129 format
+          if (!row.voter.startsWith('drep')) {
+            // Keep non-DRep voter unmodified
+            continue;
+          }
+
+          // Convert voter id to CIP129 format
           const cip129DRep = dbSyncDRepToCIP129({
             drep_id: row.voter,
             has_script: row.voter_has_script,

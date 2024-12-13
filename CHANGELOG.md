@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Support for CIP129 DRep ID - you can query DReps using both legacy format and CIP129 format. The `drep_id` and `hex` fields will reflect the format of the query param
+
 ### Changed
 
-- looser validation for cost model size
+- BREAKING CHANGE: Endpoints `/governance/dreps` and `/governance/proposals/{tx_hash}/{cert_index}/votes` are now using CIP129 format
+- Looser validation for cost model size in `epochs/:num/parameters`
 
 ## [2.4.0] - 2024-11-20
 

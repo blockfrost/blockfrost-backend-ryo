@@ -38,13 +38,11 @@ export const dbSyncDRepToCIP129 = <T extends { drep_id: string; has_script: bool
 };
 
 export interface DRepValidationResult {
-  // TODO: maybe rename to raw, raw prop to hex,
   dbSync: {
     id: string;
     raw: string | null;
     hasScript: boolean;
   };
-  // cip129 is set when the bechDrepId
   cip129: {
     // CIP129 bech32 representation of dRep ID
     id: string;
@@ -183,7 +181,6 @@ export const validateDRepId = (bechDrepId: string): DRepValidationResult => {
  * @param {{drep_id: string; hex: string}} data - DRep dbsync data
  * @returns Object - DRep data object with CIP-0129 compatible bech32 ID and hex in case of CIP-0129 drepId. Otherwise the data remain unmodified.
  *
- * @throws {Error} If the DRep ID prefix is invalid, an error is thrown.
  */
 export const enhanceDRep = <T extends { drep_id: string; hex: string }>(
   data: T,
