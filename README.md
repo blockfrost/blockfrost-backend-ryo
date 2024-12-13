@@ -67,7 +67,9 @@ If you are using an authenticated db connection that requires a password, you'd 
   mithril:
     enabled: true # ENV var BLOCKFROST_MITHRIL_ENABLED=true
     aggregator: "https://aggregator.pre-release-preview.api.mithril.network/aggregator" # ENV var BLOCKFROST_MITHRIL_AGGREGATOR
-    snapshotCDN: "https://example.com/" # ENV var BLOCKFROST_MITHRIL_SNAPSHOT_CDN
+    snapshotMirrors:
+    - originalUrl: "https://storage.googleapis.com/cdn.aggregator.pre-release-preview.api.mithril.network"
+      mirrorUrl: "https://dummy-mithril-snapshot-cdn.com"
 ```
 
 <details>
@@ -130,14 +132,17 @@ To enable this experimental feature add following lines to your config:
 mithril:
   enabled: true # ENV var BLOCKFROST_MITHRIL_ENABLED=true
   aggregator: 'https://aggregator.pre-release-preview.api.mithril.network/aggregator' # ENV var BLOCKFROST_MITHRIL_AGGREGATOR
-  snapshotCDN: 'https://example.com/' # Optional, ENV var BLOCKFROST_MITHRIL_SNAPSHOT_CDN
-```
+  snapshotMirrors: # Optional
+    - originalUrl: "https://storage.googleapis.com/cdn.aggregator.pre-release-preview.api.mithril.network"
+    mirrorUrl: "https://dummy-mithril-snapshot-cdn.com"
 
 Then you can simply query Mithril API using Blockfrost Backend:
 
 ```
+
 curl localhost:3000/mithril/artifact/snapshots
-```
+
+````
 
 If you set `mithril.snapshotCDN` option, then the response of `/artifact/snapshots` and `/artifact/snapshot/{digest}` endpoints is enhanced with additional link to the list of snapshot locations.
 
@@ -152,7 +157,7 @@ docker run --rm \
   -e BLOCKFROST_CONFIG_SERVER_LISTEN_ADDRESS=0.0.0.0 \
   -v $PWD/config:/app/config \
   blockfrost/backend-ryo:latest
-```
+````
 
 You can also generate a Docker image using Nix instead of the `Dockerfile` running
 
