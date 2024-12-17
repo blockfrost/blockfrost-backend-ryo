@@ -152,17 +152,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emurgo/cardano-serialization-lib-nodejs@npm:11.5.0, @emurgo/cardano-serialization-lib-nodejs@npm:^11.5.0":
-  version: 11.5.0
-  resolution: "@emurgo/cardano-serialization-lib-nodejs@npm:11.5.0"
-  checksum: f9e271704ef12eb018bc0a15b8c6f83c61db694a422674267be6c546a9a89dd8b200781aca3f97dd5bb4291b0c84f6c60177fcf7e550964188a4ed6a8efd0316
-  languageName: node
-  linkType: hard
-
 "@emurgo/cardano-serialization-lib-nodejs@npm:^11.4.0":
   version: 11.4.0
   resolution: "@emurgo/cardano-serialization-lib-nodejs@npm:11.4.0"
   checksum: 2033f633521283026f9e418613eb1840d44705119826f615c14b9a6adba995e8d66f5678fc5bb752cf2695db937c67d395795c533fe46ded2f7ca0e8973a45eb
+  languageName: node
+  linkType: hard
+
+"@emurgo/cardano-serialization-lib-nodejs@npm:^11.5.0":
+  version: 11.5.0
+  resolution: "@emurgo/cardano-serialization-lib-nodejs@npm:11.5.0"
+  checksum: f9e271704ef12eb018bc0a15b8c6f83c61db694a422674267be6c546a9a89dd8b200781aca3f97dd5bb4291b0c84f6c60177fcf7e550964188a4ed6a8efd0316
   languageName: node
   linkType: hard
 
@@ -2133,7 +2133,6 @@ __metadata:
     "@blockfrost/blockfrost-js": 5.5.0
     "@blockfrost/blockfrost-utils": 2.8.1
     "@blockfrost/openapi": 0.1.69
-    "@emurgo/cardano-serialization-lib-nodejs": 11.5.0
     "@fastify/cors": ^9.0.1
     "@fastify/http-proxy": ^9.5.0
     "@fastify/postgres": ^5.2.2

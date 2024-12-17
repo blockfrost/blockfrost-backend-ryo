@@ -27,6 +27,7 @@ export interface RequestDRepID {
 export interface DReps {
   drep_id: string;
   hex: string;
+  has_script: boolean;
 }
 
 export interface DRepsDrepID {
@@ -142,6 +143,7 @@ export interface ProposalsProposalVotes {
   cert_index: number;
   voter_role: 'constitutional_committee' | 'drep' | 'spo';
   voter: string;
+  voter_has_script: boolean;
   vote: 'yes' | 'no' | 'abstain';
 }
 

@@ -17,6 +17,7 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
   (
     COALESCE(encode(ch.raw, 'hex'), dh.view, ph.view)
   ) AS "voter",
+  dh.has_script AS "voter_has_script",
   LOWER(vote::TEXT) AS "vote" -- Yes, No, Abstain -> yes,no,abstain
 FROM voting_procedure vp
   JOIN gov_action_proposal gap ON (gap.id = vp.gov_action_proposal_id)
