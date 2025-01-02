@@ -40,7 +40,10 @@ SELECT dh.view AS "drep_id",
   encode(dh.raw, 'hex') AS "hex",
   COALESCE(dd.amount, 0)::TEXT AS "amount",
   ca.active AS "active",
-  ca.active_epoch AS "active_epoch",
+  CASE
+    WHEN ca.active THEN ca.active_epoch
+    ELSE NULL
+  END AS "active_epoch",
   dh.has_script AS "has_script"
 FROM drep_hash dh
   LEFT JOIN calculated_active ca ON dh.id = ca.drep_hash_id
