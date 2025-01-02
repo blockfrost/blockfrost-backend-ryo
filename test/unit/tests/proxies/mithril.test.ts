@@ -154,7 +154,7 @@ describe('mithril proxy text', () => {
         created_at: '2024-05-22T15:17:47.601798793Z',
         locations: [
           'https://storage.googleapis.com/cdn.aggregator.pre-release-preview.api.mithril.network/preview-e575-i11509.3de0e6d3fd837ae1035688623cb4de8318f6205ea02da6df2592dabecdd631ba.tar.zst',
-          'https://dummy-mithril-snapshot-cdn.com/3de0e6d3fd837ae1035688623cb4de8318f6205ea02da6df2592dabecdd631ba',
+          'https://dummy-mithril-snapshot-cdn.com/preview-e575-i11509.3de0e6d3fd837ae1035688623cb4de8318f6205ea02da6df2592dabecdd631ba.tar.zst',
         ],
         compression_algorithm: 'zstandard',
         cardano_node_version: '8.9.0',
@@ -171,7 +171,7 @@ describe('mithril proxy text', () => {
         created_at: '2024-05-22T14:02:55.976983297Z',
         locations: [
           'https://storage.googleapis.com/cdn.aggregator.pre-release-preview.api.mithril.network/preview-e575-i11508.dc55f5508a3beedf990a362037ddc21a8d39e3ed81ab81eb5fa62c0a2835c0f6.tar.zst',
-          'https://dummy-mithril-snapshot-cdn.com/dc55f5508a3beedf990a362037ddc21a8d39e3ed81ab81eb5fa62c0a2835c0f6',
+          'https://dummy-mithril-snapshot-cdn.com/preview-e575-i11508.dc55f5508a3beedf990a362037ddc21a8d39e3ed81ab81eb5fa62c0a2835c0f6.tar.zst',
         ],
         compression_algorithm: 'zstandard',
         cardano_node_version: '8.9.0',
@@ -225,20 +225,20 @@ describe('mithril proxy text', () => {
       created_at: '2024-05-22T15:17:47.601798793Z',
       locations: [
         'https://storage.googleapis.com/cdn.aggregator.pre-release-preview.api.mithril.network/preview-e575-i11509.3de0e6d3fd837ae1035688623cb4de8318f6205ea02da6df2592dabecdd631ba.tar.zst',
-        'https://dummy-mithril-snapshot-cdn.com/3de0e6d3fd837ae1035688623cb4de8318f6205ea02da6df2592dabecdd631ba',
+        'https://dummy-mithril-snapshot-cdn.com/preview-e575-i11509.3de0e6d3fd837ae1035688623cb4de8318f6205ea02da6df2592dabecdd631ba.tar.zst',
       ],
       compression_algorithm: 'zstandard',
       cardano_node_version: '8.9.0',
     });
   });
 
-  test('DOES NOT modifies response /artifact/snapshot/:digest when mithril.snapshotCDN is not set', async () => {
+  test('DOES NOT modifies response /artifact/snapshot/:digest when mithril.snapshotMirrors is not set', async () => {
     vi.spyOn(config, 'getConfig').mockReturnValue({
       ...config.mainConfig,
       network: 'mainnet',
       mithril: {
         ...config.mainConfig.mithril,
-        snapshotCDN: undefined,
+        snapshotMirrors: undefined,
       },
     });
 

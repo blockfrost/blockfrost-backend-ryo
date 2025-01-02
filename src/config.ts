@@ -1,5 +1,5 @@
 import config from 'config';
-import { ByronEraParameters, CARDANO_NETWORKS, Network } from './types/common.js';
+import { ByronEraParameters, CARDANO_NETWORKS, Network, SnapshotMirror } from './types/common.js';
 import { readFileSync } from 'node:fs';
 import * as ResponseTypes from './types/responses/ledger.js';
 import { fileURLToPath } from 'url';
@@ -90,10 +90,9 @@ export const loadConfig = () => {
       ? config.get<string>('mithril.aggregator')
       : undefined;
 
-  const mithrilSnapshotCDN =
-    process.env.BLOCKFROST_MITHRIL_SNAPSHOT_CDN ?? config.has('mithril.snapshotCDN')
-      ? config.get<string>('mithril.snapshotCDN')
-      : undefined;
+  const mithrilSnapshotMirrors = config.has('mithril.snapshotMirrors')
+    ? config.get<SnapshotMirror[]>('mithril.snapshotMirrors')
+    : undefined;
 
   const mithrilAllowedEndpoints = config.has('mithril.mithrilAllowedEndpoints')
     ? config.get<string[]>('mithril.mithrilAllowedEndpoints')
@@ -150,7 +149,7 @@ export const loadConfig = () => {
     mithril: {
       enabled: mithrilEnabled,
       aggregator: mithrilAggregator as string,
-      snapshotCDN: mithrilSnapshotCDN,
+      snapshotMirrors: mithrilSnapshotMirrors,
       allowedEndpoints: mithrilAllowedEndpoints,
     },
   };
