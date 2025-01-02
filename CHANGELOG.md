@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.1] - 2025-01-02
+
 ### Fixed
 
 - DRep was incorrectly marked as active if a DRep update occurred after a DRep registration
