@@ -1078,19 +1078,19 @@ cacheEntries = {
 "word-wrap@npm:1.2.3" = { filename = "word-wrap-npm-1.2.3-7fb15ab002-30b48f91fc.zip"; sha512 = "30b48f91fcf12106ed3186ae4fa86a6a1842416df425be7b60485de14bec665a54a68e4b5156647dec3a70f25e84d270ca8bc8cd23182ed095f5c7206a938c1f"; };
 "type-check@npm:0.3.2" = { filename = "type-check-npm-0.3.2-a4a38bb0b6-dd3b149564.zip"; sha512 = "dd3b1495642731bc0e1fc40abe5e977e0263005551ac83342ecb6f4f89551d106b368ec32ad3fb2da19b3bd7b2d1f64330da2ea9176d8ddbfe389fb286eb5124"; };
 "levn@npm:0.3.0" = { filename = "levn-npm-0.3.0-48d774b1c2-0d084a5242.zip"; sha512 = "0d084a524231a8246bb10fec48cdbb35282099f6954838604f3c7fc66f2e16fa66fd9cc2f3f20a541a113c4dafdf181e822c887c8a319c9195444e6c64ac395e"; };
-"@blockfrost/openapi@npm:0.1.72-beta.0" = { filename = "@blockfrost-openapi-npm-0.1.72-beta.0-a3e29c8678-fa12651017.zip"; sha512 = "fa126510170265d4ac1d08474dd1b97cc9405cf29d9b6cb28122f9443cac97c078717b8e69aacf8f39178ade5453163c35349cd4bb567dbc38965f0d8a3513b0"; };
+"@blockfrost/openapi@npm:0.1.72-beta.1" = { filename = "@blockfrost-openapi-npm-0.1.72-beta.1-b71baf4642-3411aa0220.zip"; sha512 = "3411aa02200d8628f27816b2e56462448707a073db3590db952ccb52ee6bd690e7f353ac9143f4fd375242684f079151ac37506c73312d7933389806457d40a7"; };
+"yaml@npm:2.7.0" = { filename = "yaml-npm-2.7.0-bb348b356b-6e8b2f9b9d.zip"; sha512 = "6e8b2f9b9d1b18b10274d58eb3a47ec223d9a93245a890dcb34d62865f7e744747190a9b9177d5f0ef4ea2e44ad2c0214993deb42e0800766203ac46f00a12dd"; };
+"cbor@npm:9.0.2" = { filename = "cbor-npm-9.0.2-dcdfe6a47e-925edae7bf.zip"; sha512 = "925edae7bf964be5a26dba1b7ba6311ac12b6a66234dc958958997a0576cdc740632dc19852a5b84d8a75101936bea1fe122dc22539d6e11f4539c731853ba2e"; };
 "rimraf@npm:6.0.1" = { filename = "rimraf-npm-6.0.1-2d0b0aeb1b-8ba5b84131.zip"; sha512 = "8ba5b84131c1344e9417cb7e8c05d8368bb73cbe5dd4c1d5eb49fc0b558209781658d18c450460e30607d0b7865bb067482839a2f343b186b07ae87715837e66"; };
+"ajv@npm:8.17.1" = { filename = "ajv-npm-8.17.1-12ade7edc6-1797bf242c.zip"; sha512 = "1797bf242cfffbaf3b870d13565bd1716b73f214bb7ada9a497063aada210200da36e3ed40237285f3255acc4feeae91b1fb183625331bad27da95973f7253d9"; };
 "package-json-from-dist@npm:1.0.1" = { filename = "package-json-from-dist-npm-1.0.1-4631a88465-58ee9538f2.zip"; sha512 = "58ee9538f2f762988433da00e26acc788036914d57c71c246bf0be1b60cdbd77dd60b6a3e1a30465f0b248aeb80079e0b34cb6050b1dfa18c06953bb1cbc7602"; };
+"fast-uri@npm:3.0.5" = { filename = "fast-uri-npm-3.0.5-88ac8c7ad4-b56cda8e73.zip"; sha512 = "b56cda8e7355bad9adcc3c2eacd94cb592eaa9536497a4779a9527784f4f95a3755f30525c63583bd85807c493b396ac89926c970f19a60905ed875121ca78fd"; };
 "glob@npm:11.0.0" = { filename = "glob-npm-11.0.0-3be4126bf5-8a2dd914d5.zip"; sha512 = "8a2dd914d5776987be5244624d9491bbcaf19f2387e06783737003ff696ebfd2264190c47014f8709c1c02d8bc892f17660cf986c587b107e194c0a3151ab333"; };
 "minipass@npm:7.1.2" = { filename = "minipass-npm-7.1.2-3a5327d36d-2bfd325b95.zip"; sha512 = "2bfd325b95c555f2b4d2814d49325691c7bee937d753814861b0b49d5edcda55cbbf22b6b6a60bb91eddac8668771f03c5ff647dcd9d0f798e9548b9cdc46ee3"; };
 "jackspeak@npm:4.0.2" = { filename = "jackspeak-npm-4.0.2-95b4b8a1aa-210030029e.zip"; sha512 = "210030029edfa1658328799ad88c3d0fc057c4cb8a069fc4137cc8d2cc4b65c9721c6e749e890f9ca77a954bb54f200f715b8896e50d330e5f3e902e72b40974"; };
 "minimatch@npm:10.0.1" = { filename = "minimatch-npm-10.0.1-eabcc0d3a0-f5b63c2f30.zip"; sha512 = "f5b63c2f30606091a057c5f679b067f84a2cd0ffbd2dbc9143bda850afd353c7be81949ff11ae0c86988f07390eeca64efd7143ee05a0dab37f6c6b38a2ebb6c"; };
 "path-scurry@npm:2.0.0" = { filename = "path-scurry-npm-2.0.0-5a556e8161-9953ce3857.zip"; sha512 = "9953ce3857f7e0796b187a7066eede63864b7e1dfc14bf0484249801a5ab9afb90d9a58fc533ebb1b552d23767df8aa6a2c6c62caf3f8a65f6ce336a97bbb484"; };
 "lru-cache@npm:11.0.1" = { filename = "lru-cache-npm-11.0.1-636ae10c75-6056230a99.zip"; sha512 = "6056230a99fb399234e82368b99586bd4740079e80649102f681b19337b7d8c6bc8dd7f8b8c59377c31d26deb89f548b717ae932e139b4b795879d920fccf820"; };
-"ajv@npm:8.17.1" = { filename = "ajv-npm-8.17.1-12ade7edc6-1797bf242c.zip"; sha512 = "1797bf242cfffbaf3b870d13565bd1716b73f214bb7ada9a497063aada210200da36e3ed40237285f3255acc4feeae91b1fb183625331bad27da95973f7253d9"; };
-"yaml@npm:2.7.0" = { filename = "yaml-npm-2.7.0-bb348b356b-6e8b2f9b9d.zip"; sha512 = "6e8b2f9b9d1b18b10274d58eb3a47ec223d9a93245a890dcb34d62865f7e744747190a9b9177d5f0ef4ea2e44ad2c0214993deb42e0800766203ac46f00a12dd"; };
-"fast-uri@npm:3.0.5" = { filename = "fast-uri-npm-3.0.5-88ac8c7ad4-b56cda8e73.zip"; sha512 = "b56cda8e7355bad9adcc3c2eacd94cb592eaa9536497a4779a9527784f4f95a3755f30525c63583bd85807c493b396ac89926c970f19a60905ed875121ca78fd"; };
-"cbor@npm:9.0.2" = { filename = "cbor-npm-9.0.2-dcdfe6a47e-925edae7bf.zip"; sha512 = "925edae7bf964be5a26dba1b7ba6311ac12b6a66234dc958958997a0576cdc740632dc19852a5b84d8a75101936bea1fe122dc22539d6e11f4539c731853ba2e"; };
 };
 
 in optionalOverride overrideAttrs project

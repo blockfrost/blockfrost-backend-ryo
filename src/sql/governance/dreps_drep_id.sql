@@ -87,7 +87,7 @@ SELECT dh.view AS "drep_id",
   END AS "active_epoch",
   dh.has_script AS "has_script",
   ca.last_active_epoch as "last_active_epoch",
-  ca.registered AS "registered",
+  NOT ca.registered AS "retired",
   ce.expired as "expired"
 FROM drep_hash dh
   LEFT JOIN calculated_active ca ON dh.id = ca.drep_hash_id
