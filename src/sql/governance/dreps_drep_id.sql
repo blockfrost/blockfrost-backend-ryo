@@ -14,7 +14,8 @@ calculated_active AS (
       CASE
         -- REGISTERED IF THE LATEST REGISTRATION IS AFTER THE LATEST DEREGISTRATION
         WHEN (
-          SELECT MAX(dr.tx_id)
+          -- Special dreps have no drep_registration records, fallback to TRUE for these
+          SELECT COALESCE(MAX(dr.tx_id), 1)
           FROM drep_registration dr
           WHERE dr.drep_hash_id = dh.id AND dr.deposit > 0
         ) > (
