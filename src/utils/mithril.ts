@@ -1,10 +1,10 @@
-export const appendLocationToSnapshot = (snapshot: unknown, baseSnapshotURL: string) => {
+import { SnapshotMirror } from '../types/common.js';
+
+export const appendLocationToSnapshot = (snapshot: unknown, snapshotMirrors: SnapshotMirror[]) => {
   if (
     typeof snapshot !== 'object' ||
     snapshot === null ||
-    !('digest' in snapshot) ||
     !('locations' in snapshot) ||
-    typeof snapshot.digest !== 'string' ||
     !Array.isArray(snapshot.locations)
   ) {
     console.error('Could not append URL to snapshot locations. Invalid data format.', snapshot);
@@ -13,8 +13,28 @@ export const appendLocationToSnapshot = (snapshot: unknown, baseSnapshotURL: str
 
   const snapshotCopy = { ...snapshot };
 
-  const additionalSnapshotUrl = new URL(snapshot.digest, baseSnapshotURL);
+  if (!Array.isArray(snapshotCopy.locations)) {
+    throw new TypeError('Invalid snapshot format');
+  }
 
-  (snapshotCopy.locations as unknown[]).push(additionalSnapshotUrl);
+  const mirroredUrls: string[] = [];
+
+  // Create mirror url for every snapshot location matching snapshotMirror configuration
+  for (const snapshotLocation of snapshotCopy.locations) {
+    if (typeof snapshotLocation !== 'string') {
+      continue;
+    }
+
+    for (const snapshotMirror of snapshotMirrors) {
+      const mirroredUrl = snapshotLocation.replace(
+        snapshotMirror.originalUrl,
+        snapshotMirror.mirrorUrl,
+      );
+
+      mirroredUrls.push(mirroredUrl);
+    }
+  }
+  snapshotCopy.locations.push(...mirroredUrls);
+
   return snapshotCopy;
 };

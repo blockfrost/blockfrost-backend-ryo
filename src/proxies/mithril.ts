@@ -15,7 +15,7 @@ export const registerMithrilProxy = (app: FastifyInstance) => {
 
   console.log(`Mithril proxy enabled. Aggregator: ${config.mithril.aggregator}.`);
 
-  const snapshotCDN = config.mithril.snapshotCDN;
+  const snapshotMirrors = config.mithril.snapshotMirrors;
 
   app.register(fastifyHttpProxy, {
     upstream: config.mithril.aggregator,
@@ -77,7 +77,7 @@ export const registerMithrilProxy = (app: FastifyInstance) => {
         const isSnapshotEndpoint = matchUrlToEndpoint(url, ['/artifact/snapshot/:digest']);
         const isSnapshotsEndpoint = matchUrlToEndpoint(url, ['/artifact/snapshots']);
 
-        if (snapshotCDN && (isSnapshotEndpoint || isSnapshotsEndpoint)) {
+        if (snapshotMirrors && (isSnapshotEndpoint || isSnapshotsEndpoint)) {
           // Custom snapshot CDN was set
           // Modify response of /artifact/snapshots and /artifact/snapshot/{digest} to append CDN link to list of snapshot locations
           const body = await convertStreamToString(response);
@@ -87,8 +87,10 @@ export const registerMithrilProxy = (app: FastifyInstance) => {
             const jsonBody = JSON.parse(body);
 
             alteredJSONBody = isSnapshotsEndpoint
-              ? jsonBody.map((snapshot: unknown) => appendLocationToSnapshot(snapshot, snapshotCDN))
-              : appendLocationToSnapshot(jsonBody, snapshotCDN);
+              ? jsonBody.map((snapshot: unknown) =>
+                  appendLocationToSnapshot(snapshot, snapshotMirrors),
+                )
+              : appendLocationToSnapshot(jsonBody, snapshotMirrors);
 
             // When replying with a body of a different length it is necessary to remove the content-length header.
             reply.removeHeader('content-length');
