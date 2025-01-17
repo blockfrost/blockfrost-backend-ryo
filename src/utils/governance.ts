@@ -56,9 +56,17 @@ export interface DRepValidationResult {
  * Validates a DRep ID and returns both the ID and its raw format if applicable.
  *
  * @param {string} bechDrepId - The DRep ID in Bech32 format that needs to be validated.
- * @returns {{ id: string, raw: string | null }} - An object containing the validated ID and its raw form.
- *   - `id`: The original DRep ID.
- *   - `raw`: The raw format of the DRep ID in hexadecimal if applicable, or `null` for special cases (drep_always_abstain, drep_always_no_confidence).
+ * @returns {{
+ *   dbSync: { id: string, raw: string | null, hasScript: boolean },
+ *   cip129: { id: string, hex: string | null },
+ *   isCip129: boolean
+ * }} An object containing the validation results:
+ *   - `dbSync.id`: The original Bech32-encoded DRep ID.
+ *   - `dbSync.raw`: The raw format of the DRep ID in hexadecimal, prefixed with `\x`, or `` for special IDs.
+ *   - `dbSync.hasScript`: Indicates whether the DRep ID corresponds to a script-based ID.
+ *   - `cip129.id`: The CIP-129 formatted DRep ID, equivalent to the input Bech32 ID.
+ *   - `cip129.hex`: The raw hexadecimal format of the CIP-129 ID, or `null` for special cases.
+ *   - `isCip129`: True if the ID is CIP-129 compliant; otherwise, false.
  *
  * @throws {Error} If the DRep ID prefix is invalid, an error is thrown.
  */
@@ -187,6 +195,8 @@ export const enhanceDRep = <T extends { drep_id: string; hex: string }>(
   dRepValidationResult: DRepValidationResult,
 ) => {
   if (dRepValidationResult.isCip129) {
+    // Client queried with CIP129 DRep
+    // Replace legacy-dbsync-native DRep ID and hex with CIP129 format
     return {
       ...data,
       drep_id: dRepValidationResult.cip129.id,

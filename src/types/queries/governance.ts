@@ -37,6 +37,9 @@ export interface DRepsDrepID {
   active: boolean;
   active_epoch: number | null;
   has_script: boolean;
+  retired: boolean;
+  expired: boolean;
+  last_active_epoch: number | null;
 }
 
 export interface DRepsDrepIDDelegators {
