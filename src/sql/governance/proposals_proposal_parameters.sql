@@ -31,7 +31,7 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
       'decentralisation_param',
       decentralisation,
       'extra_entropy',
-      extra_entropy,
+      entropy,
       'protocol_major_ver',
       protocol_major,
       'protocol_minor_ver',
@@ -40,8 +40,6 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
       COALESCE(coins_per_utxo_size, min_utxo_value)::TEXT,
       'min_pool_cost',
       min_pool_cost::TEXT,
-      'nonce',
-      encode(nonce, 'hex'),
       'cost_models',
       cm.costs,
       'price_mem',
@@ -116,8 +114,8 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
     )::JSONB
   ) AS "parameters"
 FROM gov_action_proposal gap
-  JOIN tx ON (gap.tx_id = tx.id)
-  JOIN epoch_param ep ON (gap.param_proposal = ep.id)
-  LEFT JOIN cost_model cm ON (ep.cost_model_id = cm.id)
+  JOIN tx ON (gap.tx_id	 = tx.id)
+  JOIN param_proposal pp ON (gap.param_proposal = pp.id)
+  LEFT JOIN cost_model cm ON (pp.cost_model_id = cm.id)
 WHERE encode(tx.hash, 'hex') = $1
   AND gap.index = $2
