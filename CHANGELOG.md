@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.0] - 2025-01-20
+
+### Changed
+
+- New fields in `/governance/dreps/:drep`
+  - `retired`: Indicates the registration state of the DRep. Set to `true` if the DRep has been deregistered; otherwise, `false`.
+  - `expired`: , Indicates whether the DRep has been inactive for a consecutive number of epochs (determined by a epoch parameter `drep_activity`)
+  - `last_active_epoch`: Epoch of the most recent action - registration, update, deregistration or voting
+- Deprecated fields in `/governance/dreps/:drep`
+  - `active`: Superseded by the new `retired` and `expired`
+  - `active_epoch`: Replaced by `last_active_epoch`
+
 ## [3.0.1] - 2025-01-02
 
 ### Fixed
