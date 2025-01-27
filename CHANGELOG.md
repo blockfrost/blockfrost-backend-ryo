@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.2] - 2025-01-24
+
+### Fixed
+
+- Unexpected server error in `/governance/proposals/:proposal/metadata` (introduced in 3.1.1)
+
 ## [3.1.1] - 2025-01-23
 
 ### Fixed
