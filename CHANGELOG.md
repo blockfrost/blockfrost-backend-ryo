@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- BREAKING CHANGE: Endpoints `/accounts/{stake_addr}` are now using CIP129 format for `drep_id` attribute
+
 ## [3.1.2] - 2025-01-24
 
 ### Fixed

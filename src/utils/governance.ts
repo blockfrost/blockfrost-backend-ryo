@@ -61,7 +61,7 @@ export interface DRepValidationResult {
  *   cip129: { id: string, hex: string | null },
  *   isCip129: boolean
  * }} An object containing the validation results:
- *   - `dbSync.id`: The original Bech32-encoded DRep ID.
+ *   - `dbSync.id`: The legacy Bech32-encoded DRep ID.
  *   - `dbSync.raw`: The raw format of the DRep ID in hexadecimal, prefixed with `\x`, or `` for special IDs.
  *   - `dbSync.hasScript`: Indicates whether the DRep ID corresponds to a script-based ID.
  *   - `cip129.id`: The CIP-129 formatted DRep ID, equivalent to the input Bech32 ID.
