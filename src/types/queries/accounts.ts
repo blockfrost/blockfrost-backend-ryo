@@ -23,6 +23,7 @@ export interface Account {
   withdrawable_amount: string;
   pool_id: string;
   drep_id: string;
+  drep_id_has_script: boolean;
 }
 
 export interface AccountRewards {
