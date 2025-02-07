@@ -34,7 +34,9 @@ queried_pool AS (
     )
 ),
 queried_drep AS (
-  SELECT dh.view AS "drep_id"
+  SELECT 
+    dh.view AS "drep_id",
+    dh.has_script AS "drep_id_has_script"
   FROM stake_address sa
     JOIN delegation_vote dv ON (dv.addr_id = sa.id)
     JOIN drep_hash dh ON (dh.id = dv.drep_hash_id)
@@ -106,7 +108,11 @@ SELECT sa.view AS "stake_address",
   (
     SELECT drep_id
     FROM queried_drep
-  ) AS "drep_id"
+  ) AS "drep_id",
+  (
+    SELECT has_script
+    FROM queried_drep
+  ) AS "drep_id_has_script"
 FROM stake_address sa
   LEFT JOIN (
     SELECT addr_id,
