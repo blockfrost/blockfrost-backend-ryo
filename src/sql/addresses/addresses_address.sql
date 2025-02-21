@@ -24,7 +24,7 @@ WITH queried_address AS (
       END
     )
     AND tx.valid_contract = 'true' -- don't count utxos that are part of transaction that failed script validation at stage 2
-  GROUP BY txo.id
+  GROUP BY txo.id, txo.value
 )
 SELECT (
     SELECT CASE

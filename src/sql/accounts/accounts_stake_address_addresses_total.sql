@@ -11,7 +11,7 @@ WITH queried_outputs AS (
     JOIN stake_address sa ON (txo.stake_address_id = sa.id)
     LEFT JOIN ma_tx_out mto ON (mto.tx_out_id = txo.id)
   WHERE sa.view = $1
-  GROUP BY txo.id
+  GROUP BY txo.id, txo.value
 ),
 queried_inputs AS (
   SELECT COALESCE(txo.value, 0) AS "amount",
@@ -22,7 +22,7 @@ queried_inputs AS (
     JOIN stake_address sa ON (txo.stake_address_id = sa.id)
     LEFT JOIN ma_tx_out mto ON (mto.tx_out_id = txo.id)
   WHERE sa.view = $1
-  GROUP BY txo.id
+  GROUP BY txo.id, txo.value
 )
 SELECT (
     SELECT sa.view

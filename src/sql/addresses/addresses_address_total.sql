@@ -15,7 +15,7 @@ WITH queried_outputs AS (
         ELSE txo.address = $1
       END
     )
-  GROUP BY txo.id
+  GROUP BY txo.id, txo.value
 ),
 queried_inputs AS (
   SELECT COALESCE(txo.value, 0) AS "amount",
@@ -30,7 +30,7 @@ queried_inputs AS (
         ELSE txo.address = $1
       END
     )
-  GROUP BY txo.id
+  GROUP BY txo.id, txo.value
 )
 SELECT (
     SELECT CASE
