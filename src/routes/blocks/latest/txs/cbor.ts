@@ -1,27 +1,27 @@
-import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { isUnpaged } from '../../../utils/routes.js';
-import { toJSONStream } from '../../../utils/string-utils.js';
+import { getSchemaForEndpoint, components } from '@blockfrost/openapi';
+import { isUnpaged } from '../../../../utils/routes.js';
+import { toJSONStream } from '../../../../utils/string-utils.js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { SQLQuery } from '../../../sql/index.js';
-import * as QueryTypes from '../../../types/queries/blocks.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { SQLQuery } from '../../../../sql/index.js';
+import * as QueryTypes from '../../../../types/queries/blocks.js';
+import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
-    url: '/blocks/latest/txs',
+    url: '/blocks/latest/txs/cbor',
     method: 'GET',
-    schema: getSchemaForEndpoint('/blocks/latest/txs'),
+    schema: getSchemaForEndpoint('/blocks/latest/txs/cbor'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParametersLatest>, reply) => {
       const clientDbSync = await getDbSync(fastify);
 
       try {
         const unpaged = isUnpaged(request);
         const { rows } = unpaged
-          ? await clientDbSync.query<QueryTypes.BlockTxs>(
-              SQLQuery.get('blocks_latest_txs_unpaged'),
+          ? await clientDbSync.query<components['schemas']['block_content_txs_cbor']>(
+              SQLQuery.get('blocks_latest_txs_cbor_unpaged'),
               [request.query.order],
             )
-          : await clientDbSync.query<QueryTypes.BlockTxs>(SQLQuery.get('blocks_latest_txs'), [
+          : await clientDbSync.query<QueryTypes.BlockTxs>(SQLQuery.get('blocks_latest_txs_cbor'), [
               request.query.order,
               request.query.count,
               request.query.page,
@@ -34,10 +34,6 @@ async function route(fastify: FastifyInstance) {
         }
 
         const list: string[] = [];
-
-        for (const row of rows) {
-          list.push(row.hash);
-        }
 
         if (unpaged) {
           // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
