@@ -70,7 +70,6 @@ const QUERY_FILES = {
   blocks_latest: 'blocks/blocks_latest.sql',
   blocks_latest_txs: 'blocks/blocks_latest_txs.sql',
   blocks_latest_txs_cbor: 'blocks/blocks_latest_txs.sql',
-  blocks_latest_txs_cbor_unpaged: 'blocks/unpaged/blocks_latest_txs.sql',
   blocks_latest_txs_unpaged: 'blocks/unpaged/blocks_latest_txs.sql',
   blocks_slot_slot_number: 'blocks/blocks_slot_slot_number.sql',
   epochs_404: 'epochs/epochs_404.sql',

@@ -1,4 +1,4 @@
-import { getSchemaForEndpoint, components } from '@blockfrost/openapi';
+import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { isUnpaged } from '../../../../utils/routes.js';
 import { toJSONStream } from '../../../../utils/string-utils.js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
@@ -16,16 +16,10 @@ async function route(fastify: FastifyInstance) {
 
       try {
         const unpaged = isUnpaged(request);
-        const { rows } = unpaged
-          ? await clientDbSync.query<components['schemas']['block_content_txs_cbor']>(
-              SQLQuery.get('blocks_latest_txs_cbor_unpaged'),
-              [request.query.order],
-            )
-          : await clientDbSync.query<QueryTypes.BlockTxs>(SQLQuery.get('blocks_latest_txs_cbor'), [
-              request.query.order,
-              request.query.count,
-              request.query.page,
-            ]);
+        const { rows } = await clientDbSync.query<QueryTypes.BlockTxs>(
+          SQLQuery.get('blocks_latest_txs_cbor'),
+          [request.query.order, request.query.count, request.query.page],
+        );
 
         gracefulRelease(clientDbSync);
 
