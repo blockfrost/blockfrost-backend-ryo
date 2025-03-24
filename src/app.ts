@@ -97,7 +97,8 @@ const start = (options = {}): FastifyInstance => {
   // blocks
   registerRoute(app, import('./routes/blocks/slot/slot-number.js'));
   registerRoute(app, import('./routes/blocks/latest/index.js'));
-  registerRoute(app, import('./routes/blocks/latest/txs.js'));
+  registerRoute(app, import('./routes/blocks/latest/txs/index.js'));
+  registerRoute(app, import('./routes/blocks/latest/txs/cbor.js'));
   registerRoute(app, import('./routes/blocks/epoch/epoch-number/slot/slot-number.js'));
   registerRoute(app, import('./routes/blocks/hash-or-number/index.js'));
   registerRoute(app, import('./routes/blocks/hash-or-number/addresses.js'));
