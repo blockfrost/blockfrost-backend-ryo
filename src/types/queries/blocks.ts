@@ -68,6 +68,11 @@ export interface BlockTxs {
   hash: string;
 }
 
+export interface BlockTxsCbor {
+  tx_hash: string;
+  cbor: string;
+}
+
 export interface BlockAddresses {
   address: string;
   transactions: { tx_hash: string }[];
