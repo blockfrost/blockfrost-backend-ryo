@@ -1,16 +1,17 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { isUnpaged } from '../../../utils/routes.js';
-import { toJSONStream } from '../../../utils/string-utils.js';
+import { isUnpaged } from '../../../../utils/routes.js';
+import { toJSONStream } from '../../../../utils/string-utils.js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-import { SQLQuery } from '../../../sql/index.js';
-import * as QueryTypes from '../../../types/queries/blocks.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
-import { handle400Custom, handle404 } from '../../../utils/error-handler.js';
+import { SQLQuery } from '../../../../sql/index.js';
+import * as QueryTypes from '../../../../types/queries/blocks.js';
+import * as ResponseTypes from '../../../../types/responses/blocks.js';
+import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
+import { handle400Custom, handle404 } from '../../../../utils/error-handler.js';
 import {
   isNumber,
   validateBlockHash,
   validatePositiveInRangeSignedInt,
-} from '../../../utils/validation.js';
+} from '../../../../utils/validation.js';
 
 async function blocks(fastify: FastifyInstance) {
   fastify.route({
@@ -65,7 +66,7 @@ async function blocks(fastify: FastifyInstance) {
           return reply.send([]);
         }
 
-        const list: string[] = [];
+        const list: ResponseTypes.BlockTxs = [];
 
         for (const row of rows) {
           list.push(row.hash);
