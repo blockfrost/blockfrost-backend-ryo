@@ -2,6 +2,8 @@ import type { OpenApiResponseTypes } from '../openapi-wrapper';
 
 export type Block = OpenApiResponseTypes['block_content'];
 export type BlockAddresses = OpenApiResponseTypes['block_content_addresses'];
+export type BlockTxs = OpenApiResponseTypes['block_content_txs'];
+export type BlockTxsCbor = OpenApiResponseTypes['block_content_txs_cbor'];
 
 // export interface BlockParameters {
 //   time: number;

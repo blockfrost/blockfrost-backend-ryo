@@ -4,6 +4,7 @@ import { toJSONStream } from '../../../../utils/string-utils.js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../../sql/index.js';
 import * as QueryTypes from '../../../../types/queries/blocks.js';
+import * as ResponseTypes from '../../../../types/responses/blocks.js';
 import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
 
 async function route(fastify: FastifyInstance) {
@@ -33,7 +34,7 @@ async function route(fastify: FastifyInstance) {
           return reply.send([]);
         }
 
-        const list: string[] = [];
+        const list: ResponseTypes.BlockTxs = [];
 
         for (const row of rows) {
           list.push(row.hash);

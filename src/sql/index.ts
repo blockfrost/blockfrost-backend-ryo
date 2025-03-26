@@ -67,6 +67,7 @@ const QUERY_FILES = {
   blocks_hash_or_number_txs_unpaged: 'blocks/unpaged/blocks_hash_or_number_txs.sql',
   blocks_hash_or_number_addresses: 'blocks/blocks_hash_or_number_addresses.sql',
   blocks_hash_or_number_addresses_unpaged: 'blocks/unpaged/blocks_hash_or_number_addresses.sql',
+  blocks_hash_or_number_txs_cbor: 'blocks/blocks_hash_or_number_txs_cbor.sql',
   blocks_latest: 'blocks/blocks_latest.sql',
   blocks_latest_txs: 'blocks/blocks_latest_txs.sql',
   blocks_latest_txs_cbor: 'blocks/blocks_latest_txs_cbor.sql',

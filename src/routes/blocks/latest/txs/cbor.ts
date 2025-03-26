@@ -2,6 +2,7 @@ import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../../sql/index.js';
 import * as QueryTypes from '../../../../types/queries/blocks.js';
+import * as ResponseTypes from '../../../../types/responses/blocks.js';
 import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
 
 async function route(fastify: FastifyInstance) {
@@ -13,10 +14,11 @@ async function route(fastify: FastifyInstance) {
       const clientDbSync = await getDbSync(fastify);
 
       try {
-        const { rows } = await clientDbSync.query<QueryTypes.BlockTxs>(
-          SQLQuery.get('blocks_latest_txs_cbor'),
-          [request.query.order, request.query.count, request.query.page],
-        );
+        const { rows }: { rows: ResponseTypes.BlockTxsCbor } =
+          await clientDbSync.query<QueryTypes.BlockTxsCbor>(
+            SQLQuery.get('blocks_latest_txs_cbor'),
+            [request.query.order, request.query.count, request.query.page],
+          );
 
         gracefulRelease(clientDbSync);
 
