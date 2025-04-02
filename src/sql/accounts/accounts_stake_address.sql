@@ -110,7 +110,7 @@ SELECT sa.view AS "stake_address",
     FROM queried_drep
   ) AS "drep_id",
   (
-    SELECT has_script
+    SELECT drep_id_has_script
     FROM queried_drep
   ) AS "drep_id_has_script"
 FROM stake_address sa
