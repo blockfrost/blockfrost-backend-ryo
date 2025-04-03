@@ -39,7 +39,7 @@ const query_accounts_regular_testnet_1 = {
   treasury_sum: '0',
   withdrawable_amount: '2978218',
   pool_id: 'pool1rnsw42f2q0u9fc32ttxy9l085n736jxz07lvwutz63wpyef03zh',
-  drep_id: 'stake_test1uqa4ssuylkytuwx5svd3lmkhct07fthgd3ydptxuj8gk5pch90z3d',
+  drep_id: 'drep14pjm8ytt682wkp4jcegdj2yerkcy9a20xevvp7udlcd0ggjxdud', //dbsync legacy format
 };
 
 const response_accounts_regular_testnet_1 = {
@@ -53,7 +53,7 @@ const response_accounts_regular_testnet_1 = {
   treasury_sum: '0',
   withdrawable_amount: '2978218',
   pool_id: 'pool1rnsw42f2q0u9fc32ttxy9l085n736jxz07lvwutz63wpyef03zh',
-  drep_id: 'stake_test1uqa4ssuylkytuwx5svd3lmkhct07fthgd3ydptxuj8gk5pch90z3d',
+  drep_id: 'drep1y25xtvu3d0gaf6cxktr9pkfgnywmqsh4fum93s8m3hlp4aqj3uqdp', // cip129 of legacy dbsync formatted "drep14pjm8ytt682wkp4jcegdj2yerkcy9a20xevvp7udlcd0ggjxdud"
 };
 
 const query_accounts_rewards_regular_1 = [
