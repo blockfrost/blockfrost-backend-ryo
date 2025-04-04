@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `/txs/:tx_hash/pool_updates` was retrieving outdated metadata from off_chain_pool_data when multiple updates shared the same metadata hash
+
 ## [4.0.0] - 2025-04-04
 
 ### Changed
