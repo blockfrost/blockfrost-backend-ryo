@@ -20,6 +20,19 @@ export interface PoolsExtended {
   hex: string;
   active_stake: string;
   live_stake: string;
+  live_saturation: number;
+  blocks_minted: number;
+  declared_pledge: string;
+  margin_cost: number;
+  fixed_cost: string;
+  metadata: null | {
+    url: string | null;
+    hash: string | null;
+    ticker: string | null;
+    name: string | null;
+    description: string | null;
+    homepage: string | null;
+  };
 }
 
 export interface PoolID {
