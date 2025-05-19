@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- exposed new attributes `live_saturation`, `blocks_minted`, `declared_pledge`, `margin_cost`, `fixed_cost` and `metadata` in `/pools/extended`
+
 ## [4.0.0] - 2025-04-04
 
 ### Changed
