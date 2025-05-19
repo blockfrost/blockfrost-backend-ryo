@@ -58,6 +58,15 @@ export interface PoolID {
   active_size: number;
   declared_pledge: string;
   live_pledge: string;
+  calidus_key: {
+    id: string;
+    pub_key: string;
+    nonce: number;
+    tx_hash: string;
+    block_time: number;
+    block_height: number;
+    epoch: number;
+  } | null;
 }
 
 export interface PoolsRetire {

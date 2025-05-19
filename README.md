@@ -117,7 +117,7 @@ CREATE INDEX IF NOT EXISTS bf_idx_delegation_vote_addr_id ON delegation_vote USI
 
 ### Experimental features
 
-### Mithril
+#### Mithril
 
 Blockfrost Backend optionally provides a proxy for the Mithril aggregator API. This feature allows users to interact with Mithril's endpoints through Blockfrost, with additional enhancements and customizations specific to Blockfrost.
 
@@ -145,6 +145,31 @@ curl localhost:3000/mithril/artifact/snapshots
 ````
 
 If you set `mithril.snapshotCDN` option, then the response of `/artifact/snapshots` and `/artifact/snapshot/{digest}` endpoints is enhanced with additional link to the list of snapshot locations.
+
+#### Calidus Keys
+Blockfrost Backend comes with a support for Calidus Keys (CIP-0151) that are exposed in `/pools/:pool_id` endpoint.
+
+Key verification is performed using [pg_cardano](https://github.com/cardano-community/pg_cardano) PostgreSQL extensions which must be installed in your database.
+
+The extension's verification function could throw an exception on malformed Calidus key registrations, potentially causing endpoint failures.
+To handle such cases gracefully, wrap the verification calls using a wrapper function like the following:
+
+```SQL
+CREATE OR REPLACE FUNCTION safe_verify_cip88_pool_key_registration(input BYTEA)
+RETURNS BOOLEAN AS $$
+DECLARE
+    result BOOLEAN;
+BEGIN
+    result := cardano.tools_verify_cip88_pool_key_registration(input);
+    RETURN result;
+EXCEPTION
+    WHEN OTHERS THEN
+        -- RAISE NOTICE 'Error in CIP-88 verification: %', SQLERRM;
+        RETURN FALSE;
+END;
+$$ LANGUAGE plpgsql STABLE;
+```
+
 
 ### Docker
 
