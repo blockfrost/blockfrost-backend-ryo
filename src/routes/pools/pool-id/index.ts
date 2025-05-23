@@ -1,6 +1,5 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/pools.js';
 import * as ResponseTypes from '../../../types/responses/pools.js';

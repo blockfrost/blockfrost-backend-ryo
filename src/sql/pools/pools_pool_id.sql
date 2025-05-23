@@ -253,6 +253,56 @@ live_stake_queried_pool_sum AS (
         FROM live_stake_accounts_withdrawal
       )
     ) AS "live_stake_pool"
+), 
+calidus_metadata_raw AS (
+  SELECT
+    pool_hash_raw,
+    CASE
+      WHEN pub_key = '0000000000000000000000000000000000000000000000000000000000000000'
+      THEN NULL
+      ELSE JSON_BUILD_OBJECT(
+        'id', cardano.bech32_encode(
+          'calidus',
+          E'\\xa1' || cardano.blake2b_hash(DECODE(pub_key, 'hex'), 28)
+        ),
+        'pub_key', pub_key,
+        'nonce', nonce,
+        'tx_hash', ENCODE(tx_hash, 'hex'),
+        'epoch', epoch_no,
+        'block_height', block_no,
+        'block_time', block_time
+      )::TEXT
+    END AS calidus_key
+    FROM (
+      SELECT
+        DECODE(SUBSTRING((tm.json->'1'->'1'->>1) FROM 3), 'hex') AS pool_hash_raw,
+        SUBSTRING((tm.json->'1'->>'7') FROM 3) AS pub_key,
+        (tm.json->'1'->>'4')::bigint AS nonce,
+        tm.json,
+        tx.hash as tx_hash,
+        b.epoch_no,
+        b.block_no,
+        safe_verify_cip88_pool_key_registration(tm.bytes) AS is_valid,
+        EXTRACT(EPOCH FROM b.time)::integer AS block_time
+      FROM tx_metadata tm
+        JOIN tx ON tm.tx_id = tx.id
+        JOIN block b ON tx.block_id = b.id
+      WHERE key = 867
+        AND (tm.json->>'0') IN ('2','3') -- CIP-88 version
+        AND (tm.json->'1'->'1'->>0) = '1' -- Pool registration
+        AND (tm.json->'1'->'3'->>0) = '2' -- Signature method = CIP-8
+        AND LENGTH(SUBSTRING((tm.json->'1'->>'7') FROM 3)) = 64
+        AND EXISTS (
+          SELECT 1
+          FROM pool_hash ph
+          WHERE ph.view = $1
+            AND ph.hash_raw = DECODE(SUBSTRING((tm.json->'1'->'1'->>1) FROM 3), 'hex')
+        )
+    ) sub
+    WHERE is_valid
+    -- order by nonce, keep the highest
+    ORDER BY nonce DESC
+    LIMIT 1
 )
 SELECT ph.view AS "pool_id",
   encode(ph.hash_raw, 'hex') AS "hex",
@@ -459,10 +509,12 @@ SELECT ph.view AS "pool_id",
       JOIN pool_hash ph ON (ph.id = pr.hash_id)
     WHERE ph.view = $1
     ORDER BY tx.id
-  ) AS "retirement"
+  ) AS "retirement",
+   COALESCE(cmr.calidus_key::json, NULL) AS "calidus_key"
 FROM pool_hash ph
   JOIN pool_update pu ON (pu.hash_id = ph.id)
   LEFT JOIN stake_address sa ON (sa.id = pu.reward_addr_id)
+  LEFT JOIN calidus_metadata_raw cmr ON cmr.pool_hash_raw = ph.hash_raw
 WHERE ph.view = $1
   AND pu.registered_tx_id = (
     SELECT MAX(registered_tx_id)
@@ -474,5 +526,6 @@ GROUP BY pu.vrf_key_hash,
   pu.margin,
   pu.fixed_cost,
   sa.view,
-  ph.id
+  ph.id,
+  cmr.calidus_key
 ORDER BY ph.id

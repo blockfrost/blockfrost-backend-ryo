@@ -177,6 +177,7 @@ const query_pools_pool_id_regular_1 = [
     owners: ['stake1u98nnlkvkk23vtvf9273uq7cph5ww6u2yq2389psuqet90sv4xv9v'],
     registration: ['a96c79773b7506211eb56bf94886a2face17657d1009f52fb5ea05f19cc8823e'],
     retirement: [],
+    calidus_key: null,
   },
 ];
 
@@ -200,6 +201,7 @@ const response_pools_pool_id_regular_1 = {
   owners: ['stake1u98nnlkvkk23vtvf9273uq7cph5ww6u2yq2389psuqet90sv4xv9v'],
   registration: ['a96c79773b7506211eb56bf94886a2face17657d1009f52fb5ea05f19cc8823e'],
   retirement: [],
+  calidus_key: null,
 };
 
 const query_pools_pool_id_history_regular_1 = [
