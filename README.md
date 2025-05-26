@@ -135,18 +135,18 @@ mithril:
   snapshotMirrors: # Optional
     - originalUrl: "https://storage.googleapis.com/cdn.aggregator.pre-release-preview.api.mithril.network"
     mirrorUrl: "https://dummy-mithril-snapshot-cdn.com"
+```
 
 Then you can simply query Mithril API using Blockfrost Backend:
 
 ```
-
 curl localhost:3000/mithril/artifact/snapshots
-
-````
+```
 
 If you set `mithril.snapshotCDN` option, then the response of `/artifact/snapshots` and `/artifact/snapshot/{digest}` endpoints is enhanced with additional link to the list of snapshot locations.
 
 #### Calidus Keys
+
 Blockfrost Backend comes with a support for Calidus Keys (CIP-0151) that are exposed in `/pools/:pool_id` endpoint.
 
 Key verification is performed using [pg_cardano](https://github.com/cardano-community/pg_cardano) PostgreSQL extensions which must be installed in your database.
@@ -170,7 +170,6 @@ END;
 $$ LANGUAGE plpgsql STABLE;
 ```
 
-
 ### Docker
 
 We are hosting latest release of this software on Dockerhub. To run it using Docker:
@@ -182,7 +181,7 @@ docker run --rm \
   -e BLOCKFROST_CONFIG_SERVER_LISTEN_ADDRESS=0.0.0.0 \
   -v $PWD/config:/app/config \
   blockfrost/backend-ryo:latest
-````
+```
 
 You can also generate a Docker image using Nix instead of the `Dockerfile` running
 
