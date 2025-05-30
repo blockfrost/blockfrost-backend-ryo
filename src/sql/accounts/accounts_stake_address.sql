@@ -41,10 +41,34 @@ queried_drep AS (
     JOIN delegation_vote dv ON (dv.addr_id = sa.id)
     JOIN drep_hash dh ON (dh.id = dv.drep_hash_id)
   WHERE sa.view = $1
-    AND dv.id = (
-      SELECT MAX(id)
-      FROM delegation_vote
-      WHERE addr_id = sa.id
+  -- latest delegation vote record possible
+    AND NOT EXISTS (
+      SELECT TRUE
+      FROM delegation_vote AS dv1
+      WHERE dv1.addr_id = dv.addr_id
+        AND dv1.id > dv.id
+      LIMIT 1
+    )
+    -- while having no stake acc deregistration after the delegation vote
+    AND NOT EXISTS (
+      SELECT TRUE
+      FROM stake_deregistration
+      WHERE stake_deregistration.addr_id = dv.addr_id
+        AND stake_deregistration.tx_id > dv.tx_id
+      LIMIT 1
+    )
+     -- while the drep is still registered (not retired)
+    AND (
+      (
+        -- Special dreps have no drep_registration records, fallback to TRUE for these
+        SELECT COALESCE(MAX(dr.tx_id), 1)
+        FROM drep_registration dr
+        WHERE dr.drep_hash_id = dv.drep_hash_id AND dr.deposit > 0
+      ) > (
+        SELECT COALESCE(MAX(dr.tx_id), -1)
+        FROM drep_registration dr
+        WHERE dr.drep_hash_id = dv.drep_hash_id AND dr.deposit < 0
+      )
     )
 )
 SELECT sa.view AS "stake_address",
