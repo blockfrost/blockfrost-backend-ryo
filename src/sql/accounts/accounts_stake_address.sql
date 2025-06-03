@@ -59,19 +59,24 @@ queried_drep AS (
     )
      -- while the drep is still registered (not retired)
     AND (
-      (
-        -- Special dreps have no drep_registration records, fallback to TRUE for these
-        SELECT COALESCE(MAX(dr.tx_id), 1)
+      COALESCE((
+        SELECT ROW(dr.tx_id, dr.cert_index)
         FROM drep_registration dr
         WHERE dr.drep_hash_id = dv.drep_hash_id AND dr.deposit > 0
-      ) > (
-        SELECT COALESCE(MAX(dr.tx_id), -1)
+        ORDER BY dr.tx_id DESC, dr.cert_index DESC
+        LIMIT 1
+      ), ROW(1::bigint, 1::integer)) 
+      > 
+      COALESCE((
+        SELECT ROW(dr.tx_id, dr.cert_index)
         FROM drep_registration dr
         WHERE dr.drep_hash_id = dv.drep_hash_id AND dr.deposit < 0
-      )
+        ORDER BY dr.tx_id DESC, dr.cert_index DESC
+        LIMIT 1
+      ), ROW(-1::bigint, -1::integer))
     )
     -- delegation_vote must be after latest drep registration
-    AND dv.tx_id > (
+    AND dv.tx_id >= (
       SELECT COALESCE(MAX(dr.tx_id), -1)
       FROM drep_registration dr
       WHERE 
