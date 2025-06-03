@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `/accounts/:stake_address`
   - Stale DRep was reported for a stake account after deregistration (deregistering a stake account should remove any existing vote delegations)
+  - Stale DRep was reported if the DRep retired and reregistered after vote-delegation
   - Retired DRep continued to appear in the `drep_id` field for a stake account
 
 ## [4.1.0] - 2025-05-26

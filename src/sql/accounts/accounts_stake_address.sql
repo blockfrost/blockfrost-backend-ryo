@@ -70,6 +70,13 @@ queried_drep AS (
         WHERE dr.drep_hash_id = dv.drep_hash_id AND dr.deposit < 0
       )
     )
+    -- delegation_vote must be after latest drep registration
+    AND dv.tx_id > (
+      SELECT COALESCE(MAX(dr.tx_id), -1)
+      FROM drep_registration dr
+      WHERE 
+        dr.drep_hash_id = dv.drep_hash_id AND dr.deposit > 0
+    )
 )
 SELECT sa.view AS "stake_address",
   (
