@@ -5,7 +5,7 @@ WITH current_epoch AS (
   LIMIT 1
 ),
 -- This CTE ensures that only active delegators are included by filtering out 
--- any addresses with a more recent stake_deregistration than stake_registration.
+-- any addresses with a more recent stake deregistration than vote delegation
 active_delegators AS (
   SELECT sa.view AS "address",
     dv.addr_id AS "address_id",
@@ -20,12 +20,46 @@ active_delegators AS (
       ($4 IS NULL AND dh.view = $5)
     ) 
     AND dh.has_script = $6
-    AND dv.id = (
-      SELECT MAX(dv_inner.id)
-      FROM delegation_vote dv_inner
-      WHERE dv_inner.addr_id = dv.addr_id
+    AND dv.addr_id = sa.id
+    AND NOT EXISTS (
+      SELECT TRUE
+      FROM delegation_vote AS dv1
+      WHERE dv1.addr_id = dv.addr_id
+        AND dv1.id > dv.id
+      LIMIT 1
     )
-    AND sr.tx_id > COALESCE((SELECT MAX(sd_inner.tx_id) FROM stake_deregistration sd_inner WHERE sd_inner.addr_id = dv.addr_id), 0)
+    AND NOT EXISTS (
+      SELECT TRUE
+      FROM stake_deregistration
+      WHERE stake_deregistration.addr_id = dv.addr_id
+        AND stake_deregistration.tx_id > dv.tx_id
+      LIMIT 1
+    )
+      -- while the drep is still registered (not retired)
+    AND (
+      COALESCE((
+        SELECT ROW(dr.tx_id, dr.cert_index)
+        FROM drep_registration dr
+        WHERE dr.drep_hash_id = dv.drep_hash_id AND dr.deposit > 0
+        ORDER BY dr.tx_id DESC, dr.cert_index DESC
+        LIMIT 1
+      ), ROW(1::bigint, 1::integer)) 
+      > 
+      COALESCE((
+        SELECT ROW(dr.tx_id, dr.cert_index)
+        FROM drep_registration dr
+        WHERE dr.drep_hash_id = dv.drep_hash_id AND dr.deposit < 0
+        ORDER BY dr.tx_id DESC, dr.cert_index DESC
+        LIMIT 1
+      ), ROW(-1::bigint, -1::integer))
+    )
+    -- delegation_vote must be after latest drep registration, or in the same tx
+    AND dv.tx_id >= (
+      SELECT COALESCE(MAX(dr.tx_id), -1)
+      FROM drep_registration dr
+      WHERE 
+        dr.drep_hash_id = dv.drep_hash_id AND dr.deposit > 0
+    )
   GROUP BY sa.view, dv.drep_hash_id, dv.addr_id, dv.id
 )
 SELECT "address" AS "address",
