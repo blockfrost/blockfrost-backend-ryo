@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.1.2] - 2025-06-09
+
+### Fixed
+
+- DReps updates with action `updated` were incorrectly reported as `deregistered` in `/accounts/:drep_id/updates`
+
 ## [4.1.1] - 2025-06-05
 
 ### Fixed
