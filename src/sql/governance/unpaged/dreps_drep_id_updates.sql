@@ -2,9 +2,9 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
   dr.cert_index AS "cert_index",
   (
     CASE
-      WHEN dr.deposit >= 0 THEN 'registered'
-      ELSE 'deregistered'
-    END
+      WHEN dr.deposit > 0 THEN 'registered'
+      WHEN dr.deposit < 0 THEN 'deregistered'
+      ELSE 'updated'
   ) AS "action"
 FROM drep_hash dh
   JOIN drep_registration dr ON (dh.id = dr.drep_hash_id)
