@@ -10,8 +10,9 @@ pkgs ? import nixpkgs {}
 , blockfrost-tests ?
     (builtins.fetchGit {
       url = "ssh://git@github.com/blockfrost/blockfrost-tests-internal.git";
-      rev = "dba559e598fc094aed44b121b1ce82e5a0482663";
+      rev = "5abf0a3ff0c6c726b2a355d0b1fc050116d312d2";
       allRefs = true;
+      submodules = true;
     })
 , system ? builtins.currentSystem
 }:
