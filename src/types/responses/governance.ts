@@ -12,3 +12,4 @@ export type ProposalsProposalVotes = OpenApiResponseTypes['proposal_votes'];
 export type ProposalsProposalParameters = OpenApiResponseTypes['proposal_parameters'];
 export type ProposalsProposalWithdrawals = OpenApiResponseTypes['proposal_withdrawals'];
 export type ProposalsProposalMetadata = OpenApiResponseTypes['proposal_metadata'];
+export type ProposalsProposalMetadataV2 = OpenApiResponseTypes['proposal_metadata_v2'];

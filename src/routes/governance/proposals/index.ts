@@ -5,6 +5,7 @@ import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { SQLQuery } from '../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { isUnpaged } from '../../../utils/routes.js';
+import { enhanceProposal } from '../../../utils/governance.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -17,7 +18,7 @@ async function route(fastify: FastifyInstance) {
 
       try {
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.Proposals } = unpaged
+        const { rows } = unpaged
           ? await clientDbSync.query<QueryTypes.Proposals>(
               SQLQuery.get('governance_proposals_unpaged'),
               [request.query.order],
@@ -30,7 +31,9 @@ async function route(fastify: FastifyInstance) {
 
         gracefulRelease(clientDbSync);
 
-        return reply.send(rows);
+        const enhancedRows: ResponseTypes.Proposals = rows.map(row => enhanceProposal(row));
+
+        return reply.send(enhancedRows);
       } catch (error) {
         gracefulRelease(clientDbSync);
         throw error;

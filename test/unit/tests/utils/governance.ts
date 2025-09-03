@@ -168,4 +168,56 @@ describe('governance utils', () => {
       },
     });
   });
+
+  test('governanceUtils.validateGovActionId', () => {
+    expect(
+      governanceUtils.validateGovActionId(
+        'gov_action1zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zygsq6dmejn',
+      ),
+    ).toStrictEqual({
+      tx_hash: '1111111111111111111111111111111111111111111111111111111111111111',
+      cert_index: 0,
+    });
+
+    expect(
+      governanceUtils.validateGovActionId(
+        'gov_action1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpzklpgpf',
+      ),
+    ).toStrictEqual({
+      tx_hash: '0000000000000000000000000000000000000000000000000000000000000000',
+      cert_index: 17,
+    });
+
+    expect(
+      governanceUtils.validateGovActionId(
+        'gov_action1zhuz5djmmmjg8f9s8pe6grfc98xg3szglums8cgm6qwancp4eytqqmpu0pr',
+      ),
+    ).toStrictEqual({
+      tx_hash: '15f82a365bdee483a4b03873a40d3829cc88c048ff3703e11bd01dd9e035c916',
+      cert_index: 0,
+    });
+  });
+
+  test('governanceUtils.getGovActionId', () => {
+    expect(
+      governanceUtils.getGovActionId(
+        '1111111111111111111111111111111111111111111111111111111111111111',
+        0,
+      ),
+    ).toBe('gov_action1zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zyg3zygsq6dmejn');
+
+    expect(
+      governanceUtils.getGovActionId(
+        '0000000000000000000000000000000000000000000000000000000000000000',
+        17,
+      ),
+    ).toBe('gov_action1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpzklpgpf');
+
+    expect(
+      governanceUtils.getGovActionId(
+        '15f82a365bdee483a4b03873a40d3829cc88c048ff3703e11bd01dd9e035c916',
+        0,
+      ),
+    ).toBe('gov_action1zhuz5djmmmjg8f9s8pe6grfc98xg3szglums8cgm6qwancp4eytqqmpu0pr');
+  });
 });

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Support for Governance Action Identifier (CIP-129)
+  - New endpoints for querying with Gov Action ID : `/governance/proposals/:gov_action_id`
+  - Proposal response now includes an `id` field containing the governance action identifier
+
 ## [4.1.2] - 2025-06-09
 
 ### Fixed
