@@ -6,6 +6,7 @@ import * as ResponseTypes from '../../types/responses/pools.js';
 import { getDbSync, gracefulRelease } from '../../utils/database.js';
 import { isUnpaged } from '../../utils/routes.js';
 import { toJSONStream } from '../../utils/string-utils.js';
+import { transformOffChainFetchError } from '../../utils/governance.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -17,7 +18,7 @@ async function route(fastify: FastifyInstance) {
 
       try {
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.PoolsExtended } = unpaged
+        const { rows } = unpaged
           ? await clientDbSync.query<QueryTypes.PoolsExtended>(
               SQLQuery.get('pools_extended_unpaged'),
               [request.query.order],
@@ -29,6 +30,17 @@ async function route(fastify: FastifyInstance) {
             ]);
 
         gracefulRelease(clientDbSync);
+
+        for (const row of rows) {
+          if (row.metadata && row.metadata.fetch_error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (row.metadata as NonNullable<ResponseTypes.PoolsExtended[number]['metadata']>).error =
+              transformOffChainFetchError(row.metadata.fetch_error);
+            // Remove the original fetch_error field
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            delete (row.metadata as any).fetch_error;
+          }
+        }
 
         if (rows.length === 0) {
           return reply.send([]);

@@ -40,3 +40,11 @@ export interface SnapshotMirror {
   originalUrl: string;
   mirrorUrl: string;
 }
+
+export type OffChainFetchError =
+  | { code: 'HASH_MISMATCH'; message: string }
+  | { code: 'CONNECTION_ERROR'; message: string }
+  | { code: 'HTTP_RESPONSE_ERROR'; message: string }
+  | { code: 'DECODE_ERROR'; message: string }
+  | { code: 'SIZE_EXCEEDED'; message: string }
+  | { code: 'UNKNOWN_ERROR'; message: string };

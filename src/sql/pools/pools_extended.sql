@@ -32,7 +32,8 @@ queried_pools AS (
         'ticker', pod.ticker_name,
         'name', COALESCE(pod.json->>'name', NULL),
         'description', COALESCE(pod.json->>'description', NULL),
-        'homepage', COALESCE(pod.json->>'homepage', NULL)
+        'homepage', COALESCE(pod.json->>'homepage', NULL),
+        'fetch_error', CASE WHEN pod.json IS NULL THEN ocpfe.fetch_error ELSE NULL END
       )
       FROM pool_metadata_ref pmr
       -- Note: Simple LEFT JOIN LEFT JOIN off_chain_pool_data pod ON pod.pmr_id = pmr.id
@@ -46,6 +47,14 @@ queried_pools AS (
         ORDER BY pmr.registered_tx_id DESC
         LIMIT 1
       ) pod ON TRUE
+      -- Latest fetch error for this metadata ref
+      LEFT JOIN LATERAL (
+        SELECT f.fetch_error
+        FROM off_chain_pool_fetch_error f
+        WHERE f.pmr_id = pmr.id
+        ORDER BY f.id DESC
+        LIMIT 1
+      ) ocpfe ON TRUE
       WHERE pmr.id = pu.meta_id
     ) AS "metadata"
   FROM pool_hash ph

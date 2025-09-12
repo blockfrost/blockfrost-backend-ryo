@@ -1,4 +1,5 @@
 import { bech32 } from 'bech32';
+import { OffChainFetchError } from '../types/common.js';
 
 const SPECIAL_DREP_IDS = new Set(['drep_always_abstain', 'drep_always_no_confidence']);
 
@@ -283,12 +284,58 @@ export const getGovActionId = (txHash: string, certIndex: number) => {
   return govActionId;
 };
 
-export const enhanceProposal = <T extends { tx_hash: string; cert_index: number }>(data: T) => {
+export function transformOffChainFetchError(
+  fetch_error: string | null,
+): OffChainFetchError | undefined {
+  if (!fetch_error) return undefined;
+
+  const message = fetch_error.trim();
+
+  // Match by keywords, order matters (most specific first)
+  if (/hash mismatch/i.test(message)) {
+    return { code: 'HASH_MISMATCH', message: message };
+  }
+
+  if (/size error/i.test(message)) {
+    return { code: 'SIZE_EXCEEDED', message: message };
+  }
+
+  if (/decode error/i.test(message)) {
+    return { code: 'DECODE_ERROR', message: message };
+  }
+
+  if (/http response error/i.test(message)) {
+    return { code: 'HTTP_RESPONSE_ERROR', message: message };
+  }
+
+  // Connection failure error, URL parse error, Timeout error, HTTP Exception error
+  if (
+    /connection failure error/i.test(message) ||
+    /url parse error/i.test(message) ||
+    /timeout error/i.test(message) ||
+    /http exception error/i.test(message)
+  ) {
+    return { code: 'CONNECTION_ERROR', message: message };
+  }
+
+  // IO Exception, No ipfs_gateway and any other errors not covered above
+  return { code: 'UNKNOWN_ERROR', message: message };
+}
+
+export const enhanceProposal = <
+  T extends { tx_hash: string; cert_index: number; fetch_error?: string | null },
+>(
+  data: T,
+) => {
   if (data === undefined) {
     return data;
   }
+
+  const { fetch_error, ...rest } = data;
+
   return {
     id: getGovActionId(data.tx_hash, data.cert_index),
-    ...data,
+    ...rest,
+    ...(fetch_error ? { error: transformOffChainFetchError(fetch_error) } : {}),
   };
 };
