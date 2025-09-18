@@ -107,6 +107,7 @@ const QUERY_FILES = {
   governance_proposals_proposal_votes: 'governance/proposals_proposal_votes.sql',
   governance_proposals_proposal_votes_unpaged: 'governance/unpaged/proposals_proposal_votes.sql',
   governance_proposals_proposal_metadata: 'governance/proposals_proposal_metadata.sql',
+  governance_proposals_proposal_metadata_v2: 'governance/proposals_proposal_metadata_v2.sql',
   governance_proposals_proposal_parameters: 'governance/proposals_proposal_parameters.sql',
   governance_proposals_proposal_withdrawals: 'governance/proposals_proposal_withdrawals.sql',
   governance_proposals_proposal_withdrawals_unpaged:

@@ -77,6 +77,23 @@ export interface RequestParametersProposal {
   };
 }
 
+export interface RequestParametersGovAction {
+  Params: {
+    gov_action_id: string;
+  };
+}
+
+export interface RequestParametersGovActionPaged {
+  Params: {
+    gov_action_id: string;
+  };
+  Querystring: {
+    count: number;
+    page: number;
+    order: Order;
+  };
+}
+
 export interface RequestParametersProposalPaged {
   Params: {
     tx_hash: string;
@@ -157,7 +174,17 @@ export interface ProposalsProposalMetadata {
   hash: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json_metadata: any;
-  bytes: string;
+  bytes: string | null;
+}
+
+export interface ProposalsProposalMetadataV2 {
+  tx_hash: string;
+  cert_index: number;
+  url: string;
+  hash: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  json_metadata: any | null;
+  bytes: string | null;
 }
 
 export interface ProposalsProposalParameters {

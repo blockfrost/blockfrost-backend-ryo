@@ -206,3 +206,89 @@ export const enhanceDRep = <T extends { drep_id: string; hex: string }>(
     return data;
   }
 };
+
+/**
+ * Validates a governance action ID (gov_action_id) and extracts its components.
+ *
+ * A gov_action_id is a Bech32-encoded string with the prefix 'gov_action',
+ * encoding a concatenation of a 32-byte transaction hash and a variable-length certificate index.
+ *
+ * @param {string} govActionId - The Bech32-encoded governance action ID to validate and parse.
+ * @returns {{ tx_hash: string, cert_index: number }}
+ *   An object containing:
+ *   - `tx_hash`: The 32-byte transaction hash as a hex string.
+ *   - `cert_index`: The certificate index as a number.
+ *
+ * @throws {Error} If the prefix is not 'gov_action', or the decoded length is invalid.
+ *
+ * @see https://github.com/cardano-foundation/CIPs/blob/master/CIP-0129/README.md
+ */
+export const validateGovActionId = (govActionId: string) => {
+  // https://github.com/cardano-foundation/CIPs/blob/master/CIP-0129/README.md
+  // gov action id = bech32(prefix gov_action, tx_hash+cert_index)
+
+  const { prefix, words } = bech32.decode(govActionId);
+
+  if (prefix !== 'gov_action') {
+    throw new Error(`Invalid gov action id prefix`);
+  }
+
+  const hexBuf = Buffer.from(bech32.fromWords(words));
+
+  if (hexBuf.length < 32) {
+    throw new Error('Invalid gov action id length');
+  }
+
+  const txHash = hexBuf.subarray(0, 32).toString('hex');
+  const certIndexHex = hexBuf.subarray(32).toString('hex');
+  const certIndex = Number.parseInt(certIndexHex, 16);
+
+  return {
+    tx_hash: txHash,
+    cert_index: certIndex,
+  };
+};
+
+const toMinimalHex = (n: number | bigint): string => {
+  let hex = BigInt(n).toString(16);
+
+  if (hex.length % 2) {
+    hex = '0' + hex; // pad to even length
+  }
+  return hex;
+};
+
+/**
+ * Constructs a governance action ID (gov_action_id) from a transaction hash and certificate index.
+ *
+ * The resulting gov_action_id is a Bech32-encoded string with the prefix 'gov_action',
+ * encoding the concatenation of the 32-byte transaction hash and the minimal-length
+ * big-endian representation of the certificate index.
+ *
+ * @param {string} txHash - The 32-byte transaction hash as a hex string (64 hex chars).
+ * @param {number} certIndex - The certificate index as a number.
+ * @returns {string} The Bech32-encoded governance action ID.
+ *
+ * @see https://github.com/cardano-foundation/CIPs/blob/master/CIP-0129/README.md
+ */
+export const getGovActionId = (txHash: string, certIndex: number) => {
+  const txHashBuf = Buffer.from(txHash, 'hex');
+  const certIndexBuf = Buffer.from(toMinimalHex(certIndex), 'hex');
+
+  const combinedBuf = Buffer.concat([txHashBuf, certIndexBuf]);
+
+  const words = bech32.toWords(combinedBuf);
+  const govActionId = bech32.encode('gov_action', words);
+
+  return govActionId;
+};
+
+export const enhanceProposal = <T extends { tx_hash: string; cert_index: number }>(data: T) => {
+  if (data === undefined) {
+    return data;
+  }
+  return {
+    id: getGovActionId(data.tx_hash, data.cert_index),
+    ...data,
+  };
+};

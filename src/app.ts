@@ -120,6 +120,7 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/epochs/number/stakes/pool-id.js'));
 
   // governance
+  // tx_hash/cert_index routes
   registerRoute(app, import('./routes/governance/dreps/index.js'));
   registerRoute(app, import('./routes/governance/dreps/drep-id/index.js'));
   registerRoute(app, import('./routes/governance/dreps/drep-id/delegators.js'));
@@ -132,7 +133,12 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/governance/proposals/tx-hash/cert-index/parameters.js'));
   registerRoute(app, import('./routes/governance/proposals/tx-hash/cert-index/votes.js'));
   registerRoute(app, import('./routes/governance/proposals/tx-hash/cert-index/withdrawals.js'));
-
+  // gov_action_id routes
+  registerRoute(app, import('./routes/governance/proposals/gov-action-id/index.js'));
+  registerRoute(app, import('./routes/governance/proposals/gov-action-id/metadata.js'));
+  registerRoute(app, import('./routes/governance/proposals/gov-action-id/withdrawals.js'));
+  registerRoute(app, import('./routes/governance/proposals/gov-action-id/parameters.js'));
+  registerRoute(app, import('./routes/governance/proposals/gov-action-id/votes.js'));
   // health
   registerRoute(app, import('./routes/health/index.js'));
   registerRoute(app, import('./routes/health/clock.js'));

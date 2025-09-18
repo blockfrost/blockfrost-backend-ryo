@@ -5,6 +5,7 @@ import { getDbSync, gracefulRelease } from '../../../../../utils/database.js';
 import { handle404 } from '../../../../../utils/error-handler.js';
 import { SQLQuery } from '../../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
+import { enhanceProposal } from '../../../../../utils/governance.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -15,15 +16,14 @@ async function route(fastify: FastifyInstance) {
       const clientDbSync = await getDbSync(fastify);
 
       try {
-        const { rows }: { rows: ResponseTypes.ProposalsProposalMetadata[] } =
-          await clientDbSync.query<QueryTypes.ProposalsProposalMetadata>(
-            SQLQuery.get('governance_proposals_proposal_metadata'),
-            [request.params.tx_hash, request.params.cert_index],
-          );
+        const { rows } = await clientDbSync.query<QueryTypes.ProposalsProposalMetadata>(
+          SQLQuery.get('governance_proposals_proposal_metadata'),
+          [request.params.tx_hash, request.params.cert_index],
+        );
 
         gracefulRelease(clientDbSync);
 
-        const row = rows[0];
+        const row: ResponseTypes.ProposalsProposalMetadataV2 = enhanceProposal(rows[0]);
 
         if (!row) {
           return handle404(reply);
