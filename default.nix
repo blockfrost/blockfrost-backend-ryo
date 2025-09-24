@@ -16,7 +16,7 @@ pkgs ? import nixpkgs {}
 , system ? builtins.currentSystem
 }:
 let
-  nodejs = pkgs.nodejs_18;
+  nodejs = pkgs.nodejs_24;
   nodePackages = nodejs.pkgs;
   testing = import (pkgs.path + "/nixos/lib/testing-python.nix") { inherit system; };
   packageJSON = builtins.fromJSON (builtins.readFile ./package.json);
