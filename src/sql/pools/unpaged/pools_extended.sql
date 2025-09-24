@@ -4,15 +4,68 @@ WITH current_epoch AS (
   FROM block b
   ORDER BY b.id DESC
   LIMIT 1
-), queried_pools AS (
+), 
+-- although it's called circulation in the ledger code, we actually need total_supply instead for the calculations
+total_supply AS (
+  SELECT 45000000000000000 - reserves
+  FROM ada_pots
+  ORDER BY epoch_no desc
+  LIMIT 1
+), 
+queried_pools AS (
   SELECT ph.id AS "pool_hash_id",
     ph.view AS "pool_id",
-    encode(ph.hash_raw, 'hex') AS "hex"
+    encode(ph.hash_raw, 'hex') AS "hex",
+    pu.margin,
+    pu.fixed_cost,
+    pu.declared_pledge,
+    (
+      SELECT COUNT(*)
+      FROM block b
+        JOIN slot_leader sl ON (sl.id = b.slot_leader_id)
+      WHERE sl.pool_hash_id = ph.id
+    ) AS "blocks_minted",
+     (
+      SELECT json_build_object(
+        'hash', encode(pmr.hash, 'hex'),
+        'url', pmr.url,
+        'ticker', pod.ticker_name,
+        'name', COALESCE(pod.json->>'name', NULL),
+        'description', COALESCE(pod.json->>'description', NULL),
+        'homepage', COALESCE(pod.json->>'homepage', NULL),
+        'fetch_error', CASE WHEN pod.json IS NULL THEN ocpfe.fetch_error ELSE NULL END
+      )
+      FROM pool_metadata_ref pmr
+      -- Note: Simple LEFT JOIN LEFT JOIN off_chain_pool_data pod ON pod.pmr_id = pmr.id
+      -- Is not enough as the pmr record may reference failed fetch.
+      -- By joining on pod.hash = pmr.hash we reuse previously fetched off-chain data (with the same hash)
+      -- LATERAL join is needed because they may be multiple pod/pmr records matching the hash
+      LEFT JOIN LATERAL (
+        SELECT *
+        FROM off_chain_pool_data pod
+        WHERE pod.hash = pmr.hash
+        ORDER BY pmr.registered_tx_id DESC
+        LIMIT 1
+      ) pod ON TRUE
+      -- Latest fetch error for this metadata ref
+      LEFT JOIN LATERAL (
+        SELECT f.fetch_error
+        FROM off_chain_pool_fetch_error f
+        WHERE f.pmr_id = pmr.id
+        ORDER BY f.id DESC
+        LIMIT 1
+      ) ocpfe ON TRUE
+      WHERE pmr.id = pu.meta_id
+    ) AS "metadata"
   FROM pool_hash ph
     JOIN (
       SELECT pu.hash_id,
         pu.registered_tx_id AS "max_registered_tx_id",
-        pu.cert_index AS "update_cert_index"
+        pu.cert_index AS "update_cert_index",
+        pu.margin as "margin",
+        pu.fixed_cost::TEXT AS "fixed_cost",
+        pu.pledge::TEXT AS "declared_pledge",
+        pu.meta_id
       FROM pool_update pu
         JOIN (
           SELECT hash_id,
@@ -57,7 +110,11 @@ WITH current_epoch AS (
         AND update_cert_index > retire_cert_index
       )
     )
-  GROUP BY ph.id
+  GROUP BY ph.id,
+    pu.margin,
+    pu.fixed_cost,
+    pu.declared_pledge,
+    pu.meta_id
   ORDER BY CASE
       WHEN LOWER($1) = 'desc' THEN ph.id
     END DESC,
@@ -194,11 +251,39 @@ SELECT qp.pool_id AS "pool_id",
       ),
       0
     )
-  )::TEXT AS "live_stake" -- cast to TEXT to avoid number overflow
+  )::TEXT AS "live_stake", -- cast to TEXT to avoid number overflow
+  (
+    COALESCE(
+      (
+        SELECT live_stake_pool
+        FROM live_stake_queried_pools_sum lsqps
+        WHERE qp.pool_hash_id = lsqps.pool_hash_id
+      ) / (
+        (
+          SELECT *
+          FROM total_supply
+        ) / (
+          SELECT optimal_pool_count
+          FROM epoch_param
+          ORDER BY epoch_no DESC
+          LIMIT 1
+        )
+      ), 0
+    )
+  )::FLOAT AS "live_saturation",
+  qp.margin as "margin_cost",
+  qp.blocks_minted,
+  qp.fixed_cost,
+  qp.declared_pledge,
+  MAX(qp.metadata::TEXT)::JSON AS metadata
 FROM queried_pools qp
 GROUP BY qp.pool_hash_id,
   qp.pool_id,
-  qp.hex
+  qp.hex,
+  qp.margin,
+  qp.fixed_cost,
+  qp.declared_pledge,
+  qp.blocks_minted
 ORDER BY CASE
     WHEN LOWER($1) = 'desc' THEN qp.pool_hash_id
   END DESC,

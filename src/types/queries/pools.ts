@@ -32,6 +32,7 @@ export interface PoolsExtended {
     name: string | null;
     description: string | null;
     homepage: string | null;
+    fetch_error: string | null;
   };
 }
 
@@ -86,6 +87,7 @@ export interface PoolMetadata {
   hash: string;
   ticker: string | null;
   metadata_text: MetadataTextJSON | null;
+  fetch_error: string | null;
 }
 
 export interface PoolDelegators {

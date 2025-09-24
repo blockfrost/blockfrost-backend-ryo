@@ -17,9 +17,20 @@ SELECT (
   url AS "url",
   encode(pmr.hash, 'hex') AS "hash",
   pod.ticker_name AS "ticker",
-  pod.json AS "metadata_text"
+  pod.json AS "metadata_text",
+  CASE
+    WHEN pod.json IS NULL THEN ocpfe.fetch_error
+    ELSE NULL
+  END AS "fetch_error"
 FROM pool_metadata_ref pmr
   LEFT JOIN off_chain_pool_data pod ON (pmr.hash = pod.hash)
+  LEFT JOIN LATERAL (
+    SELECT f.fetch_error
+    FROM off_chain_pool_fetch_error f
+    WHERE f.pmr_id = pmr.id
+    ORDER BY f.id DESC
+    LIMIT 1
+  ) ocpfe ON TRUE
 WHERE pmr.id = (
     SELECT meta_id
     FROM pool_update pu

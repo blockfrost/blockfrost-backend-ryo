@@ -2,6 +2,92 @@
 
 import { describe, expect, test } from 'vitest';
 import * as governanceUtils from '../../../../src/utils/governance.js';
+import { transformOffChainFetchError } from '../../../../src/utils/governance.js';
+
+// Real error messages from user's file
+const realErrors = [
+  {
+    msg: 'Error Offchain Voting Anchor: JSON decode error from when fetching metadata from Just https://raw.githubusercontent.com/stakelovelace/pub/main/a.json resulted in : "Error in $: key "hashAlgorithm" not found, CIP-100:Error in $: key "hashAlgorithm" not found"',
+    expected: {
+      code: 'DECODE_ERROR',
+      message:
+        'Error Offchain Voting Anchor: JSON decode error from when fetching metadata from Just https://raw.githubusercontent.com/stakelovelace/pub/main/a.json resulted in : "Error in $: key "hashAlgorithm" not found, CIP-100:Error in $: key "hashAlgorithm" not found"',
+    },
+  },
+  {
+    msg: 'Hash mismatch when fetching metadata from https://raw.githubusercontent.com/Ryun1/metadata/main/cip100/ga.jsonld. Expected "d57d30d2d03298027fde6d1c887c65da2b98b7ddefab189dcadab9a1d6792fee" but got "1805dc601b3b6fe259c646a94edb14d52534c09a0ee51e5ac502fa823b6a510c".',
+    expected: {
+      code: 'HASH_MISMATCH',
+      message:
+        'Hash mismatch when fetching metadata from https://raw.githubusercontent.com/Ryun1/metadata/main/cip100/ga.jsonld. Expected "d57d30d2d03298027fde6d1c887c65da2b98b7ddefab189dcadab9a1d6792fee" but got "1805dc601b3b6fe259c646a94edb14d52534c09a0ee51e5ac502fa823b6a510c".',
+    },
+  },
+  {
+    msg: 'Error Offchain Voting Anchor: HTTP Response error from https://example.com/: expected JSON, but got : "text/html"',
+    expected: {
+      code: 'HTTP_RESPONSE_ERROR',
+      message:
+        'Error Offchain Voting Anchor: HTTP Response error from https://example.com/: expected JSON, but got : "text/html"',
+    },
+  },
+  {
+    msg: 'Error Offchain Voting Anchor: Connection failure error when fetching metadata from https://www.the-drep.com.',
+    expected: {
+      code: 'CONNECTION_ERROR',
+      message:
+        'Error Offchain Voting Anchor: Connection failure error when fetching metadata from https://www.the-drep.com.',
+    },
+  },
+  {
+    msg: 'Error Offchain Voting Anchor: Size error, fetching metadata from https://gregdevbucket.s3.ap-southeast-2.amazonaws.com/62.json exceeded 512 bytes.',
+    expected: {
+      code: 'SIZE_EXCEEDED',
+      message:
+        'Error Offchain Voting Anchor: Size error, fetching metadata from https://gregdevbucket.s3.ap-southeast-2.amazonaws.com/62.json exceeded 512 bytes.',
+    },
+  },
+];
+
+// Synthetic error messages based on Haskell error types
+const syntheticErrors = [
+  {
+    msg: 'URL parse error for https://example.com resulted in : InvalidUrlException "https://example.com" "Invalid URL"',
+    expected: {
+      code: 'CONNECTION_ERROR',
+      message:
+        'URL parse error for https://example.com resulted in : InvalidUrlException "https://example.com" "Invalid URL"',
+    },
+  },
+  {
+    msg: 'Timeout error when fetching metadata from https://example.com: context info',
+    expected: {
+      code: 'CONNECTION_ERROR',
+      message: 'Timeout error when fetching metadata from https://example.com: context info',
+    },
+  },
+  {
+    msg: 'HTTP Exception error for https://example.com resulted in : SomeHttpException',
+    expected: {
+      code: 'CONNECTION_ERROR',
+      message: 'HTTP Exception error for https://example.com resulted in : SomeHttpException',
+    },
+  },
+  {
+    msg: 'IO Exception: Some IO error',
+    expected: { code: 'UNKNOWN_ERROR', message: 'IO Exception: Some IO error' },
+  },
+  {
+    msg: 'No ipfs_gateway provided in the db-sync config',
+    expected: { code: 'UNKNOWN_ERROR', message: 'No ipfs_gateway provided in the db-sync config' },
+  },
+  {
+    msg: 'List of errors for each ipfs gateway: [error1, error2]',
+    expected: {
+      code: 'UNKNOWN_ERROR',
+      message: 'List of errors for each ipfs gateway: [error1, error2]',
+    },
+  },
+];
 
 describe('governance utils', () => {
   test('governanceUtils.validateDRepId', () => {
@@ -219,5 +305,27 @@ describe('governance utils', () => {
         0,
       ),
     ).toBe('gov_action1zhuz5djmmmjg8f9s8pe6grfc98xg3szglums8cgm6qwancp4eytqqmpu0pr');
+  });
+});
+
+describe('transformProposalFetchError', () => {
+  for (const [index, { msg, expected }] of realErrors.entries()) {
+    test(`real error #${index + 1}`, () => {
+      expect(transformOffChainFetchError(msg)).toStrictEqual(expected);
+    });
+  }
+
+  for (const [index, { msg, expected }] of syntheticErrors.entries()) {
+    test(`synthetic error #${index + 1}`, () => {
+      expect(transformOffChainFetchError(msg)).toStrictEqual(expected);
+    });
+  }
+
+  test('null input returns undefined', () => {
+    expect(transformOffChainFetchError(null)).toBeUndefined();
+  });
+
+  test('empty string input returns undefined', () => {
+    expect(transformOffChainFetchError('')).toBeUndefined();
   });
 });

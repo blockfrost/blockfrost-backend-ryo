@@ -10,8 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Support for Governance Action Identifier (CIP-129)
+
   - New endpoints for querying with Gov Action ID : `/governance/proposals/:gov_action_id`
   - Proposal response now includes an `id` field containing the governance action identifier
+
+- New `error` field for off-chain metadata fetch failures
+  - `/pools/extended`, `/pools/:pool_id/metadata` and `/governance/proposals/:gov_action_id` responses include an `error` object in the `metadata` field when off-chain metadata fetch fails
 
 ## [4.1.2] - 2025-06-09
 
