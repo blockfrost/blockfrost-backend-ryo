@@ -1,6 +1,11 @@
 {config, pkgs, lib, ...}: let
   cfg = config.services.blockfrost;
   settingsFormat = pkgs.formats.json {};
+  config-file = settingsFormat.generate "blockfrost-settings.json" cfg.settings;
+  config-dir = pkgs.runCommand "ryo-config" {} ''
+    mkdir $out
+    cp ${config-file} $out/production.yaml
+  '';
 in {
    options = {
     services.blockfrost  = {
@@ -118,7 +123,8 @@ in {
       inherit (cfg) requires;
       wantedBy = [ "multi-user.target" ];
       environment = {
-        NODE_CONFIG_RUNTIME_JSON = settingsFormat.generate "blockfrost-settings.json" cfg.settings;
+        NODE_CONFIG_DIR = config-dir;
+        NODE_CONFIG_ENV = "production";
         HOME = "/var/lib/blockfrost-backend-ryo";
       };
       serviceConfig = {
