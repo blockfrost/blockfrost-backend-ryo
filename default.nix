@@ -16,7 +16,7 @@ pkgs ? import nixpkgs {}
 , system ? builtins.currentSystem
 }:
 let
-  nodejs = pkgs.nodejs_18;
+  nodejs = pkgs.nodejs_24;
   nodePackages = nodejs.pkgs;
   testing = import (pkgs.path + "/nixos/lib/testing-python.nix") { inherit system; };
   packageJSON = builtins.fromJSON (builtins.readFile ./package.json);
@@ -59,6 +59,33 @@ let
 
     });
 
+  commonTestConfig = {
+    # We have to increase memsize, otherwise we will get error:
+    # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
+    virtualisation.memorySize = 8192;
+    virtualisation.diskSize = 2048;
+
+    services.blockfrost = {
+      enable = true;
+      requires = [];
+      package = blockfrost-backend-ryo;
+      settings = {
+        dbSync = {
+          user = "csyncdb";
+          database = "csyncdb";
+        };
+      };
+    };
+  };
+  mkTestScript = network: ''
+    start_all()
+    machine.wait_for_unit("blockfrost-backend-ryo.service")
+    machine.wait_for_open_port(3000)
+    machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
+    machine.succeed(
+        "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ SERVICE_NAME=ryo yarn test:${network} --run' >&2"
+    )
+  '';
 in
 {
   inherit blockfrost-backend-ryo;
@@ -67,35 +94,19 @@ in
     name = "blockfrost-backend-ryo-test-mainnet";
 
     nodes.machine = {
-      imports = [ ./nixos-module.nix ];
-      # We have to increase memsize, otherwise we will get error:
-      # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
-      virtualisation.memorySize = 8192;
-      virtualisation.diskSize = 2048;
+      imports = [ ./nixos-module.nix commonTestConfig ];
 
       services.blockfrost = {
-        enable = true;
-        package = blockfrost-backend-ryo;
         settings = {
           dbSync = {
             host = builtins.getEnv "DBSYNC_HOST_MAINNET";
-            user = "csyncdb";
-            database = "csyncdb";
           };
           tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_MAINNET";
         };
       };
     };
 
-    testScript = ''
-      start_all()
-      machine.wait_for_unit("blockfrost-backend-ryo.service")
-      machine.wait_for_open_port(3000)
-      machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
-      machine.succeed(
-          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ SERVICE_NAME=ryo yarn test:mainnet --run' >&2"
-      )
-    '';
+    testScript = mkTestScript "mainnet";
   };
 
   blockfrost-backend-ryo-test-preview = testing.makeTest rec {
@@ -103,20 +114,12 @@ in
     name = "blockfrost-backend-ryo-test-preview";
 
     nodes.machine = {
-      imports = [ ./nixos-module.nix ];
-      # We have to increase memsize, otherwise we will get error:
-      # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
-      virtualisation.memorySize = 8192;
-      virtualisation.diskSize = 2048;
+      imports = [ ./nixos-module.nix commonTestConfig ];
 
       services.blockfrost = {
-        enable = true;
-        package = blockfrost-backend-ryo;
         settings = {
           dbSync = {
             host = builtins.getEnv "DBSYNC_HOST_PREVIEW";
-            user = "csyncdb";
-            database = "csyncdb";
           };
           network = "preview";
           tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_TESTNETS";
@@ -124,15 +127,7 @@ in
       };
     };
 
-    testScript = ''
-      start_all()
-      machine.wait_for_unit("blockfrost-backend-ryo.service")
-      machine.wait_for_open_port(3000)
-      machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
-      machine.succeed(
-          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ SERVICE_NAME=ryo yarn test:preview --run' >&2"
-      )
-    '';
+    testScript = mkTestScript "preview";
   };
 
   blockfrost-backend-ryo-test-preprod = testing.makeTest rec {
@@ -140,20 +135,12 @@ in
     name = "blockfrost-backend-ryo-test-preprod";
 
     nodes.machine = {
-      imports = [ ./nixos-module.nix ];
-      # We have to increase memsize, otherwise we will get error:
-      # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
-      virtualisation.memorySize = 8192;
-      virtualisation.diskSize = 2048;
+      imports = [ ./nixos-module.nix commonTestConfig ];
 
       services.blockfrost = {
-        enable = true;
-        package = blockfrost-backend-ryo;
         settings = {
           dbSync = {
             host = builtins.getEnv "DBSYNC_HOST_PREPROD";
-            user = "csyncdb";
-            database = "csyncdb";
           };
           network = "preprod";
           tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_TESTNETS";
@@ -161,15 +148,7 @@ in
       };
     };
 
-    testScript = ''
-      start_all()
-      machine.wait_for_unit("blockfrost-backend-ryo.service")
-      machine.wait_for_open_port(3000)
-      machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
-      machine.succeed(
-          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ SERVICE_NAME=ryo yarn test:preprod --run' >&2"
-      )
-    '';
+    testScript = mkTestScript "preprod";
   };
 
   blockfrost-backend-ryo-test-sanchonet = testing.makeTest rec {
@@ -177,20 +156,12 @@ in
     name = "blockfrost-backend-ryo-test-sanchonet";
 
     nodes.machine = {
-      imports = [ ./nixos-module.nix ];
-      # We have to increase memsize, otherwise we will get error:
-      # "Kernel panic - not syncing: Out of memory: compulsory panic_on_oom"
-      virtualisation.memorySize = 8192;
-      virtualisation.diskSize = 2048;
+      imports = [ ./nixos-module.nix commonTestConfig ];
 
       services.blockfrost = {
-        enable = true;
-        package = blockfrost-backend-ryo;
         settings = {
           dbSync = {
             host = builtins.getEnv "DBSYNC_HOST_SANCHONET";
-            user = "csyncdb";
-            database = "csyncdb";
           };
           network = "sanchonet";
           tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_TESTNETS";
@@ -198,15 +169,7 @@ in
       };
     };
 
-    testScript = ''
-      start_all()
-      machine.wait_for_unit("blockfrost-backend-ryo.service")
-      machine.wait_for_open_port(3000)
-      machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
-      machine.succeed(
-          "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ SERVICE_NAME=ryo yarn test:sanchonet --run' >&2"
-      )
-    '';
+    testScript = mkTestScript "sanchonet";
   };
 
 }
