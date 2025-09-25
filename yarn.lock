@@ -2253,7 +2253,7 @@ __metadata:
     axios: ^1.5.0
     bech32: ^2.0.0
     blake2b: ^2.1.4
-    config: 4.1.1
+    config: 3.3.9
     crc: ^4.3.2
     cross-env: ^7.0.3
     eslint: 8.49.0
@@ -2663,12 +2663,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"config@npm:4.1.1":
-  version: 4.1.1
-  resolution: "config@npm:4.1.1"
+"config@npm:3.3.9":
+  version: 3.3.9
+  resolution: "config@npm:3.3.9"
   dependencies:
     json5: ^2.2.3
-  checksum: 304e4e551886c78dfc9413cb3e7c44e3ac1a0219a5787c15343f5347623bea6452a5221ff5625dc361418f7add22a29a906da508b5a37dd7ef7924f844dfa641
+  checksum: 2c29e40be22274462769670a4b69fcbcad2d3049eb15030073e410d32c892ef29e0c879a3d68ef92ddd572c516e4f65a11bb6458f680a44ceb0f051bcd3d97ff
   languageName: node
   linkType: hard
 
