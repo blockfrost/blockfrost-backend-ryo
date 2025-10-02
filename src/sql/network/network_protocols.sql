@@ -1,5 +1,5 @@
-SELECT DISTINCT protocol_major as "protocol_major",
-                epoch_no as "epoch"
-FROM param_proposal
-WHERE protocol_major IS NOT NULL
-ORDER BY epoch_no
+SELECT protocol_major as "protocol_major",
+       min(epoch_no) as "epoch"
+FROM epoch_param
+GROUP BY protocol_major
+ORDER BY epoch
