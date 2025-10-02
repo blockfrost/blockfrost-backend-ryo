@@ -41,4 +41,8 @@ export const PROTOCOL_VERSIONS: Record<number, ProtocolInfo> = {
     name: 'Conway',
     is_era_hardfork: true,
   },
+  10: {
+    name: 'Conway (intra era hardfork)',
+    is_era_hardfork: false,
+  },
 };
