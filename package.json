@@ -12,7 +12,7 @@
     "dev": "cross-env NODE_OPTIONS='--max-http-header-size 32768' NODE_ENV=development yarn run-dev",
     "dev-testnet": "cross-env NODE_OPTIONS='--max-http-header-size 32768' NODE_ENV=development-testnet yarn run-dev",
     "lint": "eslint ./src/**/*.ts",
-    "run-dev": "nodemon src/server.ts",
+    "run-dev": "nodemon --preserve-symlinks src/server.ts",
     "start": "yarn build && node --max-http-header-size=32768 dist/server.js",
     "start-mainnet": "cross-env-shell NODE_ENV=mainnet \"yarn start\"",
     "start-testnet": "cross-env-shell NODE_ENV=testnet \"yarn start\"",
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@blockfrost/blockfrost-js": "5.5.0",
-    "@blockfrost/blockfrost-utils": "2.8.1",
+    "@blockfrost/blockfrost-utils": "2.9.0-beta.0",
     "@blockfrost/openapi": "0.1.81",
     "@fastify/cors": "^9.0.1",
     "@fastify/http-proxy": "^9.5.0",

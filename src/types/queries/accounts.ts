@@ -11,6 +11,19 @@ export interface RequestAccountsQueryParameters {
   };
 }
 
+export interface RequestAccountTransactionsParameters {
+  Params: {
+    stake_address: string;
+  };
+  Querystring: {
+    count: number;
+    page: number;
+    order: Order;
+    from: string;
+    to: string;
+  };
+}
+
 export interface Account {
   stake_address: string;
   active: boolean;
