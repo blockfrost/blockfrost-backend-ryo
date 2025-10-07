@@ -11,7 +11,9 @@ export const PROTOCOL_VERSIONS: Record<number, ProtocolInfo> = {
   },
   2: {
     name: 'Shelley',
-    is_era_hardfork: true,
+    is_era_hardfork: false,
+    // technically a hard fork but set as false here to match
+    // the cardano-node output of /network/eras
   },
   3: {
     name: 'Allegra',
@@ -40,5 +42,9 @@ export const PROTOCOL_VERSIONS: Record<number, ProtocolInfo> = {
   9: {
     name: 'Conway',
     is_era_hardfork: true,
+  },
+  10: {
+    name: 'Conway (intra era hardfork)',
+    is_era_hardfork: false,
   },
 };

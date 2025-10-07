@@ -26,11 +26,11 @@ const response_network = {
 
 const query_last_epoch_mainnet = [{ epoch: 376, epoch_slot: 1 }];
 const query_param_proposal_mainnet = [
-  { epoch: 235, protocol_major: 3 },
-  { epoch: 250, protocol_major: 4 },
-  { epoch: 289, protocol_major: 5 },
-  { epoch: 297, protocol_major: 6 },
-  { epoch: 364, protocol_major: 7 },
+  { epoch: 236, protocol_major: 3 },
+  { epoch: 251, protocol_major: 4 },
+  { epoch: 290, protocol_major: 5 },
+  { epoch: 298, protocol_major: 6 },
+  { epoch: 365, protocol_major: 7 },
 ];
 
 const response_eras_mainnet =
@@ -139,127 +139,13 @@ const response_eras_mainnet =
   }
 ];
 
-const query_last_epoch_testnet = [{ epoch: 242, epoch_slot: 1 }];
-const query_param_proposal_testnet = [
-  { epoch: 101, protocol_major: 3 },
-  { epoch: 111, protocol_major: 4 },
-  { epoch: 153, protocol_major: 5 },
-  { epoch: 161, protocol_major: 6 },
-  { epoch: 214, protocol_major: 7 },
-];
-
-const response_eras_testnet = [
-  {
-    start: {
-      time: 0,
-      slot: 0,
-      epoch: 0
-    },
-    end: {
-      time: 31968000,
-      slot: 1598400,
-      epoch: 74
-    },
-    parameters: {
-      epoch_length: 21600,
-      slot_length: 20,
-      safe_zone: 4320
-    }
-  },
-  {
-    start: {
-      time: 31968000,
-      slot: 1598400,
-      epoch: 74
-    },
-    end: {
-      time: 44064000,
-      slot: 13694400,
-      epoch: 102
-    },
-    parameters: {
-      epoch_length: 432000,
-      slot_length: 1,
-      safe_zone: 129600
-    }
-  },
-  {
-    start: {
-      time: 44064000,
-      slot: 13694400,
-      epoch: 102
-    },
-    end: {
-      time: 48384000,
-      slot: 18014400,
-      epoch: 112
-    },
-    parameters: {
-      epoch_length: 432000,
-      slot_length: 1,
-      safe_zone: 129600
-    }
-  },
-  {
-    start: {
-      time: 48384000,
-      slot: 18014400,
-      epoch: 112
-    },
-    end: {
-      time: 66528000,
-      slot: 36158400,
-      epoch: 154
-    },
-    parameters: {
-      epoch_length: 432000,
-      slot_length: 1,
-      safe_zone: 129600
-    }
-  },
-  {
-    start: {
-      time: 66528000,
-      slot: 36158400,
-      epoch: 154
-    },
-    end: {
-      time: 92880000,
-      slot: 62510400,
-      epoch: 215
-    },
-    parameters: {
-      epoch_length: 432000,
-      slot_length: 1,
-      safe_zone: 129600
-    }
-  },
-  {
-    start: {
-      time: 92880000,
-      slot: 62510400,
-      epoch: 215
-    },
-    end: {
-      time: 104976000,
-      slot: 74606400,
-      epoch: 243
-    },
-    parameters: {
-      epoch_length: 432000,
-      slot_length: 1,
-      safe_zone: 129600
-    }
-  }
-];
-
 const query_last_epoch_preprod = [{ epoch: 33, epoch_slot: 1 }];
 const query_param_proposal_preprod = [
-  { epoch: 4, protocol_major: 3 },
-  { epoch: 5, protocol_major: 4 },
-  { epoch: 6, protocol_major: 5 },
-  { epoch: 8, protocol_major: 6 },
-  { epoch: 11, protocol_major: 7 },
+  { epoch: 5, protocol_major: 3 },
+  { epoch: 6, protocol_major: 4 },
+  { epoch: 7, protocol_major: 5 },
+  { epoch: 9, protocol_major: 6 },
+  { epoch: 12, protocol_major: 7 },
 ];
 
 const response_eras_preprod = [
@@ -369,8 +255,9 @@ const response_eras_preprod = [
 
 const query_last_epoch_preview = [{ epoch: 25, epoch_slot: 1 }];
 const query_param_proposal_preview = [
-  { epoch: 2, protocol_major: 7 },
-  { epoch: 21, protocol_major: 8 },
+  { epoch: 0, protocol_major: 6 },
+  { epoch: 3, protocol_major: 7 },
+  { epoch: 22, protocol_major: 8 },
 ];
 
 const response_eras_preview = [
@@ -624,18 +511,6 @@ export default [
     },
     network: 'mainnet',
     response: response_eras_mainnet,
-  },
-  {
-    name: 'TESTNET: respond with success and data on /network/eras',
-    endpoint: '/network/eras',
-    sqlQueryMock: {
-      rows: query_last_epoch_testnet,
-    },
-    sqlQueryMock2: {
-      rows: query_param_proposal_testnet,
-    },
-    network: 'testnet',
-    response: response_eras_testnet,
   },
   {
     name: 'PREPROD: respond with success and data on /network/eras',

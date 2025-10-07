@@ -60,8 +60,8 @@ async function route(fastify: FastifyInstance) {
         const summary = [first];
 
         // Add first three implicit entries if Instafork
-        // or in another words the first update is to Babbage (protocol_major 7)
-        if (protocols.rows.length > 0 && protocols.rows[0].protocol_major === 7) {
+        // or in another words the first update is to Babbage (protocol_major 6)
+        if (protocols.rows.length > 0 && protocols.rows[0].protocol_major === 6) {
           const firstLike = { ...first };
 
           firstLike.parameters = {
@@ -81,7 +81,7 @@ async function route(fastify: FastifyInstance) {
 
         for (const epochProto of protocols.rows) {
           if (PROTOCOL_VERSIONS[epochProto.protocol_major].is_era_hardfork) {
-            const effectiveEpoch = epochProto.epoch + 1;
+            const effectiveEpoch = epochProto.epoch;
             const duration = effectiveEpoch - previous.end.epoch;
             const next = {
               start: {
