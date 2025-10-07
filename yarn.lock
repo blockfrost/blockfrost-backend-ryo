@@ -113,9 +113,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockfrost/blockfrost-utils@npm:2.8.1":
-  version: 2.8.1
-  resolution: "@blockfrost/blockfrost-utils@npm:2.8.1"
+"@blockfrost/blockfrost-utils@npm:2.9.0-beta.0":
+  version: 2.9.0-beta.0
+  resolution: "@blockfrost/blockfrost-utils@npm:2.9.0-beta.0"
   dependencies:
     "@emurgo/cardano-serialization-lib-nodejs": ^11.4.0
     bech32: ^2.0.0
@@ -124,7 +124,7 @@ __metadata:
     pm2: ^5.3.0
     prom-client: ^14.2.0
     yaml: ^2.3.1
-  checksum: 0ec8ed51b07fb4689cda4a69b45e8cdc5710645930e0663f4c853f61065ecc389c781b8168b0e729c74d3bef13bcb6f898e91578cab2a45ff27bebf3eaf4d830
+  checksum: ae5edeecdca44cf3c8478831cd9e252e59db523779cc23283d9b61e09c0a1512268b0f4cc2c04ef3b863a3fb49f69d2222e45284eb0416fdf1185b0012ccdf2c
   languageName: node
   linkType: hard
 
@@ -2231,7 +2231,7 @@ __metadata:
   resolution: "blockfrost-backend-ryo@workspace:."
   dependencies:
     "@blockfrost/blockfrost-js": 5.5.0
-    "@blockfrost/blockfrost-utils": 2.8.1
+    "@blockfrost/blockfrost-utils": 2.9.0-beta.0
     "@blockfrost/openapi": 0.1.81
     "@fastify/cors": ^9.0.1
     "@fastify/http-proxy": ^9.5.0

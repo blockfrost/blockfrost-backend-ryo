@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- New endpoint: `/accounts/:stake_address/transactions`
+  - Returns transactions involving the specified stake address, with support for paging and filtering by block range.
+
 ## [4.3.0] - 2025-10-08
 
 ### Added
