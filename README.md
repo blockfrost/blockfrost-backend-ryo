@@ -118,7 +118,9 @@ CREATE INDEX IF NOT EXISTS bf_idx_stake_deregistration_addr_txid ON stake_deregi
 CREATE INDEX IF NOT EXISTS bf_idx_drep_hash_raw_has_script ON drep_hash (raw, has_script);
 CREATE INDEX IF NOT EXISTS bf_idx_tx_out_unspent_covering ON tx_out (stake_address_id) INCLUDE (value) WHERE consumed_by_tx_id IS NULL;
 CREATE INDEX IF NOT EXISTS bf_idx_reward_addr_epoch_covering ON reward (addr_id, spendable_epoch) INCLUDE (amount);
-
+CREATE UNIQUE INDEX IF NOT EXISTS bf_u_idx_tx_in_outref_covering ON public.tx_in (tx_out_id, tx_out_index) INCLUDE (tx_in_id);
+CREATE INDEX IF NOT EXISTS bf_idx_tx_out_stakeaddr_covering ON public.tx_out (stake_address_id) INCLUDE (tx_id, index);
+CREATE INDEX IF NOT EXISTS bf_idx_tx_id_covering ON public.tx (id) INCLUDE (block_id, block_index, hash);
 ```
 
 ### Experimental features
