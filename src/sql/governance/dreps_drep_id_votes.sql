@@ -1,9 +1,13 @@
 SELECT encode(tx.hash, 'hex') AS "tx_hash",
   vp.index AS "cert_index",
+  encode(proposal_tx.hash, 'hex') AS "proposal_tx_hash",
+  gap.index AS "proposal_cert_index",
   LOWER(vote::TEXT) AS "vote" -- Yes, No, Abstain -> yes,no,abstain
 FROM voting_procedure vp
   JOIN drep_hash dh ON (vp.drep_voter = dh.id)
   JOIN tx ON (vp.tx_id = tx.id)
+  JOIN gov_action_proposal gap ON (vp.gov_action_proposal_id = gap.id)
+  JOIN tx AS proposal_tx ON (gap.tx_id = proposal_tx.id)
 WHERE (
     ($4::bytea IS NOT NULL AND dh.raw = $4) OR
     ($4 IS NULL AND dh.view = $5)
