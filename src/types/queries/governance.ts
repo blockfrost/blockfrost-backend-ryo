@@ -65,8 +65,8 @@ export interface DRepsDrepIDUpdates {
 export interface DRepsDrepIDVotes {
   tx_hash: string;
   cert_index: number;
-  voter_role: 'constitutional_committee' | 'drep' | 'spo';
-  committee_voter_hash: string | null;
+  proposal_tx_hash: string;
+  proposal_cert_index: number;
   vote: 'yes' | 'no' | 'abstain';
 }
 

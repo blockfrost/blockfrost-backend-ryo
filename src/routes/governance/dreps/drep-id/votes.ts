@@ -6,7 +6,7 @@ import { SQLQuery } from '../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { isUnpaged } from '../../../../utils/routes.js';
 import { handle400Custom } from '@blockfrost/blockfrost-utils/lib/fastify.js';
-import { validateDRepId } from '../../../../utils/governance.js';
+import { getGovActionId, validateDRepId } from '../../../../utils/governance.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -27,8 +27,8 @@ async function route(fastify: FastifyInstance) {
 
       try {
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.DRepsDrepIDUpdates } = unpaged
-          ? await clientDbSync.query<QueryTypes.DRepsDrepIDUpdates>(
+        const { rows } = unpaged
+          ? await clientDbSync.query<QueryTypes.DRepsDrepIDVotes>(
               SQLQuery.get('governance_dreps_drep_id_votes_unpaged'),
               [
                 request.query.order,
@@ -37,7 +37,7 @@ async function route(fastify: FastifyInstance) {
                 drepValidation.dbSync.hasScript,
               ],
             )
-          : await clientDbSync.query<QueryTypes.DRepsDrepIDUpdates>(
+          : await clientDbSync.query<QueryTypes.DRepsDrepIDVotes>(
               SQLQuery.get('governance_dreps_drep_id_votes'),
               [
                 request.query.order,
@@ -50,6 +50,10 @@ async function route(fastify: FastifyInstance) {
             );
 
         gracefulRelease(clientDbSync);
+
+        for (const row of rows as ResponseTypes.DRepsDrepIDVotes) {
+          row.proposal_id = getGovActionId(row.proposal_tx_hash, row.proposal_cert_index);
+        }
 
         return reply.send(rows);
       } catch (error) {

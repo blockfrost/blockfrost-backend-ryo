@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Included proposal reference fields in `/governance/drep/:drep_id/votes`
+  - Each vote now includes `proposal_id` and `proposal_tx_hash` `proposal_cert_index`
+
 ### Fixed
 
 - `/network/eras` duplicate era on Preview testnet
