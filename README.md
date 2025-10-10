@@ -89,7 +89,7 @@ Although it is possible to run RYO with vanilla db sync, Blockfrost usually quer
 
 Therefore, in order to speed up queries, it is recommended to create the following, custom, indices:
 
-```
+```sql
 CREATE INDEX IF NOT EXISTS bf_idx_block_hash_encoded ON block USING HASH (encode(hash, 'hex'));
 CREATE INDEX IF NOT EXISTS bf_idx_datum_hash ON datum USING HASH (encode(hash, 'hex'));
 CREATE INDEX IF NOT EXISTS bf_idx_multi_asset_policy ON multi_asset USING HASH (encode(policy, 'hex'));
