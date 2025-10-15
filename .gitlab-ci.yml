@@ -40,10 +40,3 @@ Integration tests - preprod:
     - Nix build
   script:
     - nix-build -A blockfrost-backend-ryo-test-preprod --option sandbox false
-
-Integration tests - sanchonet:
-  stage: integration tests
-  needs:
-    - Nix build
-  script:
-    - nix-build -A blockfrost-backend-ryo-test-sanchonet --option sandbox false
