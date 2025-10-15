@@ -1,5 +1,7 @@
 WITH candidate_tx_ids AS (
-  SELECT txi.tx_in_id AS tx_id
+  SELECT 
+    txi.tx_in_id AS tx_id,
+    txo.address AS address
   FROM stake_address sa
     JOIN tx_out txo ON txo.stake_address_id = sa.id
     JOIN tx_in txi ON txi.tx_out_id = txo.tx_id AND txi.tx_out_index = txo.index
@@ -41,7 +43,9 @@ WITH candidate_tx_ids AS (
   )
 
   UNION
-  SELECT tx.id AS tx_id
+  SELECT 
+    tx.id AS tx_id,
+    txo.address AS address
   FROM stake_address sa
     JOIN tx_out txo ON txo.stake_address_id = sa.id
     JOIN tx ON tx.id = txo.tx_id
@@ -82,6 +86,7 @@ WITH candidate_tx_ids AS (
     )
 )
 SELECT
+  c.address                            AS "address",
   encode(tx.hash, 'hex')               AS "tx_hash",
   tx.block_index                       AS "tx_index",
   b.block_no                           AS "block_height",

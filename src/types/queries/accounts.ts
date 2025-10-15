@@ -98,3 +98,11 @@ export interface AccountUtxosQuery {
   inline_datum: string;
   reference_script_hash: string;
 }
+
+export interface AccountTransactionsQuery {
+  address: string;
+  tx_hash: string;
+  tx_index: number;
+  block_height: number;
+  block_time: number;
+}
