@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "@blockfrost/blockfrost-js": "5.5.0",
-    "@blockfrost/blockfrost-utils": "2.9.0-beta.0",
-    "@blockfrost/openapi": "0.1.82-beta.1",
+    "@blockfrost/blockfrost-utils": "2.9.0",
+    "@blockfrost/openapi": "0.1.82",
     "@fastify/cors": "^9.0.1",
     "@fastify/http-proxy": "^9.5.0",
     "@fastify/postgres": "^5.2.2",
