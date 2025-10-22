@@ -13,3 +13,4 @@ export type AccountAddresses = OpenApiResponseTypes['account_addresses_content']
 
 export type AccountAddressesTotal = OpenApiResponseTypes['account_addresses_total'];
 export type AccountUtxos = OpenApiResponseTypes['account_utxo_content'];
+export type AccountTransactions = OpenApiResponseTypes['account_transactions_content'];

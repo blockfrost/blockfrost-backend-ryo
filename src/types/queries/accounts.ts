@@ -11,6 +11,19 @@ export interface RequestAccountsQueryParameters {
   };
 }
 
+export interface RequestAccountTransactionsParameters {
+  Params: {
+    stake_address: string;
+  };
+  Querystring: {
+    count: number;
+    page: number;
+    order: Order;
+    from: string;
+    to: string;
+  };
+}
+
 export interface Account {
   stake_address: string;
   active: boolean;
@@ -84,4 +97,12 @@ export interface AccountUtxosQuery {
   data_hash: string;
   inline_datum: string;
   reference_script_hash: string;
+}
+
+export interface AccountTransactionsQuery {
+  address: string;
+  tx_hash: string;
+  tx_index: number;
+  block_height: number;
+  block_time: number;
 }
