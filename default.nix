@@ -125,10 +125,10 @@ in
           };
           network = "preview";
           tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_TESTNETS";
+          projectId = builtins.getEnv "PROJECT_ID";
         };
       };
     };
-
     testScript = mkTestScript "preview";
   };
 
@@ -146,32 +146,12 @@ in
           };
           network = "preprod";
           tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_TESTNETS";
+          projectId = builtins.getEnv "PROJECT_ID";
         };
       };
     };
 
     testScript = mkTestScript "preprod";
-  };
-
-  blockfrost-backend-ryo-test-sanchonet = testing.makeTest rec {
-
-    name = "blockfrost-backend-ryo-test-sanchonet";
-
-    nodes.machine = {
-      imports = [ ./nixos-module.nix commonTestConfig ];
-
-      services.blockfrost = {
-        settings = {
-          dbSync = {
-            host = builtins.getEnv "DBSYNC_HOST_SANCHONET";
-          };
-          network = "sanchonet";
-          tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_TESTNETS";
-        };
-      };
-    };
-
-    testScript = mkTestScript "sanchonet";
   };
 
 }

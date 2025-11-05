@@ -1,7 +1,7 @@
 import { validation } from '@blockfrost/blockfrost-utils';
 import { getConfig } from '../config.js';
 
-type BlockfrostNetwork = 'mainnet' | 'testnet' | 'preview' | 'preprod' | 'sanchonet';
+type BlockfrostNetwork = 'mainnet' | 'testnet' | 'preview' | 'preprod';
 
 // This is a workaround till blockfrost-utils is updated with custom network support
 const getNetwork = () => {
