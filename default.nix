@@ -103,6 +103,7 @@ in
             host = builtins.getEnv "DBSYNC_HOST_MAINNET";
           };
           tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_MAINNET";
+          projectId = builtins.getEnv "PROJECT_ID";
         };
       };
     };
