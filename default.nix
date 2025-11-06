@@ -78,7 +78,7 @@ let
       };
     };
   };
-  mkTestScript = network: projectId: ''
+  mkTestScript = { network, projectId }: ''
     start_all()
     machine.wait_for_unit("blockfrost-backend-ryo.service")
     machine.wait_for_open_port(3000)
