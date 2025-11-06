@@ -78,7 +78,7 @@ let
       };
     };
   };
-  mkTestScript = { network, projectId }: ''
+  mkTestScript = network: projectId: ''
     start_all()
     machine.wait_for_unit("blockfrost-backend-ryo.service")
     machine.wait_for_open_port(3000)
@@ -108,7 +108,7 @@ in
       };
     };
 
-    testScript = mkTestScript "mainnet";
+    testScript = mkTestScript "mainnet" (builtins.getEnv "PROJECT_ID");
   };
 
   blockfrost-backend-ryo-test-preview = testing.makeTest rec {
@@ -129,7 +129,7 @@ in
         };
       };
     };
-    testScript = mkTestScript "preview";
+    testScript = mkTestScript "preview" (builtins.getEnv "PROJECT_ID");
   };
 
   blockfrost-backend-ryo-test-preprod = testing.makeTest rec {
@@ -151,7 +151,7 @@ in
       };
     };
 
-    testScript = mkTestScript "preprod";
+    testScript = mkTestScript "preprod" (builtins.getEnv "PROJECT_ID");
   };
 
 }
