@@ -25,7 +25,6 @@ Integration tests - mainnet:
   needs:
     - Nix build
   script:
-    - export PROJECT_ID="$PROJECT_ID_MAINNET"
     - nix-build -A blockfrost-backend-ryo-test-mainnet --option sandbox false
 
 Integration tests - preview:
@@ -33,7 +32,6 @@ Integration tests - preview:
   needs:
     - Nix build
   script:
-    - export PROJECT_ID="$PROJECT_ID_PREVIEW"
     - nix-build -A blockfrost-backend-ryo-test-preview --option sandbox false
 
 Integration tests - preprod:
@@ -41,5 +39,4 @@ Integration tests - preprod:
   needs:
     - Nix build
   script:
-    - export PROJECT_ID="$PROJECT_ID_PREPROD"
     - nix-build -A blockfrost-backend-ryo-test-preprod --option sandbox false

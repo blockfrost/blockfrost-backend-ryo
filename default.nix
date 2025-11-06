@@ -103,12 +103,12 @@ in
             host = builtins.getEnv "DBSYNC_HOST_MAINNET";
           };
           tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_MAINNET";
-          projectId = builtins.getEnv "PROJECT_ID";
+          projectId = builtins.getEnv "PROJECT_ID_MAINNET";
         };
       };
     };
 
-    testScript = mkTestScript "mainnet" (builtins.getEnv "PROJECT_ID");
+    testScript = mkTestScript "mainnet" (builtins.getEnv "PROJECT_ID_MAINNET");
   };
 
   blockfrost-backend-ryo-test-preview = testing.makeTest rec {
@@ -125,11 +125,11 @@ in
           };
           network = "preview";
           tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_TESTNETS";
-          projectId = builtins.getEnv "PROJECT_ID";
+          projectId = builtins.getEnv "PROJECT_ID_PREVIEW";
         };
       };
     };
-    testScript = mkTestScript "preview" (builtins.getEnv "PROJECT_ID");
+    testScript = mkTestScript "preview" (builtins.getEnv "PROJECT_ID_PREVIEW");
   };
 
   blockfrost-backend-ryo-test-preprod = testing.makeTest rec {
@@ -146,12 +146,12 @@ in
           };
           network = "preprod";
           tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_TESTNETS";
-          projectId = builtins.getEnv "PROJECT_ID";
+          projectId = builtins.getEnv "PROJECT_ID_PREPROD";
         };
       };
     };
 
-    testScript = mkTestScript "preprod" (builtins.getEnv "PROJECT_ID");
+    testScript = mkTestScript "preprod" (builtins.getEnv "PROJECT_ID_PREPROD");
   };
 
 }
