@@ -32,6 +32,9 @@ export const validateStakeAddress = (address: string) =>
 export const convertStakeAddress = (address: string) =>
   validation.convertStakeAddress(address, getNetwork());
 
+export const validateStakeCred = (address: string) =>
+  validation.validateStakeCred(address, getNetwork());
+
 export const validateAndConvertPool = validation.validateAndConvertPool;
 export const paymentCredToBech32Address = validation.paymentCredToBech32Address;
 

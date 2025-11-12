@@ -21,6 +21,7 @@ const QUERY_FILES = {
   accounts_stake_address_registrations: 'accounts/accounts_stake_address_registrations.sql',
   accounts_stake_address_registrations_unpaged:
     'accounts/unpaged/accounts_stake_address_registrations.sql',
+  accounts_stake_address_transactions: 'accounts/accounts_stake_address_transactions.sql',
   accounts_stake_address_utxos: 'accounts/accounts_stake_address_utxos.sql',
   accounts_stake_address_utxos_unpaged: 'accounts/unpaged/accounts_stake_address_utxos.sql',
   accounts_stake_address_rewards: 'accounts/accounts_stake_address_rewards.sql',
