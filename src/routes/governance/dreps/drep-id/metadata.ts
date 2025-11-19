@@ -5,7 +5,11 @@ import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../utils/error-handler.js';
 import { SQLQuery } from '../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { validateDRepId, enhanceDRep } from '../../../../utils/governance.js';
+import {
+  validateDRepId,
+  enhanceDRep,
+  transformOffChainFetchError,
+} from '../../../../utils/governance.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -25,11 +29,10 @@ async function route(fastify: FastifyInstance) {
       const clientDbSync = await getDbSync(fastify);
 
       try {
-        const { rows }: { rows: ResponseTypes.DRepsDrepIDMetadata[] } =
-          await clientDbSync.query<QueryTypes.DRepsDrepIDMetadata>(
-            SQLQuery.get('governance_dreps_drep_id_metadata'),
-            [drepValidation.dbSync.raw, drepValidation.dbSync.id, drepValidation.dbSync.hasScript],
-          );
+        const { rows } = await clientDbSync.query<QueryTypes.DRepsDrepIDMetadata>(
+          SQLQuery.get('governance_dreps_drep_id_metadata'),
+          [drepValidation.dbSync.raw, drepValidation.dbSync.id, drepValidation.dbSync.hasScript],
+        );
 
         gracefulRelease(clientDbSync);
 
@@ -39,7 +42,14 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
 
-        const data = enhanceDRep(row, drepValidation);
+        const { fetch_error, ...rowWithoutFetchError } = row;
+
+        const rowWithFetchError: ResponseTypes.DRepsDrepIDMetadata = {
+          ...rowWithoutFetchError,
+          ...(fetch_error && { error: transformOffChainFetchError(fetch_error) }),
+        };
+
+        const data = enhanceDRep(rowWithFetchError, drepValidation);
 
         return reply.send(data);
       } catch (error) {

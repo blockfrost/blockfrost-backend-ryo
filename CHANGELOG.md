@@ -12,6 +12,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New endpoint: `/accounts/:stake_address/transactions`
   - Returns transactions involving the specified stake address, with support for paging and filtering by block range.
 
+### Fixed
+
+- Fixed issue where stale dRep metadata were returned when newer registrations had invalid metadata (`/governance/dreps/:drep_id/metadata`)
+  - Previously, queries would return outdated valid metadata instead of the latest registration with error information
+  - Now correctly returns the most recent registration with `error` details if necessary
+  - Error object structure:
+  ```ts
+  {
+    "code": "HASH_MISMATCH" | "CONNECTION_ERROR" | "HTTP_RESPONSE_ERROR" | "DECODE_ERROR" | "SIZE_EXCEEDED" | "UNKNOWN_ERROR",
+    "message": "Human-readable description of the error"
+  }
+  ```
+  - If metadata are available, the `error` field is omitted
+
 ## [4.3.0] - 2025-10-08
 
 ### Added
