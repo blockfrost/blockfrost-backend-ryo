@@ -10,7 +10,8 @@ pkgs ? import nixpkgs {}
 , blockfrost-tests ?
     (builtins.fetchGit {
       url = "ssh://git@github.com/blockfrost/blockfrost-tests-internal.git";
-      rev = "29c3535c0728f9b3191febd8944f5ec3da7349b0";
+      rev = "50f43dd80b41ebcfef716f0c240bb22449a56e72";
+      submodules = true;
       allRefs = true;
     })
 , system ? builtins.currentSystem
@@ -77,13 +78,13 @@ let
       };
     };
   };
-  mkTestScript = network: ''
+  mkTestScript = network: projectId: ''
     start_all()
     machine.wait_for_unit("blockfrost-backend-ryo.service")
     machine.wait_for_open_port(3000)
     machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
     machine.succeed(
-        "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ SERVICE_NAME=ryo yarn test:${network} --run' >&2"
+        "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ PROJECT_ID=${projectId} SERVICE_NAME=ryo yarn test:${network} --run' >&2"
     )
   '';
 in
@@ -106,7 +107,7 @@ in
       };
     };
 
-    testScript = mkTestScript "mainnet";
+    testScript = mkTestScript "mainnet" (builtins.getEnv "PROJECT_ID_MAINNET");
   };
 
   blockfrost-backend-ryo-test-preview = testing.makeTest rec {
@@ -126,8 +127,7 @@ in
         };
       };
     };
-
-    testScript = mkTestScript "preview";
+    testScript = mkTestScript "preview" (builtins.getEnv "PROJECT_ID_PREVIEW");
   };
 
   blockfrost-backend-ryo-test-preprod = testing.makeTest rec {
@@ -148,28 +148,7 @@ in
       };
     };
 
-    testScript = mkTestScript "preprod";
-  };
-
-  blockfrost-backend-ryo-test-sanchonet = testing.makeTest rec {
-
-    name = "blockfrost-backend-ryo-test-sanchonet";
-
-    nodes.machine = {
-      imports = [ ./nixos-module.nix commonTestConfig ];
-
-      services.blockfrost = {
-        settings = {
-          dbSync = {
-            host = builtins.getEnv "DBSYNC_HOST_SANCHONET";
-          };
-          network = "sanchonet";
-          tokenRegistryUrl = builtins.getEnv "TOKEN_REGISTRY_URL_TESTNETS";
-        };
-      };
-    };
-
-    testScript = mkTestScript "sanchonet";
+    testScript = mkTestScript "preprod" (builtins.getEnv "PROJECT_ID_PREPROD");
   };
 
 }
