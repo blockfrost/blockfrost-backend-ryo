@@ -55,6 +55,7 @@ export interface DRepsDrepIDMetadata {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json_metadata: any;
   bytes: string;
+  fetch_error: string | null;
 }
 export interface DRepsDrepIDUpdates {
   tx_hash: string;
@@ -175,6 +176,7 @@ export interface ProposalsProposalMetadata {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json_metadata: any;
   bytes: string | null;
+  fetch_error: string | null;
 }
 
 export interface ProposalsProposalMetadataV2 {

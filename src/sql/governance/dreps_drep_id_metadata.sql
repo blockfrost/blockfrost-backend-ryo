@@ -3,11 +3,22 @@ SELECT dh.view AS "drep_id",
   va.url AS "url",
   encode(va.data_hash, 'hex') AS "hash",
   ocvd.json AS "json_metadata",
-  ocvd.bytes::TEXT AS "bytes"
+  ocvd.bytes::TEXT AS "bytes",
+  CASE
+    WHEN ocvd.id IS NULL THEN ocvfe.fetch_error
+    ELSE NULL
+  END AS "fetch_error"
 FROM drep_hash dh
   JOIN drep_registration dr ON (dh.id = dr.drep_hash_id)
   JOIN voting_anchor va ON (dr.voting_anchor_id = va.id)
-  JOIN off_chain_vote_data ocvd ON (ocvd.voting_anchor_id = va.id)
+  LEFT JOIN off_chain_vote_data ocvd ON (ocvd.voting_anchor_id = va.id)
+  LEFT JOIN LATERAL (
+    SELECT fetch_error
+    FROM off_chain_vote_fetch_error
+    WHERE voting_anchor_id = va.id
+    ORDER BY id DESC
+    LIMIT 1
+  ) AS ocvfe ON TRUE
 WHERE (
     ($1::bytea IS NOT NULL AND dh.raw = $1) OR
     ($1 IS NULL AND dh.view = $2)
