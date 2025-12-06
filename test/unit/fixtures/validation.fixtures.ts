@@ -9,7 +9,7 @@ export const validateStakeAddressFixture = [
     name: 'Valid stake address, wrong network',
     input: 'stake1uxmdw34s0rkc26d9x9aax69pcua8eukm2tytlx3szg75mcg5z5nss',
     response: false,
-    network: 'testnet',
+    network: 'preview',
   },
   {
     name: 'Non valid/malformed stake address',
@@ -21,7 +21,7 @@ export const validateStakeAddressFixture = [
     name: 'TESTNET: Valid stake address',
     input: 'stake_test1urtemlwr6hmw6q5mc5p0q6z06g4f3v33czec67yf688w4wsw6rnpq',
     response: true,
-    network: 'testnet',
+    network: 'preview',
   },
   {
     name: 'TESTNET: Valid stake address, wrong network',
@@ -33,7 +33,7 @@ export const validateStakeAddressFixture = [
     name: 'TESTNET: Non valid/malformed stake address',
     input: 'stake_stonks_testnet',
     response: false,
-    network: 'testnet',
+    network: 'preview',
   },
 ] as const;
 
@@ -63,7 +63,7 @@ export const detectAndValidateAddressTypeFixture = [
     input:
       'addr1qyw8xfunw6lhzzzsdrx5ze6j8ayxjhecv4ty5jtaey5jvwquwvnexa4lwyy9q6xdg9n4y06gd90nse2kffyhmjffycuq405jv6',
     response: undefined,
-    network: 'testnet',
+    network: 'preview',
   },
 
   {
@@ -77,13 +77,13 @@ export const detectAndValidateAddressTypeFixture = [
     input:
       'addr_test1qryydf62jprgmtfq02370u07ch8kluvjvm4zx7gn8gmpd9snea2aza02sj9c0h4nay20a0t7q28zhajng36a2taec0gqeywmev',
     response: 'shelley',
-    network: 'testnet',
+    network: 'preview',
   },
   {
     name: 'TESTNET: Valid paymentCred address',
     input: 'addr_vkh1epr2wj5sg6x66gr650nlrlk9eahlrynxag3hjye6xctfvmdduge',
     response: 'shelley',
-    network: 'testnet',
+    network: 'preview',
   },
   {
     name: 'TESTNET: Valid address, wrong network',
@@ -96,7 +96,7 @@ export const detectAndValidateAddressTypeFixture = [
     name: 'TESTNET: Non valid/malformed address',
     input: 'stonks_address_testnet',
     response: undefined,
-    network: 'testnet',
+    network: 'preview',
   },
 ] as const;
 
@@ -123,19 +123,19 @@ export const convertStakeAddressFixture = [
     name: 'TESTNET: valid onchain address',
     input: 'e04f1606da213feae8ddd434a7a3467ca48f25deac14ecf7adadbe3238',
     response: 'stake_test1up83vpk6yyl746xa6s620g6x0jjg7fw74s2weaad4klrywqg2nh3w',
-    network: 'testnet',
+    network: 'preview',
   },
   {
     name: 'TESTNET: valid non-onchain address',
     input: 'e05a29b4c93eb2affed20854d8f0c07aafe3b04eff4212bb079e0f20fb',
     response: 'stake_test1updzndxf86e2llkjpp2d3uxq02h78vzwlapp9wc8nc8jp7cgqjwlv',
-    network: 'testnet',
+    network: 'preview',
   },
   {
     name: 'TESTNET: valid non-onchain address',
     input: 'stonks',
     response: undefined,
-    network: 'testnet',
+    network: 'preview',
   },
 ] as const;
 

@@ -8,7 +8,11 @@ import { describe, expect, test, vi } from 'vitest';
 describe('scripts service', () => {
   fixtures.map(fixture => {
     test(fixture.name, async () => {
-      const fastify = buildFastify({ maxParamLength: 32_768 });
+      const fastify = buildFastify({
+        routerOptions: {
+          maxParamLength: 32_768,
+        },
+      });
       const queryMock = sinon.stub();
 
       vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({

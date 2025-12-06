@@ -28,13 +28,19 @@ describe('health endpoints tests', () => {
     const fastify = buildFastify();
 
     await fastify.ready();
-    const clock = sinon.useFakeTimers(new Date());
-    const response = await supertest(fastify.server).get('/health/clock');
 
-    expect(response.body).toEqual({ server_time: clock.now });
+    // Capture the time before the request
+    const beforeTime = Date.now();
+    const response = await supertest(fastify.server).get('/health/clock');
+    const afterTime = Date.now();
+
+    // Verify the response is a number within a reasonable time range
+    expect(response.body).toHaveProperty('server_time');
+    expect(typeof response.body.server_time).toBe('number');
+    expect(response.body.server_time).toBeGreaterThanOrEqual(beforeTime);
+    expect(response.body.server_time).toBeLessThanOrEqual(afterTime);
     // expect(response).toMatchSnapshot();
 
     fastify.close();
-    clock.restore();
   });
 });

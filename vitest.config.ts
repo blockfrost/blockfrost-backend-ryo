@@ -10,5 +10,8 @@ export default defineConfig({
     root: '.',
     mockReset: true,
     include: [...defaultInclude, 'test/unit/tests/**/*.ts'],
+    chaiConfig: {
+      truncateThreshold: 0,
+    },
   },
 });

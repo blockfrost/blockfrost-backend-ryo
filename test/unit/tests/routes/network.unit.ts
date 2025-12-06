@@ -12,7 +12,11 @@ describe('network service', () => {
       vi.stubEnv('BLOCKFROST_CONFIG_NETWORK', fixture.network);
       vi.spyOn(config, 'getConfig').mockReturnValue(config.loadConfig());
 
-      const fastify = buildFastify({ maxParamLength: 32_768 });
+      const fastify = buildFastify({
+        routerOptions: {
+          maxParamLength: 32_768,
+        },
+      });
       const queryMock = sinon.stub();
 
       vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({

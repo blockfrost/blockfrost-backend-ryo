@@ -18,7 +18,7 @@ const response_400_2 = {
 
 export default [
   {
-    name: 'respond with success and data on /utils/addresses/xpub/:xpub/:role/:index',
+    name: 'MAINNET /utils/addresses/xpub/:xpub/:role/:index 0/0',
     endpoint:
       '/utils/addresses/xpub/7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152/0/0',
     network: 'mainnet',
@@ -31,7 +31,7 @@ export default [
     },
   },
   {
-    name: 'respond with success and data on /utils/addresses/xpub/:xpub/:role/:index',
+    name: 'MAINNET /utils/addresses/xpub/:xpub/:role/:index 0/1',
     endpoint:
       '/utils/addresses/xpub/7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152/0/1',
     network: 'mainnet',
@@ -44,7 +44,7 @@ export default [
     },
   },
   {
-    name: 'respond with success and data on /utils/addresses/xpub/:xpub/:role/:index',
+    name: 'MAINNET /utils/addresses/xpub/:xpub/:role/:index 0/3',
     endpoint:
       '/utils/addresses/xpub/7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152/0/3',
     network: 'mainnet',
@@ -57,7 +57,7 @@ export default [
     },
   },
   {
-    name: 'respond with success and data on /utils/addresses/xpub/:xpub/:role/:index',
+    name: 'MAINNET /utils/addresses/xpub/:xpub/:role/:index 1/0',
     endpoint:
       '/utils/addresses/xpub/7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152/1/0',
     network: 'mainnet',
@@ -70,7 +70,7 @@ export default [
     },
   },
   {
-    name: 'respond with success and data on /utils/addresses/xpub/:xpub/:role/:index',
+    name: 'MAINNET /utils/addresses/xpub/:xpub/:role/:index 1/1',
     endpoint:
       '/utils/addresses/xpub/7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152/1/1',
     network: 'mainnet',
@@ -83,7 +83,7 @@ export default [
     },
   },
   {
-    name: 'respond with success and data on /utils/addresses/xpub/:xpub/:role/:index',
+    name: 'MAINNET: /utils/addresses/xpub/:xpub/:role/:index 1/3',
     endpoint:
       '/utils/addresses/xpub/7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152/1/3',
     network: 'mainnet',
@@ -96,10 +96,10 @@ export default [
     },
   },
   {
-    name: 'TESTNET: respond with success and data on /utils/addresses/xpub/:xpub/:role/:index',
+    name: 'PREVIEW: /utils/addresses/xpub/:xpub/:role/:index 0/0',
     endpoint:
       '/utils/addresses/xpub/7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152/0/0',
-    network: 'testnet',
+    network: 'preview',
     response: {
       xpub: '7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152',
       role: 0,
@@ -109,10 +109,10 @@ export default [
     },
   },
   {
-    name: 'TESTNET: respond with success and data on /utils/addresses/xpub/:xpub/:role/:index',
+    name: 'PREVIEW: /utils/addresses/xpub/:xpub/:role/:index 0/1',
     endpoint:
       '/utils/addresses/xpub/7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152/0/1',
-    network: 'testnet',
+    network: 'preview',
     response: {
       xpub: '7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152',
       role: 0,
@@ -122,10 +122,10 @@ export default [
     },
   },
   {
-    name: 'TESTNET: respond with success and data on /utils/addresses/xpub/:xpub/:role/:index',
+    name: 'PREVIEW: /utils/addresses/xpub/:xpub/:role/:index 0/3',
     endpoint:
       '/utils/addresses/xpub/7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152/0/3',
-    network: 'testnet',
+    network: 'preview',
     response: {
       xpub: '7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152',
       role: 0,
@@ -135,10 +135,10 @@ export default [
     },
   },
   {
-    name: 'TESTNET: respond with success and data on /utils/addresses/xpub/:xpub/:role/:index',
+    name: 'PREVIEW: /utils/addresses/xpub/:xpub/:role/:index 1/0',
     endpoint:
       '/utils/addresses/xpub/7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152/1/0',
-    network: 'testnet',
+    network: 'preview',
     response: {
       xpub: '7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152',
       role: 1,
@@ -148,10 +148,10 @@ export default [
     },
   },
   {
-    name: 'TESTNET: respond with success and data on /utils/addresses/xpub/:xpub/:role/:index',
+    name: 'PREVIEW: /utils/addresses/xpub/:xpub/:role/:index 1/1',
     endpoint:
       '/utils/addresses/xpub/7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152/1/1',
-    network: 'testnet',
+    network: 'preview',
     response: {
       xpub: '7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152',
       role: 1,
@@ -161,10 +161,10 @@ export default [
     },
   },
   {
-    name: 'TESTNET: respond with success and data on /utils/addresses/xpub/:xpub/:role/:index',
+    name: 'PREVIEW: /utils/addresses/xpub/:xpub/:role/:index 1/3',
     endpoint:
       '/utils/addresses/xpub/7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152/1/3',
-    network: 'testnet',
+    network: 'preview',
     response: {
       xpub: '7ec9738746cb4708df52a455b43aa3fdee8955abaf37f68ffc79bb84fbf9e1b39d77e2deb9749faf890ff8326d350ed3fd0e4aa271b35cad063692af87102152',
       role: 1,

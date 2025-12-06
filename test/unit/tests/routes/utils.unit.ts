@@ -12,7 +12,11 @@ describe('utils', () => {
         ...config.mainConfig,
         network: fixture.network,
       });
-      const fastify = buildFastify({ maxParamLength: 32_768 });
+      const fastify = buildFastify({
+        routerOptions: {
+          maxParamLength: 32_768,
+        },
+      });
 
       await fastify.ready();
 

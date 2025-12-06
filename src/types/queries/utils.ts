@@ -1,4 +1,3 @@
-/* eslint-disable import/export */
 export interface Xpub {
   Params: {
     xpub: string;
@@ -7,6 +6,7 @@ export interface Xpub {
   };
 }
 
+// eslint-disable-next-line no-redeclare
 export interface Xpub {
   Body: Buffer;
 }

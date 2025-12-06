@@ -31,7 +31,11 @@ describe('assets service', () => {
 
   fixtures.map(fixture => {
     test(fixture.name, async () => {
-      const fastify = buildFastify({ maxParamLength: 32_768 });
+      const fastify = buildFastify({
+        routerOptions: {
+          maxParamLength: 32_768,
+        },
+      });
       const queryMock = sinon.stub();
 
       vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({

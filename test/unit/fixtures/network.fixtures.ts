@@ -33,110 +33,109 @@ const query_param_proposal_mainnet = [
   { epoch: 365, protocol_major: 7 },
 ];
 
-const response_eras_mainnet =
-[
+const response_eras_mainnet = [
   {
     start: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     end: {
       time: 89856000,
       slot: 4492800,
-      epoch: 208
+      epoch: 208,
     },
     parameters: {
       epoch_length: 21600,
       slot_length: 20,
-      safe_zone: 4320
-    }
+      safe_zone: 4320,
+    },
   },
   {
     start: {
       time: 89856000,
       slot: 4492800,
-      epoch: 208
+      epoch: 208,
     },
     end: {
       time: 101952000,
       slot: 16588800,
-      epoch: 236
+      epoch: 236,
     },
     parameters: {
       epoch_length: 432000,
       slot_length: 1,
-      safe_zone: 129600
-    }
+      safe_zone: 129600,
+    },
   },
   {
     start: {
       time: 101952000,
       slot: 16588800,
-      epoch: 236
+      epoch: 236,
     },
     end: {
       time: 108432000,
       slot: 23068800,
-      epoch: 251
+      epoch: 251,
     },
     parameters: {
       epoch_length: 432000,
       slot_length: 1,
-      safe_zone: 129600
-    }
+      safe_zone: 129600,
+    },
   },
   {
     start: {
       time: 108432000,
       slot: 23068800,
-      epoch: 251
+      epoch: 251,
     },
     end: {
       time: 125280000,
       slot: 39916800,
-      epoch: 290
+      epoch: 290,
     },
     parameters: {
       epoch_length: 432000,
       slot_length: 1,
-      safe_zone: 129600
-    }
+      safe_zone: 129600,
+    },
   },
   {
     start: {
       time: 125280000,
       slot: 39916800,
-      epoch: 290
+      epoch: 290,
     },
     end: {
       time: 157680000,
       slot: 72316800,
-      epoch: 365
+      epoch: 365,
     },
     parameters: {
       epoch_length: 432000,
       slot_length: 1,
-      safe_zone: 129600
-    }
+      safe_zone: 129600,
+    },
   },
   {
     start: {
       time: 157680000,
       slot: 72316800,
-      epoch: 365
+      epoch: 365,
     },
     end: {
       time: 162864000,
       slot: 77500800,
-      epoch: 377
+      epoch: 377,
     },
     parameters: {
       epoch_length: 432000,
       slot_length: 1,
-      safe_zone: 129600
-    }
-  }
+      safe_zone: 129600,
+    },
+  },
 ];
 
 const query_last_epoch_preprod = [{ epoch: 33, epoch_slot: 1 }];
@@ -153,104 +152,104 @@ const response_eras_preprod = [
     start: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     end: {
       time: 1728000,
       slot: 86400,
-      epoch: 4
+      epoch: 4,
     },
     parameters: {
       epoch_length: 21600,
       slot_length: 20,
-      safe_zone: 4320
-    }
+      safe_zone: 4320,
+    },
   },
   {
     start: {
       time: 1728000,
       slot: 86400,
-      epoch: 4
+      epoch: 4,
     },
     end: {
       time: 2160000,
       slot: 518400,
-      epoch: 5
+      epoch: 5,
     },
     parameters: {
       epoch_length: 432000,
       slot_length: 1,
-      safe_zone: 129600
-    }
+      safe_zone: 129600,
+    },
   },
   {
     start: {
       time: 2160000,
       slot: 518400,
-      epoch: 5
+      epoch: 5,
     },
     end: {
       time: 2592000,
       slot: 950400,
-      epoch: 6
+      epoch: 6,
     },
     parameters: {
       epoch_length: 432000,
       slot_length: 1,
-      safe_zone: 129600
-    }
+      safe_zone: 129600,
+    },
   },
   {
     start: {
       time: 2592000,
       slot: 950400,
-      epoch: 6
+      epoch: 6,
     },
     end: {
       time: 3024000,
       slot: 1382400,
-      epoch: 7
+      epoch: 7,
     },
     parameters: {
       epoch_length: 432000,
       slot_length: 1,
-      safe_zone: 129600
-    }
+      safe_zone: 129600,
+    },
   },
   {
     start: {
       time: 3024000,
       slot: 1382400,
-      epoch: 7
+      epoch: 7,
     },
     end: {
       time: 5184000,
       slot: 3542400,
-      epoch: 12
+      epoch: 12,
     },
     parameters: {
       epoch_length: 432000,
       slot_length: 1,
-      safe_zone: 129600
-    }
+      safe_zone: 129600,
+    },
   },
   {
     start: {
       time: 5184000,
       slot: 3542400,
-      epoch: 12
+      epoch: 12,
     },
     end: {
       time: 14688000,
       slot: 13046400,
-      epoch: 34
+      epoch: 34,
     },
     parameters: {
       epoch_length: 432000,
       slot_length: 1,
-      safe_zone: 129600
-    }
-  }
+      safe_zone: 129600,
+    },
+  },
 ];
 
 const query_last_epoch_preview = [{ epoch: 25, epoch_slot: 1 }];
@@ -265,104 +264,104 @@ const response_eras_preview = [
     start: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     end: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     parameters: {
       epoch_length: 4320,
       slot_length: 20,
-      safe_zone: 864
-    }
+      safe_zone: 864,
+    },
   },
   {
     start: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     end: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     parameters: {
       epoch_length: 86400,
       slot_length: 1,
-      safe_zone: 25920
-    }
+      safe_zone: 25920,
+    },
   },
   {
     start: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     end: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     parameters: {
       epoch_length: 86400,
       slot_length: 1,
-      safe_zone: 25920
-    }
+      safe_zone: 25920,
+    },
   },
   {
     start: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     end: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     parameters: {
       epoch_length: 86400,
       slot_length: 1,
-      safe_zone: 25920
-    }
+      safe_zone: 25920,
+    },
   },
   {
     start: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     end: {
       time: 259200,
       slot: 259200,
-      epoch: 3
+      epoch: 3,
     },
     parameters: {
       epoch_length: 86400,
       slot_length: 1,
-      safe_zone: 25920
-    }
+      safe_zone: 25920,
+    },
   },
   {
     start: {
       time: 259200,
       slot: 259200,
-      epoch: 3
+      epoch: 3,
     },
     end: {
       time: 2246400,
       slot: 2246400,
-      epoch: 26
+      epoch: 26,
     },
     parameters: {
       epoch_length: 86400,
       slot_length: 1,
-      safe_zone: 25920
-    }
-  }
+      safe_zone: 25920,
+    },
+  },
 ];
 
 // within safe zone
@@ -373,106 +372,105 @@ const response_eras_preview_safe = [
     start: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     end: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     parameters: {
       epoch_length: 4320,
       slot_length: 20,
-      safe_zone: 864
-    }
+      safe_zone: 864,
+    },
   },
   {
     start: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     end: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     parameters: {
       epoch_length: 86400,
       slot_length: 1,
-      safe_zone: 25920
-    }
+      safe_zone: 25920,
+    },
   },
   {
     start: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     end: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     parameters: {
       epoch_length: 86400,
       slot_length: 1,
-      safe_zone: 25920
-    }
+      safe_zone: 25920,
+    },
   },
   {
     start: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     end: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     parameters: {
       epoch_length: 86400,
       slot_length: 1,
-      safe_zone: 25920
-    }
+      safe_zone: 25920,
+    },
   },
   {
     start: {
       time: 0,
       slot: 0,
-      epoch: 0
+      epoch: 0,
     },
     end: {
       time: 259200,
       slot: 259200,
-      epoch: 3
+      epoch: 3,
     },
     parameters: {
       epoch_length: 86400,
       slot_length: 1,
-      safe_zone: 25920
-    }
+      safe_zone: 25920,
+    },
   },
   {
     start: {
       time: 259200,
       slot: 259200,
-      epoch: 3
+      epoch: 3,
     },
     end: {
       time: 6220800,
       slot: 6220800,
-      epoch: 72
+      epoch: 72,
     },
     parameters: {
       epoch_length: 86400,
       slot_length: 1,
-      safe_zone: 25920
-    }
-  }
+      safe_zone: 25920,
+    },
+  },
 ];
-
 
 const response_500 = {
   error: 'Internal Server Error',
@@ -496,7 +494,7 @@ export default [
     sqlQueryMock: {
       rows: query_network,
     },
-    network: 'testnet',
+    network: 'preview',
     response: response_network,
   },
   // eras
@@ -548,8 +546,6 @@ export default [
     network: 'preview',
     response: response_eras_preview_safe,
   },
-
-
 
   /*
       500s

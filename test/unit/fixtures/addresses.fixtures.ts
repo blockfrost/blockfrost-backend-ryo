@@ -1415,7 +1415,7 @@ export default [
     sqlQueryMock2: {
       rows: [query_address_testnet_1],
     },
-    network: 'testnet',
+    network: 'preview',
     response: response_address_testnet_1,
   },
   {
@@ -1427,7 +1427,7 @@ export default [
     sqlQueryMock2: {
       rows: [query_address_vkh_testnet_1],
     },
-    network: 'testnet',
+    network: 'preview',
     response: response_address_vkh_testnet_1,
   },
 
@@ -1476,7 +1476,7 @@ export default [
     sqlQueryMock2: {
       rows: [query_address_testnet_total_1],
     },
-    network: 'testnet',
+    network: 'preview',
     response: response_address_testnet_total_1,
   },
   {
@@ -1488,7 +1488,7 @@ export default [
     sqlQueryMock2: {
       rows: [query_address_vkh_testnet_total_1],
     },
-    network: 'testnet',
+    network: 'preview',
     response: response_address_vkh_testnet_total_1,
   },
 
@@ -1575,7 +1575,7 @@ export default [
       rows: query_address_tx_regular_testnet_1,
     },
     response: response_address_tx_regular_testnet_1,
-    network: 'testnet',
+    network: 'preview',
   },
   {
     name: 'TESTNET: respond with success and unpaged data on /addresses/:address/txs',
@@ -1589,7 +1589,7 @@ export default [
     },
     unpaged: true,
     response: response_address_tx_regular_testnet_1,
-    network: 'testnet',
+    network: 'preview',
   },
   {
     name: 'TESTNET: respond with success and data on /addresses/:address/txs',
@@ -1601,7 +1601,7 @@ export default [
       rows: query_address_tx_regular_testnet_1,
     },
     response: response_address_tx_regular_testnet_1,
-    network: 'testnet',
+    network: 'preview',
   },
   {
     name: 'respond with success and data on /addresses/:address/utxos',
@@ -1662,7 +1662,7 @@ export default [
       rows: query_addresses_utxos_regular_testnet_1,
     },
     response: response_addresses_utxos_regular_testnet_1,
-    network: 'testnet',
+    network: 'preview',
   },
   {
     name: 'TESTNET: respond with success and data on /addresses/:address/utxos',
@@ -1674,7 +1674,7 @@ export default [
       rows: query_addresses_utxos_regular_testnet_1,
     },
     response: response_addresses_utxos_regular_testnet_1,
-    network: 'testnet',
+    network: 'preview',
   },
   {
     name: 'respond with success and data on /addresses/:address/utxos/:asset',

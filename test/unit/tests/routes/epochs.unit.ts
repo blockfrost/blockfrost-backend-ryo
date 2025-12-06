@@ -9,7 +9,11 @@ describe('epochs service', () => {
   fixtures.map(fixture => {
     test(fixture.name, async () => {
       const queryMock = sinon.stub();
-      const fastify = buildFastify({ maxParamLength: 32_768 });
+      const fastify = buildFastify({
+        routerOptions: {
+          maxParamLength: 32_768,
+        },
+      });
 
       vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
         // @ts-expect-error test

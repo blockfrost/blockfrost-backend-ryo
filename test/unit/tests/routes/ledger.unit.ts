@@ -30,8 +30,8 @@ describe('ledger service', () => {
     fastify.close();
   });
 
-  test('network - Testnet', async () => {
-    vi.stubEnv('BLOCKFROST_CONFIG_NETWORK', 'testnet');
+  test('network - preview', async () => {
+    vi.stubEnv('BLOCKFROST_CONFIG_NETWORK', 'preview');
     vi.spyOn(config, 'getConfig').mockReturnValue(config.loadConfig());
 
     const fastify = buildFastify();
@@ -44,13 +44,13 @@ describe('ledger service', () => {
       active_slots_coefficient: 0.05,
       update_quorum: 5,
       max_lovelace_supply: '45000000000000000',
-      network_magic: 1_097_911_063,
-      epoch_length: 432_000,
-      system_start: 1_563_999_616,
+      network_magic: 2,
+      epoch_length: 86400,
+      system_start: 1666656000,
       slots_per_kes_period: 129_600,
       slot_length: 1,
       max_kes_evolutions: 62,
-      security_param: 2160,
+      security_param: 432,
     });
 
     fastify.close();
