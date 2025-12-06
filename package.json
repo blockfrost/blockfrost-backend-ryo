@@ -21,7 +21,7 @@
     "type-check": "tsc --project tsconfig.json"
   },
   "dependencies": {
-    "@blockfrost/blockfrost-js": "5.5.0",
+    "@blockfrost/blockfrost-js": "6.1.0-beta.0",
     "@blockfrost/blockfrost-utils": "2.9.0",
     "@blockfrost/openapi": "0.1.84",
     "@fastify/cors": "^9.0.1",

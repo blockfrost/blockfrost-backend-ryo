@@ -4,11 +4,13 @@ import * as ResponseTypes from '../../../../../../types/responses/utils.js';
 import { handle400Custom } from '../../../../../../utils/error-handler.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import {
-  isTestnet,
   validateDerivationXpub,
   validateInRangeUnsignedInt,
 } from '../../../../../../utils/validation.js';
 import { deriveAddress } from '@blockfrost/blockfrost-js';
+import { getConfig } from '../../../../../../config.js';
+
+const config = getConfig();
 
 async function network(fastify: FastifyInstance) {
   fastify.route({
@@ -33,7 +35,9 @@ async function network(fastify: FastifyInstance) {
         return handle400Custom(reply, 'Missing, out of range or malformed index.');
       }
 
-      const address = deriveAddress(xpub, role, index, isTestnet());
+      const network = config.network === 'custom' ? 'preview' : config.network;
+
+      const address = deriveAddress(xpub, role, index, network);
 
       const response: ResponseTypes.Xpub = {
         xpub: xpub,
