@@ -10,14 +10,14 @@ import {
 import { deriveAddress } from '@blockfrost/blockfrost-js';
 import { getConfig } from '../../../../../../config.js';
 
-const config = getConfig();
-
 async function network(fastify: FastifyInstance) {
   fastify.route({
     url: '/utils/addresses/xpub/:xpub/:role/:index',
     method: 'GET',
     schema: getSchemaForEndpoint('/utils/addresses/xpub/{xpub}/{role}/{index}'),
     handler: async (request: FastifyRequest<QueryTypes.Xpub>, reply) => {
+      const config = getConfig();
+
       const { xpub, role, index } = request.params;
 
       if (!validateDerivationXpub(xpub)) {

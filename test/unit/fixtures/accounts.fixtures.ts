@@ -432,7 +432,7 @@ export default [
       rows: [query_accounts_regular_testnet_1],
     },
     response: response_accounts_regular_testnet_1,
-    network: 'testnet',
+    network: 'preview',
   },
   {
     name: 'respond with success and data on /accounts/:stake_address/rewards',
@@ -786,7 +786,7 @@ export default [
       rows: [],
     },
     response: response_404,
-    network: 'testnet',
+    network: 'preview',
   },
   {
     name: 'respond with 404 and empty data on /accounts/:stake_address/rewards',

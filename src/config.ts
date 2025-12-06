@@ -72,9 +72,8 @@ export const loadConfig = () => {
   }
   // token registry
   const tokenRegistryEnabled = Boolean(
-    process.env.BLOCKFROST_CONFIG_TOKEN_REGISTRY_ENABLED ?? config.has('tokenRegistryEnabled')
-      ? config.get<boolean>('tokenRegistryEnabled')
-      : true,
+    process.env.BLOCKFROST_CONFIG_TOKEN_REGISTRY_ENABLED ??
+    (config.has('tokenRegistryEnabled') ? config.get<boolean>('tokenRegistryEnabled') : true),
   );
 
   const tokenRegistryUrl =
@@ -86,9 +85,8 @@ export const loadConfig = () => {
     : false;
 
   let mithrilAggregator =
-    process.env.BLOCKFROST_MITHRIL_AGGREGATOR ?? config.has('mithril.aggregator')
-      ? config.get<string>('mithril.aggregator')
-      : undefined;
+    process.env.BLOCKFROST_MITHRIL_AGGREGATOR ??
+    (config.has('mithril.aggregator') ? config.get<string>('mithril.aggregator') : undefined);
 
   const mithrilSnapshotMirrors = config.has('mithril.snapshotMirrors')
     ? config.get<SnapshotMirror[]>('mithril.snapshotMirrors')
@@ -113,9 +111,10 @@ export const loadConfig = () => {
 
   // genesis
   const genesisDataFolder =
-    process.env.BLOCKFROST_CONFIG_GENESIS_DATA_FOLDER ?? config.has('genesisDataFolder')
+    process.env.BLOCKFROST_CONFIG_GENESIS_DATA_FOLDER ??
+    (config.has('genesisDataFolder')
       ? config.get<string>('genesisDataFolder')
-      : path.resolve(__dirname, '../', 'genesis', network);
+      : path.resolve(__dirname, '../', 'genesis', network));
 
   const genesis = JSON.parse(
     readFileSync(genesisDataFolder + '/genesis.json', 'utf8'),

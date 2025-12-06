@@ -1,7 +1,7 @@
 import fastifyCors from '@fastify/cors';
 import fastifyPostgres from '@fastify/postgres';
 import * as Sentry from '@sentry/node';
-import fastify, { FastifyInstance, FastifyRequest } from 'fastify';
+import fastify, { FastifyError, FastifyInstance, FastifyRequest } from 'fastify';
 import os from 'os';
 import { getConfig } from './config.js';
 import { registerRoute } from './utils/common.js';
@@ -42,7 +42,7 @@ const start = (options = {}): FastifyInstance => {
   });
 
   app.setErrorHandler((error, request, reply) => {
-    errorHandler(error, request, reply);
+    errorHandler(error as FastifyError, request, reply);
   });
 
   app.setNotFoundHandler((request, reply) => {

@@ -69,7 +69,6 @@ export interface AddressQuery {
   script: boolean;
 }
 
-// eslint-disable-next-line import/export
 export interface AddressTotalQuery {
   received_amount_lovelace: string;
   sent_amount_lovelace: string;
@@ -78,7 +77,7 @@ export interface AddressTotalQuery {
   tx_count: number;
 }
 
-// eslint-disable-next-line import/export
+// eslint-disable-next-line no-redeclare
 export interface AddressTotalQuery {
   address: string;
   received_amount_lovelace: string;

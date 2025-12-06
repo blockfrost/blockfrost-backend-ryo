@@ -33,7 +33,6 @@ async function route(fastify: FastifyInstance) {
 
         for (const row of rows) {
           if (row.metadata && row.metadata.fetch_error) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (row.metadata as NonNullable<ResponseTypes.PoolsExtended[number]['metadata']>).error =
               transformOffChainFetchError(row.metadata.fetch_error);
             // Remove the original fetch_error field
