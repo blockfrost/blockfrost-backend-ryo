@@ -1178,7 +1178,7 @@ export default [
     sqlQueryMock: {
       rows: [query_tx_regular_testnet_1],
     },
-    network: 'testnet',
+    network: 'preview',
     response: response_tx_regular_testnet_1,
   },
   {
@@ -1233,7 +1233,7 @@ export default [
     sqlQueryMock3: {
       rows: query_tx_utxo_regular_testnet_1_outputs,
     },
-    network: 'testnet',
+    network: 'preview',
     response: response_tx_utxo_regular_testnet_1,
   },
   {
@@ -1417,7 +1417,7 @@ export default [
     sqlQueryMock3: {
       rows: query_txs_pool_updates_nonregular_testnet_relays,
     },
-    network: 'testnet',
+    network: 'preview',
     response: response_txs_pool_updates_nonregular_testnet,
   },
   {
@@ -1432,7 +1432,7 @@ export default [
     sqlQueryMock3: {
       rows: query_txs_pool_updates_nonregular_testnet_relays,
     },
-    network: 'testnet',
+    network: 'preview',
     response: response_txs_pool_updates_nonregular_testnet,
   },
   {
@@ -1558,7 +1558,8 @@ export default [
   },
   {
     name: 'respond with success and data on /txs/:hash/required_signers',
-    endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/required_signers',
+    endpoint:
+      '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/required_signers',
     sqlQueryMock: {
       rows: query_found,
     },
@@ -1569,7 +1570,8 @@ export default [
   },
   {
     name: 'respond with success and data on /txs/:hash/required_signers',
-    endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/required_signers',
+    endpoint:
+      '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/required_signers',
     sqlQueryMock: {
       rows: query_found,
     },

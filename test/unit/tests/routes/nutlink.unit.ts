@@ -13,9 +13,13 @@ describe('nutlink service', () => {
     test(fixture.name, async () => {
       vi.spyOn(config, 'getConfig').mockReturnValue({
         ...config.mainConfig,
-        network: fixture.network === 'testnet' ? 'testnet' : 'mainnet',
+        network: fixture.network === 'preview' ? 'preview' : 'mainnet',
       });
-      const fastify = buildFastify({ maxParamLength: 32_768 });
+      const fastify = buildFastify({
+        routerOptions: {
+          maxParamLength: 32_768,
+        },
+      });
       const queryMock = sinon.stub();
 
       vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({

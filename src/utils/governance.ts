@@ -3,7 +3,6 @@ import { OffChainFetchError } from '../types/common.js';
 
 const SPECIAL_DREP_IDS = new Set(['drep_always_abstain', 'drep_always_no_confidence']);
 
-// eslint-disable-next-line unicorn/prevent-abbreviations
 export const dbSyncDRepToCIP129 = <T extends { drep_id: string; has_script: boolean }>(dRep: T) => {
   if (SPECIAL_DREP_IDS.has(dRep.drep_id)) {
     return {

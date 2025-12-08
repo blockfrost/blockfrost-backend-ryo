@@ -42,7 +42,7 @@ export const registerMithrilProxy = (app: FastifyInstance) => {
       }
     },
     replyOptions: {
-      onResponse: async (request, reply, response) => {
+      onResponse: async (request, reply, res) => {
         // On error status code add response body with Blockfrost JSON error
         // On success:
         // If mithrilCDN is set then modify response from /artifact/snapshot/:digest and /artifact/snapshots endpoints
@@ -59,10 +59,10 @@ export const registerMithrilProxy = (app: FastifyInstance) => {
           if (isMithrilError) {
             // Set custom header for errors that originate from Mithril
             reply.header('X-Mithril-Error', '1');
-            return reply.send(response);
+            return reply.send(res.stream);
           } else {
             // Unexpected error
-            const errorBody = await convertStreamToString(response);
+            const errorBody = await convertStreamToString(res.stream);
             // When replying with a body of a different length it is necessary to remove the content-length header.
 
             reply.removeHeader('content-length');
@@ -80,7 +80,7 @@ export const registerMithrilProxy = (app: FastifyInstance) => {
         if (snapshotMirrors && (isSnapshotEndpoint || isSnapshotsEndpoint)) {
           // Custom snapshot CDN was set
           // Modify response of /artifact/snapshots and /artifact/snapshot/{digest} to append CDN link to list of snapshot locations
-          const body = await convertStreamToString(response);
+          const body = await convertStreamToString(res.stream);
           let alteredJSONBody: unknown;
 
           try {
@@ -103,7 +103,7 @@ export const registerMithrilProxy = (app: FastifyInstance) => {
           return reply.send(alteredJSONBody);
         } else {
           // All other endpoints don't need any modification to the response
-          return reply.send(response);
+          return reply.send(res.stream);
         }
       },
     },

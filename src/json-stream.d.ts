@@ -1,4 +1,5 @@
 // https://github.com/dominictarr/JSONStream/issues/139
+/* global NodeJS */
 declare module 'JSONStream' {
   // Type definitions for JSONStream v0.8.0
   // Project: https://github.com/dominictarr/JSONStream
@@ -32,7 +33,6 @@ declare module 'JSONStream' {
    * JSONStream.stringify() will create an array,
    * (with default options open='[\n', sep='\n,\n', close='\n]\n')
    */
-  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
   export declare function stringify(
     open: string,
     separator: string,

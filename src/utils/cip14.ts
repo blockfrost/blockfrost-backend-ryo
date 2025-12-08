@@ -33,7 +33,7 @@ export class AssetFingerprint {
       throw new Error('Invalid asset fingerprint');
     }
 
-    const hashBuf = Buffer.from(bech32.fromWords(words));
+    const hashBuf = Uint8Array.from(bech32.fromWords(words));
 
     return AssetFingerprint.fromHash(hashBuf);
   }

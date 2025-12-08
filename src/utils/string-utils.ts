@@ -28,7 +28,7 @@ export const getEndpointFromUrl = (url: string): string => {
  */
 export const matchUrlToEndpoint = (requestUrl: string, allowedEndpointPatterns: string[]) => {
   for (const allowedEndpointPattern of allowedEndpointPatterns) {
-    const regexp = pathToRegexp(allowedEndpointPattern);
+    const { regexp } = pathToRegexp(allowedEndpointPattern);
     const match = requestUrl.match(regexp);
 
     if (match) {
