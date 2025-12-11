@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.0.1] - 2025-12-11
+
+### Changed
+
+- Passed app name to pg lib
+
 ## [5.0.0] - 2025-12-02
 
 ### Added
@@ -26,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     "message": "Human-readable description of the error"
   }
   ```
+
   - If metadata are available, the `error` field is omitted
 
 ## [4.3.0] - 2025-10-08
@@ -44,7 +51,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Support for Governance Action Identifier (CIP-129)
-
   - New endpoints for querying with Gov Action ID : `/governance/proposals/:gov_action_id`
   - Proposal response now includes an `id` field containing the governance action identifier
 

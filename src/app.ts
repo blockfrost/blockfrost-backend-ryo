@@ -58,6 +58,7 @@ const start = (options = {}): FastifyInstance => {
     max: config.dbSync.maxConnections,
     password: config.dbSync.password,
     ssl: config.dbSync.ssl,
+    application_name: 'blockfrost-backend-ryo',
   });
 
   // proxies
