@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Upgraded dependencies
 - Drop support for Node < 20
+- PostgreSQL database connection now uses customizable application name for better monitoring
+  - Default: `blockfrost-backend-ryo-<hostname>`
+  - Can be configured via `BLOCKFROST_CONFIG_APPLICATION_NAME` environment variable or `dbSync.applicationName` config property
 
 ## [5.0.0] - 2025-12-02
 
@@ -25,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Previously, queries would return outdated valid metadata instead of the latest registration with error information
   - Now correctly returns the most recent registration with `error` details if necessary
   - Error object structure:
+
   ```ts
   {
     "code": "HASH_MISMATCH" | "CONNECTION_ERROR" | "HTTP_RESPONSE_ERROR" | "DECODE_ERROR" | "SIZE_EXCEEDED" | "UNKNOWN_ERROR",

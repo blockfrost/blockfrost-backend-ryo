@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import * as ResponseTypes from './types/responses/ledger.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import os from 'os';
 
 // Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
@@ -63,6 +64,11 @@ export const loadConfig = () => {
     ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_MAX_CONN)
     : config.get<number>('dbSync.maxConnections');
   const ssl = config.has('dbSync.ssl') ? { rejectUnauthorized: false } : false;
+  const databaseSyncApplicationName =
+    process.env.BLOCKFROST_CONFIG_APPLICATION_NAME ??
+    (config.has('dbSync.applicationName')
+      ? config.get<string>('dbSync.applicationName')
+      : `blockfrost-backend-ryo-${os.hostname()}`);
 
   // blockfrost network
   const network = process.env.BLOCKFROST_CONFIG_NETWORK ?? config.get('network');
@@ -139,6 +145,7 @@ export const loadConfig = () => {
       database: databaseSyncDatabase,
       maxConnections: databaseSyncMaxConnections,
       ssl,
+      applicationName: databaseSyncApplicationName,
     },
     network: network as Network,
     genesis,
