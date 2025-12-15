@@ -8,6 +8,8 @@ import { registerRoute } from './utils/common.js';
 import { errorHandler, notFoundHandler } from './utils/error-handler.js';
 import { createRequire } from 'module';
 import { registerMithrilProxy } from './proxies/mithril.js';
+import fastifyMetrics from 'fastify-metrics';
+import { initMetrics } from 'pm2-prom-module-client';
 
 const esmRequire = createRequire(import.meta.url);
 const packageJson = esmRequire('../package.json');
@@ -39,6 +41,33 @@ const start = (options = {}): FastifyInstance => {
 
   app.register(fastifyCors, {
     origin: '*',
+  });
+
+  if (config.server.prometheusMetrics) {
+    app.register(fastifyMetrics, {
+      endpoint: '/prometheus',
+      // routeMetrics: {
+      //   enabled: true,
+      //   registeredRoutesOnly: true,
+      //   groupStatusCodes: true,
+      // },
+      defaultMetrics: {
+        enabled: true,
+      },
+    });
+  }
+
+  app.after(() => {
+    // Initialize PM2 metrics aggregation after fastify-metrics is registered.
+    // This uses app.after() to ensure the metrics plugin is fully loaded before
+    // exposing the Prometheus registry to pm2-prom-module. When running in PM2
+    // cluster mode, pm2-prom-module-client will send metrics from this instance
+    // to pm2-prom-module (listening on port 9988 by default), which aggregates metrics across
+    // all cluster instances and exposes them at http://localhost:9988/metrics.
+    // See: https://github.com/VeXell/pm2-prom-module
+    if (config.server.prometheusMetrics) {
+      initMetrics(app.metrics.client.register);
+    }
   });
 
   app.setErrorHandler((error, request, reply) => {
@@ -179,7 +208,6 @@ const start = (options = {}): FastifyInstance => {
 
   // root
   registerRoute(app, import('./routes/root/index.js'));
-  registerRoute(app, import('./routes/root/prometheus.js'));
 
   // scripts
   registerRoute(app, import('./routes/scripts/index.js'));
