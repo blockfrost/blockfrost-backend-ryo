@@ -761,7 +761,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/api@npm:^1.3.0, @opentelemetry/api@npm:^1.9.0":
+"@opentelemetry/api@npm:^1.3.0, @opentelemetry/api@npm:^1.4.0, @opentelemetry/api@npm:^1.9.0":
   version: 1.9.0
   resolution: "@opentelemetry/api@npm:1.9.0"
   checksum: 9e88e59d53ced668f3daaecfd721071c5b85a67dd386f1c6f051d1be54375d850016c881f656ffbe9a03bedae85f7e89c2f2b635313f9c9b195ad033cdc31020
@@ -2682,6 +2682,7 @@ __metadata:
     eslint-plugin-prettier: 5.5.4
     eslint-plugin-unicorn: ^62.0.0
     fastify: 5.6.2
+    fastify-metrics: ^12.1.0
     fastify-plugin: ^5.1.0
     make-coverage-badge: ^1.2.0
     nock: ^14.0.10
@@ -2689,6 +2690,7 @@ __metadata:
     path-to-regexp: ^8.3.0
     pg: ^8.16.3
     pino-pretty: 13.1.3
+    pm2-prom-module-client: ^1.0.3
     prettier: 3.7.4
     rimraf: ^6.1.2
     sinon: ^21.0.0
@@ -4276,6 +4278,18 @@ __metadata:
   version: 3.0.5
   resolution: "fast-uri@npm:3.0.5"
   checksum: b56cda8e7355bad9adcc3c2eacd94cb592eaa9536497a4779a9527784f4f95a3755f30525c63583bd85807c493b396ac89926c970f19a60905ed875121ca78fd
+  languageName: node
+  linkType: hard
+
+"fastify-metrics@npm:^12.1.0":
+  version: 12.1.0
+  resolution: "fastify-metrics@npm:12.1.0"
+  dependencies:
+    fastify-plugin: ^5.0.0
+    prom-client: ^15.1.3
+  peerDependencies:
+    fastify: ">=5"
+  checksum: 20bda6d387c58ea1af2595d9e58a180455c1c2f17a46f305d0e003a4769d07914664fb8605b012f486507392e53dba91fc05c731253b574679819d973fc7d88e
   languageName: node
   linkType: hard
 
@@ -7139,6 +7153,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pm2-prom-module-client@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "pm2-prom-module-client@npm:1.0.3"
+  dependencies:
+    prom-client: ^15.1.0
+  checksum: 84776c2b46d798e00fc470a8d024835cdad70cff0a1ac7f3cd0384c367abbafea4bc162c261e898e5936c6ed10622ccdae5374911ce94e122b0adb8bac3d3036
+  languageName: node
+  linkType: hard
+
 "pm2-sysmonit@npm:^1.2.8":
   version: 1.2.8
   resolution: "pm2-sysmonit@npm:1.2.8"
@@ -7305,6 +7328,16 @@ __metadata:
   dependencies:
     tdigest: ^0.1.1
   checksum: d4c04e57616c72643dd02862d0d4bde09cf8869a19d0aef5e7b785e6e27d02439b66cdc165e3492f62d579fa91579183820870cc757a09b99399d2d02f46b9f1
+  languageName: node
+  linkType: hard
+
+"prom-client@npm:^15.1.0, prom-client@npm:^15.1.3":
+  version: 15.1.3
+  resolution: "prom-client@npm:15.1.3"
+  dependencies:
+    "@opentelemetry/api": ^1.4.0
+    tdigest: ^0.1.1
+  checksum: 9a57f3c16f39aa9a03da021883a4231c0bb56fc9d02f6ef9c28f913379f275640a5a33b98d9946ebf53c71011a29b580e9d2d6e3806cb1c229a3f59c65993968
   languageName: node
   linkType: hard
 
