@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.0.0] - 2025-12-17
+
 ### Added
 
 - Built-in support for aggregating Prometheus metrics in PM2 cluster mode
@@ -18,9 +20,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgraded dependencies
 - Drop support for Node < 20
 - PostgreSQL database connection now uses customizable application name for better monitoring
-  - Default: `blockfrost-backend-ryo-<hostname>`
+  - Default: `blockfrost-backend-ryo@<hostname>`
   - Can be configured via `BLOCKFROST_CONFIG_APPLICATION_NAME` environment variable or `dbSync.applicationName` config property
 - `/prometheus` endpoint now integrates advanced metrics from `fastify-metrics`
+
+### Fixed
+
+- `rewards_sum` calculation in `/accounts/:stake_addr`
 
 ## [5.0.0] - 2025-12-02
 

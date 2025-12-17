@@ -124,7 +124,7 @@ SELECT sa.view AS "stake_address",
   )::TEXT AS "controlled_amount",
   -- cast to TEXT to avoid number overflow
   (
-    COALESCE(rewards_sum.amount, 0) + COALESCE(instant_rewards_sum.amount, 0)
+    COALESCE(rewards_sum.amount, 0) + COALESCE(instant_rewards_sum.amount, 0) + COALESCE(refunds_sum.amount, 0)
   )::TEXT AS "rewards_sum",
   -- cast to TEXT to avoid number overflow
   COALESCE(withdrawals_sum.amount, 0)::TEXT AS "withdrawals_sum",
