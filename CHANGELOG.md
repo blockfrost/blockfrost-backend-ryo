@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgraded dependencies
 - Drop support for Node < 20
 - PostgreSQL database connection now uses customizable application name for better monitoring
-  - Default: `blockfrost-backend-ryo-<hostname>`
+  - Default: `blockfrost-backend-ryo@<hostname>`
   - Can be configured via `BLOCKFROST_CONFIG_APPLICATION_NAME` environment variable or `dbSync.applicationName` config property
 - `/prometheus` endpoint now integrates advanced metrics from `fastify-metrics`
 
