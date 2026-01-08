@@ -121,6 +121,8 @@ CREATE INDEX IF NOT EXISTS bf_idx_reward_addr_epoch_covering ON reward (addr_id,
 CREATE UNIQUE INDEX IF NOT EXISTS bf_u_idx_tx_in_outref_covering ON public.tx_in (tx_out_id, tx_out_index) INCLUDE (tx_in_id);
 CREATE INDEX IF NOT EXISTS bf_idx_tx_out_stakeaddr_covering ON public.tx_out (stake_address_id) INCLUDE (tx_id, index);
 CREATE INDEX IF NOT EXISTS bf_idx_tx_id_covering ON public.tx (id) INCLUDE (block_id, block_index, hash);
+CREATE INDEX IF NOT EXISTS bf_idx_tx_out_sa_paycred_script_id
+ON tx_out (stake_address_id, payment_cred, address_has_script, id);
 ```
 
 ### Experimental features
