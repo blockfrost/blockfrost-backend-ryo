@@ -1,16 +1,18 @@
+WITH sa AS (
+  SELECT id
+  FROM stake_address
+  WHERE view = $4
+),
+picked AS (
+  SELECT DISTINCT ON (payment_cred, address_has_script)
+    id
+  FROM tx_out
+  WHERE stake_address_id = (SELECT id FROM sa)
+  ORDER BY payment_cred, address_has_script, id
+)
 SELECT txo.address
-FROM (
-    SELECT tx_out.address "address",
-      min(tx_out.id) AS "id"
-    FROM tx_out
-      JOIN stake_address sa ON (tx_out.stake_address_id = sa.id)
-    WHERE sa.view = $4
-    GROUP BY tx_out.address
-  ) AS txo_temp
-  JOIN tx_out txo ON (
-    txo.address = txo_temp.address
-    AND txo.id = txo_temp.id
-  )
+FROM tx_out txo
+JOIN picked p ON p.id = txo.id
 ORDER BY CASE
     WHEN LOWER($1) = 'desc' THEN txo.id
   END DESC,
