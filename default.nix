@@ -1,34 +1,32 @@
-{ nixpkgs ? let
+{
+  nixpkgs ? let
     lockfile = builtins.fromJSON (builtins.readFile ./flake.lock);
     nixpkgs = lockfile.nodes.nixpkgs.locked;
-  in
-   (builtins.fetchTarball {
-          url = "https://github.com/NixOS/nixpkgs/archive/${nixpkgs.rev}.tar.gz";
-      sha256 = nixpkgs.narHash;
-    }),
-pkgs ? import nixpkgs {}
-, blockfrost-tests ?
-    (builtins.fetchGit {
-      url = "ssh://git@github.com/blockfrost/blockfrost-tests-internal.git";
-      rev = "30c2881649653b65b0a6e81013fcc35632de370c";
-      submodules = true;
-      allRefs = true;
-    })
-, system ? builtins.currentSystem
-}:
-let
+  in (builtins.fetchTarball {
+    url = "https://github.com/NixOS/nixpkgs/archive/${nixpkgs.rev}.tar.gz";
+    sha256 = nixpkgs.narHash;
+  }),
+  pkgs ? import nixpkgs {},
+  blockfrost-tests ? (builtins.fetchGit {
+    url = "ssh://git@github.com/blockfrost/blockfrost-tests-internal.git";
+    rev = "04e3b5c447f231859cef29446ee346f830129a84";
+    submodules = true;
+    allRefs = true;
+  }),
+  system ? builtins.currentSystem,
+}: let
   nodejs = pkgs.nodejs_24;
   nodePackages = nodejs.pkgs;
-  testing = import (pkgs.path + "/nixos/lib/testing-python.nix") { inherit system; };
+  testing = import (pkgs.path + "/nixos/lib/testing-python.nix") {inherit system;};
   packageJSON = builtins.fromJSON (builtins.readFile ./package.json);
 
-  blockfrost-backend-ryo =
-    let
-      src = pkgs.lib.cleanSource ./.;
-      project = pkgs.callPackage ./yarn-project.nix
-        { inherit nodejs; }
-        { inherit src; };
-    in
+  blockfrost-backend-ryo = let
+    src = pkgs.lib.cleanSource ./.;
+    project =
+      pkgs.callPackage ./yarn-project.nix
+      {inherit nodejs;}
+      {inherit src;};
+  in
     project.overrideAttrs (oldAttrs: rec {
       name = "blockfrost-backend-ryo";
       version = packageJSON.version;
@@ -36,7 +34,7 @@ let
       buildInputs = [
         nodejs
         pkgs.python3 # due to node-gyp
-        (pkgs.yarn.override { inherit nodejs; })
+        (pkgs.yarn.override {inherit nodejs;})
       ];
 
       buildPhase = ''
@@ -57,7 +55,6 @@ let
       '';
 
       dontStrip = true;
-
     });
 
   commonTestConfig = {
@@ -87,15 +84,13 @@ let
         "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ PROJECT_ID=${projectId} BLOCKCHAIN_STATE_SETUP=1 SERVICE_NAME=ryo yarn test:${network} --run' >&2"
     )
   '';
-in
-{
+in {
   inherit blockfrost-backend-ryo;
   blockfrost-backend-ryo-test-mainnet = testing.makeTest rec {
-
     name = "blockfrost-backend-ryo-test-mainnet";
 
     nodes.machine = {
-      imports = [ ./nixos-module.nix commonTestConfig ];
+      imports = [./nixos-module.nix commonTestConfig];
 
       services.blockfrost = {
         settings = {
@@ -111,11 +106,10 @@ in
   };
 
   blockfrost-backend-ryo-test-preview = testing.makeTest rec {
-
     name = "blockfrost-backend-ryo-test-preview";
 
     nodes.machine = {
-      imports = [ ./nixos-module.nix commonTestConfig ];
+      imports = [./nixos-module.nix commonTestConfig];
 
       services.blockfrost = {
         settings = {
@@ -131,11 +125,10 @@ in
   };
 
   blockfrost-backend-ryo-test-preprod = testing.makeTest rec {
-
     name = "blockfrost-backend-ryo-test-preprod";
 
     nodes.machine = {
-      imports = [ ./nixos-module.nix commonTestConfig ];
+      imports = [./nixos-module.nix commonTestConfig];
 
       services.blockfrost = {
         settings = {
@@ -150,5 +143,4 @@ in
 
     testScript = mkTestScript "preprod" (builtins.getEnv "PROJECT_ID_PREPROD");
   };
-
 }
