@@ -92,13 +92,13 @@ queried_drep AS (
 )
 SELECT sa.view AS "stake_address",
   (
-    COALESCE(
-      (SELECT MAX(tx_id) FROM stake_registration WHERE addr_id = (SELECT * FROM queried_addr)),
-      0
-    ) > COALESCE(
-      (SELECT MAX(tx_id) FROM stake_deregistration WHERE addr_id = (SELECT * FROM queried_addr)),
-      0
-    )
+    CASE
+      WHEN (
+        SELECT pool_id
+        FROM queried_pool
+      ) IS NOT NULL THEN true
+      ELSE false
+    END
   ) AS "active",
   (
     SELECT b.epoch_no
@@ -115,6 +115,15 @@ SELECT sa.view AS "stake_address",
           )
       )
   ) AS "active_epoch",
+  (
+    COALESCE(
+      (SELECT MAX(tx_id) FROM stake_registration WHERE addr_id = (SELECT * FROM queried_addr)),
+      0
+    ) > COALESCE(
+      (SELECT MAX(tx_id) FROM stake_deregistration WHERE addr_id = (SELECT * FROM queried_addr)),
+      0
+    )
+  ) AS "registered",
   (
     (
       SELECT COALESCE(SUM(txo.value), 0)

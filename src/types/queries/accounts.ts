@@ -28,6 +28,7 @@ export interface Account {
   stake_address: string;
   active: boolean;
   active_epoch: number;
+  registered: boolean;
   controlled_amount: string;
   rewards_sum: string;
   withdrawals_sum: string;

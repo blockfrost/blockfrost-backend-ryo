@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- New `registered` field in `/accounts/:stake_address` response indicating whether the stake address is currently registered
+
 ### Fixed
 
-- `active` field in `/accounts/:stake_address` now correctly indicates whether the stake address is registered (previously it incorrectly showed whether the account was delegating to a pool)
 - `pool_id` in `/accounts/:stake_address` now correctly returns `null` if delegation occurred before the latest deregistration
 
 ## [6.1.1] - 2025-01-30
