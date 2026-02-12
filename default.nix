@@ -49,7 +49,7 @@
            $out/libexec/source/dist/server.js \
            --interpreter=${pkgs.nodejs}/bin/node --node-args="\''${BLOCKFROST_NODE_ARGS:-"--max-http-header-size=32768"}" \
            --max-memory-restart \''${BLOCKFROST_MAX_MEMORY_RESTART:-"1500M"} \
-           -i max --time --no-daemon
+           -i \''${BLOCKFROST_PM2_INSTANCE_COUNT:-"max"} --time --no-daemon
         EOF
         chmod +x $out/bin/${name}
       '';
