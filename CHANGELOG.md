@@ -7,7 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [6.1.1] - 2025-01-30
+## [6.2.0] - 2026-02-12
+
+### Added
+
+- New `registered` field in `/accounts/:stake_address` response indicating whether the stake address is currently registered
+
+### Fixed
+
+- `pool_id` in `/accounts/:stake_address` now correctly returns `null` if delegation occurred before the latest deregistration
+
+## [6.1.1] - 2026-01-30
 
 ### Changed
 

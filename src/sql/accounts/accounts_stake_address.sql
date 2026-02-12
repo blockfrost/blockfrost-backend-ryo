@@ -32,6 +32,13 @@ queried_pool AS (
         WHERE addr_id = sa.id
       )
     )
+    AND (
+      d.tx_id > (
+        SELECT COALESCE(MAX(tx_id), 0) -- delegation must be after latest deregistration
+        FROM stake_deregistration
+        WHERE addr_id = sa.id
+      )
+    )
 ),
 queried_drep AS (
   SELECT 
@@ -108,6 +115,15 @@ SELECT sa.view AS "stake_address",
           )
       )
   ) AS "active_epoch",
+  (
+    COALESCE(
+      (SELECT MAX(tx_id) FROM stake_registration WHERE addr_id = (SELECT * FROM queried_addr)),
+      0
+    ) > COALESCE(
+      (SELECT MAX(tx_id) FROM stake_deregistration WHERE addr_id = (SELECT * FROM queried_addr)),
+      0
+    )
+  ) AS "registered",
   (
     (
       SELECT COALESCE(SUM(txo.value), 0)

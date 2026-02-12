@@ -8,7 +8,7 @@ import * as databaseUtils from '../../../../src/utils/database.js';
 
 describe('accounts service', () => {
   fixtures.map(fixture => {
-    test(fixture.name, async () => {
+    test(`[${fixture.name}] ${fixture.endpoint}`, async () => {
       vi.spyOn(config, 'getConfig').mockReturnValue({
         ...config.mainConfig,
         network: fixture.network === 'preview' ? 'preview' : 'mainnet',
