@@ -2,6 +2,7 @@ import axios, { isAxiosError } from 'axios';
 import * as Sentry from '@sentry/node';
 import { Asset } from '../types/responses/assets.js';
 import { getConfig } from '../config.js';
+import { tokenRegiestryRequestCount } from './prometheus.js';
 
 const CONFIG_TOKEN_REGISTRY_URL = getConfig().tokenRegistryUrl;
 const CONFIG_TOKEN_REGISTRY_ENABLED = getConfig().tokenRegistryEnabled;
@@ -56,6 +57,11 @@ export const fetchAssetMetadata = async (
       headers: { 'User-Agent': 'Blockfrost Backend RYO' },
     });
 
+    tokenRegiestryRequestCount.inc({
+      error_code: 'none',
+      status_code: String(response.status),
+    });
+
     if (response?.data?.name !== undefined && response?.data?.description !== undefined) {
       return transformTokenRegistryAsset(response.data);
     } else {
@@ -69,10 +75,42 @@ export const fetchAssetMetadata = async (
     }
   } catch (error) {
     if (isAxiosError(error) && error.response?.status === 404) {
+      tokenRegiestryRequestCount.inc({
+        error_code:
+          (error as { code?: string | number }).code !== undefined
+            ? String((error as { code?: string | number }).code)
+            : 'unknown',
+        status_code: String(error.response.status),
+      });
+
       // 404 just means asset is not in token registry
       // console.info(`Failed to fetch metadata for asset ${asset}`, error.message);
       return null;
     } else {
+      const axiosError = error as {
+        code?: string | number;
+        response?: {
+          status?: number;
+        };
+      };
+      const rawErrorCode = axiosError.code;
+      const rawStatusCode = axiosError.response?.status;
+
+      tokenRegiestryRequestCount.inc({
+        error_code:
+          rawErrorCode !== undefined
+            ? String(rawErrorCode)
+            : rawStatusCode !== undefined
+              ? 'unknown'
+              : 'unknown',
+        status_code:
+          rawStatusCode !== undefined
+            ? String(rawStatusCode)
+            : rawErrorCode !== undefined
+              ? 'unknown'
+              : 'unknown',
+      });
+
       Sentry.captureException(error);
       console.error(error);
       throw error;

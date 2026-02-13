@@ -11,6 +11,7 @@ import {
   paymentCredToBech32Address,
 } from '../../../utils/validation.js';
 import { SQLQuery } from '../../../sql/index.js';
+import { nutlinkMetadataRequestCount } from '../../../utils/prometheus.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -67,11 +68,40 @@ async function route(fastify: FastifyInstance) {
               maxContentLength: 100_000,
             });
 
+            nutlinkMetadataRequestCount.inc({
+              error_code: 'none',
+              status_code: String(reply.status),
+            });
+
             if (reply?.data && typeof reply.data === 'object') {
               rows[0].metadata = reply.data;
             }
           }
         } catch (error) {
+          const axiosError = error as {
+            code?: string | number;
+            response?: {
+              status?: number;
+            };
+          };
+          const rawErrorCode = axiosError.code;
+          const rawStatusCode = axiosError.response?.status;
+
+          nutlinkMetadataRequestCount.inc({
+            error_code:
+              rawErrorCode !== undefined
+                ? String(rawErrorCode)
+                : rawStatusCode !== undefined
+                  ? 'unknown'
+                  : 'unknown',
+            status_code:
+              rawStatusCode !== undefined
+                ? String(rawStatusCode)
+                : rawErrorCode !== undefined
+                  ? 'unknown'
+                  : 'unknown',
+          });
+
           Sentry.captureException(error);
           console.error(error);
         }
