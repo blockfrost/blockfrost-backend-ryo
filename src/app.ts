@@ -10,6 +10,7 @@ import { createRequire } from 'module';
 import { registerMithrilProxy } from './proxies/mithril.js';
 import fastifyMetrics from 'fastify-metrics';
 import { initMetrics } from 'pm2-prom-module-client';
+import { initPrometheusMetrics, mithrilRequestCount } from './utils/prometheus.js';
 
 const esmRequire = createRequire(import.meta.url);
 const packageJson = esmRequire('../package.json');
@@ -66,11 +67,34 @@ const start = (options = {}): FastifyInstance => {
     // all cluster instances and exposes them at http://localhost:9988/metrics.
     // See: https://github.com/VeXell/pm2-prom-module
     if (config.server.prometheusMetrics) {
+      initPrometheusMetrics(app);
       initMetrics(app.metrics.client.register);
     }
   });
 
   app.setErrorHandler((error, request, reply) => {
+    if (request.url.startsWith('/mithril')) {
+      const rawErrorCode = (error as { code?: string | number }).code;
+      const rawStatusCode =
+        (error as { statusCode?: number }).statusCode ||
+        (reply.statusCode >= 400 ? reply.statusCode : undefined);
+
+      mithrilRequestCount.inc({
+        error_code:
+          rawErrorCode !== undefined
+            ? String(rawErrorCode)
+            : rawStatusCode !== undefined
+              ? 'unknown'
+              : 'unknown',
+        status_code:
+          rawStatusCode !== undefined
+            ? String(rawStatusCode)
+            : rawErrorCode !== undefined
+              ? 'unknown'
+              : 'unknown',
+      });
+    }
+
     errorHandler(error as FastifyError, request, reply);
   });
 

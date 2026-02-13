@@ -5,6 +5,7 @@ import { handle500 } from '../utils/error-handler.js';
 import { convertStreamToString } from '@blockfrost/blockfrost-utils/lib/fastify.js';
 import { matchUrlToEndpoint } from '../utils/string-utils.js';
 import { appendLocationToSnapshot } from '../utils/mithril.js';
+import { mithrilRequestCount } from '../utils/prometheus.js';
 
 export const registerMithrilProxy = (app: FastifyInstance) => {
   const config = getConfig();
@@ -48,6 +49,12 @@ export const registerMithrilProxy = (app: FastifyInstance) => {
         // If mithrilCDN is set then modify response from /artifact/snapshot/:digest and /artifact/snapshots endpoints
         // Otherwise just pass the unmodified response
         const isErrorResponse = reply.statusCode >= 400;
+        const statusCode = String(reply.statusCode);
+
+        mithrilRequestCount.inc({
+          error_code: isErrorResponse ? 'unknown' : 'none',
+          status_code: statusCode,
+        });
 
         if (isErrorResponse) {
           // error response returned from the proxy can originate from:
