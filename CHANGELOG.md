@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Nutlink:
+  - Nutlink metadata fetch errors are no longer reported to Sentry
+  - Improved error message and log level changed from error to warn
+
 ## [6.3.0] - 2026-03-02
 
 ### Added

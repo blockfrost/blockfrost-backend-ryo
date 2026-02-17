@@ -4,7 +4,6 @@ import * as ResponseTypes from '../../../types/responses/nutlink.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import axios from 'axios';
-import * as Sentry from '@sentry/node';
 import { handle404, handleInvalidAddress } from '../../../utils/error-handler.js';
 import {
   getAddressTypeAndPaymentCred,
@@ -56,9 +55,9 @@ async function route(fastify: FastifyInstance) {
         //rows[0].metadata = null;
         //metadata is already set to null by SQL, so we don't have to do it here
 
-        try {
-          let url = null;
+        let url = null;
 
+        try {
           if (rows[0].metadata_url) {
             url = rows[0].metadata_url;
             // max 100 kB reply
@@ -72,8 +71,7 @@ async function route(fastify: FastifyInstance) {
             }
           }
         } catch (error) {
-          Sentry.captureException(error);
-          console.error(error);
+          console.warn(`Failed to fetch nutlink metadata from URL: ${url}.`, error);
         }
 
         return reply.send(rows[0]);
