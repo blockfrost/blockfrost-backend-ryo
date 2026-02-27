@@ -23,7 +23,7 @@
   "dependencies": {
     "@blockfrost/blockfrost-js": "6.1.0",
     "@blockfrost/blockfrost-utils": "2.9.0",
-    "@blockfrost/openapi": "0.1.85",
+    "@blockfrost/openapi": "0.1.86-beta.0",
     "@fastify/cors": "^11.1.0",
     "@fastify/http-proxy": "^11.4.1",
     "@fastify/postgres": "^6.0.2",
