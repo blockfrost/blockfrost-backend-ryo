@@ -24,6 +24,7 @@ const query_tx_regular_1 = {
   asset_mint_or_burn_count: 0,
   redeemer_count: 0,
   valid_contract: true,
+  treasury_donation: '0',
 };
 
 const response_tx_regular_1 = {
@@ -49,6 +50,7 @@ const response_tx_regular_1 = {
   asset_mint_or_burn_count: 0,
   redeemer_count: 0,
   valid_contract: true,
+  treasury_donation: '0',
 };
 
 const query_tx_regular_testnet_1 = {
@@ -92,6 +94,7 @@ const query_tx_regular_testnet_1 = {
   asset_mint_or_burn_count: 0,
   redeemer_count: 0,
   valid_contract: true,
+  treasury_donation: '0',
 };
 
 const response_tx_regular_testnet_1 = {
@@ -123,6 +126,7 @@ const response_tx_regular_testnet_1 = {
   asset_mint_or_burn_count: 0,
   redeemer_count: 0,
   valid_contract: true,
+  treasury_donation: '0',
 };
 
 const query_tx_pool_update_1 = {
@@ -149,6 +153,7 @@ const query_tx_pool_update_1 = {
   asset_mint_or_burn_count: 0,
   redeemer_count: 0,
   valid_contract: true,
+  treasury_donation: '0',
 };
 
 const response_tx_pool_update_1 = {
@@ -174,6 +179,7 @@ const response_tx_pool_update_1 = {
   asset_mint_or_burn_count: 0,
   redeemer_count: 0,
   valid_contract: true,
+  treasury_donation: '0',
 };
 
 const query_tx_utxo_regular_1_inputs = [
