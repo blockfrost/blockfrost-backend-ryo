@@ -120,18 +120,27 @@ const query_accounts_delegation_regular_1 = [
     tx_hash: '596179792ee236357721cbb4a9178f7d2992805e7f2bebb2afaf66f2838c1869',
     amount: '6804672',
     pool_id: 'pool14skj6e4rpjanzclx3fc880xnl8xafgg63tmw93t9xspvwx985qu',
+    tx_slot: 39751616,
+    block_height: 5906836,
+    block_time: 1625512800,
   },
   {
     active_epoch: 225,
     tx_hash: 'f9f5c84c02b2e061b43a206a0372342024c99d046136d301769a860bc7c7cde5',
     amount: '4598489',
     pool_id: 'pool14skj6e4rpjanzclx3fc880xnl8xafgg63tmw93t9xspvwx985qu',
+    tx_slot: 39751620,
+    block_height: 5906837,
+    block_time: 1625512804,
   },
   {
     active_epoch: 225,
     tx_hash: 'f205b644c7a27550ba0ffec40012a9bf09b43750166345f671e432cde146752f',
     amount: '4193901',
     pool_id: 'pool14skj6e4rpjanzclx3fc880xnl8xafgg63tmw93t9xspvwx985qu',
+    tx_slot: 39751624,
+    block_height: 5906838,
+    block_time: 1625512808,
   },
 ];
 
@@ -141,18 +150,27 @@ const response_accounts_delegation_regular_1 = [
     tx_hash: '596179792ee236357721cbb4a9178f7d2992805e7f2bebb2afaf66f2838c1869',
     amount: '6804672',
     pool_id: 'pool14skj6e4rpjanzclx3fc880xnl8xafgg63tmw93t9xspvwx985qu',
+    tx_slot: 39751616,
+    block_height: 5906836,
+    block_time: 1625512800,
   },
   {
     active_epoch: 225,
     tx_hash: 'f9f5c84c02b2e061b43a206a0372342024c99d046136d301769a860bc7c7cde5',
     amount: '4598489',
     pool_id: 'pool14skj6e4rpjanzclx3fc880xnl8xafgg63tmw93t9xspvwx985qu',
+    tx_slot: 39751620,
+    block_height: 5906837,
+    block_time: 1625512804,
   },
   {
     active_epoch: 225,
     tx_hash: 'f205b644c7a27550ba0ffec40012a9bf09b43750166345f671e432cde146752f',
     amount: '4193901',
     pool_id: 'pool14skj6e4rpjanzclx3fc880xnl8xafgg63tmw93t9xspvwx985qu',
+    tx_slot: 39751624,
+    block_height: 5906838,
+    block_time: 1625512808,
   },
 ];
 
@@ -160,14 +178,23 @@ const query_accounts_registration_regular_1 = [
   {
     tx_hash: '596179792ee236357721cbb4a9178f7d2992805e7f2bebb2afaf66f2838c1869',
     action: 'registered',
+    tx_slot: 39751616,
+    block_height: 5906836,
+    block_time: 1625512800,
   },
   {
     tx_hash: '5e8b8ed43af7d1e8fc76fc04685650d33907d988bfcc183f4d8987e22fa747c6',
     action: 'deregistered',
+    tx_slot: 39751620,
+    block_height: 5906837,
+    block_time: 1625512804,
   },
   {
     tx_hash: 'f9f5c84c02b2e061b43a206a0372342024c99d046136d301769a860bc7c7cde5',
     action: 'registered',
+    tx_slot: 39751624,
+    block_height: 5906838,
+    block_time: 1625512808,
   },
 ];
 
@@ -175,14 +202,23 @@ const response_accounts_registration_regular_1 = [
   {
     tx_hash: '596179792ee236357721cbb4a9178f7d2992805e7f2bebb2afaf66f2838c1869',
     action: 'registered',
+    tx_slot: 39751616,
+    block_height: 5906836,
+    block_time: 1625512800,
   },
   {
     tx_hash: '5e8b8ed43af7d1e8fc76fc04685650d33907d988bfcc183f4d8987e22fa747c6',
     action: 'deregistered',
+    tx_slot: 39751620,
+    block_height: 5906837,
+    block_time: 1625512804,
   },
   {
     tx_hash: 'f9f5c84c02b2e061b43a206a0372342024c99d046136d301769a860bc7c7cde5',
     action: 'registered',
+    tx_slot: 39751624,
+    block_height: 5906838,
+    block_time: 1625512808,
   },
 ];
 
@@ -225,20 +261,32 @@ const query_accounts_withdrawals_regular_1 = [
   {
     tx_hash: '65f295d89c7c83a380617d469a3eac3e7d7032dd207bd352178ae88d7fb0efa8',
     amount: '3642523924',
+    tx_slot: 39751616,
+    block_height: 5906836,
+    block_time: 1625512800,
   },
   {
     tx_hash: '7a19f94ea632a580688f3ae7e75cdd3e09c0f26685744274d2f21c297a73171f',
     amount: '2027933968',
+    tx_slot: 39751620,
+    block_height: 5906837,
+    block_time: 1625512804,
   },
 ];
 const response_accounts_withdrawals_regular_1 = [
   {
     tx_hash: '65f295d89c7c83a380617d469a3eac3e7d7032dd207bd352178ae88d7fb0efa8',
     amount: '3642523924',
+    tx_slot: 39751616,
+    block_height: 5906836,
+    block_time: 1625512800,
   },
   {
     tx_hash: '7a19f94ea632a580688f3ae7e75cdd3e09c0f26685744274d2f21c297a73171f',
     amount: '2027933968',
+    tx_slot: 39751620,
+    block_height: 5906837,
+    block_time: 1625512804,
   },
 ];
 
@@ -246,12 +294,18 @@ const query_accounts_mirs_regular_1 = [
   {
     tx_hash: '7b57f2cf1c442c563647ab29669c88b9116c2668d31d42526ff27ed614da1252',
     amount: '19296735',
+    tx_slot: 39751616,
+    block_height: 5906836,
+    block_time: 1625512800,
   },
 ];
 const response_accounts_mirs_regular_1 = [
   {
     tx_hash: '7b57f2cf1c442c563647ab29669c88b9116c2668d31d42526ff27ed614da1252',
     amount: '19296735',
+    tx_slot: 39751616,
+    block_height: 5906836,
+    block_time: 1625512800,
   },
 ];
 

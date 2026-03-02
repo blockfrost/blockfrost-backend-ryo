@@ -31,6 +31,7 @@ export interface Tx {
   asset_mint_or_burn_count: number;
   redeemer_count: number;
   valid_contract: boolean;
+  treasury_donation: string;
 }
 
 export interface TxUtxoInputs {

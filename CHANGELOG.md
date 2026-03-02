@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.3.0] - 2026-03-02
+
+### Added
+
+- `tx_slot`, `block_height` and `block_time` fields to `/accounts/{stake_address}/delegations`, `/accounts/{stake_address}/registrations`, `/accounts/{stake_address}/withdrawals`, `/accounts/{stake_address}/mirs` endpoints
+- `treasury_donation` field to `/txs/{hash}` endpoint
+
 ## [6.2.0] - 2026-02-12
 
 ### Added

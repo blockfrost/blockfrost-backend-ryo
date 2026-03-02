@@ -113,7 +113,8 @@ SELECT encode(tx.hash, 'hex') AS "hash",
     FROM tx
       JOIN redeemer r ON (tx.id = r.tx_id)
     WHERE encode(tx.hash, 'hex') = $1
-  ) AS "redeemer_count"
+  ) AS "redeemer_count",
+  COALESCE(tx.treasury_donation, 0)::TEXT AS "treasury_donation"
 FROM tx
   JOIN block b ON (tx.block_id = b.id)
 WHERE encode(tx.hash, 'hex') = $1

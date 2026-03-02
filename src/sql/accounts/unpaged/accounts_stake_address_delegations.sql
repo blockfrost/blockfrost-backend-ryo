@@ -1,10 +1,14 @@
 SELECT d.active_epoch_no::INTEGER AS "active_epoch",
   encode(tx.hash, 'hex') AS "tx_hash",
   tx.out_sum::TEXT AS "amount", -- cast to TEXT to avoid number overflow
-  ph.view AS "pool_id"
+  ph.view AS "pool_id",
+  b.slot_no::INTEGER AS "tx_slot",
+  b.block_no AS "block_height",
+  EXTRACT(EPOCH FROM b.time)::INTEGER AS "block_time"
 FROM stake_address sa
   JOIN delegation d ON (sa.id = d.addr_id)
   JOIN tx ON (d.tx_id = tx.id)
+  JOIN block b ON (b.id = tx.block_id)
   JOIN pool_hash ph ON (ph.id = d.pool_hash_id)
 WHERE sa.view = $2
 ORDER BY CASE

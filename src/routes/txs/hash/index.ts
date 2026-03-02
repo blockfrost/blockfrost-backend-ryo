@@ -54,6 +54,7 @@ async function route(fastify: FastifyInstance) {
               asset_mint_or_burn_count: rows[0].asset_mint_or_burn_count,
               redeemer_count: rows[0].redeemer_count,
               valid_contract: rows[0].valid_contract,
+              treasury_donation: rows[0].treasury_donation,
             }
           : {
               hash: rows[0].hash,
@@ -78,6 +79,7 @@ async function route(fastify: FastifyInstance) {
               asset_mint_or_burn_count: rows[0].asset_mint_or_burn_count,
               redeemer_count: rows[0].redeemer_count,
               valid_contract: rows[0].valid_contract,
+              treasury_donation: rows[0].treasury_donation,
             };
 
         return reply.send(result);
