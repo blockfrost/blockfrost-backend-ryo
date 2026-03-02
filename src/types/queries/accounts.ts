@@ -53,6 +53,7 @@ export interface AccountDelegations {
   amount: string;
   pool_id: string;
   tx_slot: number;
+  block_height: number;
   block_time: number;
 }
 
@@ -60,6 +61,7 @@ export interface AccountRegistrations {
   tx_hash: string;
   action: 'registered' | 'deregistered';
   tx_slot: number;
+  block_height: number;
   block_time: number;
 }
 
@@ -67,6 +69,7 @@ export interface AccountWithdrawalsAndMirs {
   tx_hash: string;
   amount: string;
   tx_slot: number;
+  block_height: number;
   block_time: number;
 }
 

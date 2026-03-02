@@ -1,6 +1,7 @@
 SELECT tx AS "tx_hash",
   action AS "action",
   tx_slot AS "tx_slot",
+  block_height AS "block_height",
   block_time AS "block_time"
 FROM (
     (
@@ -9,6 +10,7 @@ FROM (
           encode(tx.hash, 'hex') AS "tx",
           'registered' AS "action",
           b.slot_no::INTEGER AS "tx_slot",
+          b.block_no AS "block_height",
           EXTRACT(EPOCH FROM b.time)::INTEGER AS "block_time"
         FROM stake_address sa
           JOIN stake_registration sr ON (sa.id = sr.addr_id)
@@ -22,6 +24,7 @@ FROM (
           encode(tx.hash, 'hex') AS "tx",
           'deregistered' AS "action",
           b.slot_no::INTEGER AS "tx_slot",
+          b.block_no AS "block_height",
           EXTRACT(EPOCH FROM b.time)::INTEGER AS "block_time"
         FROM stake_address sa
           JOIN stake_deregistration sd ON (sa.id = sd.addr_id)

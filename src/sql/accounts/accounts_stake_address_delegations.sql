@@ -3,6 +3,7 @@ SELECT d.active_epoch_no::INTEGER AS "active_epoch",
   tx.out_sum::TEXT AS "amount", -- cast to TEXT to avoid number overflow
   ph.view AS "pool_id",
   b.slot_no::INTEGER AS "tx_slot",
+  b.block_no AS "block_height",
   EXTRACT(EPOCH FROM b.time)::INTEGER AS "block_time"
 FROM stake_address sa
   JOIN delegation d ON (sa.id = d.addr_id)
