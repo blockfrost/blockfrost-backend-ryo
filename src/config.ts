@@ -63,6 +63,11 @@ export const loadConfig = () => {
   const databaseSyncMaxConnections = process.env.BLOCKFROST_CONFIG_DBSYNC_MAX_CONN
     ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_MAX_CONN)
     : config.get<number>('dbSync.maxConnections');
+  const databaseSyncStatementTimeout = process.env.BLOCKFROST_CONFIG_DBSYNC_STATEMENT_TIMEOUT
+    ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_STATEMENT_TIMEOUT)
+    : config.has('dbSync.statementTimeout')
+      ? config.get<number>('dbSync.statementTimeout')
+      : undefined;
   const ssl = config.has('dbSync.ssl') ? { rejectUnauthorized: false } : false;
   const databaseSyncApplicationName =
     process.env.BLOCKFROST_CONFIG_APPLICATION_NAME ??
@@ -144,6 +149,7 @@ export const loadConfig = () => {
       password: databaseSyncPassword,
       database: databaseSyncDatabase,
       maxConnections: databaseSyncMaxConnections,
+      statementTimeout: databaseSyncStatementTimeout,
       ssl,
       applicationName: databaseSyncApplicationName,
     },

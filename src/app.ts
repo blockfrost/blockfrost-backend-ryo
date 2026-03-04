@@ -88,6 +88,7 @@ const start = (options = {}): FastifyInstance => {
     password: config.dbSync.password,
     ssl: config.dbSync.ssl,
     application_name: config.dbSync.applicationName,
+    statement_timeout: config.dbSync.statementTimeout,
   });
 
   // proxies

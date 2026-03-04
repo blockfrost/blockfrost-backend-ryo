@@ -67,7 +67,17 @@ export const toJSONStream = async (data: unknown[], serverResponse: stream.Writa
   // push data from dataStream through transformStream to serverResponse
   // which writable stream from fastify reply
 
-  return dataStream.pipe(transformStream).pipe(serverResponse);
-  // Usage of pipeline below throws ERR_STREAM_PREMATURE_CLOSE after multiple calls.
-  // return pipeline(dataStream, transformStream, serverResponse);
+  const cleanup = () => {
+    dataStream.unpipe(transformStream);
+    dataStream.destroy();
+    if (typeof (transformStream as stream.Transform).destroy === 'function') {
+      (transformStream as stream.Transform).destroy();
+    }
+  };
+
+  serverResponse.once('close', cleanup);
+
+  const resultStream = dataStream.pipe(transformStream).pipe(serverResponse);
+
+  return resultStream;
 };
