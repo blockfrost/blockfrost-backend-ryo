@@ -2,9 +2,15 @@ import buildFastify from '../../../../src/app.js';
 import sinon from 'sinon';
 import supertest from 'supertest';
 import * as databaseUtils from '../../../../src/utils/database.js';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, test, vi, afterEach } from 'vitest';
+import { mainConfig } from '../../../../src/config.js';
 
 describe('health endpoints tests', () => {
+  afterEach(() => {
+    mainConfig.server.healthCheckDbTimeoutMs = undefined;
+    vi.restoreAllMocks();
+  });
+
   test('responds with success on request /health', async () => {
     const queryMock = sinon.stub();
     const fastify = buildFastify();
@@ -40,6 +46,23 @@ describe('health endpoints tests', () => {
     expect(response.body.server_time).toBeGreaterThanOrEqual(beforeTime);
     expect(response.body.server_time).toBeLessThanOrEqual(afterTime);
     // expect(response).toMatchSnapshot();
+
+    fastify.close();
+  });
+
+  test('responds with is_healthy: false when DB connection exceeds healthCheckDbTimeoutMs', async () => {
+    mainConfig.server.healthCheckDbTimeoutMs = 50;
+
+    const fastify = buildFastify();
+
+    // Never-resolving promise simulates a DB connection that hangs indefinitely.
+    // The healthCheckDbTimeoutMs timer races it and wins, returning is_healthy: false.
+    vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue(new Promise(() => {}));
+
+    await fastify.ready();
+    const response = await supertest(fastify.server).get('/health');
+
+    expect(response.body).toEqual({ is_healthy: false });
 
     fastify.close();
   });

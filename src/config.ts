@@ -46,6 +46,16 @@ export const loadConfig = () => {
       : config.get<boolean>('server.prometheusMetrics');
 
   const features = config.has('server.features') ? config.get<string[]>('server.features') : [];
+  const slowRequestThresholdMs = process.env.BLOCKFROST_CONFIG_SERVER_SLOW_REQUEST_THRESHOLD_MS
+    ? Number(process.env.BLOCKFROST_CONFIG_SERVER_SLOW_REQUEST_THRESHOLD_MS)
+    : config.has('server.slowRequestThresholdMs')
+      ? config.get<number>('server.slowRequestThresholdMs')
+      : undefined;
+  const healthCheckDbTimeoutMs = process.env.BLOCKFROST_CONFIG_SERVER_HEALTH_CHECK_DB_TIMEOUT_MS
+    ? Number(process.env.BLOCKFROST_CONFIG_SERVER_HEALTH_CHECK_DB_TIMEOUT_MS)
+    : config.has('server.healthCheckDbTimeoutMs')
+      ? config.get<number>('server.healthCheckDbTimeoutMs')
+      : undefined;
 
   // dbSync
   const databaseSyncHost =
@@ -141,6 +151,8 @@ export const loadConfig = () => {
       debug,
       prometheusMetrics,
       features,
+      slowRequestThresholdMs,
+      healthCheckDbTimeoutMs,
     },
     dbSync: {
       host: databaseSyncHost,
