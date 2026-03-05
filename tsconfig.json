@@ -24,6 +24,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "files": ["src/json-stream.d.ts"],
+  "files": ["src/json-stream.d.ts", "src/fastify.d.ts"],
   "include": ["src/**/*", "src/sql/*.sql"]
 }
