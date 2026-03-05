@@ -117,6 +117,7 @@ const start = (options = {}): FastifyInstance => {
     ssl: config.dbSync.ssl,
     application_name: config.dbSync.applicationName,
     statement_timeout: config.dbSync.statementTimeout,
+    connectionTimeoutMillis: config.dbSync.connectionTimeoutMs,
   });
 
   // proxies

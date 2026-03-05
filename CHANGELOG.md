@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added configurable `statement_timeout` for DB Sync queries. Configurable via `dbSync.statementTimeout` in config or `BLOCKFROST_CONFIG_DBSYNC_STATEMENT_TIMEOUT` env var (value in milliseconds). Defaults to no timeout (PostgreSQL server default)
 - Configurable slow request detection. When `server.slowRequestThresholdMs` (or env `BLOCKFROST_CONFIG_SERVER_SLOW_REQUEST_THRESHOLD_MS`) is set, a warning is logged for any request that has not completed within the given number of milliseconds. Disabled by default
 - Configurable DB connectivity timeout for the `/health` endpoint. When `server.healthCheckDbTimeoutMs` (or env `BLOCKFROST_CONFIG_SERVER_HEALTH_CHECK_DB_TIMEOUT_MS`) is set, `/health` returns `{ is_healthy: false }` instead of hanging if the DB connection takes longer than the configured value. Disabled by default
+- Configurable connection timeout for acquiring a DB connection from the pool. Set via `dbSync.connectionTimeoutMs` in config or `BLOCKFROST_CONFIG_DBSYNC_CONNECTION_TIMEOUT_MS` env var (value in milliseconds). Defaults to no timeout
 
 ### Changed
 
