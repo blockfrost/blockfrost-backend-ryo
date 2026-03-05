@@ -78,6 +78,34 @@ const start = (options = {}): FastifyInstance => {
     notFoundHandler(request, reply);
   });
 
+  if (config.server.slowRequestThresholdMs !== undefined) {
+    const threshold = config.server.slowRequestThresholdMs;
+
+    app.addHook('onRequest', (request, _reply, done) => {
+      request.slowTimer = setTimeout(() => {
+        console.warn(
+          `Slow request detected: ${request.method} ${request.url} — no response after ${threshold}ms`,
+        );
+      }, threshold);
+      done();
+    });
+
+    const clearSlowTimer = (request: { slowTimer: ReturnType<typeof setTimeout> | undefined }) => {
+      clearTimeout(request.slowTimer);
+      request.slowTimer = undefined;
+    };
+
+    app.addHook('onResponse', (request, _reply, done) => {
+      clearSlowTimer(request);
+      done();
+    });
+
+    app.addHook('onError', (request, _reply, _error, done) => {
+      clearSlowTimer(request);
+      done();
+    });
+  }
+
   app.register(fastifyPostgres, {
     name: 'dbSync',
     host: config.dbSync.host,
@@ -88,6 +116,7 @@ const start = (options = {}): FastifyInstance => {
     password: config.dbSync.password,
     ssl: config.dbSync.ssl,
     application_name: config.dbSync.applicationName,
+    statement_timeout: config.dbSync.statementTimeout,
   });
 
   // proxies

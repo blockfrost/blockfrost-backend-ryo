@@ -46,6 +46,16 @@ export const loadConfig = () => {
       : config.get<boolean>('server.prometheusMetrics');
 
   const features = config.has('server.features') ? config.get<string[]>('server.features') : [];
+  const slowRequestThresholdMs = process.env.BLOCKFROST_CONFIG_SERVER_SLOW_REQUEST_THRESHOLD_MS
+    ? Number(process.env.BLOCKFROST_CONFIG_SERVER_SLOW_REQUEST_THRESHOLD_MS)
+    : config.has('server.slowRequestThresholdMs')
+      ? config.get<number>('server.slowRequestThresholdMs')
+      : undefined;
+  const healthCheckDbTimeoutMs = process.env.BLOCKFROST_CONFIG_SERVER_HEALTH_CHECK_DB_TIMEOUT_MS
+    ? Number(process.env.BLOCKFROST_CONFIG_SERVER_HEALTH_CHECK_DB_TIMEOUT_MS)
+    : config.has('server.healthCheckDbTimeoutMs')
+      ? config.get<number>('server.healthCheckDbTimeoutMs')
+      : undefined;
 
   // dbSync
   const databaseSyncHost =
@@ -63,6 +73,11 @@ export const loadConfig = () => {
   const databaseSyncMaxConnections = process.env.BLOCKFROST_CONFIG_DBSYNC_MAX_CONN
     ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_MAX_CONN)
     : config.get<number>('dbSync.maxConnections');
+  const databaseSyncStatementTimeout = process.env.BLOCKFROST_CONFIG_DBSYNC_STATEMENT_TIMEOUT
+    ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_STATEMENT_TIMEOUT)
+    : config.has('dbSync.statementTimeout')
+      ? config.get<number>('dbSync.statementTimeout')
+      : undefined;
   const ssl = config.has('dbSync.ssl') ? { rejectUnauthorized: false } : false;
   const databaseSyncApplicationName =
     process.env.BLOCKFROST_CONFIG_APPLICATION_NAME ??
@@ -136,6 +151,8 @@ export const loadConfig = () => {
       debug,
       prometheusMetrics,
       features,
+      slowRequestThresholdMs,
+      healthCheckDbTimeoutMs,
     },
     dbSync: {
       host: databaseSyncHost,
@@ -144,6 +161,7 @@ export const loadConfig = () => {
       password: databaseSyncPassword,
       database: databaseSyncDatabase,
       maxConnections: databaseSyncMaxConnections,
+      statementTimeout: databaseSyncStatementTimeout,
       ssl,
       applicationName: databaseSyncApplicationName,
     },
