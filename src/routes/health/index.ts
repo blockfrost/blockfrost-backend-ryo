@@ -24,8 +24,18 @@ async function route(fastify: FastifyInstance) {
               client.release();
               return true;
             })
-            .catch(() => false),
-          new Promise(resolve => setTimeout(() => resolve(false), healthCheckDbTimeoutMs)),
+            .catch((error: unknown) => {
+              console.error(`[HEALTH]: unhealthy — DB connection error`, error);
+              return false;
+            }),
+          new Promise<boolean>(resolve =>
+            setTimeout(() => {
+              console.error(
+                `[HEALTH]: unhealthy — DB connection timed out after ${healthCheckDbTimeoutMs}ms`,
+              );
+              resolve(false);
+            }, healthCheckDbTimeoutMs),
+          ),
         ]);
 
         if (!connected) {
@@ -47,6 +57,7 @@ async function route(fastify: FastifyInstance) {
       try {
         if (fs.existsSync(killSwitchFilePath)) {
           isHealthy = false;
+          console.error(`[HEALTH]: unhealthy — kill switch file found at ${killSwitchFilePath}`);
         }
       } catch {
         // do nothing
