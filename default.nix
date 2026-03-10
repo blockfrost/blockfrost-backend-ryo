@@ -81,7 +81,7 @@
     machine.wait_for_open_port(3000)
     machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
     machine.succeed(
-        "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ PROJECT_ID=${projectId} BLOCKCHAIN_STATE_SETUP=1 SERVICE_NAME=ryo yarn test:${network} --run --reporter=dot' >&2"
+        "cd /tmp/tests && nix --extra-experimental-features 'nix-command flakes' develop -c bash -c 'yarn && SERVER_URL=http://localhost:3000/ PROJECT_ID=${projectId} BLOCKCHAIN_STATE_SETUP=1 SERVICE_NAME=ryo yarn test:${network} --run --reporter=dot' >&2"
     )
   '';
 in {
