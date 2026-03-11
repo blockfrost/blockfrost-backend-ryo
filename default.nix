@@ -9,7 +9,7 @@
   pkgs ? import nixpkgs {},
   blockfrost-tests ? (builtins.fetchGit {
     url = "ssh://git@github.com/blockfrost/blockfrost-tests-internal.git";
-    rev = "1754ddb183f42bbc0d5e599800308c84e25cc8b0";
+    rev = "6e4b3a0440b068c9a711d4c398771a9185faed11";
     submodules = true;
     allRefs = true;
   }),
@@ -81,7 +81,7 @@
     machine.wait_for_open_port(3000)
     machine.succeed("cp -r ${blockfrost-tests} /tmp/tests")
     machine.succeed(
-        "cd /tmp/tests && NIX_PATH=nixpkgs=${nixpkgs} nix-shell --run 'SERVER_URL=http://localhost:3000/ PROJECT_ID=${projectId} BLOCKCHAIN_STATE_SETUP=1 SERVICE_NAME=ryo yarn test:${network} --run --reporter=dot' >&2"
+        "cd /tmp/tests && nix --extra-experimental-features 'nix-command flakes' develop -c bash -c 'yarn && SERVER_URL=http://localhost:3000/ PROJECT_ID=${projectId} BLOCKCHAIN_STATE_SETUP=1 SERVICE_NAME=ryo yarn test:${network} --run --reporter=dot' >&2"
     )
   '';
 in {

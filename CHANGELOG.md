@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Optimized `/accounts/:stake_address/addresses` query by applying pagination before joining back to `tx_out`, significantly reducing execution time for large result sets
+
+### Fixed
+
+- CI: Fixed NixOS integration test commands to use `nix develop` with flakes
+
 ## [6.3.1] - 2026-03-04
 
 ### Added
