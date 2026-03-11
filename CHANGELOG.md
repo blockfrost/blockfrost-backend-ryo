@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.3.2] - 2026-03-11
+
 ### Changed
 
 - Optimized `/accounts/:stake_address/addresses` query by applying pagination before joining back to `tx_out`, significantly reducing execution time for large result sets
