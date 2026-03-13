@@ -1,11 +1,18 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance } from 'fastify';
 import fs from 'fs';
+import { Counter } from 'prom-client';
 import * as ResponseTypes from '../../types/responses/health.js';
 import { getDbSync } from '../../utils/database.js';
 import { getConfig } from '../../config.js';
 
 const config = getConfig();
+
+const healthCheckTotal = new Counter({
+  name: 'health_check_total',
+  help: 'Total number of health check requests',
+  labelNames: ['healthy', 'reason'] as const,
+});
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -16,6 +23,8 @@ async function route(fastify: FastifyInstance) {
       // Check DB connectivity; if healthCheckDbTimeoutMs is set and exceeded, report unhealthy
       const { healthCheckDbTimeoutMs } = config.server;
       let dbHealthy = true;
+
+      let dbError: unknown;
 
       if (healthCheckDbTimeoutMs !== undefined) {
         let timer: ReturnType<typeof setTimeout> | undefined;
@@ -29,6 +38,7 @@ async function route(fastify: FastifyInstance) {
           .catch((error: unknown) => {
             clearTimeout(timer);
             console.error(`[HEALTH]: unhealthy — DBSync connection error`, error);
+            dbError = error;
             return false;
           });
 
@@ -53,6 +63,16 @@ async function route(fastify: FastifyInstance) {
       }
 
       if (!dbHealthy) {
+        const reason =
+          dbError !== undefined &&
+          typeof dbError === 'object' &&
+          dbError !== null &&
+          'code' in dbError &&
+          typeof (dbError as { code: unknown }).code === 'string'
+            ? (dbError as { code: string }).code
+            : 'dbsync_unavailable';
+
+        healthCheckTotal.inc({ healthy: 'false', reason });
         return reply.send({ is_healthy: false });
       }
 
@@ -66,6 +86,12 @@ async function route(fastify: FastifyInstance) {
         }
       } catch {
         // do nothing
+      }
+
+      if (!isHealthy) {
+        healthCheckTotal.inc({ healthy: 'false', reason: 'kill_switch' });
+      } else {
+        healthCheckTotal.inc({ healthy: 'true', reason: 'ok' });
       }
 
       const response: ResponseTypes.Health = { is_healthy: isHealthy };
