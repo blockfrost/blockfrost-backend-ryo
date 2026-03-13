@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.3.3] - 2026-03-13
+
+### Fixed
+
+- Fixed `/health` timeout race condition where the timeout log would fire even when the DB connection succeeded in time
+
 ## [6.3.2] - 2026-03-11
 
 ### Changed

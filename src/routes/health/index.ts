@@ -18,25 +18,30 @@ async function route(fastify: FastifyInstance) {
       let dbHealthy = true;
 
       if (healthCheckDbTimeoutMs !== undefined) {
-        const connected = await Promise.race([
-          getDbSync(fastify)
-            .then(client => {
-              client.release();
-              return true;
-            })
-            .catch((error: unknown) => {
-              console.error(`[HEALTH]: unhealthy — DB connection error`, error);
-              return false;
-            }),
-          new Promise<boolean>(resolve =>
-            setTimeout(() => {
-              console.error(
-                `[HEALTH]: unhealthy — DB connection timed out after ${healthCheckDbTimeoutMs}ms`,
-              );
-              resolve(false);
-            }, healthCheckDbTimeoutMs),
-          ),
-        ]);
+        let timer: ReturnType<typeof setTimeout> | undefined;
+
+        const dbPromise = getDbSync(fastify)
+          .then(client => {
+            clearTimeout(timer);
+            client.release();
+            return true;
+          })
+          .catch((error: unknown) => {
+            clearTimeout(timer);
+            console.error(`[HEALTH]: unhealthy — DBSync connection error`, error);
+            return false;
+          });
+
+        const timeoutPromise = new Promise<boolean>(resolve => {
+          timer = setTimeout(() => {
+            console.error(
+              `[HEALTH]: unhealthy — DBSync did not respond within ${healthCheckDbTimeoutMs}ms`,
+            );
+            resolve(false);
+          }, healthCheckDbTimeoutMs);
+        });
+
+        const connected = await Promise.race([dbPromise, timeoutPromise]);
 
         if (!connected) {
           dbHealthy = false;
