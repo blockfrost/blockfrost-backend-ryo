@@ -66,4 +66,29 @@ describe('health endpoints tests', () => {
 
     fastify.close();
   });
+
+  test('does not log timeout error when DB responds before healthCheckDbTimeoutMs', async () => {
+    // Use a short timeout so we can wait past it and verify the log never fires
+    mainConfig.server.healthCheckDbTimeoutMs = 50;
+
+    const fastify = buildFastify();
+    const errorSpy = vi.spyOn(console, 'error');
+
+    vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue(
+      // @ts-expect-error test
+      Promise.resolve({ release: () => null }),
+    );
+
+    await fastify.ready();
+    const response = await supertest(fastify.server).get('/health');
+
+    expect(response.body).toEqual({ is_healthy: true });
+
+    // Wait past the timeout to ensure the timer was actually cancelled
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    expect(errorSpy).not.toHaveBeenCalledWith(expect.stringContaining('did not respond within'));
+
+    fastify.close();
+  });
 });
