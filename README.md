@@ -278,3 +278,20 @@ blockfrost-ryo can be configured to run with any genesis parameters. Setting net
 ## Developing
 
 This is an open-source project and anyone is welcome to contribute, please see [CONTRIBUTING](CONTRIBUTING.md) for more information.
+
+
+## Troubleshooting 
+If you run into issues, see if these get you over the line. 
+
+#### error:  schema cardano does not exist"
+
+Certain endpoints makes use of utility functions from  https://github.com/cardano-community/pg_cardano.  
+Install this extension in your db, and you should be good to go.
+
+
+#### error: permission denied for schema cardano
+This just mean you have to give the db user blockfrost uses to connect permission to the cardano schema
+```sql
+GRANT USAGE ON SCHEMA cardano TO username;
+```
+
