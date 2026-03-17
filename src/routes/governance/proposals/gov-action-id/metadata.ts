@@ -13,8 +13,6 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/governance/proposals/{gov_action_id}/metadata'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParametersGovAction>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
-
       let parsedGovAction;
 
       try {
@@ -22,6 +20,8 @@ async function route(fastify: FastifyInstance) {
       } catch {
         return handle400Custom(reply, 'Invalid or malformed gov action id.');
       }
+
+      const clientDbSync = await getDbSync(fastify);
 
       try {
         const { rows } = await clientDbSync.query<QueryTypes.ProposalsProposalMetadata>(

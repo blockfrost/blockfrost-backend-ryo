@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.3.4] - 2026-03-17
+
+### Added
+
+- Configurable `idle_session_timeout` for dbsync connections. Set via `dbSync.idleSessionTimeoutMs` in config or `BLOCKFROST_CONFIG_DBSYNC_IDLE_SESSION_TIMEOUT_MS` env var (value in milliseconds). Cleans up zombie connections from restarted PM2 instances. Disabled by default
+
+### Fixed
+
+- Fixed connection leak in `/governance/proposals/:gov_action_id/metadata` where the DB connection was not released on validation failure
+
 ## [6.3.3] - 2026-03-13
 
 ### Fixed
