@@ -118,6 +118,9 @@ const start = (options = {}): FastifyInstance => {
     application_name: config.dbSync.applicationName,
     statement_timeout: config.dbSync.statementTimeout,
     connectionTimeoutMillis: config.dbSync.connectionTimeoutMs,
+    ...(config.dbSync.idleSessionTimeoutMs !== undefined && {
+      options: `-c idle_session_timeout=${config.dbSync.idleSessionTimeoutMs}`,
+    }),
   });
 
   // proxies

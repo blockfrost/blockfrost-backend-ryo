@@ -20,6 +20,7 @@ async function route(fastify: FastifyInstance) {
       try {
         parsedGovAction = validateGovActionId(request.params.gov_action_id);
       } catch {
+        gracefulRelease(clientDbSync);
         return handle400Custom(reply, 'Invalid or malformed gov action id.');
       }
 
