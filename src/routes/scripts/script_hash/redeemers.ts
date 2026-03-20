@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../types/queries/scripts.js';
 import * as ResponseTypes from '../../../types/responses/scripts.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import { handle404 } from '../../../utils/error-handler.js';
 import { SQLQuery } from '../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
@@ -17,26 +17,24 @@ async function route(fastify: FastifyInstance) {
       request: FastifyRequest<QueryTypes.RequestParametersScriptHashRedeemers>,
       reply,
     ) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404 = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('scripts_404'),
           [request.params.script_hash],
         );
 
-        if (query404.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404.length === 0) {
           return handle404(reply);
         }
 
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.ScriptHashRedeemers } = unpaged
-          ? await clientDbSync.query<QueryTypes.ScriptHashRedeemers>(
+        const rows: ResponseTypes.ScriptHashRedeemers = unpaged
+          ? await db.any<QueryTypes.ScriptHashRedeemers>(
               SQLQuery.get('scripts_script_hash_redeemers_unpaged'),
               [request.query.order, request.params.script_hash],
             )
-          : await clientDbSync.query<QueryTypes.ScriptHashRedeemers>(
+          : await db.any<QueryTypes.ScriptHashRedeemers>(
               SQLQuery.get('scripts_script_hash_redeemers'),
               [
                 request.query.order,
@@ -45,8 +43,6 @@ async function route(fastify: FastifyInstance) {
                 request.params.script_hash,
               ],
             );
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -61,10 +57,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(rows);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

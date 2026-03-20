@@ -6,7 +6,7 @@ import { getConfig } from '../../../config.js';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/epochs.js';
 import * as ResponseTypes from '../../../types/responses/epochs.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import { handle404, handle400Custom } from '../../../utils/error-handler.js';
 import { validatePositiveInRangeSignedInt } from '../../../utils/validation.js';
 
@@ -16,40 +16,35 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/epochs/{number}/next'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         if (!validatePositiveInRangeSignedInt(request.params.number)) {
-          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Missing, out of range or malformed epoch_number.');
         }
 
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404 = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('epochs_404'),
           [request.params.number],
         );
 
-        if (query404.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404.length === 0) {
           return handle404(reply);
         }
 
         const epochLength = getConfig().genesis.epoch_length;
 
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.Epoch[] } = unpaged
-          ? await clientDbSync.query<QueryTypes.Epoch>(SQLQuery.get('epochs_number_next_unpaged'), [
+        const rows: ResponseTypes.Epoch[] = unpaged
+          ? await db.any<QueryTypes.Epoch>(SQLQuery.get('epochs_number_next_unpaged'), [
               request.params.number,
               epochLength,
             ])
-          : await clientDbSync.query<QueryTypes.Epoch>(SQLQuery.get('epochs_number_next'), [
+          : await db.any<QueryTypes.Epoch>(SQLQuery.get('epochs_number_next'), [
               request.params.number,
               request.query.count,
               request.query.page,
               epochLength,
             ]);
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -64,10 +59,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(rows);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

@@ -3,7 +3,7 @@ import { isUnpaged } from '../../../utils/routes.js';
 import { toJSONStream } from '../../../utils/string-utils.js';
 import * as QueryTypes from '../../../types/queries/blocks.js';
 import * as ResponseTypes from '../../../types/responses/blocks.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { handle400Custom, handle404 } from '../../../utils/error-handler.js';
 import {
@@ -19,44 +19,38 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/blocks/{hash_or_number}/next'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         if (isNumber(request.params.hash_or_number)) {
           if (!validatePositiveInRangeSignedInt(request.params.hash_or_number)) {
-            gracefulRelease(clientDbSync);
             return handle400Custom(reply, 'Missing, out of range or malformed block number.');
           }
         } else {
           if (!validateBlockHash(request.params.hash_or_number)) {
-            gracefulRelease(clientDbSync);
             return handle400Custom(reply, 'Missing or malformed block hash.');
           }
         }
 
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404 = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('blocks_404'),
           [request.params.hash_or_number],
         );
 
-        if (query404.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404.length === 0) {
           return handle404(reply);
         }
 
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.Block[] } = unpaged
-          ? await clientDbSync.query<QueryTypes.Block>(
+        const rows: ResponseTypes.Block[] = unpaged
+          ? await db.any<QueryTypes.Block>(
               SQLQuery.get('blocks_hash_or_number_next_unpaged'),
               [request.params.hash_or_number],
             )
-          : await clientDbSync.query<QueryTypes.Block>(SQLQuery.get('blocks_hash_or_number_next'), [
+          : await db.any<QueryTypes.Block>(SQLQuery.get('blocks_hash_or_number_next'), [
               request.params.hash_or_number,
               request.query.count,
               request.query.page,
             ]);
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -71,10 +65,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(rows);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

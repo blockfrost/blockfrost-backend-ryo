@@ -1,5 +1,4 @@
 import fastifyCors from '@fastify/cors';
-import fastifyPostgres from '@fastify/postgres';
 import * as Sentry from '@sentry/node';
 import fastify, { FastifyError, FastifyInstance, FastifyRequest } from 'fastify';
 import os from 'os';
@@ -9,6 +8,7 @@ import { errorHandler, notFoundHandler } from './utils/error-handler.js';
 import { createRequire } from 'module';
 import { registerMithrilProxy } from './proxies/mithril.js';
 import fastifyMetrics from 'fastify-metrics';
+import pgPromisePlugin from './plugins/pg-promise.js';
 import { initMetrics } from 'pm2-prom-module-client';
 
 const esmRequire = createRequire(import.meta.url);
@@ -106,22 +106,7 @@ const start = (options = {}): FastifyInstance => {
     });
   }
 
-  app.register(fastifyPostgres, {
-    name: 'dbSync',
-    host: config.dbSync.host,
-    port: config.dbSync.port,
-    user: config.dbSync.user,
-    database: config.dbSync.database,
-    max: config.dbSync.maxConnections,
-    password: config.dbSync.password,
-    ssl: config.dbSync.ssl,
-    application_name: config.dbSync.applicationName,
-    statement_timeout: config.dbSync.statementTimeout,
-    connectionTimeoutMillis: config.dbSync.connectionTimeoutMs,
-    ...(config.dbSync.idleSessionTimeoutMs !== undefined && {
-      options: `-c idle_session_timeout=${config.dbSync.idleSessionTimeoutMs}`,
-    }),
-  });
+  app.register(pgPromisePlugin);
 
   // proxies
   registerMithrilProxy(app);

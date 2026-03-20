@@ -376,106 +376,76 @@ export default [
   {
     name: 'respond with success and data on /assets',
     endpoint: '/assets',
-    sqlQueryMock: {
-      rows: query_assets_regular,
-    },
+    sqlQueryMock: query_assets_regular,
     response: response_assets_regular,
   },
   {
     name: 'respond with success and unpaged data on /assets',
     endpoint: '/assets',
-    sqlQueryMock: {
-      rows: query_assets_regular,
-    },
+    sqlQueryMock: query_assets_regular,
     unpaged: true,
     response: response_assets_regular,
   },
   {
     name: 'respond with success and data on /assets',
     endpoint: '/assets',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: [],
   },
   {
     name: 'respond with success and data on /assets/416958a374690d4597b50428be9c060aed5217e75807310cefdf701062616e616e6173',
     endpoint: '/assets/416958a374690d4597b50428be9c060aed5217e75807310cefdf701062616e616e6173',
-    sqlQueryMock: {
-      rows: [query_assets_asset_regular_1],
-    },
+    sqlQueryMock: [query_assets_asset_regular_1],
     response: response_assets_asset_regular_1,
   },
   {
     name: 'respond with success and data on /assets/7eae28af2208be856f7a119668ae52a49b73725e326dc16579dcc373',
     endpoint: '/assets/7eae28af2208be856f7a119668ae52a49b73725e326dc16579dcc373',
-    sqlQueryMock: {
-      rows: [query_assets_asset_from_CIP_example],
-    },
+    sqlQueryMock: [query_assets_asset_from_CIP_example],
     response: response_assets_asset_from_CIP_example,
   },
   {
     name: 'respond with success and data on /assets/d5e6bf0500378d4f0da4e8dde6becec7621cd8cbf5cbb9b87013d4cc537061636542756433343132',
     endpoint:
       '/assets/d5e6bf0500378d4f0da4e8dde6becec7621cd8cbf5cbb9b87013d4cc537061636542756433343132',
-    sqlQueryMock: {
-      rows: [query_assets_asset_with_onchain_metadata],
-    },
+    sqlQueryMock: [query_assets_asset_with_onchain_metadata],
     response: response_assets_asset_with_onchain_metadata,
   },
   {
     name: 'respond with success and data on /assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e',
     endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e',
-    sqlQueryMock: {
-      rows: [query_assets_asset_regular_2],
-    },
+    sqlQueryMock: [query_assets_asset_regular_2],
     response: response_assets_asset_regular_2,
   },
   {
     name: 'respond with success and data on /assets/:asset/history',
     endpoint:
       '/assets/416958a374690d4597b50428be9c060aed5217e75807310cefdf701062616e616e6173/history',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_assets_asset_history_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_assets_asset_history_regular_1,
     response: response_assets_asset_history_regular_1,
   },
   {
     name: 'respond with success and unpaged data on /assets/:asset/history',
     endpoint:
       '/assets/416958a374690d4597b50428be9c060aed5217e75807310cefdf701062616e616e6173/history',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_assets_asset_history_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_assets_asset_history_regular_1,
     unpaged: true,
     response: response_assets_asset_history_regular_1,
   },
   {
     name: 'respond with success and data on /assets/:asset/txs',
     endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/txs',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_assets_asset_txs_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_assets_asset_txs_regular_1,
     response: response_assets_asset_txs_regular_1,
   },
   {
     name: 'respond with success and unpaged data on /assets/:asset/txs',
     endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/txs',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_assets_asset_txs_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_assets_asset_txs_regular_1,
     unpaged: true,
     response: response_assets_asset_txs_regular_1,
   },
@@ -483,24 +453,16 @@ export default [
     name: 'respond with success and data on /assets/:asset/transactions',
     endpoint:
       '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_assets_asset_transactions_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_assets_asset_transactions_regular_1,
     response: response_assets_asset_transactions_regular_1,
   },
   {
     name: 'respond with success and unpaged data on /assets/:asset/transactions',
     endpoint:
       '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_assets_asset_transactions_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_assets_asset_transactions_regular_1,
     unpaged: true,
     response: response_assets_asset_transactions_regular_1,
   },
@@ -508,24 +470,16 @@ export default [
     name: 'respond with success and data on /assets/:asset/addresses',
     endpoint:
       '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/addresses',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_assets_asset_addresses_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_assets_asset_addresses_regular_1,
     response: response_assets_asset_addresses_regular_1,
   },
   {
     name: 'respond with success and unpaged data on /assets/:asset/addresses',
     endpoint:
       '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/addresses',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_assets_asset_addresses_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_assets_asset_addresses_regular_1,
     unpaged: true,
     response: response_assets_asset_addresses_regular_1,
   },
@@ -533,46 +487,30 @@ export default [
     name: 'respond with success and data on /assets/:asset/addresses',
     endpoint:
       '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/addresses',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /assets/policy/:policy_id',
     endpoint: '/assets/policy/b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_assets_policy_policy_id_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_assets_policy_policy_id_regular_1,
     response: response_assets_policy_policy_id_regular_1,
   },
   {
     name: 'respond with success and unpaged data on /assets/policy/:policy_id',
     endpoint: '/assets/policy/b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_assets_policy_policy_id_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_assets_policy_policy_id_regular_1,
     unpaged: true,
     response: response_assets_policy_policy_id_regular_1,
   },
   {
     name: 'respond with success and data on /assets/policy/:policy_id',
     endpoint: '/assets/policy/b863bc7369f46136ac1048adb2fa7dae3af944c3bbb2be2f216a8d4f',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
 
@@ -583,49 +521,37 @@ export default [
   {
     name: 'respond with 400 and empty data on /assets/:asset',
     endpoint: '/assets/asset1_stonks',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_400_asset,
   },
   {
     name: 'respond with 400 and empty data on /assets/:asset/history',
     endpoint: '/assets/asset1_stonks/history',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_400_asset,
   },
   {
     name: 'respond with 400 and empty data on /assets/:asset/txs',
     endpoint: '/assets/asset1_stonks/txs',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_400_asset,
   },
   {
     name: 'respond with 400 and empty data on /assets/:asset/transactions',
     endpoint: '/assets/asset1_stonks/transactions',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_400_asset,
   },
   {
     name: 'respond with 400 and empty data on /assets/:asset/addresses',
     endpoint: '/assets/asset1_stonks/addresses',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_400_asset,
   },
   {
     name: 'respond with 400 and empty data on /assets/policy/:policy_id',
     endpoint: '/assets/policy/policy_stonks',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_400_policy,
   },
 
@@ -636,49 +562,37 @@ export default [
   {
     name: 'respond with 404 and empty data on /assets/:asset',
     endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /assets/:asset/history',
     endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/history',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /assets/:asset/txs',
     endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/txs',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /assets/:asset/transactions',
     endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/transactions',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /assets/:asset/addresses',
     endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/addresses',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /assets/policy/:policy_id',
     endpoint: '/assets/policy/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aa',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   /*
@@ -688,57 +602,43 @@ export default [
   {
     name: 'respond with 500 and empty data on /assets/list',
     endpoint: '/assets',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /assets/:asset',
     endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /assets/:asset/history',
     endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/history',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /assets/:asset/txs',
     endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/txs',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /assets/:asset/transactions',
     endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/transactions',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /assets/:asset/addresses',
     endpoint: '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87aacafe/addresses',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /assets/policy/:policy_id',
     endpoint: '/assets/policy/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e8789',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
 ];

@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../../../types/queries/governance.js';
 import * as ResponseTypes from '../../../../../types/responses/governance.js';
-import { getDbSync, gracefulRelease } from '../../../../../utils/database.js';
+import { getDbSync } from '../../../../../utils/database.js';
 import { handle404 } from '../../../../../utils/error-handler.js';
 import { SQLQuery } from '../../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
@@ -13,15 +13,12 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/governance/proposals/{tx_hash}/{cert_index}/metadata'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParametersProposal>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const { rows } = await clientDbSync.query<QueryTypes.ProposalsProposalMetadata>(
+        const rows = await db.any<QueryTypes.ProposalsProposalMetadata>(
           SQLQuery.get('governance_proposals_proposal_metadata'),
           [request.params.tx_hash, request.params.cert_index],
         );
-
-        gracefulRelease(clientDbSync);
 
         const row: ResponseTypes.ProposalsProposalMetadataV2 = enhanceProposal(rows[0]);
 
@@ -29,10 +26,7 @@ async function route(fastify: FastifyInstance) {
           return handle404(reply);
         }
         return reply.send(row);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

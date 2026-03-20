@@ -4,7 +4,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/tx.js';
 import * as ResponseTypes from '../../../types/responses/tx.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import { handle404 } from '../../../utils/error-handler.js';
 
 async function route(fastify: FastifyInstance) {
@@ -13,34 +13,27 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/txs/{hash}/redeemers'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(SQLQuery.get('txs_404'), [
+        const query404 = await db.any<QueryTypes.ResultFound>(SQLQuery.get('txs_404'), [
           request.params.hash,
         ]);
 
-        if (query404.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404.length === 0) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.TxRedeemers } =
-          await clientDbSync.query<QueryTypes.TxRedeemers>(SQLQuery.get('txs_hash_redeemers'), [
+        const rows: ResponseTypes.TxRedeemers =
+          await db.any<QueryTypes.TxRedeemers>(SQLQuery.get('txs_hash_redeemers'), [
             request.params.hash,
           ]);
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
         }
 
         return reply.send(rows);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

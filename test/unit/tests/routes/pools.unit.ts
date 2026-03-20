@@ -16,10 +16,9 @@ describe('pools service', () => {
         },
       });
 
+      // @ts-expect-error test mock
       vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
-        // @ts-expect-error test
-        release: () => null,
-        query: queryMock,
+        any: queryMock,
       });
 
       await fastify.ready();
@@ -46,10 +45,9 @@ describe('pools service', () => {
       },
     });
 
+    // @ts-expect-error test mock
     vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
-      // @ts-expect-error test
-      release: () => null,
-      query: undefined,
+      any: undefined,
     });
 
     await fastify.ready();

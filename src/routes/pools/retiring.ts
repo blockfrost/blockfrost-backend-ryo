@@ -3,7 +3,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../sql/index.js';
 import * as QueryTypes from '../../types/queries/pools.js';
 import * as ResponseTypes from '../../types/responses/pools.js';
-import { getDbSync, gracefulRelease } from '../../utils/database.js';
+import { getDbSync } from '../../utils/database.js';
 import { isUnpaged } from '../../utils/routes.js';
 import { toJSONStream } from '../../utils/string-utils.js';
 
@@ -13,22 +13,19 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/pools/retiring'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.PoolRetire } = unpaged
-          ? await clientDbSync.query<QueryTypes.PoolsRetire>(
+        const rows: ResponseTypes.PoolRetire = unpaged
+          ? await db.any<QueryTypes.PoolsRetire>(
               SQLQuery.get('pools_retiring_unpaged'),
               [request.query.order],
             )
-          : await clientDbSync.query<QueryTypes.PoolsRetire>(SQLQuery.get('pools_retiring'), [
+          : await db.any<QueryTypes.PoolsRetire>(SQLQuery.get('pools_retiring'), [
               request.query.order,
               request.query.count,
               request.query.page,
             ]);
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -43,10 +40,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(rows);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

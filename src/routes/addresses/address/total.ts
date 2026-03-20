@@ -4,7 +4,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/addresses.js';
 import * as ResponseTypes from '../../../types/responses/addresses.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import { handle404, handleInvalidAddress } from '../../../utils/error-handler.js';
 import {
   getAddressTypeAndPaymentCred,
@@ -25,25 +25,21 @@ async function route(fastify: FastifyInstance) {
         return handleInvalidAddress(reply);
       }
 
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404 = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('addresses_404'),
           [request.params.address, paymentCred],
         );
 
-        if (query404.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404.length === 0) {
           return handle404(reply);
         }
 
-        const { rows } = await clientDbSync.query<QueryTypes.AddressTotalQuery>(
+        const rows = await db.any<QueryTypes.AddressTotalQuery>(
           SQLQuery.get('addresses_address_total'),
           [request.params.address, paymentCred],
         );
-
-        gracefulRelease(clientDbSync);
 
         // if paymentCred is used we have to convert it back to bech32
         if (paymentCred) {
@@ -95,10 +91,7 @@ async function route(fastify: FastifyInstance) {
         };
 
         return reply.send(result);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

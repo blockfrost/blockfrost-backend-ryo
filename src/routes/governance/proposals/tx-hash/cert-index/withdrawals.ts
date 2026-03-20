@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../../../types/queries/governance.js';
 import * as ResponseTypes from '../../../../../types/responses/governance.js';
-import { getDbSync, gracefulRelease } from '../../../../../utils/database.js';
+import { getDbSync } from '../../../../../utils/database.js';
 import { SQLQuery } from '../../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { isUnpaged } from '../../../../../utils/routes.js';
@@ -14,16 +14,15 @@ export const proposalWithdrawalsHandler = async (
     | FastifyRequest<QueryTypes.RequestParametersProposalPaged>,
   reply: FastifyReply,
 ) => {
-  const clientDbSync = await getDbSync(fastify);
+  const db = getDbSync(fastify);
 
-  try {
     const unpaged = isUnpaged(request);
-    const { rows }: { rows: ResponseTypes.ProposalsProposalWithdrawals } = unpaged
-      ? await clientDbSync.query<QueryTypes.ProposalsProposalWithdrawals>(
+    const rows: ResponseTypes.ProposalsProposalWithdrawals = unpaged
+      ? await db.any<QueryTypes.ProposalsProposalWithdrawals>(
           SQLQuery.get('governance_proposals_proposal_withdrawals_unpaged'),
           [request.query.order, proposal.tx_hash, proposal.cert_index],
         )
-      : await clientDbSync.query<QueryTypes.ProposalsProposalWithdrawals>(
+      : await db.any<QueryTypes.ProposalsProposalWithdrawals>(
           SQLQuery.get('governance_proposals_proposal_withdrawals'),
           [
             request.query.order,
@@ -34,13 +33,8 @@ export const proposalWithdrawalsHandler = async (
           ],
         );
 
-    gracefulRelease(clientDbSync);
-
     return reply.send(rows);
-  } catch (error) {
-    gracefulRelease(clientDbSync);
-    throw error;
-  }
+
 };
 
 async function route(fastify: FastifyInstance) {

@@ -5,7 +5,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../../sql/index.js';
 import * as QueryTypes from '../../../../types/queries/epochs.js';
 import * as ResponseTypes from '../../../../types/responses/epochs.js';
-import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
+import { getDbSync } from '../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../utils/error-handler.js';
 import {
   validateAndConvertPool,
@@ -18,21 +18,18 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/epochs/{number}/stakes/{pool_id}'),
     handler: async (request: FastifyRequest<QueryTypes.RequestStakePoolIdParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         if (!validatePositiveInRangeSignedInt(request.params.number)) {
-          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Missing, out of range or malformed epoch_number.');
         }
 
-        const query404_epoch = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404_epoch = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('epochs_404'),
           [request.params.number],
         );
 
-        if (query404_epoch.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404_epoch.length === 0) {
           return handle404(reply);
         }
 
@@ -40,32 +37,28 @@ async function route(fastify: FastifyInstance) {
         const pool_id = validateAndConvertPool(request.params.pool_id);
 
         if (!pool_id) {
-          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Invalid or malformed pool id format.');
         }
 
-        const query404_pool = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404_pool = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('epochs_pool_404'),
           [pool_id],
         );
 
-        if (query404_pool.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404_pool.length === 0) {
           return handle404(reply);
         }
 
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.EpochStakesPoolId } = unpaged
-          ? await clientDbSync.query<QueryTypes.EpochStakesPoolId>(
+        const rows: ResponseTypes.EpochStakesPoolId = unpaged
+          ? await db.any<QueryTypes.EpochStakesPoolId>(
               SQLQuery.get('epochs_number_stakes_pool_id_unpaged'),
               [request.params.number, pool_id],
             )
-          : await clientDbSync.query<QueryTypes.EpochStakesPoolId>(
+          : await db.any<QueryTypes.EpochStakesPoolId>(
               SQLQuery.get('epochs_number_stakes_pool_id'),
               [request.params.number, request.query.count, request.query.page, pool_id],
             );
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -80,10 +73,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(rows);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

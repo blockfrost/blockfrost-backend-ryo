@@ -4,7 +4,7 @@ import { isUnpaged } from '../../../utils/routes.js';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/addresses.js';
 import * as ResponseTypes from '../../../types/responses/addresses.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import { handle400Custom, handle404, handleInvalidAddress } from '../../../utils/error-handler.js';
 import { toJSONStream } from '../../../utils/string-utils.js';
 import { getAdditionalParametersFromRequest } from '@blockfrost/blockfrost-utils/lib/fastify.js';
@@ -21,16 +21,14 @@ async function route(fastify: FastifyInstance) {
       if (!addressType) {
         return handleInvalidAddress(reply);
       }
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404 = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('addresses_404'),
           [request.params.address, paymentCred],
         );
 
-        if (query404.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404.length === 0) {
           return handle404(reply);
         }
 
@@ -42,7 +40,6 @@ async function route(fastify: FastifyInstance) {
         );
 
         if (fromToParameters === 'outOfRangeOrMalformedErr') {
-          gracefulRelease(clientDbSync);
           return handle400Custom(
             reply,
             'Invalid (malformed or out of range) from/to parameter(s).',
@@ -50,8 +47,8 @@ async function route(fastify: FastifyInstance) {
         }
 
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.AddressTransactions } = unpaged
-          ? await clientDbSync.query<QueryTypes.AddressTransactionsQuery>(
+        const rows: ResponseTypes.AddressTransactions = unpaged
+          ? await db.any<QueryTypes.AddressTransactionsQuery>(
               SQLQuery.get('addresses_address_transactions_unpaged'),
               [
                 request.query.order,
@@ -63,7 +60,7 @@ async function route(fastify: FastifyInstance) {
                 fromToParameters[3],
               ],
             )
-          : await clientDbSync.query<QueryTypes.AddressTransactionsQuery>(
+          : await db.any<QueryTypes.AddressTransactionsQuery>(
               SQLQuery.get('addresses_address_transactions'),
               [
                 request.query.order,
@@ -78,8 +75,6 @@ async function route(fastify: FastifyInstance) {
               ],
             );
 
-        gracefulRelease(clientDbSync);
-
         if (unpaged) {
           // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
           // https://www.fastify.io/docs/latest/Reference/Reply/#raw
@@ -89,10 +84,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(rows);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

@@ -4,7 +4,7 @@ import { toJSONStream } from '../../../../utils/string-utils.js';
 import * as ResponseTypes from '../../../../types/responses/accounts.js';
 import * as QueryTypes from '../../../../types/queries/accounts.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
+import { getDbSync } from '../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../utils/error-handler.js';
 import { validateStakeAddress } from '../../../../utils/validation.js';
 import { SQLQuery } from '../../../../sql/index.js';
@@ -15,34 +15,31 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/accounts/{stake_address}/addresses'),
     handler: async (request: FastifyRequest<QueryTypes.RequestAccountsQueryParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         // Check stake address format. Return 400 on non-valid stake address
         const isStakeAddressValid = validateStakeAddress(request.params.stake_address);
 
         if (!isStakeAddressValid) {
-          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Invalid or malformed stake address format.');
         }
 
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404 = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('accounts_404'),
           [request.params.stake_address],
         );
 
-        if (query404.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404.length === 0) {
           return handle404(reply);
         }
 
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.AccountAddresses[] } = unpaged
-          ? await clientDbSync.query<QueryTypes.AccountAddresses[]>(
+        const rows: ResponseTypes.AccountAddresses[] = unpaged
+          ? await db.any<QueryTypes.AccountAddresses[]>(
               SQLQuery.get('accounts_stake_address_addresses_unpaged'),
               [request.query.order, request.params.stake_address],
             )
-          : await clientDbSync.query<QueryTypes.AccountAddresses[]>(
+          : await db.any<QueryTypes.AccountAddresses[]>(
               SQLQuery.get('accounts_stake_address_addresses'),
               [
                 request.query.order,
@@ -51,8 +48,6 @@ async function route(fastify: FastifyInstance) {
                 request.params.stake_address,
               ],
             );
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -67,10 +62,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(rows);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

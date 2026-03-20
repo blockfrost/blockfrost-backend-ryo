@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../../types/queries/scripts.js';
 import * as ResponseTypes from '../../../../types/responses/scripts.js';
-import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
+import { getDbSync } from '../../../../utils/database.js';
 import { handle404 } from '../../../../utils/error-handler.js';
 import { SQLQuery } from '../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
@@ -12,26 +12,20 @@ async function network(fastify: FastifyInstance) {
     schema: getSchemaForEndpoint('/scripts/datum/{datum_hash}/cbor'),
     method: 'GET',
     handler: async (request: FastifyRequest<QueryTypes.RequestParametersDatumHash>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const { rows }: { rows: ResponseTypes.DatumHashCbor[] } =
-          await clientDbSync.query<QueryTypes.DatumHashCbor>(
+        const rows: ResponseTypes.DatumHashCbor[] =
+          await db.any<QueryTypes.DatumHashCbor>(
             SQLQuery.get('scripts_datum_datum_hash_cbor'),
             [request.params.datum_hash],
           );
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return handle404(reply);
         }
 
         return reply.send(rows[0]);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

@@ -3,7 +3,7 @@ import { isUnpaged } from '../../utils/routes.js';
 import { toJSONStream } from '../../utils/string-utils.js';
 import { SQLQuery } from '../../sql/index.js';
 import * as QueryTypes from '../../types/queries/pools.js';
-import { getDbSync, gracefulRelease } from '../../utils/database.js';
+import { getDbSync } from '../../utils/database.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 
 async function pools(fastify: FastifyInstance) {
@@ -12,21 +12,18 @@ async function pools(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/pools'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         const unpaged = isUnpaged(request);
-        const { rows } = unpaged
-          ? await clientDbSync.query<QueryTypes.Pools>(SQLQuery.get('pools_unpaged'), [
+        const rows = unpaged
+          ? await db.any<QueryTypes.Pools>(SQLQuery.get('pools_unpaged'), [
               request.query.order,
             ])
-          : await clientDbSync.query<QueryTypes.Pools>(SQLQuery.get('pools'), [
+          : await db.any<QueryTypes.Pools>(SQLQuery.get('pools'), [
               request.query.order,
               request.query.count,
               request.query.page,
             ]);
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -47,10 +44,7 @@ async function pools(fastify: FastifyInstance) {
         } else {
           return reply.send(list);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

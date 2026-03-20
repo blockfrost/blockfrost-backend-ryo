@@ -88,18 +88,14 @@ export default [
   {
     name: 'respond with success and data on /scripts',
     endpoint: '/scripts',
-    sqlQueryMock: {
-      rows: query_scripts,
-    },
+    sqlQueryMock: query_scripts,
     network: 'mainnet',
     response: response_scripts,
   },
   {
     name: 'respond with success and unpaged data on /scripts',
     endpoint: '/scripts',
-    sqlQueryMock: {
-      rows: query_scripts,
-    },
+    sqlQueryMock: query_scripts,
     network: 'mainnet',
     unpaged: true,
     response: response_scripts,
@@ -107,42 +103,30 @@ export default [
   {
     name: 'respond with success and data on /scripts',
     endpoint: '/scripts',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     network: 'mainnet',
     response: [],
   },
   {
     name: 'respond with success and data on /scripts/:script_hash',
     endpoint: '/scripts/73e0949d28cca009e5dcb72f47414144b83652d1c14c1e75cd41101c',
-    sqlQueryMock: {
-      rows: query_scripts_script_hash,
-    },
+    sqlQueryMock: query_scripts_script_hash,
     network: 'mainnet',
     response: response_scripts_script_hash,
   },
   {
     name: 'respond with success and data on /scripts/:script_hash/redeemers',
     endpoint: '/scripts/73e0949d28cca009e5dcb72f47414144b83652d1c14c1e75cd41101c/redeemers',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_scripts_script_hash_redeemers,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_scripts_script_hash_redeemers,
     network: 'mainnet',
     response: response_scripts_script_hash_redeemers,
   },
   {
     name: 'respond with success and unpaged data on /scripts/:script_hash/redeemers',
     endpoint: '/scripts/73e0949d28cca009e5dcb72f47414144b83652d1c14c1e75cd41101c/redeemers',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_scripts_script_hash_redeemers,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_scripts_script_hash_redeemers,
     network: 'mainnet',
     unpaged: true,
     response: response_scripts_script_hash_redeemers,
@@ -150,12 +134,8 @@ export default [
   {
     name: 'respond with success and data on /scripts/:script_hash/redeemers',
     endpoint: '/scripts/73e0949d28cca009e5dcb72f47414144b83652d1c14c1e75cd41101c/redeemers',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     network: 'mainnet',
     response: [],
   },
@@ -166,18 +146,14 @@ export default [
   {
     name: 'respond with 404 and empty data on /scripts/:script_hash',
     endpoint: '/scripts/stonks_script',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     network: 'mainnet',
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /scripts/:script_hash/redeemers',
     endpoint: '/scripts/stonks_script/redeemers',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     network: 'mainnet',
     response: response_404,
   },
@@ -189,27 +165,21 @@ export default [
   {
     name: 'respond with 500 and null on /scripts',
     endpoint: '/scripts',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     network: 'mainnet',
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /scripts/:script_hash',
     endpoint: '/scripts/stonks_script',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     network: 'mainnet',
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /scripts/:script_hash/redeemers',
     endpoint: '/scripts/stonks_script/redeemers',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     network: 'mainnet',
     response: response_500,
   },

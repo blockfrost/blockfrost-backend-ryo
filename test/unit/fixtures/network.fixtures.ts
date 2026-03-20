@@ -482,18 +482,14 @@ export default [
   {
     name: 'respond with success and data on /network',
     endpoint: '/network',
-    sqlQueryMock: {
-      rows: query_network,
-    },
+    sqlQueryMock: query_network,
     network: 'mainnet',
     response: response_network,
   },
   {
     name: 'TESTNET: respond with success and data on /network',
     endpoint: '/network',
-    sqlQueryMock: {
-      rows: query_network,
-    },
+    sqlQueryMock: query_network,
     network: 'preview',
     response: response_network,
   },
@@ -501,48 +497,32 @@ export default [
   {
     name: 'respond with success and data on /network/eras',
     endpoint: '/network/eras',
-    sqlQueryMock: {
-      rows: query_last_epoch_mainnet,
-    },
-    sqlQueryMock2: {
-      rows: query_param_proposal_mainnet,
-    },
+    sqlQueryMock: query_last_epoch_mainnet,
+    sqlQueryMock2: query_param_proposal_mainnet,
     network: 'mainnet',
     response: response_eras_mainnet,
   },
   {
     name: 'PREPROD: respond with success and data on /network/eras',
     endpoint: '/network/eras',
-    sqlQueryMock: {
-      rows: query_last_epoch_preprod,
-    },
-    sqlQueryMock2: {
-      rows: query_param_proposal_preprod,
-    },
+    sqlQueryMock: query_last_epoch_preprod,
+    sqlQueryMock2: query_param_proposal_preprod,
     network: 'preprod',
     response: response_eras_preprod,
   },
   {
     name: 'PREVIEW: respond with success and data on /network/eras',
     endpoint: '/network/eras',
-    sqlQueryMock: {
-      rows: query_last_epoch_preview,
-    },
-    sqlQueryMock2: {
-      rows: query_param_proposal_preview,
-    },
+    sqlQueryMock: query_last_epoch_preview,
+    sqlQueryMock2: query_param_proposal_preview,
     network: 'preview',
     response: response_eras_preview,
   },
   {
     name: 'PREVIEW: respond with success and data on /network/eras when within safe zone',
     endpoint: '/network/eras',
-    sqlQueryMock: {
-      rows: query_last_epoch_preview_safe,
-    },
-    sqlQueryMock2: {
-      rows: query_param_proposal_preview,
-    },
+    sqlQueryMock: query_last_epoch_preview_safe,
+    sqlQueryMock2: query_param_proposal_preview,
     network: 'preview',
     response: response_eras_preview_safe,
   },
@@ -554,9 +534,7 @@ export default [
   {
     name: 'respond with 500 and null on /network',
     endpoint: '/network',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     network: 'mainnet',
     response: response_500,
   },

@@ -1141,282 +1141,180 @@ export default [
   {
     name: 'respond with success and data on /epochs/latest',
     endpoint: '/epochs/latest',
-    sqlQueryMock: {
-      rows: [query_epoch_regular],
-    },
+    sqlQueryMock: [query_epoch_regular],
     response: response_epoch_regular,
   },
   {
     name: 'respond with success and data on /epochs/:number',
     endpoint: '/epochs/245',
-    sqlQueryMock: {
-      rows: [query_epoch_number_regular],
-    },
+    sqlQueryMock: [query_epoch_number_regular],
     response: response_epoch_number_regular,
   },
   {
     name: 'respond with success and data on /epochs/:number/next 1',
     endpoint: '/epochs/222/next',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: query_epoch_number_next_regular,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: query_epoch_number_next_regular,
     response: response_epoch_number_next_regular,
   },
   {
     name: 'respond with success and unpaged data on /epochs/:number/next 1',
     endpoint: '/epochs/222/next',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: query_epoch_number_next_regular,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: query_epoch_number_next_regular,
     unpaged: true,
     response: response_epoch_number_next_regular,
   },
   {
     name: 'respond with success and data on /epochs/:number/next 2',
     endpoint: '/epochs/250/next',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /epochs/:number/previous 1',
     endpoint: '/epochs/222/previous',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: query_epoch_number_previous_regular,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: query_epoch_number_previous_regular,
     response: response_epoch_number_previous_regular,
   },
   {
     name: 'respond with success and unpaged data on /epochs/:number/previous 1',
     endpoint: '/epochs/222/previous',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: query_epoch_number_previous_regular,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: query_epoch_number_previous_regular,
     unpaged: true,
     response: response_epoch_number_previous_regular,
   },
   {
     name: 'respond with success and data on /epochs/:number/previous 2',
     endpoint: '/epochs/0/previous',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /epochs/:number/stakes 1',
     endpoint: '/epochs/222/stakes',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: query_epochs_number_stakes_regular,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: query_epochs_number_stakes_regular,
     response: response_epochs_number_stakes_regular,
   },
   {
     name: 'respond with success and unpaged data on /epochs/:number/stakes 1',
     endpoint: '/epochs/222/stakes',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: query_epochs_number_stakes_regular,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: query_epochs_number_stakes_regular,
     unpaged: true,
     response: response_epochs_number_stakes_regular,
   },
   {
     name: 'respond with success and data on /epochs/:number/stakes 2',
     endpoint: '/epochs/100/stakes',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /epochs/:number/stakes 3',
     endpoint: '/epochs/243/stakes?page=14018&count=4',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: query_epochs_number_stakes_regular,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: query_epochs_number_stakes_regular,
     response: response_epochs_number_stakes_regular,
   },
   {
     name: 'respond with success and data on /epochs/:number/stakes/:pool_id 1',
     endpoint: '/epochs/243/stakes/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: epoch_found,
-    },
-    sqlQueryMock3: {
-      rows: query_epochs_number_stakes_pool_id_regular,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: epoch_found,
+    sqlQueryMock3: query_epochs_number_stakes_pool_id_regular,
     response: response_epochs_number_stakes_pool_id_regular,
   },
   {
     name: 'respond with success and unpaged data on /epochs/:number/stakes/:pool_id 1',
     endpoint: '/epochs/243/stakes/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: epoch_found,
-    },
-    sqlQueryMock3: {
-      rows: query_epochs_number_stakes_pool_id_regular,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: epoch_found,
+    sqlQueryMock3: query_epochs_number_stakes_pool_id_regular,
     unpaged: true,
     response: response_epochs_number_stakes_pool_id_regular,
   },
   {
     name: 'respond with success and data on /epochs/:number/stakes/:pool_id 2',
     endpoint: '/epochs/100/stakes/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: epoch_found,
-    },
-    sqlQueryMock3: {
-      rows: [],
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: epoch_found,
+    sqlQueryMock3: [],
     response: [],
   },
   {
     name: 'respond with success and data on /epochs/:number/stakes/:pool_id 3',
     endpoint: '/epochs/243/stakes/pool152ha79a677s2skr5n9cethtg549nljxm2vlzqfgaf8hq67q3790',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: epoch_found,
-    },
-    sqlQueryMock3: {
-      rows: query_epochs_number_stakes_pool_id_regular,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: epoch_found,
+    sqlQueryMock3: query_epochs_number_stakes_pool_id_regular,
     response: response_epochs_number_stakes_pool_id_regular,
   },
   {
     name: 'respond with success and data on /epochs/:number/block 1',
     endpoint: '/epochs/243/blocks',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: query_epochs_number_blocks_regular,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: query_epochs_number_blocks_regular,
     response: response_epochs_number_blocks_regular,
   },
   {
     name: 'respond with success and unpaged data on /epochs/:number/block 1',
     endpoint: '/epochs/243/blocks',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: query_epochs_number_blocks_regular,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: query_epochs_number_blocks_regular,
     unpaged: true,
     response: response_epochs_number_blocks_regular,
   },
   {
     name: 'respond with success and data on /epochs/:number/block 2',
     endpoint: '/epochs/0/blocks',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /epoch/:number/block/:pool_id 1',
     endpoint: '/epochs/243/blocks/pool152ha79a677s2skr5n9cethtg549nljxm2vlzqfgaf8hq67q3790',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: epoch_found,
-    },
-    sqlQueryMock3: {
-      rows: query_epochs_number_blocks_pool_id_regular,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: epoch_found,
+    sqlQueryMock3: query_epochs_number_blocks_pool_id_regular,
     response: response_epochs_number_blocks_pool_id_regular,
   },
   {
     name: 'respond with success and unpaged data on /epoch/:number/block/:pool_id 1',
     endpoint: '/epochs/243/blocks/pool152ha79a677s2skr5n9cethtg549nljxm2vlzqfgaf8hq67q3790',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: epoch_found,
-    },
-    sqlQueryMock3: {
-      rows: query_epochs_number_blocks_pool_id_regular,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: epoch_found,
+    sqlQueryMock3: query_epochs_number_blocks_pool_id_regular,
     unpaged: true,
     response: response_epochs_number_blocks_pool_id_regular,
   },
   {
     name: 'respond with success and data on /epoch/:number/block/:pool_id 2',
     endpoint: '/epochs/100/blocks/pool152ha79a677s2skr5n9cethtg549nljxm2vlzqfgaf8hq67q3790',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: epoch_found,
-    },
-    sqlQueryMock3: {
-      rows: [],
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: epoch_found,
+    sqlQueryMock3: [],
     response: [],
   },
   {
     name: 'respond with success and data on /epoch/:number/parameters 1',
     endpoint: '/epochs/243/parameters',
-    sqlQueryMock: {
-      // spread used to create a new copy since the endpoint modifies the fixture
-      // causing the next test reusing the same fixture to fail
-      rows: [{ ... query_epoch_number_parameters_regular }],
-    },
+    // spread used to create a new copy since the endpoint modifies the fixture
+    // causing the next test reusing the same fixture to fail
+    sqlQueryMock: [{ ... query_epoch_number_parameters_regular }],
     response: response_epoch_number_parameters_regular,
   },
   {
     name: 'respond with success and data on /epoch/latest/parameters 2',
     endpoint: '/epochs/latest/parameters',
-    sqlQueryMock: {
-      rows: [{ ... query_epoch_number_parameters_regular }],
-    },
+    sqlQueryMock: [{ ... query_epoch_number_parameters_regular }],
     response: response_epoch_number_parameters_regular,
   },
   /*
@@ -1425,17 +1323,13 @@ export default [
   {
     name: 'respond with 400 on /epochs/:number/stakes/:pool_id 1',
     endpoint: '/epochs/1333337/stakes/stonks_pool',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
+    sqlQueryMock: epoch_found,
     response: response_400,
   },
   {
     name: 'respond with 400 on /epochs/:number/blocks/:pool_id 2',
     endpoint: '/epochs/1333337/blocks/stonks_pool',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
+    sqlQueryMock: epoch_found,
     response: response_400,
   },
 
@@ -1445,103 +1339,75 @@ export default [
   {
     name: 'respond with 404 and empty data on /epochs',
     endpoint: '/epochs/latest',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /epochs/:number',
     endpoint: '/epochs/1333337',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /epochs/:number/next',
     endpoint: '/epochs/1333337/next',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /epochs/:number/previous',
     endpoint: '/epochs/1333337/previous',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /epochs/:number/stakes',
     endpoint: '/epochs/1333337/stakes',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 400 on /epochs/:number/stakes/:pool_id',
     endpoint: '/epochs/1333337/stakes/pool152ha79a677s2skr5n9cethtg549nljxm2vlzqfgaf8hq67q3790',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /epochs/:number/stake/:pool_id',
     endpoint: '/epochs/137/stakes/pool152ha79a677s2skr5n9cethtg549nljxm2vlzqfgaf8hq67q3790',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /epochs/:number/blocks',
     endpoint: '/epochs/1333337/blocks',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /epochs/:number/blocks/:pool_id',
     endpoint: '/epochs/137/blocks/pool152ha79a677s2skr5n9cethtg549nljxm2vlzqfgaf8hq67q3790',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /epochs/:number/blocks/:pool_id',
     endpoint: '/epochs/1333337/blocks/pool152ha79a677s2skr5n9cethtg549nljxm2vlzqfgaf8hq67q3790',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /epochs/:number/parameters',
     endpoint: '/epochs/1333337/parameters',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /epochs/latest/parameters',
     endpoint: '/epochs/latest/parameters',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
 
@@ -1552,92 +1418,68 @@ export default [
   {
     name: 'respond with 500 with null on /epochs',
     endpoint: '/epochs/latest',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 with null on /epochs/:number',
     endpoint: '/epochs/1333337',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 with null on /epochs/:number/next',
     endpoint: '/epochs/1333337/next',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 with null on /epochs/:number/previous',
     endpoint: '/epochs/1333337/previous',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 with null on /epochs/:number/stakes',
     endpoint: '/epochs/1333337/stakes',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 with null on /epochs/:number/stakes/:pool_id',
     endpoint: '/epochs/1333337/stakes/pool152ha79a677s2skr5n9cethtg549nljxm2vlzqfgaf8hq67q3790',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 with null on /epochs/:number/blocks',
     endpoint: '/epochs/1333337/blocks',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 with null on /epochs/:number/blocks/:pool_id',
     endpoint: '/epochs/1333337/blocks/pool152ha79a677s2skr5n9cethtg549nljxm2vlzqfgaf8hq67q3790',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 with null on /epochs/:number/blocks/:pool_id',
     endpoint: '/epochs/1333337/blocks/pool152ha79a677s2skr5n9cethtg549nljxm2vlzqfgaf8hq67q3790',
-    sqlQueryMock: {
-      rows: epoch_found,
-    },
-    sqlQueryMock2: {
-      rows: null,
-    },
+    sqlQueryMock: epoch_found,
+    sqlQueryMock2: null,
     response: response_500,
   },
   {
     name: 'respond with 500 with null on /epochs/:number/parameters',
     endpoint: '/epochs/1333337/parameters',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 with null on /epochs/latest/parameters',
     endpoint: '/epochs/latest/parameters',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
 ]; //as const;

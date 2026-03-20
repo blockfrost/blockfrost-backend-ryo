@@ -1173,54 +1173,36 @@ export default [
   {
     name: 'respond with success and data on /txs/:hash',
     endpoint: '/txs/d2e9e7f390f626ebfe47145686d6efc6ab4df81feb166c86f3c367a38461d943',
-    sqlQueryMock: {
-      rows: [query_tx_regular_1],
-    },
+    sqlQueryMock: [query_tx_regular_1],
     response: response_tx_regular_1,
   },
   {
     name: 'TESTNET: respond with success and data on /txs/:hash',
     endpoint: '/txs/80e46d2475b921a9d8a9f2c35cc351ac14222d95b05099626bba07b79989b7b6',
-    sqlQueryMock: {
-      rows: [query_tx_regular_testnet_1],
-    },
+    sqlQueryMock: [query_tx_regular_testnet_1],
     network: 'preview',
     response: response_tx_regular_testnet_1,
   },
   {
     name: 'respond with success and data on /txs/:hash',
     endpoint: '/txs/5aadc251b0039e115d3f0e9b3f00e3e2e9fdaf46e68b0b1cf39dcad2f182a6ce',
-    sqlQueryMock: {
-      rows: [query_tx_pool_update_1],
-    },
+    sqlQueryMock: [query_tx_pool_update_1],
     response: response_tx_pool_update_1,
   },
   {
     name: 'respond with success and data on /txs/:hash/utxos',
     endpoint: '/txs/5aadc251b0039e115d3f0e9b3f00e3e2e9fdaf46e68b0b1cf39dcad2f182a6ce/utxos',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_tx_utxo_regular_1_inputs,
-    },
-    sqlQueryMock3: {
-      rows: query_tx_utxo_regular_1_outputs,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_tx_utxo_regular_1_inputs,
+    sqlQueryMock3: query_tx_utxo_regular_1_outputs,
     response: response_tx_utxo_regular_1,
   },
   {
     name: 'respond with success and data on /txs/:hash/utxos',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/utxos',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
-    sqlQueryMock3: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
+    sqlQueryMock3: [],
     response: {
       hash: '6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b',
       inputs: [],
@@ -1230,360 +1212,224 @@ export default [
   {
     name: 'TESTNET: respond with success and data on /txs/:hash/utxos',
     endpoint: '/txs/7162f3d9a1edc1a20c0a38c2acb854e221329ca76f7666ee3c82c026b5dadfbf/utxos',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_tx_utxo_regular_testnet_1_inputs,
-    },
-    sqlQueryMock3: {
-      rows: query_tx_utxo_regular_testnet_1_outputs,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_tx_utxo_regular_testnet_1_inputs,
+    sqlQueryMock3: query_tx_utxo_regular_testnet_1_outputs,
     network: 'preview',
     response: response_tx_utxo_regular_testnet_1,
   },
   {
     name: 'respond with success and data on /txs/:hash/stakes',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/stakes',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_stakes_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_stakes_regular_1,
     response: response_txs_stakes_regular_1,
   },
   {
     name: 'respond with success and data on /txs/:hash/stakes',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/stakes',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /txs/:hash/delegation',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/delegations',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_delegations_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_delegations_regular_1,
     response: response_txs_delegations_regular_1,
   },
   {
     name: 'respond with success and data on /txs/:hash/delegation',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/delegations',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_delegations_huge_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_delegations_huge_1,
     response: response_txs_delegations_huge_1,
   },
   {
     name: 'respond with success and data on /txs/:hash/delegation',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/delegations',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /txs/:hash/withdrawal',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/withdrawals',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_withdrawal_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_withdrawal_regular_1,
     response: response_txs_withdrawals_regular_1,
   },
   {
     name: 'respond with success and data on /txs/:hash/withdrawal',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/withdrawals',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /txs/:hash/mirs',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/mirs',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_mir_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_mir_regular_1,
     response: response_txs_mir_regular_1,
   },
   {
     name: 'respond with success and data on /txs/:hash/mirs',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/mirs',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /txs/:hash/pool_updates',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/pool_updates',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_pool_updates_regular,
-    },
-    sqlQueryMock3: {
-      rows: query_txs_pool_updates_regular_relays,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_pool_updates_regular,
+    sqlQueryMock3: query_txs_pool_updates_regular_relays,
     response: response_txs_pool_updates_regular,
   },
   {
     name: 'respond with success and data on/txs/:hash/pool_updates',
     endpoint: '/txs/cd05b2429b0fb340f4fbc1480ad3aa7a68f30f5107e51cf69ec07c797c709ab6/pool_updates',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_pool_updates_minimal,
-    },
-    sqlQueryMock3: {
-      rows: query_txs_pool_updates_minimal_relays,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_pool_updates_minimal,
+    sqlQueryMock3: query_txs_pool_updates_minimal_relays,
     response: response_txs_pool_updates_minimal,
   },
   {
     name: 'respond with success and data on /txs/:hash/pool_updates',
     endpoint: '/txs/cd05b2429b0fb340f4fbc1480ad3aa7a68f30f5107e51cf69ec07c797c709ab6/pool_updates',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_pool_updates_minimal_ultra,
-    },
-    sqlQueryMock3: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_pool_updates_minimal_ultra,
+    sqlQueryMock3: [],
     response: response_txs_pool_updates_minimal_ultra,
   },
   {
     name: 'respond with success and data on /txs/:hash/pool_updates',
     endpoint: '/txs/cd05b2429b0fb340f4fbc1480ad3aa7a68f30f5107e51cf69ec07c797c709ab6/pool_updates',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
-    sqlQueryMock3: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
+    sqlQueryMock3: [],
     response: [],
   },
   {
     name: 'respond with success and data on /txs/:hash/pool_updates',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/pool_updates',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_pool_updates_missing_bech32,
-    },
-    sqlQueryMock3: {
-      rows: query_txs_pool_updates_regular_relays,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_pool_updates_missing_bech32,
+    sqlQueryMock3: query_txs_pool_updates_regular_relays,
     response: response_txs_pool_updates_regular,
   },
   {
     name: 'respond with success and data on /txs/:hash/pool_updates',
     endpoint: '/txs/e234443a0f5a5fc0aebf9f6923d4860c912407d973fe1cfc26c3bcfc55d67211/pool_updates', //testnet
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_pool_updates_nonregular_testnet,
-    },
-    sqlQueryMock3: {
-      rows: query_txs_pool_updates_nonregular_testnet_relays,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_pool_updates_nonregular_testnet,
+    sqlQueryMock3: query_txs_pool_updates_nonregular_testnet_relays,
     network: 'preview',
     response: response_txs_pool_updates_nonregular_testnet,
   },
   {
     name: 'respond with success and data on /txs/:hash/pool_updates',
     endpoint: '/txs/e234443a0f5a5fc0aebf9f6923d4860c912407d973fe1cfc26c3bcfc55d67211/pool_updates', //testnet
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_pool_updates_missing_bech32_testnet,
-    },
-    sqlQueryMock3: {
-      rows: query_txs_pool_updates_nonregular_testnet_relays,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_pool_updates_missing_bech32_testnet,
+    sqlQueryMock3: query_txs_pool_updates_nonregular_testnet_relays,
     network: 'preview',
     response: response_txs_pool_updates_nonregular_testnet,
   },
   {
     name: 'respond with success and data on /txs/:hash/pool_retires',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/pool_retires',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_pool_retires_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_pool_retires_regular_1,
     response: response_txs_pool_retires_regular_1,
   },
   {
     name: 'respond with success and data on /txs/:hash/pool_retires',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/pool_retires',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_pool_retires_huge_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_pool_retires_huge_1,
     response: response_txs_pool_retires_huge_1,
   },
   {
     name: 'respond with success and data on /txs/:hash/pool_retires',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/pool_retires',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /txs/:hash/metadata',
     endpoint: '/txs/473a6f5ef23c8f9ea10e6d17372ee90031f44273fb2be6700673269bdd04eb19/metadata',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_metadata_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_metadata_regular_1,
     response: response_txs_metadata_regular_1,
   },
   {
     name: 'respond with success and data on /txs/:hash/metadata',
     endpoint: '/txs/473a6f5ef23c8f9ea10e6d17372ee90031f44273fb2be6700673269bdd04eb19/metadata',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /txs/:hash/metadata/cbor',
     endpoint: '/txs/473a6f5ef23c8f9ea10e6d17372ee90031f44273fb2be6700673269bdd04eb19/metadata/cbor',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_metadata_cbor_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_metadata_cbor_regular_1,
     response: response_txs_metadata_cbor_regular_1,
   },
   {
     name: 'respond with success and data on /txs/:hash/metadata/cbor',
     endpoint: '/txs/473a6f5ef23c8f9ea10e6d17372ee90031f44273fb2be6700673269bdd04eb19/metadata/cbor',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /txs/:hash/metadata',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/metadata',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_metadata_incorrect_usage_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_metadata_incorrect_usage_1,
     response: response_txs_metadata_incorrect_usage_1,
   },
   {
     name: 'respond with success and data on /txs/:hash/metadata/cbor',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/metadata/cbor',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_metadata_cbor_incorrect_usage_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_metadata_cbor_incorrect_usage_1,
     response: response_txs_metadata_cbor_incorrect_usage_1,
   },
   {
     name: 'respond with success and data on /txs/:hash/redeemers',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/redeemers',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_redeemers,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_redeemers,
     response: response_txs_redeemers,
   },
   {
     name: 'respond with success and data on /txs/:hash/redeemers',
     endpoint: '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/redeemers',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /txs/:hash/required_signers',
     endpoint:
       '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/required_signers',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_required_signers,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_txs_required_signers,
     response: response_txs_required_signers,
   },
   {
     name: 'respond with success and data on /txs/:hash/required_signers',
     endpoint:
       '/txs/6e6644e0f8aeec3437bec536408fc007a6147d94098f2dbaeb6ad80d0508631b/required_signers',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   /*
@@ -1593,100 +1439,74 @@ export default [
   {
     name: 'respond with 404 and empty data on /txs/:hash',
     endpoint: '/txs/stonks_tx',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /txs/:hash/utxo',
     endpoint: '/txs/stonks_tx/utxos',
-    sqlQueryMock: {
-      rows: [],
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: [],
+    sqlQueryMock2: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /txs/:hash/stakes',
     endpoint: '/txs/stonks_tx/stakes',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /txs/:hash/delegations',
     endpoint: '/txs/stonks_tx/delegations',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /txs/:hash/withdrawals',
     endpoint: '/txs/stonks_tx/withdrawals',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /txs/:hash/mirs',
     endpoint: '/txs/stonks_tx/mirs',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /txs/:hash/pool_updates',
     endpoint: '/txs/stonks_tx/pool_updates',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /txs/:hash/pool_retires',
     endpoint: '/txs/stonks_tx/pool_retires',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /txs/:hash/metadata',
     endpoint: '/txs/stonks_tx/metadata',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /txs/:hash/metadata/cbor',
     endpoint: '/txs/stonks_tx/metadata/cbor',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /txs/:hash/redeemers',
     endpoint: '/txs/stonks_tx/redeemers',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /txs/:hash/required_signers',
     endpoint: '/txs/stonks_tx/required_signers',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
 
@@ -1697,145 +1517,91 @@ export default [
   {
     name: 'respond with 500 and null on /txs/:hash',
     endpoint: '/txs/stonks_tx',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /txs/:hash/utxo',
     endpoint: '/txs/stonks_tx/utxos',
-    sqlQueryMock: {
-      rows: null,
-    },
-    sqlQueryMock2: {
-      rows: null,
-    },
+    sqlQueryMock: null,
+    sqlQueryMock2: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /txs/:hash/stakes',
     endpoint: '/txs/stonks_tx/stakes',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /txs/:hash/delegations',
     endpoint: '/txs/stonks_tx/delegations',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /txs/:hash/withdrawals',
     endpoint: '/txs/stonks_tx/withdrawals',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /txs/:hash/mirs',
     endpoint: '/txs/stonks_tx/mirs',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /txs/:hash/pool_updates',
     endpoint: '/txs/stonks_tx/pool_updates',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_txs_pool_updates_regular,
-    },
-    sqlQueryMock3: {
-      rows: null,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /txs/:hash/pool_updates',
     endpoint: '/txs/stonks_tx/pool_updates',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: null,
-    },
-    response: response_500,
-  },
-  {
-    name: 'respond with 500 and null on /txs/:hash/pool_updates',
-    endpoint: '/txs/stonks_tx/pool_updates',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: null,
-    },
-    sqlQueryMock3: {
-      rows: null,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: null,
+    sqlQueryMock3: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /txs/:hash/pool_update',
     endpoint: '/txs/stonks_tx/pool_updates',
-    sqlQueryMock: {
-      rows: null,
-    },
-    sqlQueryMock2: {
-      rows: null,
-    },
-    sqlQueryMock3: {
-      rows: null,
-    },
+    sqlQueryMock: null,
+    sqlQueryMock2: null,
+    sqlQueryMock3: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /txs/:hash/pool_retires',
     endpoint: '/txs/stonks_tx/pool_retires',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /txs/:hash/metadata',
     endpoint: '/txs/stonks_tx/metadata',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /txs/:hash/metadata/cbor',
     endpoint: '/txs/stonks_tx/metadata/cbor',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /txs/:hash/redeemers',
     endpoint: '/txs/stonks_tx/redeemers',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /txs/:hash/required_signers',
     endpoint: '/txs/stonks_tx/required_signers',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
 ]; //as const;

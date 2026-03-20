@@ -8,7 +8,7 @@ import { ByronEraParameters } from '../../types/common.js';
 import { Block } from '../../types/queries/blocks.js';
 import * as QueryTypes from '../../types/queries/network.js';
 import * as LedgerResponseTypes from '../../types/responses/ledger.js';
-import { getDbSync, gracefulRelease } from '../../utils/database.js';
+import { getDbSync } from '../../utils/database.js';
 import { handle500 } from '../../utils/error-handler.js';
 import { standardSafeZone } from '../../utils/routes.js';
 
@@ -25,15 +25,12 @@ async function route(fastify: FastifyInstance) {
         return handle500(reply, 'No genesis or Byron genesis data', request);
       }
 
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const lastBlock = await clientDbSync.query<Block>(SQLQuery.get('blocks_latest'));
-        const protocols = await clientDbSync.query<QueryTypes.Protocols>(
+        const lastBlock = await db.any<Block>(SQLQuery.get('blocks_latest'));
+        const protocols = await db.any<QueryTypes.Protocols>(
           SQLQuery.get('network_protocols'),
         );
-
-        gracefulRelease(clientDbSync);
 
         // First summary item is Byron era parameters
         const first = {
@@ -61,7 +58,7 @@ async function route(fastify: FastifyInstance) {
 
         // Add first three implicit entries if Instafork
         // or in another words the first update is to Babbage (protocol_major 6)
-        if (protocols.rows.length > 0 && protocols.rows[0].protocol_major === 6) {
+        if (protocols.length > 0 && protocols[0].protocol_major === 6) {
           const firstLike = { ...first };
 
           firstLike.parameters = {
@@ -79,7 +76,7 @@ async function route(fastify: FastifyInstance) {
         // excluding inter-era hard forks
         let previous = first;
 
-        for (const epochProto of protocols.rows) {
+        for (const epochProto of protocols) {
           if (PROTOCOL_VERSIONS[epochProto.protocol_major].is_era_hardfork) {
             const effectiveEpoch = epochProto.epoch;
             const duration = effectiveEpoch - previous.end.epoch;
@@ -119,8 +116,8 @@ async function route(fastify: FastifyInstance) {
           genesisData.active_slots_coefficient,
         );
         const lastListedEpoch =
-          lastBlock.rows[0].epoch +
-          (lastBlock.rows[0].epoch_slot >= genesisData.epoch_length - safeZone ? 2 : 1);
+          lastBlock[0].epoch +
+          (lastBlock[0].epoch_slot >= genesisData.epoch_length - safeZone ? 2 : 1);
         const lastDuration = lastListedEpoch - previous.end.epoch;
         const last = {
           start: {
@@ -144,10 +141,7 @@ async function route(fastify: FastifyInstance) {
         summary.push(last);
 
         return reply.send(summary);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

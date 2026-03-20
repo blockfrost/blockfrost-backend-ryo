@@ -4,7 +4,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as ResponseTypes from '../../../types/responses/accounts.js';
 import * as QueryTypes from '../../../types/queries/accounts.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import { isUnpaged } from '../../../utils/routes.js';
 import { toJSONStream } from '../../../utils/string-utils.js';
 import { handle400Custom, handle404 } from '../../../utils/error-handler.js';
@@ -15,33 +15,31 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/accounts/{stake_address}/utxos'),
     handler: async (request: FastifyRequest<QueryTypes.RequestAccountsQueryParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         // Check stake address format. Return 400 on non-valid stake address
         const isStakeAddressValid = validateStakeAddress(request.params.stake_address);
 
         if (!isStakeAddressValid) {
-          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Invalid or malformed stake address format.');
         }
 
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404 = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('accounts_404'),
           [request.params.stake_address],
         );
 
-        if (query404.rows.length === 0) {
+        if (query404.length === 0) {
           return handle404(reply);
         }
 
         const unpaged = isUnpaged(request);
-        const { rows } = unpaged
-          ? await clientDbSync.query<QueryTypes.AccountUtxosQuery>(
+        const rows = unpaged
+          ? await db.any<QueryTypes.AccountUtxosQuery>(
               SQLQuery.get('accounts_stake_address_utxos_unpaged'),
               [request.query.order, request.params.stake_address],
             )
-          : await clientDbSync.query<QueryTypes.AccountUtxosQuery>(
+          : await db.any<QueryTypes.AccountUtxosQuery>(
               SQLQuery.get('accounts_stake_address_utxos'),
               [
                 request.query.order,
@@ -50,8 +48,6 @@ async function route(fastify: FastifyInstance) {
                 request.params.stake_address,
               ],
             );
-
-        gracefulRelease(clientDbSync);
 
         const result: ResponseTypes.AccountUtxos = rows.map(row => ({
           address: row.address,
@@ -80,10 +76,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(result);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

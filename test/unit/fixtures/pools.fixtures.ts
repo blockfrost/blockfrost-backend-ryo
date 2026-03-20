@@ -410,343 +410,231 @@ export default [
   {
     name: 'respond with success and data on /pools',
     endpoint: '/pools',
-    sqlQueryMock: {
-      rows: query_pools_regular_1,
-    },
+    sqlQueryMock: query_pools_regular_1,
     response: response_pools_regular_1,
   },
   {
     name: 'respond with success and unpaged data on /pools',
     endpoint: '/pools',
-    sqlQueryMock: {
-      rows: query_pools_regular_1,
-    },
+    sqlQueryMock: query_pools_regular_1,
     unpaged: true,
     response: response_pools_regular_1,
   },
   {
     name: 'respond with success and data on /pools/extended',
     endpoint: '/pools/extended',
-    sqlQueryMock: {
-      rows: query_pools_extended_reuglar_1,
-    },
+    sqlQueryMock: query_pools_extended_reuglar_1,
     response: response_pools_extended_regular_1,
   },
   {
     name: 'respond with success and unpaged data on /pools/extended',
     endpoint: '/pools/extended',
-    sqlQueryMock: {
-      rows: query_pools_extended_reuglar_1,
-    },
+    sqlQueryMock: query_pools_extended_reuglar_1,
     unpaged: true,
     response: response_pools_extended_regular_1,
   },
   {
     name: 'respond with success and data on /pools/retired',
     endpoint: '/pools/retired',
-    sqlQueryMock: {
-      rows: query_pools_retired_regular_1,
-    },
+    sqlQueryMock: query_pools_retired_regular_1,
     response: response_pools_retired_regular_1,
   },
   {
     name: 'respond with success and unpaged data on /pools/retired',
     endpoint: '/pools/retired',
-    sqlQueryMock: {
-      rows: query_pools_retired_regular_1,
-    },
+    sqlQueryMock: query_pools_retired_regular_1,
     unpaged: true,
     response: response_pools_retired_regular_1,
   },
   {
     name: 'respond with success and data on /pools/retiring',
     endpoint: '/pools/retiring',
-    sqlQueryMock: {
-      rows: query_pools_retiring_regular_1,
-    },
+    sqlQueryMock: query_pools_retiring_regular_1,
     response: response_pools_retiring_regular_1,
   },
   {
     name: 'respond with success and unpaged data on /pools/retiring',
     endpoint: '/pools/retiring',
-    sqlQueryMock: {
-      rows: query_pools_retiring_regular_1,
-    },
+    sqlQueryMock: query_pools_retiring_regular_1,
     unpaged: true,
     response: response_pools_retiring_regular_1,
   },
   {
     name: 'respond with success and data on /pools/:pool_id',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy',
-    sqlQueryMock: {
-      rows: query_pools_pool_id_regular_1,
-    },
+    sqlQueryMock: query_pools_pool_id_regular_1,
     response: response_pools_pool_id_regular_1,
   },
   {
     name: 'respond with success and data on /pools/:pool_id',
     endpoint: '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735',
-    sqlQueryMock: {
-      rows: query_pools_pool_id_regular_1,
-    },
+    sqlQueryMock: query_pools_pool_id_regular_1,
     response: response_pools_pool_id_regular_1,
   },
   {
     name: 'respond with success and data on /pools/:pool_id/history',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/history',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_history_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_history_regular_1,
     response: response_pools_pool_id_history_regular_1,
   },
   {
     name: 'respond with success and unpaged data on /pools/:pool_id/history',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/history',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_history_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_history_regular_1,
     unpaged: true,
     response: response_pools_pool_id_history_regular_1,
   },
   {
     name: 'respond with success and data on /pools/:pool_id/history',
     endpoint: '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/history',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_history_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_history_regular_1,
     response: response_pools_pool_id_history_regular_1,
   },
   {
     name: 'respond with success and data on /pools/:pool_id/history',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/history',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /pools/:pool_id/metadata',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/metadata',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_metadata_regular,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_metadata_regular,
 
     response: response_pools_pool_id_metadata_regular,
   },
   {
     name: 'respond with success and data on /pools/:pool_id/metadata',
     endpoint: '/pools/pool18z3vwrdpyxnpg7l7eqknsp25uksl6m2dnk8mr6y60jr9sssea0w/metadata',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: {},
   },
   {
     name: 'respond with success and data on /pools/:pool_id/metadata',
     endpoint: '/pools/pool18z3vwrdpyxnpg7l7eqknsp25uksl6m2dnk8mr6y60jr9sssea0w/metadata',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: response_pools_pool_id_metadata_empty,
   },
   {
     name: 'respond with success and data on /pools/:pool_id/relays',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/relays',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_relays_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_relays_regular_1,
     response: response_pools_pool_id_relays_regular_1,
   },
   {
     name: 'respond with success and data on /pools/:pool_id/relays',
     endpoint: '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/relays',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_relays_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_relays_regular_1,
     response: response_pools_pool_id_relays_regular_1,
   },
   {
     name: 'respond with success and data on /pools/:pool_id/relays',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/relays',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /pools/:pool_id/delegators',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/delegators',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_delegators_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_delegators_regular_1,
     response: response_pools_pool_id_delegators_regular_1,
   },
   {
     name: 'respond with success and unpaged data on /pools/:pool_id/delegators',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/delegators',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_delegators_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_delegators_regular_1,
     unpaged: true,
     response: response_pools_pool_id_delegators_regular_1,
   },
   {
     name: 'respond with success and data on /pools/:pool_id/delegators',
     endpoint: '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/delegators',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_delegators_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_delegators_regular_1,
     response: response_pools_pool_id_delegators_regular_1,
   },
   {
     name: 'respond with success and data on /pools/:pool_id/delegators',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/delegators',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /pools/:pool_id/blocks',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/blocks',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_blocks_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_blocks_regular_1,
     response: response_pools_pool_id_blocks_regular_1,
   },
   {
     name: 'respond with success and unpaged data on /pools/:pool_id/blocks',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/blocks',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_blocks_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_blocks_regular_1,
     unpaged: true,
     response: response_pools_pool_id_blocks_regular_1,
   },
   {
     name: 'respond with success and data on /pools/:pool_id/blocks',
     endpoint: '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/blocks',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_blocks_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_blocks_regular_1,
     response: response_pools_pool_id_blocks_regular_1,
   },
   {
     name: 'respond with success and data on /pools/:pool_id/blocks',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/blocks',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /pools/:pool_id/updates',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/updates',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_updates_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_updates_regular_1,
     response: response_pools_pool_id_updates_regular_1,
   },
   {
     name: 'respond with success and unpaged data on /pools/:pool_id/updates',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/updates',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_updates_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_updates_regular_1,
     unpaged: true,
     response: response_pools_pool_id_updates_regular_1,
   },
   {
     name: 'respond with success and data on /pools/:pool_id/updates',
     endpoint: '/pools/0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735/updates',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_updates_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_updates_regular_1,
     response: response_pools_pool_id_updates_regular_1,
   },
   {
     name: 'respond with success and data on /pools/:pool_id/updates',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/updates',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_pools_pool_id_updates_deregistered_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_pools_pool_id_updates_deregistered_1,
     response: response_pools_pool_id_updates_deregistered_1,
   },
   {
     name: 'respond with success and data on /pools/:pool_id/updates',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/updates',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
 
@@ -800,89 +688,67 @@ export default [
   {
     name: 'respond with 404 and empty data on /pools',
     endpoint: '/pools',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: [],
   },
   {
     name: 'respond with success and data on /pools/extended',
     endpoint: '/pools/extended',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: [],
   },
   {
     name: 'respond with 404 and empty data on /pools/retired',
     endpoint: '/pools/retired',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: [],
   },
   {
     name: 'respond with 404 and empty data on /pools/retiring',
     endpoint: '/pools/retiring',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: [],
   },
   {
     name: 'respond with 404 and empty data on /pools/:pool_id',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /pools/:pool_id/history',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/history',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /pools/:pool_id/metadata',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/metadata',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /pools/:pool_id/relays',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/relays',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /pools/:pool_id/delegators',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/delegators',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /pools/:pool_id/blocks',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/blocks',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /pools/:pool_id/updates',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/updates',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
 
@@ -893,89 +759,67 @@ export default [
   {
     name: 'respond with 500 and null on /pools',
     endpoint: '/pools',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /pools/extended',
     endpoint: '/pools/extended',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /pools/retired',
     endpoint: '/pools/retired',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /pools/retiring',
     endpoint: '/pools/retiring',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /pools/:pool_id',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /pools/:pool_id/history',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/history',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /pools/:pool_id/metadata',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/metadata',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /pools/:pool_id/relays',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/relays',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /pools/:pool_id/delegators',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/delegators',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /pools/:pool_id/blocks',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/blocks',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /pools/:pool_id/updates',
     endpoint: '/pools/pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy/updates',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
 ];

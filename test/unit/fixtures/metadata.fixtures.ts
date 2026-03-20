@@ -470,59 +470,45 @@ export default [
   {
     name: 'respond with success and data on /metadata/tx/labels',
     endpoint: '/metadata/txs/labels',
-    sqlQueryMock: {
-      rows: query_tx_metadata_labels_regular_1,
-    },
+    sqlQueryMock: query_tx_metadata_labels_regular_1,
     response: response_tx_metadata_labels_regular_1,
   },
   {
     name: 'respond with success and unpaged data on /metadata/tx/labels',
     endpoint: '/metadata/txs/labels',
-    sqlQueryMock: {
-      rows: query_tx_metadata_labels_regular_1,
-    },
+    sqlQueryMock: query_tx_metadata_labels_regular_1,
     unpaged: true,
     response: response_tx_metadata_labels_regular_1,
   },
   {
     name: 'respond with 404 and empty data on /metadata/tx/label',
     endpoint: '/metadata/txs/labels',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: [],
   },
   {
     name: 'respond with success and data on /metadata/tx/label/:label',
     endpoint: '/metadata/txs/labels/1968',
-    sqlQueryMock: {
-      rows: query_tx_metadata_labels_1968_1,
-    },
+    sqlQueryMock: query_tx_metadata_labels_1968_1,
     response: response_tx_metadata_labels_1968_1,
   },
   {
     name: 'respond with success and unpaged data on /metadata/tx/label/:label',
     endpoint: '/metadata/txs/labels/1968',
-    sqlQueryMock: {
-      rows: query_tx_metadata_labels_1968_1,
-    },
+    sqlQueryMock: query_tx_metadata_labels_1968_1,
     unpaged: true,
     response: response_tx_metadata_labels_1968_1,
   },
   {
     name: 'respond with success and data on /metadata/tx/label/:label/cbor',
     endpoint: '/metadata/txs/labels/1968/cbor',
-    sqlQueryMock: {
-      rows: query_tx_metadata_label_1968_cbor_1,
-    },
+    sqlQueryMock: query_tx_metadata_label_1968_cbor_1,
     response: response_tx_metadata_label_1968_cbor_1,
   },
   {
     name: 'respond with success and unpaged data on /metadata/tx/label/:label/cbor',
     endpoint: '/metadata/txs/labels/1968/cbor',
-    sqlQueryMock: {
-      rows: query_tx_metadata_label_1968_cbor_1,
-    },
+    sqlQueryMock: query_tx_metadata_label_1968_cbor_1,
     unpaged: true,
     response: response_tx_metadata_label_1968_cbor_1,
   },
@@ -534,17 +520,13 @@ export default [
   {
     name: 'respond with 400 and empty data on /metadata/tx/label/:label',
     endpoint: '/metadata/txs/labels/-98745641',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_400,
   },
   {
     name: 'respond with 400 and empty data on /metadata/tx/label/:label/cbor',
     endpoint: '/metadata/txs/labels/98745641894894564545/cbor',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_400,
   },
 
@@ -555,17 +537,13 @@ export default [
   {
     name: 'respond with 404 and empty data on /metadata/tx/label/:label',
     endpoint: '/metadata/txs/labels/98745641',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /metadata/tx/label/:label/cbor',
     endpoint: '/metadata/txs/labels/98745641/cbor',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
 
@@ -576,25 +554,19 @@ export default [
   {
     name: 'respond with 500 and null on /metadata/tx/label',
     endpoint: '/metadata/txs/labels',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /metadata/tx/label/:label',
     endpoint: '/metadata/txs/labels/6549415',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /metadata/tx/label/:label/cbor',
     endpoint: '/metadata/txs/labels/65465415/cbor',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
 ] as const;

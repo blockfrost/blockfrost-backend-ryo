@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/governance.js';
 import * as ResponseTypes from '../../../types/responses/governance.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { isUnpaged } from '../../../utils/routes.js';
 import { dbSyncDRepToCIP129 as databaseSyncDRepToCIP129 } from '../../../utils/governance.js';
@@ -13,21 +13,18 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/governance/dreps'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         const unpaged = isUnpaged(request);
-        const { rows } = unpaged
-          ? await clientDbSync.query<QueryTypes.DReps>(SQLQuery.get('governance_dreps_unpaged'), [
+        const rows = unpaged
+          ? await db.any<QueryTypes.DReps>(SQLQuery.get('governance_dreps_unpaged'), [
               request.query.order,
             ])
-          : await clientDbSync.query<QueryTypes.DReps>(SQLQuery.get('governance_dreps'), [
+          : await db.any<QueryTypes.DReps>(SQLQuery.get('governance_dreps'), [
               request.query.order,
               request.query.count,
               request.query.page,
             ]);
-
-        gracefulRelease(clientDbSync);
 
         for (const row of rows) {
           // Convert drep ids to cip129 format
@@ -38,10 +35,7 @@ async function route(fastify: FastifyInstance) {
         }
 
         return reply.send(rows as ResponseTypes.DReps);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

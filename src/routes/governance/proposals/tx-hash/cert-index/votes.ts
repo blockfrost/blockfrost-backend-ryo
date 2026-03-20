@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../../../types/queries/governance.js';
 import * as ResponseTypes from '../../../../../types/responses/governance.js';
-import { getDbSync, gracefulRelease } from '../../../../../utils/database.js';
+import { getDbSync } from '../../../../../utils/database.js';
 import { SQLQuery } from '../../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { dbSyncDRepToCIP129 } from '../../../../../utils/governance.js';
@@ -15,16 +15,15 @@ export const proposalVotesHandler = async (
     | FastifyRequest<QueryTypes.RequestParametersProposalPaged>,
   reply: FastifyReply,
 ) => {
-  const clientDbSync = await getDbSync(fastify);
+  const db = getDbSync(fastify);
 
-  try {
     const unpaged = isUnpaged(request);
-    const { rows } = unpaged
-      ? await clientDbSync.query<QueryTypes.ProposalsProposalVotes>(
+    const rows = unpaged
+      ? await db.any<QueryTypes.ProposalsProposalVotes>(
           SQLQuery.get('governance_proposals_proposal_votes_unpaged'),
           [request.query.order, proposal.tx_hash, proposal.cert_index],
         )
-      : await clientDbSync.query<QueryTypes.ProposalsProposalVotes>(
+      : await db.any<QueryTypes.ProposalsProposalVotes>(
           SQLQuery.get('governance_proposals_proposal_votes'),
           [
             request.query.order,
@@ -34,8 +33,6 @@ export const proposalVotesHandler = async (
             proposal.cert_index,
           ],
         );
-
-    gracefulRelease(clientDbSync);
 
     for (const row of rows) {
       if (!row.voter.startsWith('drep')) {
@@ -53,10 +50,7 @@ export const proposalVotesHandler = async (
     }
 
     return reply.send(rows as ResponseTypes.ProposalsProposalVotes);
-  } catch (error) {
-    gracefulRelease(clientDbSync);
-    throw error;
-  }
+
 };
 async function route(fastify: FastifyInstance) {
   fastify.route({

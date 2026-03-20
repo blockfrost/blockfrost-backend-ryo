@@ -5,7 +5,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../../sql/index.js';
 import * as QueryTypes from '../../../../types/queries/blocks.js';
 import * as ResponseTypes from '../../../../types/responses/blocks.js';
-import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
+import { getDbSync } from '../../../../utils/database.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -13,22 +13,19 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/blocks/latest/txs'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParametersLatest>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         const unpaged = isUnpaged(request);
-        const { rows } = unpaged
-          ? await clientDbSync.query<QueryTypes.BlockTxs>(
+        const rows = unpaged
+          ? await db.any<QueryTypes.BlockTxs>(
               SQLQuery.get('blocks_latest_txs_unpaged'),
               [request.query.order],
             )
-          : await clientDbSync.query<QueryTypes.BlockTxs>(SQLQuery.get('blocks_latest_txs'), [
+          : await db.any<QueryTypes.BlockTxs>(SQLQuery.get('blocks_latest_txs'), [
               request.query.order,
               request.query.count,
               request.query.page,
             ]);
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -49,10 +46,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(list);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

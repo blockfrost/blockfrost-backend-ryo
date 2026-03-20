@@ -170,12 +170,8 @@ export default [
     name: 'respond with success and data on /nutlink/:address',
     endpoint:
       '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_nutlink_address_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_nutlink_address_regular_1,
     response: response_nutlink_address_regular_1,
     network: 'mainnet',
   },
@@ -183,15 +179,9 @@ export default [
     name: 'respond with success and data on /nutlink/:address/tickers/:ticker 1',
     endpoint:
       '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers/ADAUSD',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_found,
-    },
-    sqlQueryMock3: {
-      rows: query_nutlink_address_tickers_ticker_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_found,
+    sqlQueryMock3: query_nutlink_address_tickers_ticker_regular_1,
     response: response_nutlink_address_tickers_ticker_regular_1,
     network: 'mainnet',
   },
@@ -199,15 +189,9 @@ export default [
     name: 'respond with success and unpaged data on /nutlink/:address/tickers/:ticker 1',
     endpoint:
       '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers/ADAUSD',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_found,
-    },
-    sqlQueryMock3: {
-      rows: query_nutlink_address_tickers_ticker_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_found,
+    sqlQueryMock3: query_nutlink_address_tickers_ticker_regular_1,
     network: 'mainnet',
     unpaged: true,
     response: response_nutlink_address_tickers_ticker_regular_1,
@@ -216,27 +200,17 @@ export default [
     name: 'respond with empty data on /nutlink/:address/tickers/:ticker 2',
     endpoint:
       '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers/STNK',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_found,
-    },
-    sqlQueryMock3: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_found,
+    sqlQueryMock3: [],
     response: [],
   },
   {
     name: 'respond with success and data on /nutlink/:address/tickers 3',
     endpoint:
       '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_nutlink_address_tickers_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_nutlink_address_tickers_regular_1,
     response: response_nutlink_address_tickers_regular_1,
     network: 'mainnet',
   },
@@ -244,12 +218,8 @@ export default [
     name: 'respond with success and unpaged data on /nutlink/:address/tickers 3',
     endpoint:
       '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_nutlink_address_tickers_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_nutlink_address_tickers_regular_1,
     network: 'mainnet',
     unpaged: true,
     response: response_nutlink_address_tickers_regular_1,
@@ -257,24 +227,16 @@ export default [
   {
     name: 'respond with success and data on /nutlink/tickers/:ticker',
     endpoint: '/nutlink/tickers/ADAUSD',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_nutlink_tickers_ticker_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_nutlink_tickers_ticker_regular_1,
     response: response_nutlink_tickers_ticker_regular_1,
     network: 'mainnet',
   },
   {
     name: 'respond with success and unpaged data on /nutlink/tickers/:ticker',
     endpoint: '/nutlink/tickers/ADAUSD',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_nutlink_tickers_ticker_regular_1,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_nutlink_tickers_ticker_regular_1,
     network: 'mainnet',
     unpaged: true,
     response: response_nutlink_tickers_ticker_regular_1,
@@ -282,12 +244,8 @@ export default [
   {
     name: 'respond with empty data on /nutlink/tickers/:ticker',
     endpoint: '/nutlink/tickers/STNK',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
     network: 'mainnet',
   },
@@ -319,47 +277,35 @@ export default [
     name: 'respond with 404 and empty data on /nutlink/:address',
     endpoint:
       '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /nutlink/:address/tickers',
     endpoint:
       '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /nutlink/:address/tickers/:ticker',
     endpoint:
       '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers/STNK',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /nutlink/:address/tickers/:ticker',
     endpoint:
       '/nutlink/addr1q85yx2w7ragn5sx6umgmtjpc3865s9sg59sz4rrh6f90kgwfwlzu3w8ttacqg89mkdgwshwnplj5c5n9f8dhp0h55q2q7qm63t/tickers/STNK',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /nutlink/tickers/:ticker',
     endpoint: '/nutlink/tickers/STNK',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
 
@@ -371,35 +317,27 @@ export default [
     name: 'respond with 500 and null on /nutlink/:address',
     endpoint:
       '/nutlink/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /nutlink/:address/tickers',
     endpoint:
       '/nutlink/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/tickers',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /nutlink/:address/tickers/:ticker',
     endpoint:
       '/nutlink/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/tickers/STNK',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /nutlink/tickers/:ticker',
     endpoint: '/nutlink/tickers/STNK',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
 ];

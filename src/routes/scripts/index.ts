@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../types/queries/scripts.js';
 import * as ResponseTypes from '../../types/responses/scripts.js';
-import { getDbSync, gracefulRelease } from '../../utils/database.js';
+import { getDbSync } from '../../utils/database.js';
 import { SQLQuery } from '../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { isUnpaged } from '../../utils/routes.js';
@@ -13,21 +13,18 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/scripts'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.Scripts } = unpaged
-          ? await clientDbSync.query<QueryTypes.Scripts>(SQLQuery.get('scripts_unpaged'), [
+        const rows: ResponseTypes.Scripts = unpaged
+          ? await db.any<QueryTypes.Scripts>(SQLQuery.get('scripts_unpaged'), [
               request.query.order,
             ])
-          : await clientDbSync.query<QueryTypes.Scripts>(SQLQuery.get('scripts'), [
+          : await db.any<QueryTypes.Scripts>(SQLQuery.get('scripts'), [
               request.query.order,
               request.query.count,
               request.query.page,
             ]);
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -42,10 +39,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(rows);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

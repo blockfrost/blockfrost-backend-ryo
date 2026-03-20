@@ -13,7 +13,7 @@ import { AssetFingerprint } from '../../../utils/cip14.js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/assets.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import { handle404 } from '../../../utils/error-handler.js';
 import { fetchAssetMetadata } from '../../../utils/token-registry.js';
 
@@ -29,15 +29,13 @@ async function route(fastify: FastifyInstance) {
         return handleInvalidAsset(reply);
       }
 
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const { rows } = await clientDbSync.query<QueryTypes.Asset>(SQLQuery.get('assets_asset'), [
+        const rows = await db.any<QueryTypes.Asset>(SQLQuery.get('assets_asset'), [
           request.params.asset,
         ]);
 
         if (rows.length === 0) {
-          gracefulRelease(clientDbSync);
           return handle404(reply);
         }
 
@@ -49,7 +47,7 @@ async function route(fastify: FastifyInstance) {
 
         if (referenceNFT) {
           // Retrieve reference NFT metadata for CIP68 asset
-          const { rows } = await clientDbSync.query<QueryTypes.AssetOutputDatum>(
+          const rows = await db.any<QueryTypes.AssetOutputDatum>(
             SQLQuery.get('assets_asset_utxo_datum'),
             [referenceNFT.hex],
           );
@@ -74,8 +72,6 @@ async function route(fastify: FastifyInstance) {
             }
           }
         }
-
-        gracefulRelease(clientDbSync);
 
         if (!onchainMetadata) {
           // validate CIP25 on-chain metadata if CIP68 metadata are not present (or not valid)
@@ -106,10 +102,7 @@ async function route(fastify: FastifyInstance) {
           onchain_metadata_extra: onchainMetadataExtra,
           fingerprint,
         });
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

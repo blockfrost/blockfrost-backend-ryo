@@ -5,7 +5,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../../sql/index.js';
 import * as QueryTypes from '../../../../types/queries/epochs.js';
 import * as ResponseTypes from '../../../../types/responses/epochs.js';
-import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
+import { getDbSync } from '../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../utils/error-handler.js';
 import { validatePositiveInRangeSignedInt } from '../../../../utils/validation.js';
 
@@ -15,37 +15,32 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/epochs/{number}/stakes'),
     handler: async (request: FastifyRequest<QueryTypes.RequestStakeParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         if (!validatePositiveInRangeSignedInt(request.params.number)) {
-          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Missing, out of range or malformed epoch_number.');
         }
 
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404 = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('epochs_404'),
           [request.params.number],
         );
 
-        if (query404.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404.length === 0) {
           return handle404(reply);
         }
 
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.EpochStakes } = unpaged
-          ? await clientDbSync.query<QueryTypes.EpochStake>(
+        const rows: ResponseTypes.EpochStakes = unpaged
+          ? await db.any<QueryTypes.EpochStake>(
               SQLQuery.get('epochs_number_stakes_unpaged'),
               [request.params.number],
             )
-          : await clientDbSync.query<QueryTypes.EpochStake>(SQLQuery.get('epochs_number_stakes'), [
+          : await db.any<QueryTypes.EpochStake>(SQLQuery.get('epochs_number_stakes'), [
               request.params.number,
               request.query.count,
               request.query.page,
             ]);
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -60,10 +55,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(rows);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

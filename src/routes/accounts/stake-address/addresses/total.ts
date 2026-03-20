@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as ResponseTypes from '../../../../types/responses/accounts.js';
 import * as QueryTypes from '../../../../types/queries/accounts.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
+import { getDbSync } from '../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../utils/error-handler.js';
 import { validateStakeAddress } from '../../../../utils/validation.js';
 import { SQLQuery } from '../../../../sql/index.js';
@@ -13,33 +13,28 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/accounts/{stake_address}/addresses/total'),
     handler: async (request: FastifyRequest<QueryTypes.RequestAccountsQueryParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         // Check stake address format. Return 400 on non-valid stake address
         const isStakeAddressValid = validateStakeAddress(request.params.stake_address);
 
         if (!isStakeAddressValid) {
-          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Invalid or malformed stake address format.');
         }
 
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404 = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('accounts_404'),
           [request.params.stake_address],
         );
 
-        if (query404.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404.length === 0) {
           return handle404(reply);
         }
 
-        const { rows } = await clientDbSync.query<QueryTypes.AccountAddressesTotal>(
+        const rows = await db.any<QueryTypes.AccountAddressesTotal>(
           SQLQuery.get('accounts_stake_address_addresses_total'),
           [request.params.stake_address],
         );
-
-        gracefulRelease(clientDbSync);
 
         let result_outputs = [];
 
@@ -84,10 +79,7 @@ async function route(fastify: FastifyInstance) {
         };
 
         return reply.send(result);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

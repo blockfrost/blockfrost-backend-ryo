@@ -22,6 +22,7 @@ async function route(fastify: FastifyInstance) {
     handler: async (_request, reply) => {
       // Check DB connectivity; if healthCheckDbTimeoutMs is set and exceeded, report unhealthy
       const { healthCheckDbTimeoutMs } = config.server;
+      const db = getDbSync(fastify);
       let dbHealthy = true;
 
       let dbError: unknown;
@@ -29,10 +30,10 @@ async function route(fastify: FastifyInstance) {
       if (healthCheckDbTimeoutMs !== undefined) {
         let timer: ReturnType<typeof setTimeout> | undefined;
 
-        const dbPromise = getDbSync(fastify)
-          .then(client => {
+        const dbPromise = db
+          .one('SELECT 1 AS ok')
+          .then(() => {
             clearTimeout(timer);
-            client.release();
             return true;
           })
           .catch((error: unknown) => {
@@ -57,9 +58,7 @@ async function route(fastify: FastifyInstance) {
           dbHealthy = false;
         }
       } else {
-        const client = await getDbSync(fastify);
-
-        client.release();
+        await db.one('SELECT 1 AS ok');
       }
 
       if (!dbHealthy) {

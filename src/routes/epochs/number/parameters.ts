@@ -4,7 +4,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/epochs.js';
 import * as ResponseTypes from '../../../types/responses/epochs.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../utils/error-handler.js';
 import { costModelsMap } from '../../../utils/cost-models-map.js';
 import { validatePositiveInRangeSignedInt } from '../../../utils/validation.js';
@@ -15,21 +15,17 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/epochs/{number}/parameters'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         if (!validatePositiveInRangeSignedInt(request.params.number)) {
-          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Missing, out of range or malformed epoch_number.');
         }
 
-        const { rows }: { rows: ResponseTypes.EpochParameters[] } =
-          await clientDbSync.query<QueryTypes.EpochParameters>(
+        const rows: ResponseTypes.EpochParameters[] =
+          await db.any<QueryTypes.EpochParameters>(
             SQLQuery.get('epochs_number_parameters'),
             [request.params.number],
           );
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return handle404(reply);
@@ -41,10 +37,7 @@ async function route(fastify: FastifyInstance) {
         }
 
         return reply.send(rows[0]);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

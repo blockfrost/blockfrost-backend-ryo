@@ -4,7 +4,7 @@ import { toJSONStream } from '../../../../utils/string-utils.js';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../../sql/index.js';
 import * as QueryTypes from '../../../../types/queries/epochs.js';
-import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
+import { getDbSync } from '../../../../utils/database.js';
 import { handle404, handle400Custom } from '../../../../utils/error-handler.js';
 import { validatePositiveInRangeSignedInt } from '../../../../utils/validation.js';
 
@@ -14,38 +14,33 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/epochs/{number}/blocks'),
     handler: async (request: FastifyRequest<QueryTypes.RequestBlockParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         if (!validatePositiveInRangeSignedInt(request.params.number)) {
-          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Missing, out of range or malformed epoch_number.');
         }
 
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404 = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('epochs_404'),
           [request.params.number],
         );
 
-        if (query404.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404.length === 0) {
           return handle404(reply);
         }
 
         const unpaged = isUnpaged(request);
-        const { rows } = unpaged
-          ? await clientDbSync.query<QueryTypes.EpochBlocks>(
+        const rows = unpaged
+          ? await db.any<QueryTypes.EpochBlocks>(
               SQLQuery.get('epochs_number_blocks_unpaged'),
               [request.query.order, request.params.number],
             )
-          : await clientDbSync.query<QueryTypes.EpochBlocks>(SQLQuery.get('epochs_number_blocks'), [
+          : await db.any<QueryTypes.EpochBlocks>(SQLQuery.get('epochs_number_blocks'), [
               request.query.order,
               request.query.count,
               request.query.page,
               request.params.number,
             ]);
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -66,10 +61,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(list);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

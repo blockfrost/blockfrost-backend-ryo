@@ -4,7 +4,7 @@ import { FastifyInstance } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/epochs.js';
 import * as ResponseTypes from '../../../types/responses/epochs.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import { handle404 } from '../../../utils/error-handler.js';
 import { costModelsMap } from '../../../utils/cost-models-map.js';
 
@@ -14,15 +14,12 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/epochs/latest/parameters'),
     handler: async (_request, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const { rows }: { rows: ResponseTypes.EpochParameters[] } =
-          await clientDbSync.query<QueryTypes.EpochParameters>(
+        const rows: ResponseTypes.EpochParameters[] =
+          await db.any<QueryTypes.EpochParameters>(
             SQLQuery.get('epochs_latest_parameters'),
           );
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return handle404(reply);
@@ -34,10 +31,7 @@ async function route(fastify: FastifyInstance) {
         }
 
         return reply.send(rows[0]);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

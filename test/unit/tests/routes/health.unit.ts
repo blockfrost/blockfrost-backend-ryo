@@ -1,5 +1,4 @@
 import buildFastify from '../../../../src/app.js';
-import sinon from 'sinon';
 import supertest from 'supertest';
 import * as databaseUtils from '../../../../src/utils/database.js';
 import { describe, expect, test, vi, afterEach } from 'vitest';
@@ -12,13 +11,11 @@ describe('health endpoints tests', () => {
   });
 
   test('responds with success on request /health', async () => {
-    const queryMock = sinon.stub();
     const fastify = buildFastify();
 
+    // @ts-expect-error test mock
     vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
-      // @ts-expect-error test
-      release: () => null,
-      query: queryMock,
+      one: vi.fn().mockResolvedValue({ ok: 1 }),
     });
 
     await fastify.ready();
@@ -55,9 +52,12 @@ describe('health endpoints tests', () => {
 
     const fastify = buildFastify();
 
-    // Never-resolving promise simulates a DB connection that hangs indefinitely.
+    // Never-resolving db.one() simulates a query that hangs indefinitely.
     // The healthCheckDbTimeoutMs timer races it and wins, returning is_healthy: false.
-    vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue(new Promise(() => {}));
+    // @ts-expect-error test mock
+    vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
+      one: () => new Promise(() => {}),
+    });
 
     await fastify.ready();
     const response = await supertest(fastify.server).get('/health');
@@ -74,10 +74,10 @@ describe('health endpoints tests', () => {
     const fastify = buildFastify();
     const errorSpy = vi.spyOn(console, 'error');
 
-    vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue(
-      // @ts-expect-error test
-      Promise.resolve({ release: () => null }),
-    );
+    // @ts-expect-error test mock
+    vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
+      one: vi.fn().mockResolvedValue({ ok: 1 }),
+    });
 
     await fastify.ready();
     const response = await supertest(fastify.server).get('/health');

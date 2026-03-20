@@ -19,8 +19,11 @@ describe('slow request detection tests', () => {
     const fastify = buildFastify();
     const warnSpy = vi.spyOn(console, 'warn');
 
-    // Never-resolving DB — healthCheckDbTimeoutMs wins the race after 300ms
-    vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue(new Promise(() => {}));
+    // Never-resolving db.one() — healthCheckDbTimeoutMs wins the race after 300ms
+    // @ts-expect-error test mock
+    vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
+      one: () => new Promise(() => {}),
+    });
 
     await fastify.ready();
     const response = await supertest(fastify.server).get('/health');
@@ -39,9 +42,9 @@ describe('slow request detection tests', () => {
     const fastify = buildFastify();
     const warnSpy = vi.spyOn(console, 'warn');
 
+    // @ts-expect-error test mock
     vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
-      // @ts-expect-error test
-      release: () => null,
+      one: vi.fn().mockResolvedValue({ ok: 1 }),
     });
 
     await fastify.ready();

@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../../../types/queries/metadata.js';
 import * as ResponseTypes from '../../../../../types/responses/metadata.js';
-import { getDbSync, gracefulRelease } from '../../../../../utils/database.js';
+import { getDbSync } from '../../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../../utils/error-handler.js';
 import { validatePositiveInRangeSignedBigInt } from '../../../../../utils/validation.js';
 import { SQLQuery } from '../../../../../sql/index.js';
@@ -15,26 +15,22 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/metadata/txs/labels/{label}/cbor'),
     handler: async (request: FastifyRequest<QueryTypes.RequestLabelParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         if (!validatePositiveInRangeSignedBigInt(request.params.label)) {
-          gracefulRelease(clientDbSync);
           return handle400Custom(reply, 'Missing, out of range or malformed label.');
         }
 
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.TxMetadataLabelNumberCbor } = unpaged
-          ? await clientDbSync.query<QueryTypes.MetadataTxLabelCbor>(
+        const rows: ResponseTypes.TxMetadataLabelNumberCbor = unpaged
+          ? await db.any<QueryTypes.MetadataTxLabelCbor>(
               SQLQuery.get('metadata_txs_labels_label_cbor_unpaged'),
               [request.query.order, request.params.label],
             )
-          : await clientDbSync.query<QueryTypes.MetadataTxLabelCbor>(
+          : await db.any<QueryTypes.MetadataTxLabelCbor>(
               SQLQuery.get('metadata_txs_labels_label_cbor'),
               [request.query.order, request.query.count, request.query.page, request.params.label],
             );
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return handle404(reply);
@@ -49,10 +45,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(rows);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

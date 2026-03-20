@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../types/queries/nutlink.js';
 import * as ResponseTypes from '../../../types/responses/nutlink.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import axios from 'axios';
 import { handle404, handleInvalidAddress } from '../../../utils/error-handler.js';
 import {
@@ -24,26 +24,22 @@ async function route(fastify: FastifyInstance) {
       if (!addressType) {
         return handleInvalidAddress(reply);
       }
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404 = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('nutlink_address_404'),
           [request.params.address, paymentCred],
         );
 
-        if (query404.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404.length === 0) {
           return handle404(reply);
         }
 
-        const { rows }: { rows: ResponseTypes.NutlinkAddress[] } =
-          await clientDbSync.query<QueryTypes.NutlinkAddress>(SQLQuery.get('nutlink_address'), [
+        const rows: ResponseTypes.NutlinkAddress[] =
+          await db.any<QueryTypes.NutlinkAddress>(SQLQuery.get('nutlink_address'), [
             request.params.address,
             paymentCred,
           ]);
-
-        gracefulRelease(clientDbSync);
 
         // if paymentCred is used we have to convert it back to bech32
         if (paymentCred) {
@@ -75,10 +71,7 @@ async function route(fastify: FastifyInstance) {
         }
 
         return reply.send(rows[0]);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

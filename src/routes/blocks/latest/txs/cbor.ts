@@ -3,7 +3,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../../sql/index.js';
 import * as QueryTypes from '../../../../types/queries/blocks.js';
 import * as ResponseTypes from '../../../../types/responses/blocks.js';
-import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
+import { getDbSync } from '../../../../utils/database.js';
 
 async function route(fastify: FastifyInstance) {
   fastify.route({
@@ -11,26 +11,20 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/blocks/latest/txs/cbor'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParametersLatest>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const { rows }: { rows: ResponseTypes.BlockTxsCbor } =
-          await clientDbSync.query<QueryTypes.BlockTxsCbor>(
+        const rows: ResponseTypes.BlockTxsCbor =
+          await db.any<QueryTypes.BlockTxsCbor>(
             SQLQuery.get('blocks_latest_txs_cbor'),
             [request.query.order, request.query.count, request.query.page],
           );
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
         }
 
         return reply.send(rows);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

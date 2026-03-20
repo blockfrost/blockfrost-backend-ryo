@@ -531,17 +531,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/postgres@npm:^6.0.2":
-  version: 6.0.2
-  resolution: "@fastify/postgres@npm:6.0.2"
-  dependencies:
-    fastify-plugin: ^5.0.0
-  peerDependencies:
-    pg: ">=6.0.0"
-  checksum: 91d7147dcc1da2c34c1c0d8925831dc719b76876d0dad85bb1dc7718bbd5aea5583b8298c47570c2f1f005b8534feba08e7e0f2097f168ba8009489ae90b4eee
-  languageName: node
-  linkType: hard
-
 "@fastify/proxy-addr@npm:^5.0.0":
   version: 5.1.0
   resolution: "@fastify/proxy-addr@npm:5.1.0"
@@ -2408,6 +2397,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"assert-options@npm:0.8.3":
+  version: 0.8.3
+  resolution: "assert-options@npm:0.8.3"
+  checksum: fc7c2d35d64d1f9bd5f88ef9971d22c47dc3a07f45f5b4b1881b10f9c30a00e7f7fecdf1749f68d22e3612d77291c86585a58197c1ba53a34068d8c2626b09dd
+  languageName: node
+  linkType: hard
+
 "assert-plus@npm:1.0.0, assert-plus@npm:^1.0.0":
   version: 1.0.0
   resolution: "assert-plus@npm:1.0.0"
@@ -2669,7 +2665,6 @@ __metadata:
     "@eslint/js": ^9.39.1
     "@fastify/cors": ^11.1.0
     "@fastify/http-proxy": ^11.4.1
-    "@fastify/postgres": ^6.0.2
     "@sentry/node": ^10.29.0
     "@types/blake2b": ^2.1.3
     "@types/config": 3.3.5
@@ -2701,6 +2696,7 @@ __metadata:
     nodemon: ^3.1.11
     path-to-regexp: ^8.3.0
     pg: ^8.16.3
+    pg-promise: ^12.6.2
     pino-pretty: 13.1.3
     pm2-prom-module-client: ^1.0.3
     prettier: 3.7.4
@@ -6929,6 +6925,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pg-cloudflare@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "pg-cloudflare@npm:1.3.0"
+  checksum: 8f43db569f44d2a1673e33d73fc37919507b5c9cb4976968543aa13da4c919c391bb81f4435ab98890e48dda6cff265aa7618557da460a4e2b3a6dac83155510
+  languageName: node
+  linkType: hard
+
+"pg-connection-string@npm:^2.12.0":
+  version: 2.12.0
+  resolution: "pg-connection-string@npm:2.12.0"
+  checksum: 0d59ff3fc71317e65f86ad1a9cf92ff8eaa9224a63f57890e8ecb12fbb9081fbd316460df0aa8c40e3f590c8e424183a17bb2e0c7b1edd3f20ca35ef4b189146
+  languageName: node
+  linkType: hard
+
 "pg-connection-string@npm:^2.9.1":
   version: 2.9.1
   resolution: "pg-connection-string@npm:2.9.1"
@@ -6943,12 +6953,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pg-minify@npm:1.8.0":
+  version: 1.8.0
+  resolution: "pg-minify@npm:1.8.0"
+  checksum: c0b84af5ebdd393e9a32f7487e9ad6309920c8d1323148ae2e93b409cc15dbea3abd984a7b33976b2ac96acb31b8e9ab72d21f32ba93f485312df5054bdd5672
+  languageName: node
+  linkType: hard
+
 "pg-pool@npm:^3.10.1":
   version: 3.10.1
   resolution: "pg-pool@npm:3.10.1"
   peerDependencies:
     pg: ">=8.0"
   checksum: 98135a7384be40886bba7100b9ce1a74671ff3877390f68e6db6d50ea56a7f524f7e44e01c02d61efeda97d9dc22d6115d0c66aa7f3cf5b8e892424862d0111a
+  languageName: node
+  linkType: hard
+
+"pg-pool@npm:^3.13.0":
+  version: 3.13.0
+  resolution: "pg-pool@npm:3.13.0"
+  peerDependencies:
+    pg: ">=8.0"
+  checksum: c5cc5187d9d78cbc3151f64feb4365b90ee5b110361b9bca9cdff4312d85ff9d01018a83d4e5a4cd896b8f38ee0467d3dee53d219440ad6eb5e802ea31fd3cbe
+  languageName: node
+  linkType: hard
+
+"pg-promise@npm:^12.6.2":
+  version: 12.6.2
+  resolution: "pg-promise@npm:12.6.2"
+  dependencies:
+    assert-options: 0.8.3
+    pg: 8.20.0
+    pg-minify: 1.8.0
+    spex: 4.1.0
+  peerDependencies:
+    pg-query-stream: 4.14.0
+  checksum: d0cd6db9eb1c1c16e015135aff343a18a9443f1633e6d894798b4c8c6e619b8b92582e54d3410fc131cd944f71a92e3f544d2ecadf715fa299c20ffa3ddafca4
   languageName: node
   linkType: hard
 
@@ -6966,6 +7006,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pg-protocol@npm:^1.13.0":
+  version: 1.13.0
+  resolution: "pg-protocol@npm:1.13.0"
+  checksum: 93f3d82804b6471961f97a1747e8a793c89defb3266fcc5659d842f36e022b2f7ea574490fa4e23cf1c9acafadb77642d388d9140581f94e23e19a8699fcd6a0
+  languageName: node
+  linkType: hard
+
 "pg-types@npm:2.2.0, pg-types@npm:^2.2.0":
   version: 2.2.0
   resolution: "pg-types@npm:2.2.0"
@@ -6976,6 +7023,28 @@ __metadata:
     postgres-date: ~1.0.4
     postgres-interval: ^1.1.0
   checksum: bf4ec3f594743442857fb3a8dfe5d2478a04c98f96a0a47365014557cbc0b4b0cee01462c79adca863b93befbf88f876299b75b72c665b5fb84a2c94fbd10316
+  languageName: node
+  linkType: hard
+
+"pg@npm:8.20.0":
+  version: 8.20.0
+  resolution: "pg@npm:8.20.0"
+  dependencies:
+    pg-cloudflare: ^1.3.0
+    pg-connection-string: ^2.12.0
+    pg-pool: ^3.13.0
+    pg-protocol: ^1.13.0
+    pg-types: 2.2.0
+    pgpass: 1.0.5
+  peerDependencies:
+    pg-native: ">=3.0.1"
+  dependenciesMeta:
+    pg-cloudflare:
+      optional: true
+  peerDependenciesMeta:
+    pg-native:
+      optional: true
+  checksum: ffd032bb79b126176928efc1160e27778be797ebbd0a7be50e3099955bf2a07912c07c6ea748f5fcc369cd298f5b649b5ee8a10bf0a8f8f239377da4ff989a05
   languageName: node
   linkType: hard
 
@@ -8303,6 +8372,13 @@ __metadata:
   version: 0.6.1
   resolution: "source-map@npm:0.6.1"
   checksum: 59ce8640cf3f3124f64ac289012c2b8bd377c238e316fb323ea22fbfe83da07d81e000071d7242cad7a23cd91c7de98e4df8830ec3f133cb6133a5f6e9f67bc2
+  languageName: node
+  linkType: hard
+
+"spex@npm:4.1.0":
+  version: 4.1.0
+  resolution: "spex@npm:4.1.0"
+  checksum: 37fcdbd4ac3281a12bc09938b3946ac504bc4b68d9d8723b3b559e8468f455dc9d32698ae4aaaa3d646fc3282a321c7fc4bfbfbea7a7260c6dbfe975d812a929
   languageName: node
   linkType: hard
 

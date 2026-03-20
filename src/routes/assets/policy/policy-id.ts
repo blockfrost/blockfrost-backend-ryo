@@ -7,7 +7,7 @@ import { toJSONStream } from '../../../utils/string-utils.js';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/assets.js';
 import * as ResponseTypes from '../../../types/responses/assets.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import { handle404 } from '../../../utils/error-handler.js';
 
 async function route(fastify: FastifyInstance) {
@@ -22,33 +22,29 @@ async function route(fastify: FastifyInstance) {
         return handleInvalidPolicy(reply);
       }
 
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404 = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('assets_policy_404'),
           [request.params.policy_id],
         );
 
-        if (query404.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404.length === 0) {
           return handle404(reply);
         }
 
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.PolicyPolicyId } = unpaged
-          ? await clientDbSync.query<QueryTypes.PolicyId>(
+        const rows: ResponseTypes.PolicyPolicyId = unpaged
+          ? await db.any<QueryTypes.PolicyId>(
               SQLQuery.get('assets_policy_policy_id_unpaged'),
               [request.query.order, request.params.policy_id],
             )
-          : await clientDbSync.query<QueryTypes.PolicyId>(SQLQuery.get('assets_policy_policy_id'), [
+          : await db.any<QueryTypes.PolicyId>(SQLQuery.get('assets_policy_policy_id'), [
               request.query.order,
               request.query.count,
               request.query.page,
               request.params.policy_id,
             ]);
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return reply.send([]);
@@ -63,10 +59,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(rows);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

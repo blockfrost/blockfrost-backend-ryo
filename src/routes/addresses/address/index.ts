@@ -4,7 +4,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/addresses.js';
 import * as ResponseTypes from '../../../types/responses/addresses.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import { handle404, handleInvalidAddress } from '../../../utils/error-handler.js';
 import {
   getAddressTypeAndPaymentCred,
@@ -25,20 +25,18 @@ async function route(fastify: FastifyInstance) {
         return handleInvalidAddress(reply);
       }
 
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404 = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('addresses_404'),
           [request.params.address, paymentCred],
         );
 
-        if (query404.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404.length === 0) {
           return handle404(reply);
         }
 
-        const { rows } = await clientDbSync.query<QueryTypes.AddressQuery>(
+        const rows = await db.any<QueryTypes.AddressQuery>(
           SQLQuery.get('addresses_address'),
           [request.params.address, paymentCred],
         );
@@ -82,13 +80,8 @@ async function route(fastify: FastifyInstance) {
               script: rows[0].script,
             };
 
-        gracefulRelease(clientDbSync);
-
         return reply.send(result);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

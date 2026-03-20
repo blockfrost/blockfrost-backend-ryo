@@ -38,10 +38,9 @@ describe('assets service', () => {
       });
       const queryMock = sinon.stub();
 
+      // @ts-expect-error test mock
       vi.spyOn(databaseUtils, 'getDbSync').mockReturnValue({
-        // @ts-expect-error test
-        release: () => null,
-        query: queryMock,
+        any: queryMock,
       });
 
       await fastify.ready();

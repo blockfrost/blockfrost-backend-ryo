@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../../types/queries/governance.js';
 import * as ResponseTypes from '../../../../types/responses/governance.js';
-import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
+import { getDbSync } from '../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../utils/error-handler.js';
 import { SQLQuery } from '../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
@@ -22,16 +22,14 @@ async function route(fastify: FastifyInstance) {
         return handle400Custom(reply, 'Invalid or malformed drep id.');
       }
 
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const { rows }: { rows: ResponseTypes.DRepsDrepID[] } =
-          await clientDbSync.query<QueryTypes.DRepsDrepID>(
+        const rows: ResponseTypes.DRepsDrepID[] =
+          await db.any<QueryTypes.DRepsDrepID>(
             SQLQuery.get('governance_dreps_drep_id'),
             [drepValidation.dbSync.raw, drepValidation.dbSync.id, drepValidation.dbSync.hasScript],
           );
 
-        gracefulRelease(clientDbSync);
         const row = rows[0];
 
         if (!row) {
@@ -40,10 +38,7 @@ async function route(fastify: FastifyInstance) {
         const data = enhanceDRep(row, drepValidation);
 
         return reply.send(data);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

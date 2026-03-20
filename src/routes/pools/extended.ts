@@ -3,7 +3,7 @@ import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { SQLQuery } from '../../sql/index.js';
 import * as QueryTypes from '../../types/queries/pools.js';
 import * as ResponseTypes from '../../types/responses/pools.js';
-import { getDbSync, gracefulRelease } from '../../utils/database.js';
+import { getDbSync } from '../../utils/database.js';
 import { isUnpaged } from '../../utils/routes.js';
 import { toJSONStream } from '../../utils/string-utils.js';
 import { transformOffChainFetchError } from '../../utils/governance.js';
@@ -14,22 +14,19 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/pools/extended'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
         const unpaged = isUnpaged(request);
-        const { rows } = unpaged
-          ? await clientDbSync.query<QueryTypes.PoolsExtended>(
+        const rows = unpaged
+          ? await db.any<QueryTypes.PoolsExtended>(
               SQLQuery.get('pools_extended_unpaged'),
               [request.query.order],
             )
-          : await clientDbSync.query<QueryTypes.PoolsExtended>(SQLQuery.get('pools_extended'), [
+          : await db.any<QueryTypes.PoolsExtended>(SQLQuery.get('pools_extended'), [
               request.query.order,
               request.query.count,
               request.query.page,
             ]);
-
-        gracefulRelease(clientDbSync);
 
         for (const row of rows) {
           if (row.metadata && row.metadata.fetch_error) {
@@ -54,10 +51,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(rows);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

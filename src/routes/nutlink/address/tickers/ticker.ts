@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../../types/queries/nutlink.js';
 import * as ResponseTypes from '../../../../types/responses/nutlink.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
+import { getDbSync } from '../../../../utils/database.js';
 import { handle404, handleInvalidAddress } from '../../../../utils/error-handler.js';
 import { getAddressTypeAndPaymentCred } from '../../../../utils/validation.js';
 import { SQLQuery } from '../../../../sql/index.js';
@@ -21,36 +21,33 @@ async function route(fastify: FastifyInstance) {
         return handleInvalidAddress(reply);
       }
 
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const query404_address = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404_address = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('nutlink_address_404'),
           [request.params.address, paymentCred],
         );
 
-        if (query404_address.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404_address.length === 0) {
           return handle404(reply);
         }
 
-        const query404_ticker = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404_ticker = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('nutlink_ticker_404'),
           [request.params.ticker],
         );
 
-        if (query404_ticker.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404_ticker.length === 0) {
           return handle404(reply);
         }
 
         const unpaged = isUnpaged(request);
-        const { rows }: { rows: ResponseTypes.NutlinkAddressTicker } = unpaged
-          ? await clientDbSync.query<QueryTypes.NutlinkAddressTicker>(
+        const rows: ResponseTypes.NutlinkAddressTicker = unpaged
+          ? await db.any<QueryTypes.NutlinkAddressTicker>(
               SQLQuery.get('nutlink_address_tickers_ticker_unpaged'),
               [request.query.order, request.params.address, paymentCred, request.params.ticker],
             )
-          : await clientDbSync.query<QueryTypes.NutlinkAddressTicker>(
+          : await db.any<QueryTypes.NutlinkAddressTicker>(
               SQLQuery.get('nutlink_address_tickers_ticker'),
               [
                 request.query.order,
@@ -62,8 +59,6 @@ async function route(fastify: FastifyInstance) {
               ],
             );
 
-        gracefulRelease(clientDbSync);
-
         if (unpaged) {
           // Use of Reply.raw functions is at your own risk as you are skipping all the Fastify logic of handling the HTTP response
           // https://www.fastify.io/docs/latest/Reference/Reply/#raw
@@ -73,10 +68,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(rows);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

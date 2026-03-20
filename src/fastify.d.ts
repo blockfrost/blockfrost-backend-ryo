@@ -1,8 +1,8 @@
-import { PostgresDb } from '@fastify/postgres';
+import { IDatabase } from 'pg-promise';
 
 declare module 'fastify' {
   export interface FastifyInstance {
-    pg: PostgresDb;
+    dbSync: IDatabase<object>;
   }
 
   export interface FastifyRequest {

@@ -4,7 +4,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../sql/index.js';
 import * as QueryTypes from '../../../types/queries/tx.js';
 import * as ResponseTypes from '../../../types/responses/tx.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import { handle404 } from '../../../utils/error-handler.js';
 
 async function route(fastify: FastifyInstance) {
@@ -13,14 +13,11 @@ async function route(fastify: FastifyInstance) {
     method: 'GET',
     schema: getSchemaForEndpoint('/txs/{hash}'),
     handler: async (request: FastifyRequest<QueryTypes.RequestParameters>, reply) => {
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const { rows } = await clientDbSync.query<QueryTypes.Tx>(SQLQuery.get('txs_hash'), [
+        const rows = await db.any<QueryTypes.Tx>(SQLQuery.get('txs_hash'), [
           request.params.hash,
         ]);
-
-        gracefulRelease(clientDbSync);
 
         if (rows.length === 0) {
           return handle404(reply);
@@ -83,10 +80,7 @@ async function route(fastify: FastifyInstance) {
             };
 
         return reply.send(result);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

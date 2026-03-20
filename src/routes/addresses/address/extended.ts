@@ -2,7 +2,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as QueryTypes from '../../../types/queries/addresses.js';
 import * as AssetQueryTypes from '../../../types/queries/assets.js';
 import * as ResponseTypes from '../../../types/responses/addresses.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync } from '../../../utils/database.js';
 import {
   getSchemaForEndpoint,
   getOnchainMetadata,
@@ -34,19 +34,17 @@ async function route(fastify: FastifyInstance) {
         return handleInvalidAddress(reply);
       }
 
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const query404 = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404 = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('addresses_404'),
           [request.params.address, paymentCred],
         );
 
-        if (query404.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404.length === 0) {
           return handle404(reply);
         }
-        const { rows } = await clientDbSync.query<QueryTypes.AddressExtendedQuery>(
+        const rows = await db.any<QueryTypes.AddressExtendedQuery>(
           SQLQuery.get('addresses_address_extended'),
           [request.params.address, paymentCred],
         );
@@ -76,7 +74,7 @@ async function route(fastify: FastifyInstance) {
 
             if (referenceNFT) {
               // asset is NFT 222 or FT 333, retrieve its reference NFT metadata (CIP68)
-              const { rows } = await clientDbSync.query<AssetQueryTypes.AssetOutputDatum>(
+              const rows = await db.any<AssetQueryTypes.AssetOutputDatum>(
                 SQLQuery.get('assets_asset_utxo_datum'),
                 [referenceNFT.hex],
               );
@@ -126,8 +124,6 @@ async function route(fastify: FastifyInstance) {
           }
         }
 
-        gracefulRelease(clientDbSync);
-
         // quantities/amounts are returned as string from database so they won't overflow JS number
         const result: ResponseTypes.AddressExtended = rows[0].amount
           ? {
@@ -161,10 +157,7 @@ async function route(fastify: FastifyInstance) {
             };
 
         return reply.send(result);
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }

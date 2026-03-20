@@ -346,156 +346,106 @@ export default [
   {
     name: 'respond with success and data on /block/latest',
     endpoint: '/blocks/latest',
-    sqlQueryMock: {
-      rows: [query_blocks_latest_regular],
-    },
+    sqlQueryMock: [query_blocks_latest_regular],
     response: response_blocks_latest_regular,
   },
   {
     name: 'respond with success and data on /block/:hash_or_number',
     endpoint: '/blocks/5251114',
-    sqlQueryMock: {
-      rows: [query_blocks_latest_regular],
-    },
+    sqlQueryMock: [query_blocks_latest_regular],
     response: response_blocks_latest_regular,
   },
   {
     name: 'respond with success and data on /blocks/:hash_or_number/next',
     endpoint: '/blocks/85ca7e4f42b8df445021f502512a7f4497c86893ab211ca22772405f189b282b/next',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_blocks_hash_or_number_next,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_blocks_hash_or_number_next,
     response: response_blocks_hash_or_number_next,
   },
   {
     name: 'respond with success and unpaged data on /blocks/:hash_or_number/next',
     endpoint: '/blocks/85ca7e4f42b8df445021f502512a7f4497c86893ab211ca22772405f189b282b/next',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_blocks_hash_or_number_next,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_blocks_hash_or_number_next,
     unpaged: true,
     response: response_blocks_hash_or_number_next,
   },
   {
     name: 'respond with success and data on /blocks/:hash_or_number/previous',
     endpoint: '/blocks/5158103/previous',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_blocks_hash_or_number_previous,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_blocks_hash_or_number_previous,
     response: response_blocks_hash_or_number_previous,
   },
   {
     name: 'respond with success and unpaged data on /blocks/:hash_or_number/previous',
     endpoint: '/blocks/5158103/previous',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_blocks_hash_or_number_previous,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_blocks_hash_or_number_previous,
     unpaged: true,
     response: response_blocks_hash_or_number_previous,
   },
   {
     name: 'respond with success and data on /blocks/:hash_or_number/txs',
     endpoint: '/blocks/598945/txs',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_blocks_hash_or_number_txs,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_blocks_hash_or_number_txs,
     response: response_blocks_hash_or_number_txs,
   },
   {
     name: 'respond with success and unpaged data on /blocks/:hash_or_number/txs',
     endpoint: '/blocks/598945/txs',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_blocks_hash_or_number_txs,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_blocks_hash_or_number_txs,
     unpaged: true,
     response: response_blocks_hash_or_number_txs,
   },
   {
     name: 'respond with success and data on /blocks/latest/txs',
     endpoint: '/blocks/latest/txs',
-    sqlQueryMock: {
-      rows: query_blocks_hash_or_number_txs,
-    },
+    sqlQueryMock: query_blocks_hash_or_number_txs,
     response: response_blocks_hash_or_number_txs,
   },
   {
     name: 'respond with success and unpaged data on /blocks/latest/txs',
     endpoint: '/blocks/latest/txs',
-    sqlQueryMock: {
-      rows: query_blocks_hash_or_number_txs,
-    },
+    sqlQueryMock: query_blocks_hash_or_number_txs,
     unpaged: true,
     response: response_blocks_hash_or_number_txs,
   },
   {
     name: 'respond with success and data on /blocks/:hash_or_number/txs',
     endpoint: '/blocks/598944/txs',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   {
     name: 'respond with success and data on /blocks/latest/txs',
     endpoint: '/blocks/latest/txs',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: [],
   },
   {
     name: 'respond with success and data on /blocks/:hash_or_number/addresses',
     endpoint: '/blocks/ff20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb/addresses',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_blocks_hash_or_number_addresses,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_blocks_hash_or_number_addresses,
     response: response_blocks_hash_or_number_addresses,
   },
   {
     name: 'respond with success and unpaged data on /blocks/:hash_or_number/addresses',
     endpoint: '/blocks/ff20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb/addresses',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: query_blocks_hash_or_number_addresses,
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: query_blocks_hash_or_number_addresses,
     unpaged: true,
     response: response_blocks_hash_or_number_addresses,
   },
   {
     name: 'respond with success and data on /blocks/:hash_or_number/addresses',
     endpoint: '/blocks/ff20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb/addresses',
-    sqlQueryMock: {
-      rows: query_found,
-    },
-    sqlQueryMock2: {
-      rows: [],
-    },
+    sqlQueryMock: query_found,
+    sqlQueryMock2: [],
     response: [],
   },
   /*
@@ -557,66 +507,50 @@ export default [
   {
     name: 'respond with 404 and empty data on /blocks',
     endpoint: '/blocks/latest',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /blocks/:hash_or_number',
     endpoint: '/blocks/ff20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /blocks/slot/:slot_number',
     endpoint: '/blocks/slot/5157222',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /blocks/epoch/:epoch_number/slot/:slot_number',
     endpoint: '/blocks/epoch/123123/slot/5157222',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /blocks/:hash_or_number/next',
     endpoint: '/blocks/ff20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb/next',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
 
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /blocks/:hash_or_number/prev',
     endpoint: '/blocks/ff20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb/previous',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /blocks/:hash_or_number/txs',
     endpoint: '/blocks/ff20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb/txs',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   {
     name: 'respond with 404 and empty data on /blocks/:hash_or_number/addresses',
     endpoint: '/blocks/ff20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb/addresses',
-    sqlQueryMock: {
-      rows: [],
-    },
+    sqlQueryMock: [],
     response: response_404,
   },
   /*
@@ -626,73 +560,55 @@ export default [
   {
     name: 'respond with 500 and null on /blocks',
     endpoint: '/blocks/latest',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /blocks/:hash_or_number',
     endpoint: '/blocks/ff20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /blocks/slot/:slot_number',
     endpoint: '/blocks/slot/5157222',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /blocks/epoch/:epoch_number/slot/:slot_number',
     endpoint: '/blocks/epoch/123123/slot/5157222',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /blocks/:hash_or_number/next',
     endpoint: '/blocks/ff20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb/next',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /blocks/:hash_or_number/prev',
     endpoint: '/blocks/ff20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb/previous',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /blocks/:hash_or_number/txs',
     endpoint: '/blocks/ff20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb/txs',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /blocks/latest/txs',
     endpoint: '/blocks/latest/txs',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
   {
     name: 'respond with 500 and null on /blocks/:hash_or_number/addresses',
     endpoint: '/blocks/ff20df933584822601f9e3f8c024eb5eb252fe8cefb24d1317dc3d432e940ebb/addresses',
-    sqlQueryMock: {
-      rows: null,
-    },
+    sqlQueryMock: null,
     response: response_500,
   },
 ]; // as const;

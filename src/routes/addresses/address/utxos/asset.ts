@@ -7,7 +7,7 @@ import { toJSONStream } from '../../../../utils/string-utils.js';
 import { SQLQuery } from '../../../../sql/index.js';
 import * as QueryTypes from '../../../../types/queries/addresses.js';
 import * as ResponseTypes from '../../../../types/responses/addresses.js';
-import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
+import { getDbSync } from '../../../../utils/database.js';
 import { handle404, handleInvalidAddress } from '../../../../utils/error-handler.js';
 import { getAddressTypeAndPaymentCred } from '../../../../utils/validation.js';
 
@@ -30,38 +30,35 @@ async function route(fastify: FastifyInstance) {
         if (!isAssetValid) return handleInvalidAsset(reply);
       }
 
-      const clientDbSync = await getDbSync(fastify);
+      const db = getDbSync(fastify);
 
-      try {
-        const query404_address = await clientDbSync.query<QueryTypes.ResultFound>(
+        const query404_address = await db.any<QueryTypes.ResultFound>(
           SQLQuery.get('addresses_404'),
           [request.params.address, paymentCred],
         );
 
-        if (query404_address.rows.length === 0) {
-          gracefulRelease(clientDbSync);
+        if (query404_address.length === 0) {
           return handle404(reply);
         }
 
         if (request.params.asset !== 'lovelace') {
-          const query404_asset = await clientDbSync.query<QueryTypes.ResultFound>(
+          const query404_asset = await db.any<QueryTypes.ResultFound>(
             SQLQuery.get('assets_404'),
             [request.params.asset],
           );
 
-          if (query404_asset.rows.length === 0) {
-            gracefulRelease(clientDbSync);
+          if (query404_asset.length === 0) {
             return handle404(reply);
           }
         }
 
         const unpaged = isUnpaged(request);
-        const { rows } = unpaged
-          ? await clientDbSync.query<QueryTypes.AddressUtxosQuery>(
+        const rows = unpaged
+          ? await db.any<QueryTypes.AddressUtxosQuery>(
               SQLQuery.get('addresses_address_utxos_asset_unpaged'),
               [request.query.order, request.params.address, paymentCred, request.params.asset],
             )
-          : await clientDbSync.query<QueryTypes.AddressUtxosQuery>(
+          : await db.any<QueryTypes.AddressUtxosQuery>(
               SQLQuery.get('addresses_address_utxos_asset'),
               [
                 request.query.order,
@@ -72,8 +69,6 @@ async function route(fastify: FastifyInstance) {
                 request.params.asset,
               ],
             );
-
-        gracefulRelease(clientDbSync);
 
         const result: ResponseTypes.AddressUtxos = [];
 
@@ -118,10 +113,7 @@ async function route(fastify: FastifyInstance) {
         } else {
           return reply.send(result);
         }
-      } catch (error) {
-        gracefulRelease(clientDbSync);
-        throw error;
-      }
+
     },
   });
 }
