@@ -44,8 +44,9 @@
         cat <<EOF > $out/bin/${name}
         #!${pkgs.runtimeShell}
         echo "Starting ${name}...";
-        ${nodePackages.pm2}/bin/pm2 delete all; \
-           ${nodePackages.pm2}/bin/pm2 start \
+        ${nodePackages.pm2}/bin/pm2 delete all
+        ${nodePackages.pm2}/bin/pm2 install pm2-prom-module || true
+        ${nodePackages.pm2}/bin/pm2 start \
            $out/libexec/source/dist/server.js \
            --interpreter=${pkgs.nodejs}/bin/node --node-args="\''${BLOCKFROST_NODE_ARGS:-"--max-http-header-size=32768"}" \
            --max-memory-restart \''${BLOCKFROST_MAX_MEMORY_RESTART:-"1500M"} \
