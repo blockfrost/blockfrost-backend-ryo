@@ -67,6 +67,32 @@ const start = (options = {}): FastifyInstance => {
     // See: https://github.com/VeXell/pm2-prom-module
     if (config.server.prometheusMetrics) {
       initMetrics(app.metrics.client.register);
+      // hack to deal with pm2 not doing metrics right
+      app.metrics.client.register.setDefaultLabels({
+        node_instance: process.env.NODE_APP_INSTANCE,
+      });
+
+      new app.metrics.client.Gauge({
+        name: 'pg_pool_total_count',
+        help: 'total pg_pool connections',
+        collect() {
+          this.set(app.pg.dbSync.pool.totalCount);
+        },
+      });
+      new app.metrics.client.Gauge({
+        name: 'pg_pool_idle_count',
+        help: 'idle pg_pool connections',
+        collect() {
+          this.set(app.pg.dbSync.pool.idleCount);
+        },
+      });
+      new app.metrics.client.Gauge({
+        name: 'pg_pool_waiting_count',
+        help: 'waiting pg_pool connections',
+        collect() {
+          this.set(app.pg.dbSync.pool.waitingCount);
+        },
+      });
     }
   });
 
