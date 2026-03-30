@@ -83,11 +83,15 @@ export const loadConfig = () => {
     : config.has('dbSync.connectionTimeoutMs')
       ? config.get<number>('dbSync.connectionTimeoutMs')
       : undefined;
-  const databaseSyncIdleSessionTimeoutMs = process.env
-    .BLOCKFROST_CONFIG_DBSYNC_IDLE_SESSION_TIMEOUT_MS
-    ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_IDLE_SESSION_TIMEOUT_MS)
-    : config.has('dbSync.idleSessionTimeoutMs')
-      ? config.get<number>('dbSync.idleSessionTimeoutMs')
+  const databaseSyncIdleTimeoutMs = process.env.BLOCKFROST_CONFIG_DBSYNC_IDLE_TIMEOUT_MS
+    ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_IDLE_TIMEOUT_MS)
+    : config.has('dbSync.idleTimeoutMs')
+      ? config.get<number>('dbSync.idleTimeoutMs')
+      : undefined;
+  const databaseSyncMinConnections = process.env.BLOCKFROST_CONFIG_DBSYNC_MIN_CONN
+    ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_MIN_CONN)
+    : config.has('dbSync.minConnections')
+      ? config.get<number>('dbSync.minConnections')
       : undefined;
   const ssl = config.has('dbSync.ssl') ? { rejectUnauthorized: false } : false;
   const databaseSyncApplicationName =
@@ -174,7 +178,8 @@ export const loadConfig = () => {
       maxConnections: databaseSyncMaxConnections,
       statementTimeout: databaseSyncStatementTimeout,
       connectionTimeoutMs: databaseSyncConnectionTimeoutMs,
-      idleSessionTimeoutMs: databaseSyncIdleSessionTimeoutMs,
+      idleTimeoutMs: databaseSyncIdleTimeoutMs,
+      minConnections: databaseSyncMinConnections,
       ssl,
       applicationName: databaseSyncApplicationName,
     },
