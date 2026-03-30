@@ -32,6 +32,7 @@ async function route(fastify: FastifyInstance) {
         );
 
         if (query404.rows.length === 0) {
+          gracefulRelease(clientDbSync);
           return handle404(reply);
         }
 
