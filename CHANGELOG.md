@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [6.4.0] - 2026-03-30
+
+### Changed
+
+- Replaced `idle_session_timeout` (server-side Postgres setting) with `idleTimeoutMillis` (client-side pg-pool setting) for idle connection cleanup. Set via `dbSync.idleTimeoutMs` in config or `BLOCKFROST_CONFIG_DBSYNC_IDLE_TIMEOUT_MS` env var (value in milliseconds). Disabled by default (pg-pool falls back to its own 10,000ms default). The previous `dbSync.idleSessionTimeoutMs` / `BLOCKFROST_CONFIG_DBSYNC_IDLE_SESSION_TIMEOUT_MS` options are removed.
+- Exposed `min` pool size option. Set via `dbSync.minConnections` in config or `BLOCKFROST_CONFIG_DBSYNC_MIN_CONN` env var. Disabled by default (pg-pool defaults to 0).
+
+### Fixed
+
+- Fixed connection leak in `/accounts/:stake_address/utxos` where the DB connection was not released on 404 responses
 
 ## [6.3.4] - 2026-03-17
 
