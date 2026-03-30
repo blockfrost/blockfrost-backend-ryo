@@ -18,7 +18,6 @@ const logger =
 
 const server = app({
   logger,
-  ignoreTrailingSlash: true,
 
   // https://www.fastify.io/docs/latest/Server/#maxparamlength
   // if the param overflows this number, 404 will be returned
@@ -26,6 +25,7 @@ const server = app({
   // select tx_id,LENGTH(address) from tx_out where LENGTH(address) > 16000 ORDER BY LENGTH(address) desc LIMIT 10;
   routerOptions: {
     maxParamLength: 32_768,
+    ignoreTrailingSlash: true,
   },
 });
 

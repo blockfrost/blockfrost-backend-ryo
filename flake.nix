@@ -23,7 +23,7 @@
     in
     {
       packages = forAllSystems (system: {
-        inherit (default.${system}) blockfrost-backend-ryo;
+        inherit (default.${system}) blockfrost-backend-ryo blockfrost-backend-ryo-wrapper;
         dockerImage =
           let
             configs = legacyPkgs.${system}.runCommand "app-configs" { }
@@ -40,7 +40,7 @@
               WorkingDir = "/app";
             };
           };
-        default = self.packages.${system}.blockfrost-backend-ryo;
+        default = self.packages.${system}.blockfrost-backend-ryo-wrapper;
       });
       checks = forAllSystems (system: {
         inherit (self.packages.${system}) blockfrost-backend-ryo dockerImage;
