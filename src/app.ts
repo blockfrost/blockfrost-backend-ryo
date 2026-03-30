@@ -67,10 +67,12 @@ const start = (options = {}): FastifyInstance => {
     // See: https://github.com/VeXell/pm2-prom-module
     if (config.server.prometheusMetrics) {
       initMetrics(app.metrics.client.register);
-      // hack to deal with pm2 not doing metrics right
-      app.metrics.client.register.setDefaultLabels({
-        node_instance: process.env.NODE_APP_INSTANCE,
-      });
+      if (process.env.NODE_APP_INSTANCE !== undefined) {
+        // hack to deal with pm2 not doing metrics right
+        app.metrics.client.register.setDefaultLabels({
+          node_instance: process.env.NODE_APP_INSTANCE,
+        });
+      }
 
       new app.metrics.client.Gauge({
         name: 'pg_pool_total_count',
