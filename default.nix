@@ -88,8 +88,9 @@
       {inherit src;};
   in
     project.overrideAttrs (oldAttrs: rec {
-      name = "blockfrost-backend-ryo";
+      pname = "blockfrost-backend-ryo";
       version = packageJSON.version;
+      name = "${pname}-${version}";
 
       buildInputs = [
         nodejs
@@ -101,25 +102,25 @@
         yarn build
 
         mkdir -p $out/bin
-        cat <<EOF > $out/bin/${name}
+        cat <<EOF > $out/bin/${pname}
         #!${pkgs.runtimeShell}
         export PATH=${nodePackages.pm2}/bin:${pkgs.nodejs}/bin:\$PATH
 
-        echo "Starting ${name}...";
+        echo "Starting ${pname}...";
         pm2 delete all
         pm2 start $out/libexec/source/dist/server.js \
            --interpreter=${nodejs}/bin/node --node-args="\''${BLOCKFROST_NODE_ARGS:-"--max-http-header-size=32768"}" \
            --max-memory-restart \''${BLOCKFROST_MAX_MEMORY_RESTART:-"1500M"} \
            -i \''${BLOCKFROST_PM2_INSTANCE_COUNT:-"max"} --time --no-daemon
         EOF
-        chmod +x $out/bin/${name}
+        chmod +x $out/bin/${pname}
       '';
 
       dontStrip = true;
     });
 
-  blockfrost-backend-ryo-wrapper = pkgs.writeShellApplication {
-    name = "blockfrost-backend-ryo";
+  blockfrost-backend-ryo-wrapper = (pkgs.writeShellApplication {
+    name = "blockfrost-backend-ryo-${blockfrost-backend-ryo.version}";
     runtimeInputs = [ nodePackages.pm2 nodejs ];
     text = ''
       set -x
@@ -131,6 +132,8 @@
          --max-memory-restart "''${BLOCKFROST_MAX_MEMORY_RESTART:-"1500M"}" \
          -i "''${BLOCKFROST_PM2_INSTANCE_COUNT:-"max"}" --time --no-daemon
     '';
+  }) // {
+    inherit (blockfrost-backend-ryo) version;
   };
 
   commonTestConfig = {
