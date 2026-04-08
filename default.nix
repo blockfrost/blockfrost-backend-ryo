@@ -120,14 +120,14 @@
     });
 
   blockfrost-backend-ryo-wrapper = (pkgs.writeShellApplication {
-    name = "blockfrost-backend-ryo-${blockfrost-backend-ryo.version}";
+    name = "blockfrost-backend-ryo";
     runtimeInputs = [ nodePackages.pm2 nodejs ];
     text = ''
       set -x
       echo "Starting blockfrost-backend-ryo...";
       pm2 delete all || true
       pm2 install ${pm2-prom-module}
-      pm2 start ${blockfrost-backend-ryo}/libexec/source/dist/server.js \
+      exec pm2 start ${blockfrost-backend-ryo}/libexec/source/dist/server.js \
          --interpreter=${nodejs}/bin/node --node-args="''${BLOCKFROST_NODE_ARGS:-"--max-http-header-size=32768"}" \
          --max-memory-restart "''${BLOCKFROST_MAX_MEMORY_RESTART:-"1500M"}" \
          -i "''${BLOCKFROST_PM2_INSTANCE_COUNT:-"max"}" --time --no-daemon
