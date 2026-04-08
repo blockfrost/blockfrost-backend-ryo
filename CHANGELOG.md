@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.4.1] - 2026-04-07
+
+### Fixed
+
+- Optimized `/governance/dreps/:drep_id/delegators` query. Reduces execution time and buffer hits for large dreps like `drep_always_abstain`
+
 ## [6.4.0] - 2026-03-30
 
 ### Changed
