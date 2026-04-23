@@ -48,6 +48,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - CI: Fixed NixOS integration test commands to use `nix develop` with flakes
 
+### Added
+
+- `Protocol version 11` intra-era, cost model mappings
+
 ## [6.3.1] - 2026-03-04
 
 ### Added
