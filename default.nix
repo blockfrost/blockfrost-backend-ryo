@@ -122,7 +122,7 @@
 
   blockfrost-backend-ryo-wrapper = (pkgs.writeShellApplication {
     name = "blockfrost-backend-ryo";
-    runtimeInputs = [ nodePackages.pm2 nodejs ];
+    runtimeInputs = [ nodePackages.pm2 nodejs ] ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.glibc.bin ];
     text = ''
       set -x
       echo "Starting blockfrost-backend-ryo...";
