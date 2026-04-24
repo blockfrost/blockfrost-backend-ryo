@@ -117,6 +117,7 @@
       '';
 
       dontStrip = true;
+      dontPatchELF = true;
     });
 
   blockfrost-backend-ryo-wrapper = (pkgs.writeShellApplication {
