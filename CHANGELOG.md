@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `Protocol version 11` intra-era, cost model mappings in epoch parameters
 
+### Fixed
+
+- Optimized `/governance/proposals/:tx_hash/:cert_index/votes` query CPU usage. Requires new index: `bf_idx_voting_procedure_gov_action_proposal_id` (see README)
+
 ## [6.4.1] - 2026-04-07
 
 ### Fixed

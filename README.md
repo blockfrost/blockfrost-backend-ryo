@@ -123,6 +123,7 @@ CREATE INDEX IF NOT EXISTS bf_idx_tx_out_stakeaddr_covering ON public.tx_out (st
 CREATE INDEX IF NOT EXISTS bf_idx_tx_id_covering ON public.tx (id) INCLUDE (block_id, block_index, hash);
 CREATE INDEX IF NOT EXISTS bf_idx_tx_out_sa_paycred_script_id
 ON tx_out (stake_address_id, payment_cred, address_has_script, id);
+CREATE INDEX IF NOT EXISTS bf_idx_voting_procedure_gov_action_proposal_id ON voting_procedure (gov_action_proposal_id);
 ```
 
 ### Experimental features
