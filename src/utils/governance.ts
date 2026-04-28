@@ -241,7 +241,7 @@ export const validateGovActionId = (govActionId: string) => {
 
   const txHash = hexBuf.subarray(0, 32).toString('hex');
   const certIndexHex = hexBuf.subarray(32).toString('hex');
-  const certIndex = Number.parseInt(certIndexHex, 16);
+  const certIndex = certIndexHex === '' ? 0 : Number.parseInt(certIndexHex, 16);
 
   return {
     tx_hash: txHash,
