@@ -282,6 +282,26 @@ describe('governance utils', () => {
       tx_hash: '15f82a365bdee483a4b03873a40d3829cc88c048ff3703e11bd01dd9e035c916',
       cert_index: 0,
     });
+
+    // CIP-0129 minimal encoding: cert_index 0 omits the suffix byte entirely (32-byte payload).
+    expect(
+      governanceUtils.validateGovActionId(
+        'gov_action124vkmmfnaheqs0q4yqn8prrys9qwtue60j68cnnrz2ryz3h5latqgzgzxc',
+      ),
+    ).toStrictEqual({
+      tx_hash: '55596ded33edf2083c152026708c648140e5f33a7cb47c4e6312864146f4ff56',
+      cert_index: 0,
+    });
+
+    // Same tx_hash, non-minimal 33-byte encoding (trailing 0x00 suffix) — must parse identically.
+    expect(
+      governanceUtils.validateGovActionId(
+        'gov_action124vkmmfnaheqs0q4yqn8prrys9qwtue60j68cnnrz2ryz3h5latqquux28u',
+      ),
+    ).toStrictEqual({
+      tx_hash: '55596ded33edf2083c152026708c648140e5f33a7cb47c4e6312864146f4ff56',
+      cert_index: 0,
+    });
   });
 
   test('governanceUtils.getGovActionId', () => {
