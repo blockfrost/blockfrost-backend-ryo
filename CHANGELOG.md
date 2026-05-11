@@ -9,12 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-#### Deposit fields on accounts and DRep endpoints
+#### Deposit fields on registration history endpoints
 
-- New `deposit` field in `/accounts/:stake_address` response (deposit paid at the most recent stake key registration; `null` when the account is not currently registered). Falls back to the `key_deposit` protocol parameter at the registration's epoch when the underlying db-sync row predates the addition of the `deposit` column.
-- New `deposit` field per row in `/accounts/:stake_address/registrations` response (`null` on `deregistered` rows; same db-sync fallback for `registered` rows)
-- New `deposit` field in `/governance/dreps/:drep_id` response (`null` when the DRep is not currently registered)
-- New `deposit` field per row in `/governance/dreps/:drep_id/updates` response (positive on `registered`, negative on `deregistered`, `0` or `null` on `updated`)
+- New `deposit` field per row in `/accounts/:stake_address/registrations` response — deposit paid at the registration cert (`null` on `deregistered` rows). Falls back to the `key_deposit` protocol parameter at the registration's epoch when the underlying db-sync row predates the addition of the `deposit` column.
+- New `deposit` field per row in `/governance/dreps/:drep_id/updates` response — positive on `registered`, negative on `deregistered`, `0` or `null` on `updated`.
 
 ## [6.4.3] - 2026-04-28
 

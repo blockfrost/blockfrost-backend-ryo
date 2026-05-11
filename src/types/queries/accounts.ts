@@ -38,7 +38,6 @@ export interface Account {
   pool_id: string;
   drep_id: string;
   drep_id_has_script: boolean;
-  deposit: string | null;
 }
 
 export interface AccountRewards {

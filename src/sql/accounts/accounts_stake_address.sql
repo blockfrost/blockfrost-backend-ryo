@@ -40,17 +40,6 @@ queried_pool AS (
       )
     )
 ),
-registration_state AS (
-  SELECT
-    COALESCE(
-      (SELECT MAX(tx_id) FROM stake_registration WHERE addr_id = (SELECT * FROM queried_addr)),
-      0
-    ) AS "latest_reg_tx_id",
-    COALESCE(
-      (SELECT MAX(tx_id) FROM stake_deregistration WHERE addr_id = (SELECT * FROM queried_addr)),
-      0
-    ) AS "latest_dereg_tx_id"
-),
 queried_drep AS (
   SELECT 
     dh.view AS "drep_id",
@@ -127,7 +116,13 @@ SELECT sa.view AS "stake_address",
       )
   ) AS "active_epoch",
   (
-    SELECT latest_reg_tx_id > latest_dereg_tx_id FROM registration_state
+    COALESCE(
+      (SELECT MAX(tx_id) FROM stake_registration WHERE addr_id = (SELECT * FROM queried_addr)),
+      0
+    ) > COALESCE(
+      (SELECT MAX(tx_id) FROM stake_deregistration WHERE addr_id = (SELECT * FROM queried_addr)),
+      0
+    )
   ) AS "registered",
   (
     (
@@ -169,22 +164,7 @@ SELECT sa.view AS "stake_address",
   (
     SELECT drep_id_has_script
     FROM queried_drep
-  ) AS "drep_id_has_script",
-  (
-    CASE
-      WHEN (SELECT latest_reg_tx_id > latest_dereg_tx_id FROM registration_state) THEN (
-        SELECT COALESCE(sr.deposit, ep.key_deposit)::TEXT
-        FROM stake_registration sr
-          JOIN tx ON (tx.id = sr.tx_id)
-          JOIN block b ON (b.id = tx.block_id)
-          LEFT JOIN epoch_param ep ON (ep.epoch_no = b.epoch_no)
-        WHERE sr.addr_id = (SELECT * FROM queried_addr)
-        ORDER BY sr.tx_id DESC, sr.cert_index DESC
-        LIMIT 1
-      )
-      ELSE NULL
-    END
-  ) AS "deposit"
+  ) AS "drep_id_has_script"
 FROM stake_address sa
   LEFT JOIN (
     SELECT addr_id,

@@ -40,7 +40,6 @@ export interface DRepsDrepID {
   retired: boolean;
   expired: boolean;
   last_active_epoch: number | null;
-  deposit: string | null;
 }
 
 export interface DRepsDrepIDDelegators {
