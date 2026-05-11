@@ -5,9 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [6.5.0-beta.0] - 2026-05-11
+## [6.5.0] - 2026-05-11
 
 ### Added
+
+#### Deposit fields on accounts and DRep endpoints
 
 - New `deposit` field in `/accounts/:stake_address` response (deposit paid at the most recent stake key registration; `null` when the account is not currently registered). Falls back to the `key_deposit` protocol parameter at the registration's epoch when the underlying db-sync row predates the addition of the `deposit` column.
 - New `deposit` field per row in `/accounts/:stake_address/registrations` response (`null` on `deregistered` rows; same db-sync fallback for `registered` rows)
