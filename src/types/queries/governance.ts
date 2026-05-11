@@ -40,6 +40,7 @@ export interface DRepsDrepID {
   retired: boolean;
   expired: boolean;
   last_active_epoch: number | null;
+  deposit: string | null;
 }
 
 export interface DRepsDrepIDDelegators {
@@ -60,7 +61,8 @@ export interface DRepsDrepIDMetadata {
 export interface DRepsDrepIDUpdates {
   tx_hash: string;
   cert_index: number;
-  action: 'registered' | 'deregistered';
+  action: 'registered' | 'deregistered' | 'updated';
+  deposit: string | null;
 }
 
 export interface DRepsDrepIDVotes {

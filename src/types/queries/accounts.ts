@@ -38,6 +38,7 @@ export interface Account {
   pool_id: string;
   drep_id: string;
   drep_id_has_script: boolean;
+  deposit: string | null;
 }
 
 export interface AccountRewards {
@@ -60,6 +61,7 @@ export interface AccountDelegations {
 export interface AccountRegistrations {
   tx_hash: string;
   action: 'registered' | 'deregistered';
+  deposit: string | null;
   tx_slot: number;
   block_height: number;
   block_time: number;
