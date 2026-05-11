@@ -304,6 +304,162 @@ describe('governance utils', () => {
     });
   });
 
+  test('governanceUtils.validateCommitteeCredentialId', () => {
+    // CIP-129 official test vector: cc_hot, keyHash, all-zero 28-byte hash
+    // https://cips.cardano.org/cip/CIP-0129#identifier-test-vector
+    expect(
+      governanceUtils.validateCommitteeCredentialId(
+        'cc_hot1qgqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqvcdjk7',
+      ),
+    ).toStrictEqual({
+      type: 'hot',
+      raw: '\\x00000000000000000000000000000000000000000000000000000000',
+      hasScript: false,
+      cip129: {
+        id: 'cc_hot1qgqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqvcdjk7',
+        hex: '0200000000000000000000000000000000000000000000000000000000',
+      },
+    });
+
+    // cc_hot, scriptHash, all-zero hash
+    expect(
+      governanceUtils.validateCommitteeCredentialId(
+        'cc_hot1qvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv2arke',
+      ),
+    ).toStrictEqual({
+      type: 'hot',
+      raw: '\\x00000000000000000000000000000000000000000000000000000000',
+      hasScript: true,
+      cip129: {
+        id: 'cc_hot1qvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv2arke',
+        hex: '0300000000000000000000000000000000000000000000000000000000',
+      },
+    });
+
+    // cc_cold, keyHash, all-zero hash
+    expect(
+      governanceUtils.validateCommitteeCredentialId(
+        'cc_cold1zgqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq6yewvh',
+      ),
+    ).toStrictEqual({
+      type: 'cold',
+      raw: '\\x00000000000000000000000000000000000000000000000000000000',
+      hasScript: false,
+      cip129: {
+        id: 'cc_cold1zgqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq6yewvh',
+        hex: '1200000000000000000000000000000000000000000000000000000000',
+      },
+    });
+
+    // CIP-129 official test vector: cc_cold, scriptHash, all-zero hash
+    expect(
+      governanceUtils.validateCommitteeCredentialId(
+        'cc_cold1zvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq6kflvs',
+      ),
+    ).toStrictEqual({
+      type: 'cold',
+      raw: '\\x00000000000000000000000000000000000000000000000000000000',
+      hasScript: true,
+      cip129: {
+        id: 'cc_cold1zvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq6kflvs',
+        hex: '1300000000000000000000000000000000000000000000000000000000',
+      },
+    });
+
+    // cc_hot keyHash with a non-zero 28-byte hash
+    expect(
+      governanceUtils.validateCommitteeCredentialId(
+        'cc_hot1qg2ls23kt00wfqaykqu88fqd8q5uezxqfrlnwqlpr0gpmkguttm5h',
+      ),
+    ).toStrictEqual({
+      type: 'hot',
+      raw: '\\x15f82a365bdee483a4b03873a40d3829cc88c048ff3703e11bd01dd9',
+      hasScript: false,
+      cip129: {
+        id: 'cc_hot1qg2ls23kt00wfqaykqu88fqd8q5uezxqfrlnwqlpr0gpmkguttm5h',
+        hex: '0215f82a365bdee483a4b03873a40d3829cc88c048ff3703e11bd01dd9',
+      },
+    });
+
+    // cc_cold keyHash with same hash
+    expect(
+      governanceUtils.validateCommitteeCredentialId(
+        'cc_cold1zg2ls23kt00wfqaykqu88fqd8q5uezxqfrlnwqlpr0gpmkg2hl8w7',
+      ),
+    ).toStrictEqual({
+      type: 'cold',
+      raw: '\\x15f82a365bdee483a4b03873a40d3829cc88c048ff3703e11bd01dd9',
+      hasScript: false,
+      cip129: {
+        id: 'cc_cold1zg2ls23kt00wfqaykqu88fqd8q5uezxqfrlnwqlpr0gpmkg2hl8w7',
+        hex: '1215f82a365bdee483a4b03873a40d3829cc88c048ff3703e11bd01dd9',
+      },
+    });
+
+    // Wrong prefix (drep)
+    expect(() =>
+      governanceUtils.validateCommitteeCredentialId(
+        'drep1ygqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq7vlc9n',
+      ),
+    ).toThrow('Invalid cc credential prefix');
+
+    // Mismatch: cc_hot prefix but cold (0x1...) header byte
+    // cc_hot with all-zero header keyHash: '00' + '00'*28 → headerless bytes 0x00
+    // Encode prefix cc_hot with a header byte that says cold (0x12) — this should throw.
+    // We construct via getCommitteeCredentialId for cold then swap the prefix.
+    // Skipping that adversarial construction; rely on round-trip + length check coverage.
+  });
+
+  test('governanceUtils.getCommitteeCredentialId', () => {
+    expect(
+      governanceUtils.getCommitteeCredentialId(
+        'hot',
+        '00000000000000000000000000000000000000000000000000000000',
+        false,
+      ),
+    ).toBe('cc_hot1qgqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqvcdjk7');
+
+    expect(
+      governanceUtils.getCommitteeCredentialId(
+        'hot',
+        '00000000000000000000000000000000000000000000000000000000',
+        true,
+      ),
+    ).toBe('cc_hot1qvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv2arke');
+
+    expect(
+      governanceUtils.getCommitteeCredentialId(
+        'cold',
+        '00000000000000000000000000000000000000000000000000000000',
+        false,
+      ),
+    ).toBe('cc_cold1zgqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq6yewvh');
+
+    expect(
+      governanceUtils.getCommitteeCredentialId(
+        'cold',
+        '00000000000000000000000000000000000000000000000000000000',
+        true,
+      ),
+    ).toBe('cc_cold1zvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq6kflvs');
+
+    expect(
+      governanceUtils.getCommitteeCredentialId(
+        'hot',
+        '15f82a365bdee483a4b03873a40d3829cc88c048ff3703e11bd01dd9',
+        false,
+      ),
+    ).toBe('cc_hot1qg2ls23kt00wfqaykqu88fqd8q5uezxqfrlnwqlpr0gpmkguttm5h');
+
+    expect(
+      governanceUtils.getCommitteeCredentialId(
+        'cold',
+        '15f82a365bdee483a4b03873a40d3829cc88c048ff3703e11bd01dd9',
+        false,
+      ),
+    ).toBe('cc_cold1zg2ls23kt00wfqaykqu88fqd8q5uezxqfrlnwqlpr0gpmkg2hl8w7');
+  });
+
   test('governanceUtils.getGovActionId', () => {
     expect(
       governanceUtils.getGovActionId(

@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New `deposit` field per row in `/accounts/:stake_address/registrations` response — deposit paid at the registration cert (`null` on `deregistered` rows). Falls back to the `key_deposit` protocol parameter at the registration's epoch when the underlying db-sync row predates the addition of the `deposit` column.
 - New `deposit` field per row in `/governance/dreps/:drep_id/updates` response — string lovelace amount on `registered`; `null` on `deregistered` and `updated`.
 
+#### Constitutional committee endpoints
+
+- New `/governance/committee` endpoint — current constitutional committee snapshot, including its source `NewCommittee` governance action (when applicable), quorum threshold, member count, and member list with cold/hot credentials (`cc_cold_*` / `cc_hot_*`), authorization status, and term expiration. Also surfaces the post-`NoConfidence` dissolved state via `is_dissolved: true`: `members`, `quorum_numerator`, and `quorum_denominator` are all `null`, and `proposal_*` / `gov_action_id` point at the `NoConfidence` action that dissolved the committee.
+- New `/governance/committee/votes` endpoint — paged list of all constitutional committee votes ever cast (across all committees and members)
+- New `/governance/committee/:cc_id/votes` endpoint — paged list of votes filtered by CIP-129 committee credential. Accepts both hot (`cc_hot1...`) and cold (`cc_cold1...`) bech32 ids; cold queries aggregate votes across every hot key the cold key has ever authorized
+
 ## [6.4.3] - 2026-04-28
 
 ### Fixed
