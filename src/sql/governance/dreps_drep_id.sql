@@ -89,7 +89,19 @@ SELECT dh.view AS "drep_id",
   dh.has_script AS "has_script",
   ca.last_active_epoch as "last_active_epoch",
   NOT ca.registered AS "retired",
-  ce.expired as "expired"
+  ce.expired as "expired",
+  (
+    CASE
+      WHEN ca.registered THEN (
+        SELECT dr.deposit::TEXT
+        FROM drep_registration dr
+        WHERE dr.drep_hash_id = dh.id AND dr.deposit > 0
+        ORDER BY dr.tx_id DESC, dr.cert_index DESC
+        LIMIT 1
+      )
+      ELSE NULL
+    END
+  ) AS "deposit"
 FROM drep_hash dh
   LEFT JOIN calculated_active ca ON dh.id = ca.drep_hash_id
   LEFT JOIN calculated_expired ce ON dh.id = ce.drep_hash_id

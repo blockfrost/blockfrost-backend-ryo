@@ -6,7 +6,8 @@ SELECT encode(tx.hash, 'hex') AS "tx_hash",
       WHEN dr.deposit < 0 THEN 'deregistered'
       ELSE 'updated'
     END
-  ) AS "action"
+  ) AS "action",
+  dr.deposit::TEXT AS "deposit"
 FROM drep_hash dh
   JOIN drep_registration dr ON (dh.id = dr.drep_hash_id)
   JOIN tx ON (dr.tx_id = tx.id)
