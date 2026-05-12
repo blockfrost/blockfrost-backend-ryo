@@ -60,7 +60,8 @@ export interface DRepsDrepIDMetadata {
 export interface DRepsDrepIDUpdates {
   tx_hash: string;
   cert_index: number;
-  action: 'registered' | 'deregistered';
+  action: 'registered' | 'deregistered' | 'updated';
+  deposit: string | null;
 }
 
 export interface DRepsDrepIDVotes {

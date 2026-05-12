@@ -1,5 +1,6 @@
 SELECT tx AS "tx_hash",
   action AS "action",
+  deposit AS "deposit",
   tx_slot AS "tx_slot",
   block_height AS "block_height",
   block_time AS "block_time"
@@ -9,6 +10,7 @@ FROM (
         SELECT tx.id AS "id",
           encode(tx.hash, 'hex') AS "tx",
           'registered' AS "action",
+          COALESCE(sr.deposit, ep.key_deposit)::TEXT AS "deposit",
           b.slot_no::INTEGER AS "tx_slot",
           b.block_no AS "block_height",
           EXTRACT(EPOCH FROM b.time)::INTEGER AS "block_time"
@@ -16,6 +18,7 @@ FROM (
           JOIN stake_registration sr ON (sa.id = sr.addr_id)
           JOIN tx ON (tx.id = sr.tx_id)
           JOIN block b ON (b.id = tx.block_id)
+          LEFT JOIN epoch_param ep ON (ep.epoch_no = b.epoch_no)
         WHERE sa.view = $2
       )
       UNION
@@ -23,6 +26,7 @@ FROM (
         SELECT tx.id AS "id",
           encode(tx.hash, 'hex') AS "tx",
           'deregistered' AS "action",
+          NULL::TEXT AS "deposit",
           b.slot_no::INTEGER AS "tx_slot",
           b.block_no AS "block_height",
           EXTRACT(EPOCH FROM b.time)::INTEGER AS "block_time"

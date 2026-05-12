@@ -178,6 +178,7 @@ const query_accounts_registration_regular_1 = [
   {
     tx_hash: '596179792ee236357721cbb4a9178f7d2992805e7f2bebb2afaf66f2838c1869',
     action: 'registered',
+    deposit: '2000000',
     tx_slot: 39751616,
     block_height: 5906836,
     block_time: 1625512800,
@@ -185,6 +186,7 @@ const query_accounts_registration_regular_1 = [
   {
     tx_hash: '5e8b8ed43af7d1e8fc76fc04685650d33907d988bfcc183f4d8987e22fa747c6',
     action: 'deregistered',
+    deposit: null,
     tx_slot: 39751620,
     block_height: 5906837,
     block_time: 1625512804,
@@ -192,6 +194,7 @@ const query_accounts_registration_regular_1 = [
   {
     tx_hash: 'f9f5c84c02b2e061b43a206a0372342024c99d046136d301769a860bc7c7cde5',
     action: 'registered',
+    deposit: '2000000',
     tx_slot: 39751624,
     block_height: 5906838,
     block_time: 1625512808,
@@ -202,6 +205,7 @@ const response_accounts_registration_regular_1 = [
   {
     tx_hash: '596179792ee236357721cbb4a9178f7d2992805e7f2bebb2afaf66f2838c1869',
     action: 'registered',
+    deposit: '2000000',
     tx_slot: 39751616,
     block_height: 5906836,
     block_time: 1625512800,
@@ -209,6 +213,7 @@ const response_accounts_registration_regular_1 = [
   {
     tx_hash: '5e8b8ed43af7d1e8fc76fc04685650d33907d988bfcc183f4d8987e22fa747c6',
     action: 'deregistered',
+    deposit: null,
     tx_slot: 39751620,
     block_height: 5906837,
     block_time: 1625512804,
@@ -216,6 +221,7 @@ const response_accounts_registration_regular_1 = [
   {
     tx_hash: 'f9f5c84c02b2e061b43a206a0372342024c99d046136d301769a860bc7c7cde5',
     action: 'registered',
+    deposit: '2000000',
     tx_slot: 39751624,
     block_height: 5906838,
     block_time: 1625512808,
