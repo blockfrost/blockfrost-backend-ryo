@@ -1,0 +1,12 @@
+name: Build tag
+
+on:
+  push:
+    tags:
+      - build
+jobs:
+  flake:
+    name: nix flake build
+    runs-on: [self-hosted, Linux, X64, nixos]
+    steps:
+      - run: nix build github:blockfrost/blockfrost-backend-ryo/$GITHUB_SHA#default
