@@ -1,12 +1,16 @@
 WITH current_committee AS (
-  -- The last-seated committee. committee.id is monotonic with enactment order; rows are
-  -- inserted by `NewCommittee` enactment or the Conway-genesis committee. Latest = last seated.
+  -- The last-seated committee. db-sync inserts a `committee` row for every NewCommittee
+  -- proposal (including expired/dropped ones), so we must filter to enacted actions; only
+  -- the Conway-genesis committee row has `gov_action_proposal_id IS NULL`.
   SELECT c.id,
     c.quorum_numerator,
     c.quorum_denominator,
     c.gov_action_proposal_id
   FROM committee c
-  ORDER BY c.id DESC
+    LEFT JOIN gov_action_proposal gap ON (gap.id = c.gov_action_proposal_id)
+  WHERE c.gov_action_proposal_id IS NULL
+    OR gap.enacted_epoch IS NOT NULL
+  ORDER BY COALESCE(gap.enacted_epoch, -1) DESC, c.id DESC
   LIMIT 1
 ),
 proposal_info AS (
