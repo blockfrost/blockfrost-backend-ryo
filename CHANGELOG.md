@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New `deposit` field per row in `/accounts/:stake_address/registrations` response — deposit paid at the registration cert (`null` on `deregistered` rows). Falls back to the `key_deposit` protocol parameter at the registration's epoch when the underlying db-sync row predates the addition of the `deposit` column.
 - New `deposit` field per row in `/governance/dreps/:drep_id/updates` response — string lovelace amount on `registered`; `null` on `deregistered` and `updated`.
 
+### Changed
+
+- Improved query performance of `/governance/dreps/:drep_id/votes` and `/accounts/:stake_address/delegations` by paginating before joining auxiliary tables.
+
 ## [6.4.3] - 2026-04-28
 
 ### Fixed
