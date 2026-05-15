@@ -249,6 +249,119 @@ export const validateGovActionId = (govActionId: string) => {
   };
 };
 
+export type CommitteeCredentialType = 'hot' | 'cold';
+
+export interface CommitteeCredentialValidationResult {
+  type: CommitteeCredentialType;
+  raw: string; // postgres bytea literal "\\x..." of the 28-byte hash
+  hasScript: boolean;
+  cip129: {
+    id: string; // CIP-129 bech32 cc_hot1... / cc_cold1...
+    hex: string; // hex including 1-byte header
+  };
+}
+
+/**
+ * Validates a CIP-129 Constitutional Committee credential bech32 id
+ * (`cc_hot1...` or `cc_cold1...`) and extracts the underlying
+ * 28-byte key/script hash that db-sync stores in `committee_hash.raw`.
+ *
+ * @see https://github.com/cardano-foundation/CIPs/blob/master/CIP-0129/README.md
+ */
+export const validateCommitteeCredentialId = (
+  bechId: string,
+): CommitteeCredentialValidationResult => {
+  const { prefix, words } = bech32.decode(bechId);
+
+  if (prefix !== 'cc_hot' && prefix !== 'cc_cold') {
+    throw new Error('Invalid cc credential prefix');
+  }
+
+  const hexBuf = Buffer.from(bech32.fromWords(words));
+
+  // CIP-129 requires a 1-byte header followed by the 28-byte hash.
+  if (hexBuf.length !== 29) {
+    throw new Error('Invalid cc credential length');
+  }
+
+  const headerByte = hexBuf[0];
+  const keyTypeNibble = (headerByte >> 4) & 0x0f;
+  const credentialTypeNibble = headerByte & 0x0f;
+
+  let type: CommitteeCredentialType;
+
+  switch (keyTypeNibble) {
+    case 0x0: {
+      type = 'hot';
+      break;
+    }
+    case 0x1: {
+      type = 'cold';
+      break;
+    }
+    default: {
+      throw new Error('Invalid key type in header for cc credential');
+    }
+  }
+
+  if ((prefix === 'cc_hot' && type !== 'hot') || (prefix === 'cc_cold' && type !== 'cold')) {
+    throw new Error('Prefix does not match header key type');
+  }
+
+  let hasScript: boolean;
+
+  switch (credentialTypeNibble) {
+    case 0x2: {
+      hasScript = false;
+      break;
+    }
+    case 0x3: {
+      hasScript = true;
+      break;
+    }
+    default: {
+      throw new Error('Invalid credential type in header');
+    }
+  }
+
+  const hashHex = hexBuf.subarray(1).toString('hex');
+
+  return {
+    type,
+    raw: `\\x${hashHex}`,
+    hasScript,
+    cip129: {
+      id: bechId,
+      hex: hexBuf.toString('hex'),
+    },
+  };
+};
+
+/**
+ * Constructs a CIP-129 Constitutional Committee credential bech32 id
+ * (`cc_hot1...` / `cc_cold1...`) from a 28-byte key/script hash hex
+ * and the `has_script` flag stored in db-sync's `committee_hash` table.
+ *
+ * @see https://github.com/cardano-foundation/CIPs/blob/master/CIP-0129/README.md
+ */
+export const getCommitteeCredentialId = (
+  type: CommitteeCredentialType,
+  hashHex: string,
+  hasScript: boolean,
+): string => {
+  const keyTypeNibble = (type === 'hot' ? 0x0 : 0x1) << 4;
+  const credentialTypeNibble = hasScript ? 0x3 : 0x2;
+  const header = keyTypeNibble | credentialTypeNibble;
+
+  const headerBuf = Buffer.alloc(1);
+
+  headerBuf.writeUInt8(header, 0);
+
+  const fullBuf = Buffer.concat([headerBuf, Buffer.from(hashHex, 'hex')]);
+
+  return bech32.encode(type === 'hot' ? 'cc_hot' : 'cc_cold', bech32.toWords(fullBuf));
+};
+
 const toMinimalHex = (n: number | bigint): string => {
   let hex = BigInt(n).toString(16);
 

@@ -215,6 +215,10 @@ const start = (options = {}): FastifyInstance => {
   registerRoute(app, import('./routes/epochs/number/stakes/pool-id.js'));
 
   // governance
+  // committee
+  registerRoute(app, import('./routes/governance/committee/index.js'));
+  registerRoute(app, import('./routes/governance/committee/votes.js'));
+  registerRoute(app, import('./routes/governance/committee/cc-id/votes.js'));
   // tx_hash/cert_index routes
   registerRoute(app, import('./routes/governance/dreps/index.js'));
   registerRoute(app, import('./routes/governance/dreps/drep-id/index.js'));
