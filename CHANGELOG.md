@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Optimized `/governance/proposals/:gov_action_id/metadata` and `/governance/dreps/:drep_id/metadata` queries. Requires new index: `bf_idx_off_chain_vote_fetch_error_anchor` (see README)
+
 ## [6.5.0] - 2026-05-15
 
 ### Added

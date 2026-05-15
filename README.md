@@ -124,6 +124,7 @@ CREATE INDEX IF NOT EXISTS bf_idx_tx_id_covering ON public.tx (id) INCLUDE (bloc
 CREATE INDEX IF NOT EXISTS bf_idx_tx_out_sa_paycred_script_id
 ON tx_out (stake_address_id, payment_cred, address_has_script, id);
 CREATE INDEX IF NOT EXISTS bf_idx_voting_procedure_gov_action_proposal_id ON voting_procedure (gov_action_proposal_id);
+CREATE INDEX IF NOT EXISTS bf_idx_off_chain_vote_fetch_error_anchor ON off_chain_vote_fetch_error (voting_anchor_id, id);
 ```
 
 ### Experimental features
