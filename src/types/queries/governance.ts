@@ -40,6 +40,7 @@ export interface DRepsDrepID {
   retired: boolean;
   expired: boolean;
   last_active_epoch: number | null;
+  deposit: string | null;
 }
 
 export interface DRepsDrepIDDelegators {
@@ -259,4 +260,60 @@ export interface ProposalsProposalWithdrawals {
   cert_index: number;
   stake_address: string;
   amount: string;
+}
+
+export interface RequestParametersCommitteeCCID {
+  Params: {
+    cc_id: string;
+  };
+  Querystring: {
+    count: number;
+    page: number;
+    order: Order;
+  };
+}
+
+export type CommitteeMemberStatus = 'authorized' | 'not_authorized' | 'resigned';
+
+export interface CommitteeMember {
+  cc_cold_hex: string;
+  cc_cold_has_script: boolean;
+  cc_hot_hex: string | null;
+  cc_hot_has_script: boolean | null;
+  status: CommitteeMemberStatus;
+  expiration_epoch: number;
+}
+
+export interface CommitteeQuorum {
+  numerator: number;
+  denominator: number;
+}
+
+export interface Committee {
+  proposal_tx_hash: string | null;
+  proposal_index: number | null;
+  is_dissolved: boolean;
+  quorum: CommitteeQuorum;
+  members: CommitteeMember[];
+}
+
+export interface CommitteeVote {
+  tx_hash: string;
+  voter_hot_hex: string;
+  voter_hot_has_script: boolean;
+  proposal_tx_hash: string;
+  proposal_index: number;
+  governance_type:
+    | 'hard_fork_initiation'
+    | 'new_committee'
+    | 'new_constitution'
+    | 'info_action'
+    | 'no_confidence'
+    | 'parameter_change'
+    | 'treasury_withdrawals';
+  vote: 'yes' | 'no' | 'abstain';
+  metadata_url: string | null;
+  metadata_hash: string | null;
+  block_height: number;
+  block_time: number;
 }
