@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Optimized `/governance/proposals/:gov_action_id/metadata` and `/governance/dreps/:drep_id/metadata` queries. Requires new index: `bf_idx_off_chain_vote_fetch_error_anchor` (see README)
 
+### Fixed
+
+- `/epochs/:number/stakes` and `/epochs/:number/stakes/:pool_id` returned a different page-1 across db-sync replicas because pagination was keyed on `epoch_stake.id` (an insertion-order auto-increment). Ordering now uses the chain-derived earliest `slot_no` at which each delegator started delegating to their current pool — stable across replicas regardless of db-sync's row-insertion order. Veteran delegators stay at the top regardless of re-delegation churn.
+
 ## [6.5.0] - 2026-05-15
 
 ### Added
