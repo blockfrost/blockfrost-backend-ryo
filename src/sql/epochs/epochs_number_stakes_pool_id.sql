@@ -1,15 +1,6 @@
 WITH queried_list AS (
   SELECT row_number() OVER (
-      ORDER BY (
-          -- slot_no of the earliest delegation by this addr to this pool that
-          -- is effective by this epoch. Chain-derived, stable across replicas.
-          SELECT MIN(d.slot_no)
-          FROM delegation d
-          WHERE d.addr_id = es.addr_id
-            AND d.pool_hash_id = es.pool_id
-            AND d.active_epoch_no <= es.epoch_no
-        ) ASC NULLS LAST,
-        es.addr_id ASC
+      ORDER BY sa.hash_raw ASC
     ) AS "myid",
     sa.view AS "stake_address",
     es.amount AS "amount"
@@ -53,3 +44,4 @@ FROM (
         END
       )
   ) AS "staked_addresses"
+ORDER BY myid ASC
