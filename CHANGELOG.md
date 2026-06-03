@@ -7,11 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `/pools/:pool_id` now reflects the currently active registration instead of a not-yet-active (pending) re-registration
+  - When a pool has a re-registration certificate whose `active_epoch_no` is still in the future, its params (owners, pledge, margin, cost, vrf, reward account) must not override the live ones until that epoch is reached — matching the ledger / Cardanoscan / Dolos
+
 ## [6.1.0] - 2025-01-09
 
 ### Changed
 
-  - Optimized `/accounts/:stake_address/addresses` query performance
+- Optimized `/accounts/:stake_address/addresses` query performance
   - Requires new index: `bf_idx_tx_out_sa_paycred_script_id` (see README)
 
 ## [6.0.0] - 2025-12-17
