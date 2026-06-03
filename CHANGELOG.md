@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Optimized `/governance/proposals/:gov_action_id/metadata` and `/governance/dreps/:drep_id/metadata` queries. Requires new index: `bf_idx_off_chain_vote_fetch_error_anchor` (see README)
 
+### Fixed
+
+- `/pools/:pool_id` now reflects the currently active registration instead of a not-yet-active (pending) re-registration. When a pool has a re-registration certificate whose `active_epoch_no` is still in the future, its params (owners, pledge, margin, cost, vrf, reward account) no longer override the live ones until that epoch is reached — matching the ledger / Cardanoscan / Dolos
+
 ## [6.5.0] - 2026-05-15
 
 ### Added

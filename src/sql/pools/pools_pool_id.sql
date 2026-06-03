@@ -5,12 +5,27 @@ WITH current_epoch AS (
   ORDER BY b.id DESC
   LIMIT 1
 ), queried_pool AS (
-  SELECT MAX(pu.id) AS "update_id",
+  /*
+   the pool's current registration: the most recent update that is ALREADY in
+   effect (active_epoch_no <= current epoch). A not-yet-active re-registration
+   (pending) must NOT override the live params (owners, pledge, margin, ...).
+   Fall back to the latest update for brand-new pools that have no active
+   registration yet, so they still resolve instead of 404ing.
+   */
+  SELECT pu.id AS "update_id",
     ph.id AS "pool_id"
   FROM pool_update pu
     JOIN pool_hash ph ON (ph.id = pu.hash_id)
   WHERE ph.view = $1
-  GROUP BY ph.id
+  ORDER BY (
+      pu.active_epoch_no <= (
+        SELECT epoch_no
+        FROM current_epoch
+      )
+    ) DESC,
+    pu.registered_tx_id DESC,
+    pu.id DESC
+  LIMIT 1
 ),
 queried_stake AS (
   SELECT COALESCE(SUM(es.amount), 0) AS "amount",
@@ -53,9 +68,8 @@ total_supply AS (
           JOIN delegation d ON (d.addr_id = sa.id)
         WHERE ph.view = $1
           AND po.pool_update_id = (
-            SELECT MAX(id)
-            FROM pool_update
-            WHERE hash_id = pu.hash_id
+            SELECT update_id
+            FROM queried_pool
           )
           AND d.pool_hash_id = ph.id
           AND d.tx_id = (
@@ -516,10 +530,9 @@ FROM pool_hash ph
   LEFT JOIN stake_address sa ON (sa.id = pu.reward_addr_id)
   LEFT JOIN calidus_metadata_raw cmr ON cmr.pool_hash_raw = ph.hash_raw
 WHERE ph.view = $1
-  AND pu.registered_tx_id = (
-    SELECT MAX(registered_tx_id)
-    FROM pool_update
-    WHERE hash_id = pu.hash_id
+  AND pu.id = (
+    SELECT update_id
+    FROM queried_pool
   )
 GROUP BY pu.vrf_key_hash,
   pu.pledge,
