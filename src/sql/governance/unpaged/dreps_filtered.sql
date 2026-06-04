@@ -13,9 +13,10 @@ WITH queried_epoch AS (
   ORDER BY e.no DESC
   LIMIT 1
 ),
--- See dreps_filtered.sql for the explanation of why this MUST be a JOIN, not a nested MAX.
+-- See dreps_filtered.sql for the explanation of (a) why this MUST be a JOIN not a nested MAX,
+-- and (b) why we COALESCE to 0 instead of letting MAX return NULL.
 expiry_threshold AS (
-  SELECT MAX(tx.id) AS threshold_tx_id
+  SELECT COALESCE(MAX(tx.id), 0) AS threshold_tx_id
   FROM tx
   JOIN block b ON b.id = tx.block_id
   WHERE (b.epoch_no)::integer = (

@@ -30,10 +30,13 @@ WITH queried_epoch AS (
 -- locate the ~21k blocks of the target epoch, then aggregate tx.id over them.
 --
 -- Edge case: if the boundary epoch has zero blocks (only possible in degenerate test
--- environments — mainnet has blocks in every epoch), threshold_tx_id is NULL, which makes
--- the `expired` predicate FALSE for every DRep. Fails open rather than blocking the query.
+-- environments — mainnet has blocks in every epoch), MAX(tx.id) returns NULL. We COALESCE
+-- to 0 because `tx.id <= NULL` is NULL (three-valued logic), which would propagate to the
+-- `expired` predicate and make BOTH `expired=true` and `expired=false` filters drop every
+-- row. With threshold = 0, no real tx_id can satisfy `<= 0`, so `expired` is FALSE for
+-- everyone — the "fails open" semantics we actually want.
 expiry_threshold AS (
-  SELECT MAX(tx.id) AS threshold_tx_id
+  SELECT COALESCE(MAX(tx.id), 0) AS threshold_tx_id
   FROM tx
   JOIN block b ON b.id = tx.block_id
   WHERE (b.epoch_no)::integer = (
