@@ -87,10 +87,10 @@ FROM drep_hash dh
     LIMIT 1
   ) AS ocvfe ON TRUE
 ORDER BY
-  CASE WHEN LOWER($2) = 'amount' AND LOWER($1) = 'desc' THEN COALESCE(dd.amount, 0) END DESC,
-  CASE WHEN LOWER($2) = 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN COALESCE(dd.amount, 0) END ASC,
-  CASE WHEN LOWER($2) <> 'amount' AND LOWER($1) = 'desc' THEN dh.id END DESC,
-  CASE WHEN LOWER($2) <> 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN dh.id END ASC,
-  CASE WHEN $2 IS NULL AND LOWER($1) = 'desc' THEN dh.id END DESC,
-  CASE WHEN $2 IS NULL AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN dh.id END ASC,
+  CASE WHEN LOWER($2::text) = 'amount' AND LOWER($1) = 'desc' THEN COALESCE(dd.amount, 0) END DESC,
+  CASE WHEN LOWER($2::text) = 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN COALESCE(dd.amount, 0) END ASC,
+  CASE WHEN LOWER($2::text) <> 'amount' AND LOWER($1) = 'desc' THEN dh.id END DESC,
+  CASE WHEN LOWER($2::text) <> 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN dh.id END ASC,
+  CASE WHEN $2::text IS NULL AND LOWER($1) = 'desc' THEN dh.id END DESC,
+  CASE WHEN $2::text IS NULL AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN dh.id END ASC,
   dh.id ASC

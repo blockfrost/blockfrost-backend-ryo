@@ -22,17 +22,17 @@ paged_dreps AS (
     dh.has_script
   FROM drep_hash dh
     LEFT JOIN drep_distr pd_dd ON (
-      LOWER($4) = 'amount'
+      LOWER($4::text) = 'amount'
       AND pd_dd.hash_id = dh.id
       AND pd_dd.epoch_no = (SELECT epoch_no FROM queried_epoch)
     )
   ORDER BY
-    CASE WHEN LOWER($4) = 'amount' AND LOWER($1) = 'desc' THEN COALESCE(pd_dd.amount, 0) END DESC,
-    CASE WHEN LOWER($4) = 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN COALESCE(pd_dd.amount, 0) END ASC,
-    CASE WHEN LOWER($4) <> 'amount' AND LOWER($1) = 'desc' THEN dh.id END DESC,
-    CASE WHEN LOWER($4) <> 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN dh.id END ASC,
-    CASE WHEN $4 IS NULL AND LOWER($1) = 'desc' THEN dh.id END DESC,
-    CASE WHEN $4 IS NULL AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN dh.id END ASC,
+    CASE WHEN LOWER($4::text) = 'amount' AND LOWER($1) = 'desc' THEN COALESCE(pd_dd.amount, 0) END DESC,
+    CASE WHEN LOWER($4::text) = 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN COALESCE(pd_dd.amount, 0) END ASC,
+    CASE WHEN LOWER($4::text) <> 'amount' AND LOWER($1) = 'desc' THEN dh.id END DESC,
+    CASE WHEN LOWER($4::text) <> 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN dh.id END ASC,
+    CASE WHEN $4::text IS NULL AND LOWER($1) = 'desc' THEN dh.id END DESC,
+    CASE WHEN $4::text IS NULL AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN dh.id END ASC,
     -- Tie-breaker for stable pagination when sorting by amount (many dreps may share amount=0).
     dh.id ASC
   LIMIT CASE
@@ -132,10 +132,10 @@ FROM paged_dreps pd
     LIMIT 1
   ) AS ocvfe ON TRUE
 ORDER BY
-  CASE WHEN LOWER($4) = 'amount' AND LOWER($1) = 'desc' THEN COALESCE(dd.amount, 0) END DESC,
-  CASE WHEN LOWER($4) = 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN COALESCE(dd.amount, 0) END ASC,
-  CASE WHEN LOWER($4) <> 'amount' AND LOWER($1) = 'desc' THEN pd.id END DESC,
-  CASE WHEN LOWER($4) <> 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN pd.id END ASC,
-  CASE WHEN $4 IS NULL AND LOWER($1) = 'desc' THEN pd.id END DESC,
-  CASE WHEN $4 IS NULL AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN pd.id END ASC,
+  CASE WHEN LOWER($4::text) = 'amount' AND LOWER($1) = 'desc' THEN COALESCE(dd.amount, 0) END DESC,
+  CASE WHEN LOWER($4::text) = 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN COALESCE(dd.amount, 0) END ASC,
+  CASE WHEN LOWER($4::text) <> 'amount' AND LOWER($1) = 'desc' THEN pd.id END DESC,
+  CASE WHEN LOWER($4::text) <> 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN pd.id END ASC,
+  CASE WHEN $4::text IS NULL AND LOWER($1) = 'desc' THEN pd.id END DESC,
+  CASE WHEN $4::text IS NULL AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN pd.id END ASC,
   pd.id ASC

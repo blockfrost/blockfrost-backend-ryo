@@ -71,27 +71,27 @@ filtered AS (
   FROM drep_hash dh
     LEFT JOIN calculated c ON c.drep_hash_id = dh.id
     LEFT JOIN drep_distr dd ON (
-      LOWER($2) = 'amount'
+      LOWER($2::text) = 'amount'
       AND dd.hash_id = dh.id
       AND dd.epoch_no = (SELECT epoch_no FROM queried_epoch)
     )
   WHERE
     (
-      $3 IS NULL
-      OR (LOWER($3) = 'true' AND c.registered = FALSE)
-      OR (LOWER($3) = 'false' AND c.registered = TRUE)
+      $3::text IS NULL
+      OR (LOWER($3::text) = 'true' AND c.registered = FALSE)
+      OR (LOWER($3::text) = 'false' AND c.registered = TRUE)
     )
     AND
     (
-      $4 IS NULL
+      $4::text IS NULL
       OR (
-        LOWER($4) = 'true'
+        LOWER($4::text) = 'true'
         AND c.registered = TRUE
         AND c.last_active_tx_id IS NOT NULL
         AND c.last_active_tx_id <= (SELECT threshold_tx_id FROM expiry_threshold)
       )
       OR (
-        LOWER($4) = 'false'
+        LOWER($4::text) = 'false'
         AND NOT (
           c.registered = TRUE
           AND c.last_active_tx_id IS NOT NULL
@@ -141,10 +141,10 @@ FROM filtered f
     LIMIT 1
   ) AS ocvfe ON TRUE
 ORDER BY
-  CASE WHEN LOWER($2) = 'amount' AND LOWER($1) = 'desc' THEN f.amount_sort_key END DESC,
-  CASE WHEN LOWER($2) = 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN f.amount_sort_key END ASC,
-  CASE WHEN LOWER($2) <> 'amount' AND LOWER($1) = 'desc' THEN f.id END DESC,
-  CASE WHEN LOWER($2) <> 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN f.id END ASC,
-  CASE WHEN $2 IS NULL AND LOWER($1) = 'desc' THEN f.id END DESC,
-  CASE WHEN $2 IS NULL AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN f.id END ASC,
+  CASE WHEN LOWER($2::text) = 'amount' AND LOWER($1) = 'desc' THEN f.amount_sort_key END DESC,
+  CASE WHEN LOWER($2::text) = 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN f.amount_sort_key END ASC,
+  CASE WHEN LOWER($2::text) <> 'amount' AND LOWER($1) = 'desc' THEN f.id END DESC,
+  CASE WHEN LOWER($2::text) <> 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN f.id END ASC,
+  CASE WHEN $2::text IS NULL AND LOWER($1) = 'desc' THEN f.id END DESC,
+  CASE WHEN $2::text IS NULL AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN f.id END ASC,
   f.id ASC

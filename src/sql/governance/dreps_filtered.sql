@@ -100,29 +100,29 @@ filtered AS (
   FROM drep_hash dh
     LEFT JOIN calculated c ON c.drep_hash_id = dh.id
     LEFT JOIN drep_distr dd ON (
-      LOWER($4) = 'amount'
+      LOWER($4::text) = 'amount'
       AND dd.hash_id = dh.id
       AND dd.epoch_no = (SELECT epoch_no FROM queried_epoch)
     )
   WHERE
     -- retired filter ('true' -> NOT registered; 'false' -> registered; NULL -> no filter)
     (
-      $5 IS NULL
-      OR (LOWER($5) = 'true' AND c.registered = FALSE)
-      OR (LOWER($5) = 'false' AND c.registered = TRUE)
+      $5::text IS NULL
+      OR (LOWER($5::text) = 'true' AND c.registered = FALSE)
+      OR (LOWER($5::text) = 'false' AND c.registered = TRUE)
     )
     AND
     -- expired filter
     (
-      $6 IS NULL
+      $6::text IS NULL
       OR (
-        LOWER($6) = 'true'
+        LOWER($6::text) = 'true'
         AND c.registered = TRUE
         AND c.last_active_tx_id IS NOT NULL
         AND c.last_active_tx_id <= (SELECT threshold_tx_id FROM expiry_threshold)
       )
       OR (
-        LOWER($6) = 'false'
+        LOWER($6::text) = 'false'
         AND NOT (
           c.registered = TRUE
           AND c.last_active_tx_id IS NOT NULL
@@ -135,12 +135,12 @@ paged AS (
   SELECT *
   FROM filtered f
   ORDER BY
-    CASE WHEN LOWER($4) = 'amount' AND LOWER($1) = 'desc' THEN f.amount_sort_key END DESC,
-    CASE WHEN LOWER($4) = 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN f.amount_sort_key END ASC,
-    CASE WHEN LOWER($4) <> 'amount' AND LOWER($1) = 'desc' THEN f.id END DESC,
-    CASE WHEN LOWER($4) <> 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN f.id END ASC,
-    CASE WHEN $4 IS NULL AND LOWER($1) = 'desc' THEN f.id END DESC,
-    CASE WHEN $4 IS NULL AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN f.id END ASC,
+    CASE WHEN LOWER($4::text) = 'amount' AND LOWER($1) = 'desc' THEN f.amount_sort_key END DESC,
+    CASE WHEN LOWER($4::text) = 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN f.amount_sort_key END ASC,
+    CASE WHEN LOWER($4::text) <> 'amount' AND LOWER($1) = 'desc' THEN f.id END DESC,
+    CASE WHEN LOWER($4::text) <> 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN f.id END ASC,
+    CASE WHEN $4::text IS NULL AND LOWER($1) = 'desc' THEN f.id END DESC,
+    CASE WHEN $4::text IS NULL AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN f.id END ASC,
     f.id ASC
   LIMIT CASE
       WHEN $2 >= 1 AND $2 <= 100 THEN $2
@@ -197,10 +197,10 @@ FROM paged p
     LIMIT 1
   ) AS ocvfe ON TRUE
 ORDER BY
-  CASE WHEN LOWER($4) = 'amount' AND LOWER($1) = 'desc' THEN p.amount_sort_key END DESC,
-  CASE WHEN LOWER($4) = 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN p.amount_sort_key END ASC,
-  CASE WHEN LOWER($4) <> 'amount' AND LOWER($1) = 'desc' THEN p.id END DESC,
-  CASE WHEN LOWER($4) <> 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN p.id END ASC,
-  CASE WHEN $4 IS NULL AND LOWER($1) = 'desc' THEN p.id END DESC,
-  CASE WHEN $4 IS NULL AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN p.id END ASC,
+  CASE WHEN LOWER($4::text) = 'amount' AND LOWER($1) = 'desc' THEN p.amount_sort_key END DESC,
+  CASE WHEN LOWER($4::text) = 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN p.amount_sort_key END ASC,
+  CASE WHEN LOWER($4::text) <> 'amount' AND LOWER($1) = 'desc' THEN p.id END DESC,
+  CASE WHEN LOWER($4::text) <> 'amount' AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN p.id END ASC,
+  CASE WHEN $4::text IS NULL AND LOWER($1) = 'desc' THEN p.id END DESC,
+  CASE WHEN $4::text IS NULL AND (LOWER($1) <> 'desc' OR $1 IS NULL) THEN p.id END ASC,
   p.id ASC
