@@ -68,13 +68,14 @@ async function route(fastify: FastifyInstance) {
 
           // metadata_url is non-null iff there's a voting_anchor row (anchor URL is NOT NULL in
           // db-sync). Absence of an anchor == no metadata at all, mirroring how /dreps/:drep_id/metadata
-          // 404s in the single-DRep equivalent.
+          // 404s in the single-DRep equivalent. When the anchor exists, voting_anchor.data_hash
+          // is also NOT NULL, so metadata_hash is correlated with metadata_url (asserted below).
           const metadata =
             row.metadata_url === null
               ? null
               : {
                   url: row.metadata_url,
-                  hash: row.metadata_hash,
+                  hash: row.metadata_hash as string,
                   json_metadata: row.metadata_json ?? null,
                   bytes: row.metadata_bytes,
                   ...(error ? { error } : {}),
