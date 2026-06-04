@@ -20,8 +20,15 @@ WITH queried_epoch AS (
   ORDER BY e.no DESC
   LIMIT 1
 ),
--- Highest tx_id known to belong to a block in the (current_epoch - drep_activity) epoch.
+-- Highest tx_id known to belong to a block in the (current_epoch - drep_activity - 1) epoch.
 -- A DRep is "expired" when its latest activity tx_id <= this threshold.
+--
+-- Why -1: the original /dreps/{id} defines expired as
+--   (current_epoch - last_active_epoch) > drep_activity
+-- i.e. expired iff last_active_epoch <= current_epoch - drep_activity - 1.
+-- Without the -1, we mark a DRep as expired when its last activity was exactly
+-- `drep_activity` epochs ago, which contradicts the strict-greater-than semantics
+-- of the single-DRep query.
 --
 -- This must be expressed as a JOIN, NOT as a nested `MAX(b.id) WHERE epoch_no = ...`.
 -- With the nested-aggregate form, Postgres applies a MAX-to-LIMIT rewrite and walks
@@ -40,7 +47,7 @@ expiry_threshold AS (
   FROM tx
   JOIN block b ON b.id = tx.block_id
   WHERE (b.epoch_no)::integer = (
-    SELECT (epoch_no)::integer - (drep_activity)::integer
+    SELECT (epoch_no)::integer - (drep_activity)::integer - 1
     FROM queried_epoch
   )
 ),

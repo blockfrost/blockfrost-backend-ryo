@@ -20,7 +20,7 @@ expiry_threshold AS (
   FROM tx
   JOIN block b ON b.id = tx.block_id
   WHERE (b.epoch_no)::integer = (
-    SELECT (epoch_no)::integer - (drep_activity)::integer
+    SELECT (epoch_no)::integer - (drep_activity)::integer - 1
     FROM queried_epoch
   )
 ),
