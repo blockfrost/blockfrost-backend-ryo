@@ -66,6 +66,20 @@ async function route(fastify: FastifyInstance) {
           const cip129DRep = databaseSyncDRepToCIP129(row);
           const error = transformOffChainFetchError(row.metadata_fetch_error);
 
+          // metadata_url is non-null iff there's a voting_anchor row (anchor URL is NOT NULL in
+          // db-sync). Absence of an anchor == no metadata at all, mirroring how /dreps/:drep_id/metadata
+          // 404s in the single-DRep equivalent.
+          const metadata =
+            row.metadata_url === null
+              ? null
+              : {
+                  url: row.metadata_url,
+                  hash: row.metadata_hash,
+                  json_metadata: row.metadata_json ?? null,
+                  bytes: row.metadata_bytes,
+                  ...(error ? { error } : {}),
+                };
+
           return {
             drep_id: cip129DRep.id,
             hex: cip129DRep.hex ?? '',
@@ -74,13 +88,7 @@ async function route(fastify: FastifyInstance) {
             retired: row.retired,
             expired: row.expired,
             last_active_epoch: row.last_active_epoch,
-            metadata: {
-              url: row.metadata_url,
-              hash: row.metadata_hash,
-              json_metadata: row.metadata_json ?? null,
-              bytes: row.metadata_bytes,
-              ...(error ? { error } : {}),
-            },
+            metadata,
           };
         });
 
