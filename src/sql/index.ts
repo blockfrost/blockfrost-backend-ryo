@@ -97,6 +97,8 @@ const QUERY_FILES = {
   governance_committee_cc_id_votes: 'governance/committee_cc_id_votes.sql',
   governance_dreps: 'governance/dreps.sql',
   governance_dreps_unpaged: 'governance/unpaged/dreps.sql',
+  governance_dreps_filtered: 'governance/dreps_filtered.sql',
+  governance_dreps_filtered_unpaged: 'governance/unpaged/dreps_filtered.sql',
   governance_dreps_drep_id: 'governance/dreps_drep_id.sql',
   governance_dreps_drep_id_delegators: 'governance/dreps_drep_id_delegators.sql',
   governance_dreps_drep_id_delegators_unpaged: 'governance/unpaged/dreps_drep_id_delegators.sql',
