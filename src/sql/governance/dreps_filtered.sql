@@ -9,8 +9,8 @@
 --   $2 = count (1-100)
 --   $3 = page (1-based)
 --   $4 = order_by ('amount' | NULL)
---   $5 = retired filter ('true' | 'false' | NULL)
---   $6 = expired filter ('true' | 'false' | NULL)
+--   $5 = retired filter (boolean | NULL)
+--   $6 = expired filter (boolean | NULL)
 WITH queried_epoch AS (
   SELECT
     no AS "epoch_no",
@@ -105,30 +105,20 @@ filtered AS (
       AND dd.epoch_no = (SELECT epoch_no FROM queried_epoch)
     )
   WHERE
-    -- retired filter ('true' -> NOT registered; 'false' -> registered; NULL -> no filter)
+    -- retired filter: NULL means no filter, otherwise match the DRep's retired flag.
     (
-      $5::text IS NULL
-      OR (LOWER($5::text) = 'true' AND c.registered = FALSE)
-      OR (LOWER($5::text) = 'false' AND c.registered = TRUE)
+      $5::boolean IS NULL
+      OR (NOT c.registered) = $5::boolean
     )
     AND
-    -- expired filter
+    -- expired filter: same pattern. The expired predicate matches the SELECT clause above.
     (
-      $6::text IS NULL
+      $6::boolean IS NULL
       OR (
-        LOWER($6::text) = 'true'
-        AND c.registered = TRUE
+        c.registered = TRUE
         AND c.last_active_tx_id IS NOT NULL
         AND c.last_active_tx_id <= (SELECT threshold_tx_id FROM expiry_threshold)
-      )
-      OR (
-        LOWER($6::text) = 'false'
-        AND NOT (
-          c.registered = TRUE
-          AND c.last_active_tx_id IS NOT NULL
-          AND c.last_active_tx_id <= (SELECT threshold_tx_id FROM expiry_threshold)
-        )
-      )
+      ) = $6::boolean
     )
 ),
 paged AS (

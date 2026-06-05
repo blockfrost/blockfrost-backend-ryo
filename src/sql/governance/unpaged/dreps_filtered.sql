@@ -2,8 +2,8 @@
 -- Params:
 --   $1 = order ('asc' | 'desc')
 --   $2 = order_by ('amount' | NULL)
---   $3 = retired filter ('true' | 'false' | NULL)
---   $4 = expired filter ('true' | 'false' | NULL)
+--   $3 = retired filter (boolean | NULL)
+--   $4 = expired filter (boolean | NULL)
 WITH queried_epoch AS (
   SELECT
     no AS "epoch_no",
@@ -77,27 +77,17 @@ filtered AS (
     )
   WHERE
     (
-      $3::text IS NULL
-      OR (LOWER($3::text) = 'true' AND c.registered = FALSE)
-      OR (LOWER($3::text) = 'false' AND c.registered = TRUE)
+      $3::boolean IS NULL
+      OR (NOT c.registered) = $3::boolean
     )
     AND
     (
-      $4::text IS NULL
+      $4::boolean IS NULL
       OR (
-        LOWER($4::text) = 'true'
-        AND c.registered = TRUE
+        c.registered = TRUE
         AND c.last_active_tx_id IS NOT NULL
         AND c.last_active_tx_id <= (SELECT threshold_tx_id FROM expiry_threshold)
-      )
-      OR (
-        LOWER($4::text) = 'false'
-        AND NOT (
-          c.registered = TRUE
-          AND c.last_active_tx_id IS NOT NULL
-          AND c.last_active_tx_id <= (SELECT threshold_tx_id FROM expiry_threshold)
-        )
-      )
+      ) = $4::boolean
     )
 )
 SELECT

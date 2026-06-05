@@ -10,12 +10,6 @@ import {
   transformOffChainFetchError,
 } from '../../../utils/governance.js';
 
-// ajv coerces query strings to booleans; pass them on to SQL as 'true' / 'false' / NULL.
-const boolToSqlParam = (value: boolean | undefined): string | null => {
-  if (value === undefined) return null;
-  return value ? 'true' : 'false';
-};
-
 async function route(fastify: FastifyInstance) {
   fastify.route({
     url: '/governance/dreps',
@@ -30,35 +24,42 @@ async function route(fastify: FastifyInstance) {
           request.query.retired !== undefined || request.query.expired !== undefined;
 
         const orderBy = request.query.order_by ?? null;
-        const retiredParam = boolToSqlParam(request.query.retired);
-        const expiredParam = boolToSqlParam(request.query.expired);
+        const retired = request.query.retired ?? null;
+        const expired = request.query.expired ?? null;
 
-        let rows: QueryTypes.DReps[];
+        // Each branch couples its SQL key with the exact param array that SQL expects.
+        // Keeping them together prevents the two from drifting independently.
+        const query: { key: Parameters<typeof SQLQuery.get>[0]; params: unknown[] } = isFiltered
+          ? unpaged
+            ? {
+                key: 'governance_dreps_filtered_unpaged',
+                params: [request.query.order, orderBy, retired, expired],
+              }
+            : {
+                key: 'governance_dreps_filtered',
+                params: [
+                  request.query.order,
+                  request.query.count,
+                  request.query.page,
+                  orderBy,
+                  retired,
+                  expired,
+                ],
+              }
+          : unpaged
+            ? {
+                key: 'governance_dreps_unpaged',
+                params: [request.query.order, orderBy],
+              }
+            : {
+                key: 'governance_dreps',
+                params: [request.query.order, request.query.count, request.query.page, orderBy],
+              };
 
-        if (isFiltered) {
-          const sqlKey = unpaged
-            ? 'governance_dreps_filtered_unpaged'
-            : 'governance_dreps_filtered';
-          const params = unpaged
-            ? [request.query.order, orderBy, retiredParam, expiredParam]
-            : [
-                request.query.order,
-                request.query.count,
-                request.query.page,
-                orderBy,
-                retiredParam,
-                expiredParam,
-              ];
-
-          ({ rows } = await clientDbSync.query<QueryTypes.DReps>(SQLQuery.get(sqlKey), params));
-        } else {
-          const sqlKey = unpaged ? 'governance_dreps_unpaged' : 'governance_dreps';
-          const params = unpaged
-            ? [request.query.order, orderBy]
-            : [request.query.order, request.query.count, request.query.page, orderBy];
-
-          ({ rows } = await clientDbSync.query<QueryTypes.DReps>(SQLQuery.get(sqlKey), params));
-        }
+        const { rows } = await clientDbSync.query<QueryTypes.DReps>(
+          SQLQuery.get(query.key),
+          query.params,
+        );
 
         gracefulRelease(clientDbSync);
 
@@ -66,10 +67,10 @@ async function route(fastify: FastifyInstance) {
           const cip129DRep = databaseSyncDRepToCIP129(row);
           const error = transformOffChainFetchError(row.metadata_fetch_error);
 
-          // metadata_url is non-null iff there's a voting_anchor row (anchor URL is NOT NULL in
-          // db-sync). Absence of an anchor == no metadata at all, mirroring how /dreps/:drep_id/metadata
-          // 404s in the single-DRep equivalent. When the anchor exists, voting_anchor.data_hash
-          // is also NOT NULL, so metadata_hash is correlated with metadata_url (asserted below).
+          // metadata_url and metadata_hash both come from voting_anchor, where both columns are
+          // NOT NULL in db-sync — so they're either both set (anchor exists) or both null (no
+          // anchor). When there's no anchor, return null rather than an empty object, matching
+          // the 404 behaviour of /dreps/:drep_id/metadata.
           const metadata =
             row.metadata_url === null
               ? null
