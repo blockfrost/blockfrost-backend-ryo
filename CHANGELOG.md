@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.6.0] - 2026-06-08
+
+### Added
+
+- New fields on `/governance/dreps` response: `has_script`, `amount`, `retired`, `expired`, `last_active_epoch` and an embedded `metadata` object.
+- New query params on `/governance/dreps`: `order_by=amount`, `retired=true|false` and `expired=true|false` filters.
+
 ### Changed
 
 - Optimized `/governance/proposals/:gov_action_id/metadata` and `/governance/dreps/:drep_id/metadata` queries. Requires new index: `bf_idx_off_chain_vote_fetch_error_anchor` (see README)

@@ -5,6 +5,9 @@ export interface RequestParameters {
     count: number;
     page: number;
     order: Order;
+    order_by?: 'amount';
+    retired?: boolean;
+    expired?: boolean;
   };
 }
 export interface RequestParametersDRepID {
@@ -28,6 +31,16 @@ export interface DReps {
   drep_id: string;
   hex: string;
   has_script: boolean;
+  amount: string;
+  retired: boolean;
+  expired: boolean;
+  last_active_epoch: number | null;
+  metadata_url: string | null;
+  metadata_hash: string | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  metadata_json: any;
+  metadata_bytes: string | null;
+  metadata_fetch_error: string | null;
 }
 
 export interface DRepsDrepID {
