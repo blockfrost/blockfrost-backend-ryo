@@ -1049,7 +1049,7 @@ cacheEntries = {
 "is-number-object@npm:1.0.4" = { filename = "is-number-object-npm-1.0.4-c8e38aaa89-d8e4525b5c.zip"; sha512 = "d8e4525b5c151f1830872bf217901b58b3a9f66d93fe2f71c2087418e03d7f5c19a3ad64afa0feb70dafd93f7b97e205e3520a8ff007be665e54b377f5b736a8"; };
 "is-string@npm:1.0.5" = { filename = "is-string-npm-1.0.5-782e9359f5-68d77a991f.zip"; sha512 = "68d77a991f55592721cc7d5800ff95cdb2c4f242e3a98fdc939c409879f7b8f297b8352184032b6b2183994b4c457f42df8de004c58b5b43655c8b2f3e3ecc17"; };
 "is-boolean-object@npm:1.1.0" = { filename = "is-boolean-object-npm-1.1.0-650a6dfdad-3ead044617.zip"; sha512 = "3ead0446176ee42a69f87658bf12d53c135095336d34765fa65f137f378ea125429bf777f91f6dd3407db80829d742bc4fb2fdaf8d2cf6ba82a2de2a07fbbac7"; };
-"@blockfrost/openapi@npm:0.1.89-beta.1" = { filename = "@blockfrost-openapi-npm-0.1.89-beta.1-e591d3cec7-6d50feb450.zip"; sha512 = "6d50feb450b1771c5a89df2e2f605aee978d6882ae862231b65e2b981f9a051bac6a958fe3983c1e935b57c7a95a349ea923fd07363daefc61bd72413fa311db"; };
+"@blockfrost/openapi@npm:0.1.89" = { filename = "@blockfrost-openapi-npm-0.1.89-8d3e11911e-3ac15f46c6.zip"; sha512 = "3ac15f46c6bab6e1bb9afe0ab2e4d9fcd3fc7c075c7b3533c80bd5885f3b517e3899e99afe5714e60d87a8b669c2b8f89065551d4f00a01bff93087166a66318"; };
 };
 
 in optionalOverride overrideAttrs project

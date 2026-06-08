@@ -7,12 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [6.6.0] - 2026-06-04
+## [6.6.0] - 2026-06-08
 
 ### Added
 
-- New per-row fields on `/governance/dreps` response: `has_script`, `amount`, `retired`, `expired`, `last_active_epoch`, and an embedded `metadata` object (`url`, `hash`, `json_metadata`, `bytes`, optional `error`).
-- New query params on `/governance/dreps`: `order_by=amount` (sort by voting power, combines with existing `order=asc|desc`); `retired=true|false` and `expired=true|false` filters. When filters are active, each page still returns up to `count` *matching* rows.
+- New fields on `/governance/dreps` response: `has_script`, `amount`, `retired`, `expired`, `last_active_epoch` and an embedded `metadata` object.
+- New query params on `/governance/dreps`: `order_by=amount`, `retired=true|false` and `expired=true|false` filters.
 
 ### Changed
 
