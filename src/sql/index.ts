@@ -88,6 +88,7 @@ const QUERY_FILES = {
   epochs_number_previous: 'epochs/epochs_number_previous.sql',
   epochs_number_previous_unpaged: 'epochs/unpaged/epochs_number_previous.sql',
   epochs_number_stakes: 'epochs/epochs_number_stakes.sql',
+  epochs_number_stakes_anchored: 'epochs/epochs_number_stakes_anchored.sql',
   epochs_number_stakes_unpaged: 'epochs/unpaged/epochs_number_stakes.sql',
   epochs_number_stakes_pool_id: 'epochs/epochs_number_stakes_pool_id.sql',
   epochs_number_stakes_pool_id_unpaged: 'epochs/unpaged/epochs_number_stakes_pool_id.sql',

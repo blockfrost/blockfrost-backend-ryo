@@ -1,6 +1,6 @@
 WITH queried_list AS (
   SELECT row_number() OVER (
-      ORDER BY es.id
+      ORDER BY sa.hash_raw ASC
     ) AS "myid",
     sa.view AS "stake_address",
     es.amount AS "amount"
@@ -9,7 +9,6 @@ WITH queried_list AS (
     JOIN pool_hash ph ON (ph.id = es.pool_id)
   WHERE es.epoch_no = $1
     AND ph.view = $4
-  ORDER BY es.id ASC
 )
 SELECT stake_address AS "stake_address",
   amount::TEXT AS "amount" -- cast to TEXT to avoid number overflow
@@ -45,3 +44,4 @@ FROM (
         END
       )
   ) AS "staked_addresses"
+ORDER BY myid ASC

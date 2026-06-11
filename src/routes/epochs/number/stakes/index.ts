@@ -5,6 +5,7 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { SQLQuery } from '../../../../sql/index.js';
 import * as QueryTypes from '../../../../types/queries/epochs.js';
 import * as ResponseTypes from '../../../../types/responses/epochs.js';
+import { getConfig } from '../../../../config.js';
 import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../utils/error-handler.js';
 import { validatePositiveInRangeSignedInt } from '../../../../utils/validation.js';
@@ -39,11 +40,14 @@ async function route(fastify: FastifyInstance) {
               SQLQuery.get('epochs_number_stakes_unpaged'),
               [request.params.number],
             )
-          : await clientDbSync.query<QueryTypes.EpochStake>(SQLQuery.get('epochs_number_stakes'), [
-              request.params.number,
-              request.query.count,
-              request.query.page,
-            ]);
+          : await clientDbSync.query<QueryTypes.EpochStake>(
+              SQLQuery.get(
+                getConfig().dbSync.epochStakeAnchors
+                  ? 'epochs_number_stakes_anchored'
+                  : 'epochs_number_stakes',
+              ),
+              [request.params.number, request.query.count, request.query.page],
+            );
 
         gracefulRelease(clientDbSync);
 
