@@ -1,4 +1,5 @@
 export type { ResultFound } from '../common.js';
+import { Amount } from '../common.js';
 
 export interface RequestParameters {
   Querystring: {
@@ -15,6 +16,16 @@ export interface RequestParametersScriptHash {
 }
 
 export interface RequestParametersScriptHashRedeemers {
+  Params: {
+    script_hash: string;
+  };
+  Querystring: {
+    count: number;
+    page: number;
+    order: 'asc' | 'desc';
+  };
+}
+export interface RequestParametersScriptHashUtxos {
   Params: {
     script_hash: string;
   };
@@ -53,6 +64,18 @@ export interface ScriptHashRedeemers {
   unit_steps: string;
   fee: string;
   redeemer_data_hash: string;
+}
+
+export interface ScriptHashUtxosQuery {
+  address: string;
+  tx_hash: string;
+  output_index: number;
+  amount_lovelace: string;
+  amount: Amount[] | null;
+  block: string;
+  data_hash: string | null;
+  inline_datum: string | null;
+  reference_script_hash: string | null;
 }
 
 export interface DatumHash {

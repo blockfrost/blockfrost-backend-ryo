@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.7.0] - 2026-06-19
+
+### Added
+
+- New `/scripts/:script_hash/utxos` endpoint — paged list of UTXOs holding the given script as a reference script (CIP-33), usable as reference inputs (CIP-31). Resolves a script hash directly to its deployment UTXOs without enumerating addresses.
+
 ### Changed
 
 - Improved query performance of `/governance/dreps/:drep_id/votes` and `/accounts/:stake_address/delegations` by paginating before joining auxiliary tables.

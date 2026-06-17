@@ -163,6 +163,7 @@ const QUERY_FILES = {
   scripts_script_hash: 'scripts/scripts_script_hash.sql',
   scripts_script_hash_redeemers: 'scripts/scripts_script_hash_redeemers.sql',
   scripts_script_hash_redeemers_unpaged: 'scripts/unpaged/scripts_script_hash_redeemers.sql',
+  scripts_script_hash_utxos: 'scripts/scripts_script_hash_utxos.sql',
   scripts_script_hash_cbor: 'scripts/scripts_script_hash_cbor.sql',
   scripts_script_hash_json: 'scripts/scripts_script_hash_json.sql',
   scripts_datum_datum_hash: 'scripts/scripts_datum_datum_hash.sql',
