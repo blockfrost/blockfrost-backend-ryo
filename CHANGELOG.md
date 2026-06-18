@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.6.1] - 2026-06-18
+
+### Security
+
+- Updated `@fastify/http-proxy` to `11.5.0` (pulls `@fastify/reply-from` `12.6.2`).
+- Updated `vitest` and `@vitest/coverage-v8` to `4.1.9`.
+- Updated `@blockfrost/blockfrost-utils` to `3.0.0`, which drops its `pm2` dependency and removes the transitive `vm2` package from the dependency tree entirely.
+- Upgraded further dependencies flagged by `yarn npm audit`: `fastify` `5.8.5`, `axios` `1.18.0`, `@sentry/node` `10.58.0`, `@blockfrost/blockfrost-js` `6.1.1`, `ajv` `8.20.0` and `path-to-regexp` `8.4.2`.
+
 ## [6.6.0] - 2026-06-08
 
 ### Added
