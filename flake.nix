@@ -32,12 +32,13 @@
                 cp -a ${self.packages.${system}.blockfrost-backend-ryo}/libexec/source/config $out/app/config
               '';
           in
-          legacyPkgs.${system}.dockerTools.buildImage {
+          legacyPkgs.${system}.dockerTools.buildLayeredImage {
             name = "backend-ryo";
             copyToRoot = [ configs ];
             config = {
               Cmd = [ "${self.packages.${system}.blockfrost-backend-ryo}/bin/blockfrost-backend-ryo" ];
               WorkingDir = "/app";
+              ExposedPorts = { "3000/tcp" = { }; };
             };
           };
         default = self.packages.${system}.blockfrost-backend-ryo-wrapper;
