@@ -45,21 +45,13 @@ async function route(fastify: FastifyInstance) {
 
         // quantities/amounts are returned as string from database so they won't overflow JS number
         for (const row of rows) {
-          const amount =
-            row.amount === null
-              ? [
-                  {
-                    unit: 'lovelace',
-                    quantity: row.amount_lovelace,
-                  },
-                ]
-              : [
-                  {
-                    unit: 'lovelace',
-                    quantity: row.amount_lovelace,
-                  },
-                  ...row.amount,
-                ];
+          const amount = [
+            {
+              unit: 'lovelace',
+              quantity: row.amount_lovelace,
+            },
+            ...(row.amount ?? []),
+          ];
 
           result.push({
             address: row.address,

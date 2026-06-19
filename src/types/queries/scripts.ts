@@ -1,5 +1,5 @@
 export type { ResultFound } from '../common.js';
-import { Amount } from '../common.js';
+import type { Amount } from '../common.js';
 
 export interface RequestParameters {
   Querystring: {
@@ -75,7 +75,7 @@ export interface ScriptHashUtxosQuery {
   block: string;
   data_hash: string | null;
   inline_datum: string | null;
-  reference_script_hash: string | null;
+  reference_script_hash: string;
 }
 
 export interface DatumHash {
