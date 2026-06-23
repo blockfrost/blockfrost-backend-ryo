@@ -125,6 +125,75 @@ CREATE INDEX IF NOT EXISTS bf_idx_tx_out_sa_paycred_script_id
 ON tx_out (stake_address_id, payment_cred, address_has_script, id);
 CREATE INDEX IF NOT EXISTS bf_idx_voting_procedure_gov_action_proposal_id ON voting_procedure (gov_action_proposal_id);
 CREATE INDEX IF NOT EXISTS bf_idx_off_chain_vote_fetch_error_anchor ON off_chain_vote_fetch_error (voting_anchor_id, id);
+CREATE INDEX IF NOT EXISTS bf_idx_epoch_stake_pool_id_epoch_no ON epoch_stake (pool_id, epoch_no);
+```
+
+#### Epoch stake pagination anchors (optional)
+
+`/epochs/{number}/stakes` orders results by the chain-derived `stake_address.hash_raw`, so the
+ordering is stable across db-sync instances out of the box. Because the sort key lives on
+`stake_address`, requesting deep pages (high `page` values) degrades to an O(offset) scan and can
+take seconds for pages deep into a mainnet epoch (~1.3M delegators).
+
+Optionally, you can create the following table and trigger in the db-sync database. It stores
+`hash_raw` at every 1000th position of each epoch's stake snapshot, letting the backend jump
+directly to the requested page (any page is then served in tens of milliseconds). The backfill
+takes roughly 2–3 seconds per mainnet epoch (~25 minutes for the full history); afterwards the
+trigger maintains new epochs as db-sync finishes each epoch's stake snapshot.
+
+To use it, enable the feature in the config file (or via the ENV var
+`BLOCKFROST_CONFIG_DBSYNC_EPOCH_STAKE_ANCHORS=true`):
+
+```yaml
+dbSync:
+  epochStakeAnchors: true
+```
+
+The server refuses to start if the option is enabled but the table is missing.
+
+```sql
+CREATE TABLE IF NOT EXISTS bf_tbl_epoch_stake_anchor (
+  epoch_no BIGINT NOT NULL,
+  rank BIGINT NOT NULL, -- 0-based position within the epoch in hash_raw order
+  hash_raw BYTEA NOT NULL, -- stake_address.hash_raw at that position
+  PRIMARY KEY (epoch_no, rank)
+);
+
+-- Backfill all completed epochs
+INSERT INTO bf_tbl_epoch_stake_anchor (epoch_no, rank, hash_raw)
+SELECT esp.epoch_no, t.rn - 1, t.hash_raw
+FROM epoch_stake_progress esp
+  CROSS JOIN LATERAL (
+    SELECT sa.hash_raw, row_number() OVER (ORDER BY sa.hash_raw) AS rn
+    FROM stake_address sa
+      JOIN epoch_stake es ON (es.addr_id = sa.id AND es.epoch_no = esp.epoch_no)
+  ) t
+WHERE esp.completed
+  AND NOT EXISTS (
+    SELECT 1 FROM bf_tbl_epoch_stake_anchor a WHERE a.epoch_no = esp.epoch_no
+  )
+  AND (t.rn - 1) % 1000 = 0 ON CONFLICT (epoch_no, rank) DO NOTHING;
+
+-- Maintain anchors for new epochs as db-sync completes each stake snapshot
+CREATE OR REPLACE FUNCTION bf_fn_update_bf_tbl_epoch_stake_anchor() RETURNS TRIGGER AS $$ BEGIN
+DELETE FROM bf_tbl_epoch_stake_anchor WHERE epoch_no = NEW.epoch_no;
+INSERT INTO bf_tbl_epoch_stake_anchor (epoch_no, rank, hash_raw)
+SELECT NEW.epoch_no, t.rn - 1, t.hash_raw
+FROM (
+    SELECT sa.hash_raw, row_number() OVER (ORDER BY sa.hash_raw) AS rn
+    FROM stake_address sa
+      JOIN epoch_stake es ON (es.addr_id = sa.id AND es.epoch_no = NEW.epoch_no)
+  ) t
+WHERE (t.rn - 1) % 1000 = 0;
+RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS bf_trg_update_bf_tbl_epoch_stake_anchor ON epoch_stake_progress;
+
+CREATE TRIGGER bf_trg_update_bf_tbl_epoch_stake_anchor
+AFTER INSERT OR UPDATE ON epoch_stake_progress FOR EACH ROW
+  WHEN (NEW.completed) EXECUTE PROCEDURE bf_fn_update_bf_tbl_epoch_stake_anchor();
 ```
 
 ### Experimental features

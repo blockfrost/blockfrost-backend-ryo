@@ -30,6 +30,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Optimized `/governance/proposals/:gov_action_id/metadata` and `/governance/dreps/:drep_id/metadata` queries. Requires new index: `bf_idx_off_chain_vote_fetch_error_anchor` (see README)
+- Optimized `/epochs/:number/stakes/:pool_id` query. Recommended new index: `bf_idx_epoch_stake_pool_id_epoch_no` (see README)
+
+### Fixed
+
+- `/epochs/:number/stakes` and `/epochs/:number/stakes/:pool_id` returned a different page-1 across db-sync replicas because pagination was keyed on `epoch_stake.id` (an insertion-order auto-increment). Ordering is now keyed on the chain-derived `stake_address.hash_raw` — stable across replicas regardless of db-sync's row-insertion order. Deep pages of `/epochs/:number/stakes` degrade to an O(offset) scan with this ordering; creating the optional `bf_tbl_epoch_stake_anchor` table and enabling `dbSync.epochStakeAnchors` (see README) restores fast pagination at any depth.
 
 ## [6.5.0] - 2026-05-15
 

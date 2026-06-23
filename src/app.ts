@@ -5,6 +5,7 @@ import fastify, { FastifyError, FastifyInstance, FastifyRequest } from 'fastify'
 import os from 'os';
 import { getConfig } from './config.js';
 import { registerRoute } from './utils/common.js';
+import { verifyEpochStakeAnchors } from './utils/database.js';
 import { errorHandler, notFoundHandler } from './utils/error-handler.js';
 import { createRequire } from 'module';
 import { registerMithrilProxy } from './proxies/mithril.js';
@@ -153,6 +154,13 @@ const start = (options = {}): FastifyInstance => {
       min: config.dbSync.minConnections,
     }),
   });
+
+  if (config.dbSync.epochStakeAnchors) {
+    // fail fast on startup when the anchor table is enabled but missing
+    app.addHook('onReady', async () => {
+      await verifyEpochStakeAnchors(app);
+    });
+  }
 
   // proxies
   registerMithrilProxy(app);

@@ -93,6 +93,11 @@ export const loadConfig = () => {
     : config.has('dbSync.minConnections')
       ? config.get<number>('dbSync.minConnections')
       : undefined;
+  const databaseSyncEpochStakeAnchors = process.env.BLOCKFROST_CONFIG_DBSYNC_EPOCH_STAKE_ANCHORS
+    ? process.env.BLOCKFROST_CONFIG_DBSYNC_EPOCH_STAKE_ANCHORS === 'true'
+    : config.has('dbSync.epochStakeAnchors')
+      ? config.get<boolean>('dbSync.epochStakeAnchors')
+      : false;
   const ssl = config.has('dbSync.ssl') ? { rejectUnauthorized: false } : false;
   const databaseSyncApplicationName =
     process.env.BLOCKFROST_CONFIG_APPLICATION_NAME ??
@@ -182,6 +187,7 @@ export const loadConfig = () => {
       minConnections: databaseSyncMinConnections,
       ssl,
       applicationName: databaseSyncApplicationName,
+      epochStakeAnchors: databaseSyncEpochStakeAnchors,
     },
     network: network as Network,
     genesis,
