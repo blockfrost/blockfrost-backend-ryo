@@ -72,6 +72,65 @@ const response_scripts_script_hash_redeemers = [
   },
 ];
 
+const query_scripts_script_hash_utxos = [
+  {
+    address: 'addr1wyuelujqprdpruhrgd5cykkg6es2s34sy95xtsyqudnwt5q2nftxc',
+    tx_hash: 'ee404e067104e138fc0a0de126084790d3602d77806a63b0f326d1671695711d',
+    output_index: 0,
+    amount_lovelace: '7551120',
+    amount: null,
+    block: '0a9dd34749b6eb6213f741fe65b3432a78ab8f9f1a22b0a1cf71e6148b120188',
+    data_hash: '923918e403bf43c34b4ef6b48eb2ee04babed17320d8d1b9ff9ad086e86f44ec',
+    inline_datum: 'd87980',
+    reference_script_hash: '73e0949d28cca009e5dcb72f47414144b83652d1c14c1e75cd41101c',
+  },
+  {
+    address: 'addr1wyuelujqprdpruhrgd5cykkg6es2s34sy95xtsyqudnwt5q2nftxc',
+    tx_hash: '6e8f99790179859f804ebb7658f398dac3b8fd7db2d0631885c0afba061e5b14',
+    output_index: 0,
+    amount_lovelace: '2000000',
+    amount: [
+      {
+        unit: 'b0d07d45fe9514f80213f4020e5a61241458be626841cde717cb38a76e7574636f696e',
+        quantity: '12',
+      },
+    ],
+    block: 'ceca14294039b6c7206c565f5d21e6fe7ad0268ea6ebb50edbf4c4d9fdba15fe',
+    data_hash: null,
+    inline_datum: null,
+    reference_script_hash: '73e0949d28cca009e5dcb72f47414144b83652d1c14c1e75cd41101c',
+  },
+];
+
+const response_scripts_script_hash_utxos = [
+  {
+    address: 'addr1wyuelujqprdpruhrgd5cykkg6es2s34sy95xtsyqudnwt5q2nftxc',
+    tx_hash: 'ee404e067104e138fc0a0de126084790d3602d77806a63b0f326d1671695711d',
+    output_index: 0,
+    amount: [{ unit: 'lovelace', quantity: '7551120' }],
+    block: '0a9dd34749b6eb6213f741fe65b3432a78ab8f9f1a22b0a1cf71e6148b120188',
+    data_hash: '923918e403bf43c34b4ef6b48eb2ee04babed17320d8d1b9ff9ad086e86f44ec',
+    inline_datum: 'd87980',
+    reference_script_hash: '73e0949d28cca009e5dcb72f47414144b83652d1c14c1e75cd41101c',
+  },
+  {
+    address: 'addr1wyuelujqprdpruhrgd5cykkg6es2s34sy95xtsyqudnwt5q2nftxc',
+    tx_hash: '6e8f99790179859f804ebb7658f398dac3b8fd7db2d0631885c0afba061e5b14',
+    output_index: 0,
+    amount: [
+      { unit: 'lovelace', quantity: '2000000' },
+      {
+        unit: 'b0d07d45fe9514f80213f4020e5a61241458be626841cde717cb38a76e7574636f696e',
+        quantity: '12',
+      },
+    ],
+    block: 'ceca14294039b6c7206c565f5d21e6fe7ad0268ea6ebb50edbf4c4d9fdba15fe',
+    data_hash: null,
+    inline_datum: null,
+    reference_script_hash: '73e0949d28cca009e5dcb72f47414144b83652d1c14c1e75cd41101c',
+  },
+];
+
 const response_404 = {
   error: 'Not Found',
   message: 'The requested component has not been found.',
@@ -159,6 +218,30 @@ export default [
     network: 'mainnet',
     response: [],
   },
+  {
+    name: 'respond with success and data on /scripts/:script_hash/utxos',
+    endpoint: '/scripts/73e0949d28cca009e5dcb72f47414144b83652d1c14c1e75cd41101c/utxos',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_scripts_script_hash_utxos,
+    },
+    network: 'mainnet',
+    response: response_scripts_script_hash_utxos,
+  },
+  {
+    name: 'respond with success and empty data on /scripts/:script_hash/utxos',
+    endpoint: '/scripts/73e0949d28cca009e5dcb72f47414144b83652d1c14c1e75cd41101c/utxos',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: [],
+    },
+    network: 'mainnet',
+    response: [],
+  },
   /*
       404s
   */
@@ -175,6 +258,15 @@ export default [
   {
     name: 'respond with 404 and empty data on /scripts/:script_hash/redeemers',
     endpoint: '/scripts/stonks_script/redeemers',
+    sqlQueryMock: {
+      rows: [],
+    },
+    network: 'mainnet',
+    response: response_404,
+  },
+  {
+    name: 'respond with 404 and empty data on /scripts/:script_hash/utxos',
+    endpoint: '/scripts/stonks_script/utxos',
     sqlQueryMock: {
       rows: [],
     },
@@ -207,6 +299,15 @@ export default [
   {
     name: 'respond with 500 and null on /scripts/:script_hash/redeemers',
     endpoint: '/scripts/stonks_script/redeemers',
+    sqlQueryMock: {
+      rows: null,
+    },
+    network: 'mainnet',
+    response: response_500,
+  },
+  {
+    name: 'respond with 500 and null on /scripts/:script_hash/utxos',
+    endpoint: '/scripts/stonks_script/utxos',
     sqlQueryMock: {
       rows: null,
     },

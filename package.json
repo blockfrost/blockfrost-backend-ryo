@@ -1,6 +1,6 @@
 {
   "name": "blockfrost-backend-ryo",
-  "version": "6.6.1",
+  "version": "6.7.0",
   "description": "",
   "keywords": [],
   "license": "Apache-2.0",
@@ -23,7 +23,7 @@
   "dependencies": {
     "@blockfrost/blockfrost-js": "6.1.1",
     "@blockfrost/blockfrost-utils": "3.0.0",
-    "@blockfrost/openapi": "0.1.89",
+    "@blockfrost/openapi": "0.1.90",
     "@fastify/cors": "^11.1.0",
     "@fastify/http-proxy": "^11.5.0",
     "@fastify/postgres": "^6.0.2",
