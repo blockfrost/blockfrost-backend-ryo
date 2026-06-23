@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Improved query performance of `/governance/dreps/:drep_id/votes` and `/accounts/:stake_address/delegations` by paginating before joining auxiliary tables.
+
 ## [6.6.1] - 2026-06-18
 
 ### Security
