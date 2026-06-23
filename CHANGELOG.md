@@ -7,11 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [6.7.0] - 2026-06-19
+## [6.7.0] - 2026-06-23
 
 ### Added
 
-- New `/scripts/:script_hash/utxos` endpoint — paged list of UTXOs holding the given script as a reference script (CIP-33), usable as reference inputs (CIP-31). Resolves a script hash directly to its deployment UTXOs without enumerating addresses.
+- New `/scripts/:script_hash/utxos` endpoint — paged list of UTXOs holding the given script as a reference script (CIP-33), usable as reference inputs (CIP-31). Resolves a script hash directly to its deployment UTXOs without enumerating addresses. Requires cardano-db-sync with consumed-tx-out tracking enabled (the `tx_out` insert option set to `consumed` or `prune`), as the query filters unspent outputs via `tx_out.consumed_by_tx_id`.
 
 ### Changed
 
