@@ -106,6 +106,7 @@ CREATE INDEX IF NOT EXISTS bf_idx_redeemer_tx_id ON redeemer USING btree (tx_id)
 CREATE INDEX IF NOT EXISTS bf_idx_col_tx_out ON collateral_tx_out USING btree (tx_id);
 CREATE INDEX IF NOT EXISTS bf_idx_ma_tx_mint_ident ON ma_tx_mint USING btree (ident);
 CREATE INDEX IF NOT EXISTS bf_idx_ma_tx_out_ident ON ma_tx_out USING btree (ident);
+CREATE INDEX IF NOT EXISTS bf_idx_ma_tx_out_tx_out_id_covering ON ma_tx_out (tx_out_id) INCLUDE (ident, quantity);
 CREATE INDEX IF NOT EXISTS bf_idx_reward_rest_addr_id ON reward_rest USING btree (addr_id);
 CREATE INDEX IF NOT EXISTS bf_idx_reward_rest_spendable_epoch ON reward_rest USING btree (spendable_epoch);
 CREATE INDEX IF NOT EXISTS bf_idx_drep_hash_raw ON drep_hash USING hash (raw);
@@ -296,4 +297,3 @@ This just mean you have to give the db user blockfrost uses to connect permissio
 ```sql
 GRANT USAGE ON SCHEMA cardano TO username;
 ```
-
