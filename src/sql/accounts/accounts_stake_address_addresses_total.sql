@@ -1,40 +1,36 @@
-WITH queried_outputs AS (
-  SELECT COALESCE(txo.value, 0) AS "amount",
-    array_agg(mto.id) AS "assets_ids",
-    array_agg(DISTINCT tx.id) AS "txids"
-  FROM tx
-    JOIN tx_in txi ON (txi.tx_in_id = tx.id)
-    JOIN tx_out txo ON (
-      txo.tx_id = txi.tx_out_id
-      AND txo.index = txi.tx_out_index
-    )
-    JOIN stake_address sa ON (txo.stake_address_id = sa.id)
-    LEFT JOIN ma_tx_out mto ON (mto.tx_out_id = txo.id)
-  WHERE sa.view = $1
-  GROUP BY txo.id
+WITH matched_stake_address AS MATERIALIZED (
+  SELECT id,
+    view
+  FROM stake_address
+  WHERE view = $1
+  LIMIT 1
 ),
-queried_inputs AS (
-  SELECT COALESCE(txo.value, 0) AS "amount",
-    array_agg(mto.id) AS "assets_ids",
-    array_agg(DISTINCT tx.id) AS "txids"
-  FROM tx
-    JOIN tx_out txo ON (txo.tx_id = tx.id)
-    JOIN stake_address sa ON (txo.stake_address_id = sa.id)
-    LEFT JOIN ma_tx_out mto ON (mto.tx_out_id = txo.id)
-  WHERE sa.view = $1
-  GROUP BY txo.id
+matched_received AS MATERIALIZED (
+  SELECT txo.id AS "tx_out_id",
+    COALESCE(txo.value, 0) AS "value",
+    txo.tx_id AS "txid"
+  FROM tx_out txo
+    JOIN matched_stake_address sa ON (txo.stake_address_id = sa.id)
+),
+matched_sent AS MATERIALIZED (
+  SELECT txo.id AS "tx_out_id",
+    COALESCE(txo.value, 0) AS "value",
+    txi.tx_in_id AS "txid"
+  FROM tx_out txo
+    JOIN matched_stake_address sa ON (txo.stake_address_id = sa.id)
+    JOIN tx_in txi ON (
+      txi.tx_out_id = txo.tx_id
+      AND txi.tx_out_index = txo.index
+    )
 )
 SELECT (
-    SELECT sa.view
-    FROM tx_out txo
-      JOIN stake_address sa ON (txo.stake_address_id = sa.id)
-    WHERE sa.view = $1
-    LIMIT 1
+    SELECT view
+    FROM matched_stake_address
   ) AS "stake_address",
   (
     (
-      SELECT COALESCE(SUM(amount), 0)::TEXT -- cast to TEXT to avoid number overflow
-      FROM queried_outputs
+      SELECT COALESCE(SUM(value), 0)::TEXT -- cast to TEXT to avoid number overflow
+      FROM matched_sent
     )
   ) AS "sent_amount_lovelace",
   (
@@ -48,22 +44,20 @@ SELECT (
       )
     FROM (
         SELECT CONCAT(encode(ma.policy, 'hex'), encode(ma.name, 'hex')) AS "token_name",
-          SUM(quantity) AS "token_quantity"
-        FROM ma_tx_out mto
+          SUM(mto.quantity) AS "token_quantity"
+        FROM matched_sent ms
+          JOIN ma_tx_out mto ON (mto.tx_out_id = ms.tx_out_id)
           JOIN multi_asset ma ON (mto.ident = ma.id)
-        WHERE mto.id IN (
-            SELECT unnest(assets_ids)
-            FROM queried_outputs
-          )
         GROUP BY ma.name,
           ma.policy
-        ORDER BY (ma.policy, ma.name)
+        ORDER BY ma.policy,
+          ma.name
       ) AS "assets"
   ) AS "sent_amount",
   (
     (
-      SELECT COALESCE(SUM(amount), 0)::TEXT -- cast to TEXT to avoid number overflow
-      FROM queried_inputs
+      SELECT COALESCE(SUM(value), 0)::TEXT -- cast to TEXT to avoid number overflow
+      FROM matched_received
     )
   ) AS "received_amount_lovelace",
   (
@@ -77,29 +71,23 @@ SELECT (
       )
     FROM (
         SELECT CONCAT(encode(ma.policy, 'hex'), encode(ma.name, 'hex')) AS "token_name",
-          SUM(quantity) AS "token_quantity"
-        FROM ma_tx_out mto
+          SUM(mto.quantity) AS "token_quantity"
+        FROM matched_received mr
+          JOIN ma_tx_out mto ON (mto.tx_out_id = mr.tx_out_id)
           JOIN multi_asset ma ON (mto.ident = ma.id)
-        WHERE mto.id IN (
-            SELECT unnest(assets_ids)
-            FROM queried_inputs
-          )
         GROUP BY ma.name,
           ma.policy
-        ORDER BY (ma.policy, ma.name)
+        ORDER BY ma.policy,
+          ma.name
       ) AS "assets"
   ) AS "received_amount",
   (
-    SELECT COUNT(*)
+    SELECT COUNT(DISTINCT txid)
     FROM (
-        (
-          SELECT txids
-          FROM queried_inputs
-        )
-        UNION
-        (
-          SELECT txids
-          FROM queried_outputs
-        )
-      ) AS "unique_txs"
+        SELECT txid
+        FROM matched_received
+        UNION ALL
+        SELECT txid
+        FROM matched_sent
+      ) AS "txs"
   ) AS "tx_count"
