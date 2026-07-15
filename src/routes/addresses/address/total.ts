@@ -13,6 +13,10 @@ import {
 } from '../../../utils/validation.js';
 
 async function route(fastify: FastifyInstance) {
+  // optional guard: reject addresses with more tx outputs than the configured
+  // limit instead of running the expensive aggregation (unset or 0 = disabled)
+  const { addressTotalsTxOutLimit } = getConfig().dbSync;
+
   fastify.route({
     url: '/addresses/:address/total',
     method: 'GET',
@@ -38,10 +42,6 @@ async function route(fastify: FastifyInstance) {
           gracefulRelease(clientDbSync);
           return handle404(reply);
         }
-
-        // optional guard: reject addresses with more tx outputs than the configured
-        // limit instead of running the expensive aggregation (unset or 0 = disabled)
-        const { addressTotalsTxOutLimit } = getConfig().dbSync;
 
         if (addressTotalsTxOutLimit) {
           const overLimit = await isOverTxOutLimit(
