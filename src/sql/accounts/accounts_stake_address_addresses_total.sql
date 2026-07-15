@@ -1,14 +1,12 @@
+-- requires db-sync consumed-tx-out tracking (tx_out.consumed_by_tx_id),
+-- the tx_out insert option set to 'consumed' or 'prune'
 WITH matched_outputs AS MATERIALIZED (
   SELECT txo.id,
     COALESCE(txo.value, 0) AS "value",
     txo.tx_id,
-    txi.tx_in_id AS "spending_tx_id"
+    txo.consumed_by_tx_id AS "spending_tx_id"
   FROM tx_out txo
     JOIN stake_address sa ON (txo.stake_address_id = sa.id)
-    LEFT JOIN tx_in txi ON (
-      txi.tx_out_id = txo.tx_id
-      AND txi.tx_out_index = txo.index
-    )
   WHERE sa.view = $1
 ),
 -- one pass over ma_tx_out; multi_asset is joined later, only once per distinct asset.

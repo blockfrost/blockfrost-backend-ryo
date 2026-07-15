@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Improved query performance of `/accounts/:stake_address/addresses/total` and `/addresses/:address/total` by aggregating in a single pass over `tx_out`, `tx_in` and `ma_tx_out`. Asset-heavy addresses that previously timed out now complete, with order-of-magnitude speedups on large accounts.
+- Improved query performance of `/accounts/:stake_address/addresses/total` and `/addresses/:address/total` by aggregating in a single pass over `tx_out` and `ma_tx_out`, determining spent outputs via `tx_out.consumed_by_tx_id`. Asset-heavy addresses that previously timed out now complete, with order-of-magnitude speedups on large accounts. Requires cardano-db-sync with consumed-tx-out tracking enabled (the `tx_out` insert option set to `consumed` or `prune`).
 
 ## [6.7.0] - 2026-06-23
 

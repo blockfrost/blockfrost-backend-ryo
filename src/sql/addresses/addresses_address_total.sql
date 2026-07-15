@@ -1,13 +1,11 @@
+-- requires db-sync consumed-tx-out tracking (tx_out.consumed_by_tx_id),
+-- the tx_out insert option set to 'consumed' or 'prune'
 WITH matched_outputs AS MATERIALIZED (
   SELECT txo.id,
     COALESCE(txo.value, 0) AS "value",
     txo.tx_id,
-    txi.tx_in_id AS "spending_tx_id"
+    txo.consumed_by_tx_id AS "spending_tx_id"
   FROM tx_out txo
-    LEFT JOIN tx_in txi ON (
-      txi.tx_out_id = txo.tx_id
-      AND txi.tx_out_index = txo.index
-    )
   WHERE (
       -- comparing against (SELECT $n) instead of $n keeps the planner on generic
       -- row estimates: very common addresses (MCV statistics) would otherwise
