@@ -87,11 +87,22 @@ export const loadConfig = () => {
   // When set, requests for addresses/accounts with more tx outputs than the limit
   // are rejected with 400 instead of running the expensive aggregation.
   // Disabled (undefined) by default.
-  const addressTotalsTxOutLimit = process.env.BLOCKFROST_CONFIG_DBSYNC_ADDRESS_TOTALS_TX_OUT_LIMIT
-    ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_ADDRESS_TOTALS_TX_OUT_LIMIT)
-    : config.has('dbSync.addressTotalsTxOutLimit')
-      ? config.get<number>('dbSync.addressTotalsTxOutLimit')
-      : undefined;
+  const addressTotalsTxOutLimitRaw =
+    process.env.BLOCKFROST_CONFIG_DBSYNC_ADDRESS_TOTALS_TX_OUT_LIMIT ??
+    (config.has('dbSync.addressTotalsTxOutLimit')
+      ? config.get('dbSync.addressTotalsTxOutLimit')
+      : undefined);
+  const addressTotalsTxOutLimit =
+    addressTotalsTxOutLimitRaw === undefined ? undefined : Number(addressTotalsTxOutLimitRaw);
+
+  if (
+    addressTotalsTxOutLimit !== undefined &&
+    (!Number.isInteger(addressTotalsTxOutLimit) || addressTotalsTxOutLimit <= 0)
+  ) {
+    throw new Error(
+      `Invalid dbSync.addressTotalsTxOutLimit configuration: ${addressTotalsTxOutLimitRaw}. Expected a positive integer (or unset to disable the limit).`,
+    );
+  }
   const databaseSyncIdleTimeoutMs = process.env.BLOCKFROST_CONFIG_DBSYNC_IDLE_TIMEOUT_MS
     ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_IDLE_TIMEOUT_MS)
     : config.has('dbSync.idleTimeoutMs')

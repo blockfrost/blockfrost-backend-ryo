@@ -1,9 +1,8 @@
--- Bounded count of tx outputs for an address (or payment credential), used as
--- a cheap pre-check before the expensive totals aggregation. LIMIT $3 caps the
--- scan so the pre-check itself stays cheap no matter how large the address is:
--- pass limit + 1 and treat count > limit as "over the limit".
-SELECT COUNT(*) AS "cnt"
-FROM (
+-- Bounded over-limit check for the totals endpoint: a row exists at OFFSET $3
+-- if and only if the address (or payment credential) has more than $3 tx
+-- outputs. Postgres stops scanning at the first row past the offset, so the
+-- cost never exceeds the limit no matter how large the address is.
+SELECT EXISTS (
     SELECT 1
     FROM tx_out txo
     WHERE (
@@ -18,5 +17,5 @@ FROM (
           )
         END
       )
-    LIMIT $3
-  ) AS "bounded"
+    OFFSET $3
+  ) AS "over_limit"

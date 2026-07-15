@@ -3,7 +3,7 @@ import * as ResponseTypes from '../../../../types/responses/accounts.js';
 import * as QueryTypes from '../../../../types/queries/accounts.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { getConfig } from '../../../../config.js';
-import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
+import { getDbSync, gracefulRelease, isOverTxOutLimit } from '../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../utils/error-handler.js';
 import { validateStakeAddress } from '../../../../utils/validation.js';
 import { SQLQuery } from '../../../../sql/index.js';
@@ -40,12 +40,14 @@ async function route(fastify: FastifyInstance) {
         const { addressTotalsTxOutLimit } = getConfig().dbSync;
 
         if (addressTotalsTxOutLimit !== undefined) {
-          const countQuery = await clientDbSync.query<QueryTypes.TxOutTotalsCount>(
-            SQLQuery.get('accounts_stake_address_addresses_total_count'),
-            [request.params.stake_address, addressTotalsTxOutLimit + 1],
+          const overLimit = await isOverTxOutLimit(
+            clientDbSync,
+            'accounts_stake_address_addresses_total_over_limit',
+            [request.params.stake_address],
+            addressTotalsTxOutLimit,
           );
 
-          if (Number(countQuery.rows[0].cnt) > addressTotalsTxOutLimit) {
+          if (overLimit) {
             gracefulRelease(clientDbSync);
             return handle400Custom(reply, 'Account is too large to compute totals for.');
           }

@@ -13,11 +13,6 @@ export interface ResultFound {
   result: number;
 }
 
-// bounded tx_out count used by the totals endpoints' size pre-check
-export interface TxOutTotalsCount {
-  cnt: string;
-}
-
 // less generic types
 export interface ByronEraParameters {
   epoch_length: number;

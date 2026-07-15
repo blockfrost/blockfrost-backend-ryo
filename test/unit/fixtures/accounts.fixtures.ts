@@ -783,7 +783,7 @@ export default [
       rows: query_found,
     },
     sqlQueryMock2: {
-      rows: [{ cnt: '42' }],
+      rows: [{ over_limit: false }],
     },
     sqlQueryMock3: {
       rows: query_accounts_addresses_addresses_total_1,
@@ -799,7 +799,7 @@ export default [
       rows: query_found,
     },
     sqlQueryMock2: {
-      rows: [{ cnt: '100001' }],
+      rows: [{ over_limit: true }],
     },
     response: {
       error: 'Bad Request',

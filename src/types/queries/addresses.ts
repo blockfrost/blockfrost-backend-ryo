@@ -1,5 +1,5 @@
 import { Amount, OnchainMetadata, Order } from '../common.js';
-export type { ResultFound, TxOutTotalsCount } from '../common.js';
+export type { ResultFound } from '../common.js';
 export interface RequestParameters {
   Params: {
     address: string;

@@ -5,7 +5,7 @@ import { SQLQuery } from '../../../sql/index.js';
 import { getConfig } from '../../../config.js';
 import * as QueryTypes from '../../../types/queries/addresses.js';
 import * as ResponseTypes from '../../../types/responses/addresses.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
+import { getDbSync, gracefulRelease, isOverTxOutLimit } from '../../../utils/database.js';
 import { handle400Custom, handle404, handleInvalidAddress } from '../../../utils/error-handler.js';
 import {
   getAddressTypeAndPaymentCred,
@@ -44,12 +44,14 @@ async function route(fastify: FastifyInstance) {
         const { addressTotalsTxOutLimit } = getConfig().dbSync;
 
         if (addressTotalsTxOutLimit !== undefined) {
-          const countQuery = await clientDbSync.query<QueryTypes.TxOutTotalsCount>(
-            SQLQuery.get('addresses_address_total_count'),
-            [request.params.address, paymentCred, addressTotalsTxOutLimit + 1],
+          const overLimit = await isOverTxOutLimit(
+            clientDbSync,
+            'addresses_address_total_over_limit',
+            [request.params.address, paymentCred],
+            addressTotalsTxOutLimit,
           );
 
-          if (Number(countQuery.rows[0].cnt) > addressTotalsTxOutLimit) {
+          if (overLimit) {
             gracefulRelease(clientDbSync);
             return handle400Custom(reply, 'Address is too large to compute totals for.');
           }
