@@ -7,9 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Optional `dbSync.addressTotalsTxOutLimit` config option (env `BLOCKFROST_CONFIG_DBSYNC_ADDRESS_TOTALS_TX_OUT_LIMIT`): `/addresses/:address/total` and `/accounts/:stake_address/addresses/total` respond with HTTP 400 for addresses/accounts exceeding the configured tx output count. Disabled by default.
+
 ### Changed
 
-- Improved query performance of `/accounts/:stake_address/addresses/total` and `/addresses/:address/total` by aggregating in a single pass: `tx_out`, `tx_in` and `ma_tx_out` are each scanned once (previously multi-asset rows were fetched twice per side and spent/unspent sets were computed by separate scans), and `multi_asset` is joined only once per distinct asset after aggregation. Asset-heavy addresses that previously timed out now complete, with order-of-magnitude speedups on large accounts.
+- Improved query performance of `/accounts/:stake_address/addresses/total` and `/addresses/:address/total` by aggregating in a single pass over `tx_out`, `tx_in` and `ma_tx_out`. Asset-heavy addresses that previously timed out now complete, with order-of-magnitude speedups on large accounts.
 
 ## [6.7.0] - 2026-06-23
 

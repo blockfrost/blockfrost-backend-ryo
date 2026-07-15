@@ -8,6 +8,8 @@ const QUERY_FILES = {
   accounts_stake_address_addresses: 'accounts/accounts_stake_address_addresses.sql',
   accounts_stake_address_addresses_unpaged: 'accounts/unpaged/accounts_stake_address_addresses.sql',
   accounts_stake_address_addresses_total: 'accounts/accounts_stake_address_addresses_total.sql',
+  accounts_stake_address_addresses_total_count:
+    'accounts/accounts_stake_address_addresses_total_count.sql',
   accounts_stake_address_addresses_assets: 'accounts/accounts_stake_address_addresses_assets.sql',
   accounts_stake_address_addresses_assets_unpaged:
     'accounts/unpaged/accounts_stake_address_addresses_assets.sql',
@@ -33,6 +35,7 @@ const QUERY_FILES = {
   addresses_address: 'addresses/addresses_address.sql',
   addresses_address_extended: 'addresses/addresses_address_extended.sql',
   addresses_address_total: 'addresses/addresses_address_total.sql',
+  addresses_address_total_count: 'addresses/addresses_address_total_count.sql',
   addresses_address_transactions: 'addresses/addresses_address_transactions.sql',
   addresses_address_transactions_unpaged: 'addresses/unpaged/addresses_address_transactions.sql',
   addresses_address_txs: 'addresses/addresses_address_txs.sql',

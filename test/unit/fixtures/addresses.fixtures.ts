@@ -1455,6 +1455,39 @@ export default [
     response: response_address_vkh_total_regular_1,
   },
   {
+    name: 'respond with success on /addresses/:address/total within addressTotalsTxOutLimit',
+    endpoint:
+      '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/total',
+    dbSyncConfig: { addressTotalsTxOutLimit: 100_000 },
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: [{ cnt: '42' }],
+    },
+    sqlQueryMock3: {
+      rows: [query_address_total_regular_1],
+    },
+    response: response_address_total_regular_1,
+  },
+  {
+    name: 'respond with 400 on /addresses/:address/total exceeding addressTotalsTxOutLimit',
+    endpoint:
+      '/addresses/addr1q904hvj3tcr9cendlrm6y4fhcy34tgezlqn92z7z4lwkzczvqdpz4hpzh09mr3360akg0y9wss24hhvfhtkp2fjh65cs7q4z89/total',
+    dbSyncConfig: { addressTotalsTxOutLimit: 100_000 },
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: [{ cnt: '100001' }],
+    },
+    response: {
+      error: 'Bad Request',
+      message: 'Address is too large to compute totals for.',
+      status_code: 400,
+    },
+  },
+  {
     name: 'respond with success and data on /addresses/:address/extended',
     endpoint:
       '/addresses/addr1qxxfwz7n3lnduxxgff6smhwlxkcw3gcax3q39363cpq4axnntgjccmteyrsldd67rxv2yq6ew2a7t48q34p9j7nf0kjq4rdx3w/extended',

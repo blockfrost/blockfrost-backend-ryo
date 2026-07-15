@@ -57,6 +57,11 @@ If you are using an authenticated db connection that requires a password, you'd 
     database: 'dbname'
     # Optionally define a password
     password: 'randomstringthatissolongandpowerfulthatnoonecanguess'
+    # Optional guard for /addresses/:address/total and /accounts/:stake_address/addresses/total.
+    # When set, requests for addresses/accounts with more tx outputs than the limit are
+    # rejected with HTTP 400 instead of running the expensive aggregation, which can take
+    # minutes for the largest addresses on mainnet. Disabled by default.
+    # addressTotalsTxOutLimit: 1000000
   # Cardano network - mainnet, testnet, preview, preprod, custom
   network: 'mainnet'
   # path to the folder containing genesis data. If left blank, ./genesis/${network} will be used
@@ -75,7 +80,7 @@ If you are using an authenticated db connection that requires a password, you'd 
 <details>
 <summary>:bulb: All config variables can be also set via environment variables which take precedence over values from a config file.</summary>
 
-These values are `BLOCKFROST_CONFIG_SERVER_PORT`, `BLOCKFROST_CONFIG_SERVER_DEBUG`, `BLOCKFROST_CONFIG_SERVER_PROMETHEUS_METRICS`, `BLOCKFROST_CONFIG_DBSYNC_HOST`, `BLOCKFROST_CONFIG_DBSYNC_USER`, `BLOCKFROST_CONFIG_DBSYNC_DATABASE`, `BLOCKFROST_CONFIG_DBSYNC_MAX_CONN`, `BLOCKFROST_CONFIG_NETWORK`, `BLOCKFROST_CONFIG_GENESIS_DATA_FOLDER`, `BLOCKFROST_CONFIG_TOKEN_REGISTRY_URL`.
+These values are `BLOCKFROST_CONFIG_SERVER_PORT`, `BLOCKFROST_CONFIG_SERVER_DEBUG`, `BLOCKFROST_CONFIG_SERVER_PROMETHEUS_METRICS`, `BLOCKFROST_CONFIG_DBSYNC_HOST`, `BLOCKFROST_CONFIG_DBSYNC_USER`, `BLOCKFROST_CONFIG_DBSYNC_DATABASE`, `BLOCKFROST_CONFIG_DBSYNC_MAX_CONN`, `BLOCKFROST_CONFIG_DBSYNC_ADDRESS_TOTALS_TX_OUT_LIMIT`, `BLOCKFROST_CONFIG_NETWORK`, `BLOCKFROST_CONFIG_GENESIS_DATA_FOLDER`, `BLOCKFROST_CONFIG_TOKEN_REGISTRY_URL`.
 
 </details>
 
