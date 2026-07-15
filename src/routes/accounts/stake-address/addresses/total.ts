@@ -36,10 +36,10 @@ async function route(fastify: FastifyInstance) {
         }
 
         // optional guard: reject accounts with more tx outputs than the configured
-        // limit instead of running the expensive aggregation (disabled by default)
+        // limit instead of running the expensive aggregation (unset or 0 = disabled)
         const { addressTotalsTxOutLimit } = getConfig().dbSync;
 
-        if (addressTotalsTxOutLimit !== undefined) {
+        if (addressTotalsTxOutLimit) {
           const overLimit = await isOverTxOutLimit(
             clientDbSync,
             'accounts_stake_address_addresses_total_over_limit',

@@ -60,7 +60,7 @@ If you are using an authenticated db connection that requires a password, you'd 
     # Optional guard for /addresses/:address/total and /accounts/:stake_address/addresses/total.
     # When set, requests for addresses/accounts with more tx outputs than the limit are
     # rejected with HTTP 400 instead of running the expensive aggregation, which can take
-    # minutes for the largest addresses on mainnet. Disabled by default.
+    # minutes for the largest addresses on mainnet. Disabled by default (0 also disables it).
     # addressTotalsTxOutLimit: 1000000
   # Cardano network - mainnet, testnet, preview, preprod, custom
   network: 'mainnet'
