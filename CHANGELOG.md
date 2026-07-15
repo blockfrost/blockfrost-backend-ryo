@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.7.1] - 2026-07-15
+
 ### Added
 
 - Optional `dbSync.addressTotalsTxOutLimit` config option (env `BLOCKFROST_CONFIG_DBSYNC_ADDRESS_TOTALS_TX_OUT_LIMIT`): `/addresses/:address/total` and `/accounts/:stake_address/addresses/total` respond with HTTP 400 for addresses/accounts exceeding the configured tx output count. Disabled by default.
