@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.7.1] - 2026-07-15
+
+### Added
+
+- Optional `dbSync.addressTotalsTxOutLimit` config option (env `BLOCKFROST_CONFIG_DBSYNC_ADDRESS_TOTALS_TX_OUT_LIMIT`): `/addresses/:address/total` and `/accounts/:stake_address/addresses/total` respond with HTTP 400 for addresses/accounts exceeding the configured tx output count. Disabled by default.
+
+### Changed
+
+- Improved query performance of `/accounts/:stake_address/addresses/total` and `/addresses/:address/total` by aggregating in a single pass over `tx_out` and `ma_tx_out`, determining spent outputs via `tx_out.consumed_by_tx_id`. Asset-heavy addresses that previously timed out now complete, with order-of-magnitude speedups on large accounts. Requires cardano-db-sync with consumed-tx-out tracking enabled (the `tx_out` insert option set to `consumed` or `prune`).
+
 ## [6.7.0] - 2026-06-23
 
 ### Added

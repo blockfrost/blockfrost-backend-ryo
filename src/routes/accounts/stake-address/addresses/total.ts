@@ -2,12 +2,17 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import * as ResponseTypes from '../../../../types/responses/accounts.js';
 import * as QueryTypes from '../../../../types/queries/accounts.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { getDbSync, gracefulRelease } from '../../../../utils/database.js';
+import { getConfig } from '../../../../config.js';
+import { getDbSync, gracefulRelease, isOverTxOutLimit } from '../../../../utils/database.js';
 import { handle400Custom, handle404 } from '../../../../utils/error-handler.js';
 import { validateStakeAddress } from '../../../../utils/validation.js';
 import { SQLQuery } from '../../../../sql/index.js';
 
 async function route(fastify: FastifyInstance) {
+  // optional guard: reject accounts with more tx outputs than the configured
+  // limit instead of running the expensive aggregation (unset or 0 = disabled)
+  const { addressTotalsTxOutLimit } = getConfig().dbSync;
+
   fastify.route({
     url: '/accounts/:stake_address/addresses/total',
     method: 'GET',
@@ -32,6 +37,20 @@ async function route(fastify: FastifyInstance) {
         if (query404.rows.length === 0) {
           gracefulRelease(clientDbSync);
           return handle404(reply);
+        }
+
+        if (addressTotalsTxOutLimit) {
+          const overLimit = await isOverTxOutLimit(
+            clientDbSync,
+            'accounts_stake_address_addresses_total_over_limit',
+            [request.params.stake_address],
+            addressTotalsTxOutLimit,
+          );
+
+          if (overLimit) {
+            gracefulRelease(clientDbSync);
+            return handle400Custom(reply, 'Account is too large to compute totals for.');
+          }
         }
 
         const { rows } = await clientDbSync.query<QueryTypes.AccountAddressesTotal>(

@@ -83,6 +83,15 @@ export const loadConfig = () => {
     : config.has('dbSync.connectionTimeoutMs')
       ? config.get<number>('dbSync.connectionTimeoutMs')
       : undefined;
+  // Optional guard for /addresses/:address/total and /accounts/:stake_address/addresses/total.
+  // When set, requests for addresses/accounts with more tx outputs than the limit
+  // are rejected with 400 instead of running the expensive aggregation.
+  // Disabled (undefined or 0) by default.
+  const addressTotalsTxOutLimit = process.env.BLOCKFROST_CONFIG_DBSYNC_ADDRESS_TOTALS_TX_OUT_LIMIT
+    ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_ADDRESS_TOTALS_TX_OUT_LIMIT)
+    : config.has('dbSync.addressTotalsTxOutLimit')
+      ? config.get<number>('dbSync.addressTotalsTxOutLimit')
+      : undefined;
   const databaseSyncIdleTimeoutMs = process.env.BLOCKFROST_CONFIG_DBSYNC_IDLE_TIMEOUT_MS
     ? Number(process.env.BLOCKFROST_CONFIG_DBSYNC_IDLE_TIMEOUT_MS)
     : config.has('dbSync.idleTimeoutMs')
@@ -182,6 +191,7 @@ export const loadConfig = () => {
       minConnections: databaseSyncMinConnections,
       ssl,
       applicationName: databaseSyncApplicationName,
+      addressTotalsTxOutLimit,
     },
     network: network as Network,
     genesis,

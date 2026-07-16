@@ -2,16 +2,21 @@ import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance, FastifyRequest } from 'fastify';
 
 import { SQLQuery } from '../../../sql/index.js';
+import { getConfig } from '../../../config.js';
 import * as QueryTypes from '../../../types/queries/addresses.js';
 import * as ResponseTypes from '../../../types/responses/addresses.js';
-import { getDbSync, gracefulRelease } from '../../../utils/database.js';
-import { handle404, handleInvalidAddress } from '../../../utils/error-handler.js';
+import { getDbSync, gracefulRelease, isOverTxOutLimit } from '../../../utils/database.js';
+import { handle400Custom, handle404, handleInvalidAddress } from '../../../utils/error-handler.js';
 import {
   getAddressTypeAndPaymentCred,
   paymentCredToBech32Address,
 } from '../../../utils/validation.js';
 
 async function route(fastify: FastifyInstance) {
+  // optional guard: reject addresses with more tx outputs than the configured
+  // limit instead of running the expensive aggregation (unset or 0 = disabled)
+  const { addressTotalsTxOutLimit } = getConfig().dbSync;
+
   fastify.route({
     url: '/addresses/:address/total',
     method: 'GET',
@@ -36,6 +41,20 @@ async function route(fastify: FastifyInstance) {
         if (query404.rows.length === 0) {
           gracefulRelease(clientDbSync);
           return handle404(reply);
+        }
+
+        if (addressTotalsTxOutLimit) {
+          const overLimit = await isOverTxOutLimit(
+            clientDbSync,
+            'addresses_address_total_over_limit',
+            [request.params.address, paymentCred],
+            addressTotalsTxOutLimit,
+          );
+
+          if (overLimit) {
+            gracefulRelease(clientDbSync);
+            return handle400Custom(reply, 'Address is too large to compute totals for.');
+          }
         }
 
         const { rows } = await clientDbSync.query<QueryTypes.AddressTotalQuery>(

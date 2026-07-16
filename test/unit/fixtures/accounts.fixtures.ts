@@ -774,6 +774,39 @@ export default [
     unpaged: true,
     response: response_accounts_addresses_addresses_total_1,
   },
+  {
+    name: 'respond with success on /accounts/:stake_address/addresses/total within addressTotalsTxOutLimit',
+    endpoint:
+      '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/addresses/total',
+    dbSyncConfig: { addressTotalsTxOutLimit: 100_000 },
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: [{ over_limit: false }],
+    },
+    sqlQueryMock3: {
+      rows: query_accounts_addresses_addresses_total_1,
+    },
+    response: response_accounts_addresses_addresses_total_1,
+  },
+  {
+    name: 'respond with 400 on /accounts/:stake_address/addresses/total exceeding addressTotalsTxOutLimit',
+    endpoint:
+      '/accounts/stake1u88xakeptjw9jwsytkjal76d07an4thvvrfx3w2kt77pw4sc5rr8k/addresses/total',
+    dbSyncConfig: { addressTotalsTxOutLimit: 100_000 },
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: [{ over_limit: true }],
+    },
+    response: {
+      error: 'Bad Request',
+      message: 'Account is too large to compute totals for.',
+      status_code: 400,
+    },
+  },
   /*
 
       400s

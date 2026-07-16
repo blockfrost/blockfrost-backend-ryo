@@ -19,6 +19,7 @@ describe('address service', () => {
     test(fixture.name, async () => {
       vi.spyOn(config, 'getConfig').mockReturnValue({
         ...config.mainConfig,
+        dbSync: { ...config.mainConfig.dbSync, ...fixture.dbSyncConfig },
         network: fixture.network === 'preview' ? 'preview' : 'mainnet',
       });
       const fastify = buildFastify({

@@ -1,36 +1,36 @@
-WITH queried_outputs AS (
-  SELECT COALESCE(txo.value, 0) AS "amount",
-    array_agg(mto.id) AS "assets_ids",
-    array_agg(DISTINCT tx.id) AS "txids"
-  FROM tx
-    JOIN tx_in txi ON (txi.tx_in_id = tx.id)
-    JOIN tx_out txo ON (
-      txo.tx_id = txi.tx_out_id
-      AND txo.index = txi.tx_out_index
-    )
-    LEFT JOIN ma_tx_out mto ON (mto.tx_out_id = txo.id)
+-- requires db-sync consumed-tx-out tracking (tx_out.consumed_by_tx_id),
+-- the tx_out insert option set to 'consumed' or 'prune'
+WITH matched_outputs AS MATERIALIZED (
+  SELECT txo.id,
+    COALESCE(txo.value, 0) AS "value",
+    txo.tx_id,
+    txo.consumed_by_tx_id AS "spending_tx_id"
+  FROM tx_out txo
   WHERE (
+      -- comparing against (SELECT $n) instead of $n keeps the planner on generic
+      -- row estimates: very common addresses (MCV statistics) would otherwise
+      -- flip asset aggregation to a seq scan over the whole ma_tx_out table
       CASE
-        WHEN $2::BYTEA IS NOT NULL THEN txo.payment_cred = $2
-        ELSE txo.address = $1
+        WHEN $2::BYTEA IS NOT NULL THEN txo.payment_cred = (
+          SELECT $2::BYTEA
+        )
+        ELSE txo.address = (
+          SELECT $1
+        )
       END
     )
-  GROUP BY txo.id
 ),
-queried_inputs AS (
-  SELECT COALESCE(txo.value, 0) AS "amount",
-    array_agg(mto.id) AS "assets_ids",
-    array_agg(DISTINCT tx.id) AS "txids"
-  FROM tx
-    JOIN tx_out txo ON (txo.tx_id = tx.id)
-    LEFT JOIN ma_tx_out mto ON (mto.tx_out_id = txo.id)
-  WHERE (
-      CASE
-        WHEN $2::BYTEA IS NOT NULL THEN txo.payment_cred = $2
-        ELSE txo.address = $1
-      END
-    )
-  GROUP BY txo.id
+-- one pass over ma_tx_out; multi_asset is joined later, only once per distinct asset.
+-- GROUP BY ident is equivalent to GROUP BY (policy, name): unique_multi_asset (policy, name)
+asset_sums AS MATERIALIZED (
+  SELECT mto.ident,
+    SUM(mto.quantity) AS "received_quantity",
+    SUM(mto.quantity) FILTER (
+      WHERE mo.spending_tx_id IS NOT NULL
+    ) AS "sent_quantity"
+  FROM matched_outputs mo
+    JOIN ma_tx_out mto ON (mto.tx_out_id = mo.id)
+  GROUP BY mto.ident
 )
 SELECT (
     SELECT CASE
@@ -44,10 +44,9 @@ SELECT (
       END
   ) AS "address",
   (
-    (
-      SELECT COALESCE(SUM(amount), 0)::TEXT -- cast to TEXT to avoid number overflow
-      FROM queried_outputs
-    )
+    SELECT COALESCE(SUM(value), 0)::TEXT -- cast to TEXT to avoid number overflow
+    FROM matched_outputs
+    WHERE spending_tx_id IS NOT NULL
   ) AS "sent_amount_lovelace",
   (
     SELECT json_agg(
@@ -60,23 +59,16 @@ SELECT (
       )
     FROM (
         SELECT CONCAT(encode(ma.policy, 'hex'), encode(ma.name, 'hex')) AS "token_name",
-          SUM(quantity) AS "token_quantity"
-        FROM ma_tx_out mto
-          JOIN multi_asset ma ON (mto.ident = ma.id)
-        WHERE mto.id IN (
-            SELECT unnest(assets_ids)
-            FROM queried_outputs
-          )
-        GROUP BY ma.name,
-          ma.policy
+          s.sent_quantity AS "token_quantity"
+        FROM asset_sums s
+          JOIN multi_asset ma ON (ma.id = s.ident)
+        WHERE s.sent_quantity IS NOT NULL
         ORDER BY (ma.policy, ma.name)
       ) AS "assets"
   ) AS "sent_amount",
   (
-    (
-      SELECT COALESCE(SUM(amount), 0)::TEXT -- cast to TEXT to avoid number overflow
-      FROM queried_inputs
-    )
+    SELECT COALESCE(SUM(value), 0)::TEXT -- cast to TEXT to avoid number overflow
+    FROM matched_outputs
   ) AS "received_amount_lovelace",
   (
     SELECT json_agg(
@@ -89,29 +81,20 @@ SELECT (
       )
     FROM (
         SELECT CONCAT(encode(ma.policy, 'hex'), encode(ma.name, 'hex')) AS "token_name",
-          SUM(quantity) AS "token_quantity"
-        FROM ma_tx_out mto
-          JOIN multi_asset ma ON (mto.ident = ma.id)
-        WHERE mto.id IN (
-            SELECT unnest(assets_ids)
-            FROM queried_inputs
-          )
-        GROUP BY ma.name,
-          ma.policy
+          s.received_quantity AS "token_quantity"
+        FROM asset_sums s
+          JOIN multi_asset ma ON (ma.id = s.ident)
         ORDER BY (ma.policy, ma.name)
       ) AS "assets"
   ) AS "received_amount",
   (
     SELECT COUNT(*)
     FROM (
-        (
-          SELECT txids
-          FROM queried_inputs
-        )
+        SELECT tx_id
+        FROM matched_outputs
         UNION
-        (
-          SELECT txids
-          FROM queried_outputs
-        )
+        SELECT spending_tx_id
+        FROM matched_outputs
+        WHERE spending_tx_id IS NOT NULL
       ) AS "unique_txs"
   ) AS "tx_count"

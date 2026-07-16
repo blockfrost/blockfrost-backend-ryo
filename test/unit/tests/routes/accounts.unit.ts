@@ -11,6 +11,7 @@ describe('accounts service', () => {
     test(`[${fixture.name}] ${fixture.endpoint}`, async () => {
       vi.spyOn(config, 'getConfig').mockReturnValue({
         ...config.mainConfig,
+        dbSync: { ...config.mainConfig.dbSync, ...fixture.dbSyncConfig },
         network: fixture.network === 'preview' ? 'preview' : 'mainnet',
       });
 
@@ -31,6 +32,7 @@ describe('accounts service', () => {
 
       queryMock.onCall(0).resolves(fixture.sqlQueryMock);
       queryMock.onCall(1).resolves(fixture.sqlQueryMock2);
+      queryMock.onCall(2).resolves(fixture.sqlQueryMock3);
 
       const response = fixture.unpaged
         ? await supertest(fastify.server)
