@@ -52,11 +52,27 @@ async function route(fastify: FastifyInstance) {
         const { rows }: { rows: ResponseTypes.AssetTransactions } = unpaged
           ? await clientDbSync.query<QueryTypes.AssetTransactions>(
               SQLQuery.get('assets_asset_transactions_unpaged'),
-              [request.query.order, request.params.asset],
+              [
+                request.query.order,
+                request.params.asset,
+                fromToParameters[0],
+                fromToParameters[1],
+                fromToParameters[2],
+                fromToParameters[3],
+              ],
             )
           : await clientDbSync.query<QueryTypes.AssetTransactions>(
               SQLQuery.get('assets_asset_transactions'),
-              [request.query.order, request.query.count, request.query.page, request.params.asset],
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                request.params.asset,
+                fromToParameters[0],
+                fromToParameters[1],
+                fromToParameters[2],
+                fromToParameters[3],
+              ],
             );
 
         gracefulRelease(clientDbSync);

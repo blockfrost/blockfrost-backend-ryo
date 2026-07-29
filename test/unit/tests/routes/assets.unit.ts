@@ -58,6 +58,12 @@ describe('assets service', () => {
       // expect(response).toMatchSnapshot();
       expect(response.body).toStrictEqual(fixture.response);
 
+      if ('sqlQueryMock2ExpectedParameters' in fixture) {
+        expect(queryMock.getCall(1).args[1]).toStrictEqual(
+          fixture.sqlQueryMock2ExpectedParameters,
+        );
+      }
+
       fastify.close();
     });
   });

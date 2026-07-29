@@ -505,6 +505,59 @@ export default [
     response: response_assets_asset_transactions_regular_1,
   },
   {
+    name: 'respond with success and data on /assets/:asset/transactions with from/to parameters',
+    endpoint:
+      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions?from=5406748&to=5746642:27',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_assets_asset_transactions_regular_1,
+    },
+    sqlQueryMock2ExpectedParameters: [
+      'asc',
+      100,
+      1,
+      '00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e',
+      5406748,
+      undefined,
+      5746642,
+      27,
+    ],
+    response: response_assets_asset_transactions_regular_1,
+  },
+  {
+    name: 'respond with success and unpaged data on /assets/:asset/transactions with from/to parameters',
+    endpoint:
+      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions?from=5406748&to=5746642:27',
+    sqlQueryMock: {
+      rows: query_found,
+    },
+    sqlQueryMock2: {
+      rows: query_assets_asset_transactions_regular_1,
+    },
+    sqlQueryMock2ExpectedParameters: [
+      'asc',
+      '00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e',
+      5406748,
+      undefined,
+      5746642,
+      27,
+    ],
+    unpaged: true,
+    response: response_assets_asset_transactions_regular_1,
+  },
+  {
+    name: 'respond with 400 on /assets/:asset/transactions?from=-1&to=8789894849848',
+    endpoint:
+      '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/transactions?from=-1&to=8789894849848',
+    response: {
+      error: 'Bad Request',
+      message: 'Invalid (malformed or out of range) from/to parameter(s).',
+      status_code: 400,
+    },
+  },
+  {
     name: 'respond with success and data on /assets/:asset/addresses',
     endpoint:
       '/assets/00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e/addresses',
