@@ -10,7 +10,42 @@ FROM (
     FROM ma_tx_out mto
       JOIN multi_asset ma ON (mto.ident = ma.id)
       JOIN tx_out txo ON (mto.tx_out_id = txo.id)
+      JOIN tx t ON (t.id = txo.tx_id)
+      JOIN block tb ON (tb.id = t.block_id)
     WHERE (encode(policy, 'hex') || encode(name, 'hex')) = $2
+      AND (
+        (
+          -- :: cast of parameters is necessary for PG in order to validate against NULL
+          $3::INTEGER IS NULL
+          OR tb.block_no > $3
+        )
+        OR (
+          (
+            $4::INTEGER IS NULL
+            AND tb.block_no = $3
+          )
+          OR (
+            t.block_index >= $4
+            AND tb.block_no = $3
+          )
+        )
+      )
+      AND (
+        (
+          $5::INTEGER IS NULL
+          OR tb.block_no < $5
+        )
+        OR (
+          (
+            $6::INTEGER IS NULL
+            AND tb.block_no = $5
+          )
+          OR (
+            t.block_index <= $6
+            AND tb.block_no = $5
+          )
+        )
+      )
     GROUP BY txo.tx_id
     ORDER BY CASE
         WHEN LOWER($1) = 'desc' THEN txo.tx_id

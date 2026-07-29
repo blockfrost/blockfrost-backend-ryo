@@ -14,11 +14,26 @@ import * as ResponseTypes from '../../../types/responses/assets.js';
 import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { handle404 } from '../../../utils/error-handler.js';
 
+const transactionsSchema = () => {
+  const schema = getSchemaForEndpoint('/assets/{asset}/transactions');
+  // TODO: remove once from/to parameters are part of the published
+  // @blockfrost/openapi spec for this endpoint (parity with
+  // /addresses/{address}/transactions); without them in the schema the
+  // validator strips the parameters before they reach the handler.
+  const addressTransactionsQuerystring = getSchemaForEndpoint('/addresses/{address}/transactions')
+    .querystring as { properties: { from: unknown; to: unknown } };
+  const querystring = schema.querystring as { properties: { from?: unknown; to?: unknown } };
+
+  querystring.properties.from = addressTransactionsQuerystring.properties.from;
+  querystring.properties.to = addressTransactionsQuerystring.properties.to;
+  return schema;
+};
+
 async function route(fastify: FastifyInstance) {
   fastify.route({
     url: '/assets/:asset/transactions',
     method: 'GET',
-    schema: getSchemaForEndpoint('/assets/{asset}/transactions'),
+    schema: transactionsSchema(),
     handler: async (request: FastifyRequest<QueryTypes.RequestAssetsParameters>, reply) => {
       const isAssetValid = validateAsset(request.params.asset);
 
@@ -52,11 +67,27 @@ async function route(fastify: FastifyInstance) {
         const { rows }: { rows: ResponseTypes.AssetTransactions } = unpaged
           ? await clientDbSync.query<QueryTypes.AssetTransactions>(
               SQLQuery.get('assets_asset_transactions_unpaged'),
-              [request.query.order, request.params.asset],
+              [
+                request.query.order,
+                request.params.asset,
+                fromToParameters[0],
+                fromToParameters[1],
+                fromToParameters[2],
+                fromToParameters[3],
+              ],
             )
           : await clientDbSync.query<QueryTypes.AssetTransactions>(
               SQLQuery.get('assets_asset_transactions'),
-              [request.query.order, request.query.count, request.query.page, request.params.asset],
+              [
+                request.query.order,
+                request.query.count,
+                request.query.page,
+                request.params.asset,
+                fromToParameters[0],
+                fromToParameters[1],
+                fromToParameters[2],
+                fromToParameters[3],
+              ],
             );
 
         gracefulRelease(clientDbSync);
