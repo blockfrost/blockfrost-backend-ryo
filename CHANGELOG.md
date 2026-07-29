@@ -9,7 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `from`/`to` query parameters of `/assets/:asset/transactions` are now functional: block-range filtering (`block_number[:tx_index]`, inclusive), matching `/addresses/:address/transactions`. The parameters were parsed since 1.0.0 but never applied to the query (and were stripped by schema validation). Requires @blockfrost/openapi with the parameters declared for this endpoint.
+- `from`/`to` query parameters of `/assets/:asset/transactions` are now functional: block-range filtering (`block_number[:tx_index]`, inclusive), matching `/addresses/:address/transactions`. The parameters were parsed since 1.0.0 but never applied to the query (and were stripped by schema validation).
+
+### Changed
+
+- Updated `@blockfrost/openapi` to 0.1.91, which declares the `from`/`to` parameters of `/assets/:asset/transactions`
 
 ## [6.7.1] - 2026-07-15
 

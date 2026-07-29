@@ -514,6 +514,16 @@ export default [
     sqlQueryMock2: {
       rows: query_assets_asset_transactions_regular_1,
     },
+    sqlQueryMock2ExpectedParameters: [
+      'asc',
+      100,
+      1,
+      '00000002df633853f6a47465c9496721d2d5b1291b8398016c0e87ae6e7574636f696e',
+      5406748,
+      undefined,
+      5746642,
+      27,
+    ],
     response: response_assets_asset_transactions_regular_1,
   },
   {

@@ -14,26 +14,11 @@ import * as ResponseTypes from '../../../types/responses/assets.js';
 import { getDbSync, gracefulRelease } from '../../../utils/database.js';
 import { handle404 } from '../../../utils/error-handler.js';
 
-const transactionsSchema = () => {
-  const schema = getSchemaForEndpoint('/assets/{asset}/transactions');
-  // TODO: remove once from/to parameters are part of the published
-  // @blockfrost/openapi spec for this endpoint (parity with
-  // /addresses/{address}/transactions); without them in the schema the
-  // validator strips the parameters before they reach the handler.
-  const addressTransactionsQuerystring = getSchemaForEndpoint('/addresses/{address}/transactions')
-    .querystring as { properties: { from: unknown; to: unknown } };
-  const querystring = schema.querystring as { properties: { from?: unknown; to?: unknown } };
-
-  querystring.properties.from = addressTransactionsQuerystring.properties.from;
-  querystring.properties.to = addressTransactionsQuerystring.properties.to;
-  return schema;
-};
-
 async function route(fastify: FastifyInstance) {
   fastify.route({
     url: '/assets/:asset/transactions',
     method: 'GET',
-    schema: transactionsSchema(),
+    schema: getSchemaForEndpoint('/assets/{asset}/transactions'),
     handler: async (request: FastifyRequest<QueryTypes.RequestAssetsParameters>, reply) => {
       const isAssetValid = validateAsset(request.params.asset);
 

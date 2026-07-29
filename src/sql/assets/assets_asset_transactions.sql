@@ -10,40 +10,73 @@ FROM (
     FROM ma_tx_out mto
       JOIN multi_asset ma ON (mto.ident = ma.id)
       JOIN tx_out txo ON (mto.tx_out_id = txo.id)
-      JOIN tx t ON (t.id = txo.tx_id)
-      JOIN block tb ON (tb.id = t.block_id)
     WHERE (encode(policy, 'hex') || encode(name, 'hex')) = $4
       AND (
-        (
-          -- :: cast of parameters is necessary for PG in order to validate against NULL
-          $5::INTEGER IS NULL
-          OR tb.block_no > $5
-        )
-        OR (
-          (
-            $6::INTEGER IS NULL
-            AND tb.block_no = $5
-          )
-          OR (
-            t.block_index >= $6
-            AND tb.block_no = $5
-          )
+        -- :: cast of parameters is necessary for PG in order to validate against NULL
+        $5::INTEGER IS NULL
+        -- tx ids are monotonic in chain order (an assumption this query already
+        -- relies on for ordering), hence the from/to block boundaries translate
+        -- to a tx id range, keeping the scan over ma_tx_out join-free
+        OR txo.tx_id >= (
+          SELECT COALESCE(
+              (
+                SELECT MIN(t.id)
+                FROM tx t
+                WHERE t.block_id = (
+                    SELECT id
+                    FROM block
+                    WHERE block_no = $5
+                  )
+                  AND (
+                    $6::INTEGER IS NULL
+                    OR t.block_index >= $6
+                  )
+              ),
+              (
+                SELECT MIN(t.id)
+                FROM tx t
+                WHERE t.block_id = (
+                    SELECT id
+                    FROM block
+                    WHERE block_no > $5
+                      AND tx_count > 0
+                    ORDER BY block_no
+                    LIMIT 1
+                  )
+              )
+            )
         )
       )
       AND (
-        (
-          $7::INTEGER IS NULL
-          OR tb.block_no < $7
-        )
-        OR (
-          (
-            $8::INTEGER IS NULL
-            AND tb.block_no = $7
-          )
-          OR (
-            t.block_index <= $8
-            AND tb.block_no = $7
-          )
+        $7::INTEGER IS NULL
+        OR txo.tx_id <= (
+          SELECT COALESCE(
+              (
+                SELECT MAX(t.id)
+                FROM tx t
+                WHERE t.block_id = (
+                    SELECT id
+                    FROM block
+                    WHERE block_no = $7
+                  )
+                  AND (
+                    $8::INTEGER IS NULL
+                    OR t.block_index <= $8
+                  )
+              ),
+              (
+                SELECT MAX(t.id)
+                FROM tx t
+                WHERE t.block_id = (
+                    SELECT id
+                    FROM block
+                    WHERE block_no < $7
+                      AND tx_count > 0
+                    ORDER BY block_no DESC
+                    LIMIT 1
+                  )
+              )
+            )
         )
       )
     GROUP BY txo.tx_id
