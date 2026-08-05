@@ -20,24 +20,32 @@ queried_pool AS (
       FROM delegation
       WHERE addr_id = sa.id
     )
-    AND sr.tx_id = (
-      SELECT MAX(tx_id)
+    -- certificates within one tx apply in cert_index order, so ties on tx_id
+    -- are broken by cert_index (e.g. dereg + re-reg in the same tx)
+    AND (sr.tx_id, sr.cert_index) = (
+      SELECT tx_id, cert_index
       FROM stake_registration
       WHERE addr_id = sa.id
+      ORDER BY tx_id DESC, cert_index DESC
+      LIMIT 1
     )
     AND (
-      sr.tx_id > (
-        SELECT COALESCE(MAX(tx_id), 0) -- handles IS NULL option so we don't have to run that query again
+      ROW(sr.tx_id, sr.cert_index) > COALESCE((
+        SELECT ROW(tx_id, cert_index)
         FROM stake_deregistration
         WHERE addr_id = sa.id
-      )
+        ORDER BY tx_id DESC, cert_index DESC
+        LIMIT 1
+      ), ROW(-1::bigint, -1::integer))
     )
     AND (
-      d.tx_id > (
-        SELECT COALESCE(MAX(tx_id), 0) -- delegation must be after latest deregistration
+      ROW(d.tx_id, d.cert_index) > COALESCE(( -- delegation must be after latest deregistration
+        SELECT ROW(tx_id, cert_index)
         FROM stake_deregistration
         WHERE addr_id = sa.id
-      )
+        ORDER BY tx_id DESC, cert_index DESC
+        LIMIT 1
+      ), ROW(-1::bigint, -1::integer))
     )
 ),
 queried_drep AS (
@@ -116,12 +124,18 @@ SELECT sa.view AS "stake_address",
       )
   ) AS "active_epoch",
   (
+    -- compare (tx_id, cert_index) so a dereg + re-reg within the same tx
+    -- resolves in ledger (cert_index) order
     COALESCE(
-      (SELECT MAX(tx_id) FROM stake_registration WHERE addr_id = (SELECT * FROM queried_addr)),
-      0
+      (SELECT ROW(tx_id, cert_index) FROM stake_registration
+        WHERE addr_id = (SELECT * FROM queried_addr)
+        ORDER BY tx_id DESC, cert_index DESC LIMIT 1),
+      ROW(-1::bigint, -1::integer)
     ) > COALESCE(
-      (SELECT MAX(tx_id) FROM stake_deregistration WHERE addr_id = (SELECT * FROM queried_addr)),
-      0
+      (SELECT ROW(tx_id, cert_index) FROM stake_deregistration
+        WHERE addr_id = (SELECT * FROM queried_addr)
+        ORDER BY tx_id DESC, cert_index DESC LIMIT 1),
+      ROW(-1::bigint, -1::integer)
     )
   ) AS "registered",
   (

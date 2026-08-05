@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated `@blockfrost/openapi` to 0.1.91, which declares the `from`/`to` parameters of `/assets/:asset/transactions`
 
+### Fixed
+
+- `/accounts/:stake_address` no longer reports `registered: false` (and `active: false` with a null `pool_id`) for accounts whose latest deregistration and re-registration happened in the same transaction. Certificate comparisons now use `(tx_id, cert_index)` in ledger order instead of bare `tx_id` (#349)
+
 ## [6.7.1] - 2026-07-15
 
 ### Added
