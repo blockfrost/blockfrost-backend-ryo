@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.7.2] - 2026-08-05
+
 ### Added
 
 - `from`/`to` query parameters of `/assets/:asset/transactions` are now functional: block-range filtering (`block_number[:tx_index]`, inclusive), matching `/addresses/:address/transactions`. The parameters were parsed since 1.0.0 but never applied to the query (and were stripped by schema validation).
@@ -14,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Updated `@blockfrost/openapi` to 0.1.91, which declares the `from`/`to` parameters of `/assets/:asset/transactions`
+
+### Fixed
+
+- `/accounts/:stake_address` no longer reports `registered: false` (and `active: false` with a null `pool_id`) for accounts whose latest deregistration and re-registration happened in the same transaction. Certificate comparisons now use `(tx_id, cert_index)` in ledger order instead of bare `tx_id` (#349)
 
 ## [6.7.1] - 2026-07-15
 
