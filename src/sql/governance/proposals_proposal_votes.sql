@@ -7,6 +7,14 @@ WITH proposal_votes AS (
     vp.pool_voter,
     vp.committee_voter,
     vp.vote,
+    -- Epoch in which the proposal left the active set; its vote tally is frozen
+    -- from that point on
+    LEAST(
+      gap.ratified_epoch,
+      gap.enacted_epoch,
+      gap.dropped_epoch,
+      gap.expired_epoch
+    ) AS closed_epoch,
     -- The ledger keeps only the latest vote per voter and proposal (upsert semantics)
     ROW_NUMBER() OVER (
       PARTITION BY vp.voter_role,
@@ -42,14 +50,21 @@ SELECT encode(vp_tx.hash, 'hex') AS "tx_hash",
     p.recency_rank = 1
     AND (
       p.drep_voter IS NULL
-      -- deregistration drops the DRep's votes from the ledger;
-      -- re-registering does not restore them
+      -- deregistration drops the DRep's votes from the ledger and re-registering
+      -- does not restore them, but only while the proposal is still live:
+      -- once it closes the tally is frozen and later deregistrations have no effect
       OR NOT EXISTS (
         SELECT 1
         FROM drep_registration dr
+          JOIN tx dr_tx ON (dr_tx.id = dr.tx_id)
+          JOIN block dr_b ON (dr_b.id = dr_tx.block_id)
         WHERE dr.drep_hash_id = p.drep_voter
           AND dr.deposit < 0
           AND dr.tx_id > p.tx_id
+          AND (
+            p.closed_epoch IS NULL
+            OR dr_b.epoch_no < p.closed_epoch
+          )
       )
     )
   ) AS "counted"
