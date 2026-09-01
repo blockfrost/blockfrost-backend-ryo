@@ -4,7 +4,7 @@ import * as ResponseTypes from '../../../../../types/responses/governance.js';
 import { getDbSync, gracefulRelease } from '../../../../../utils/database.js';
 import { SQLQuery } from '../../../../../sql/index.js';
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
-import { dbSyncDRepToCIP129 } from '../../../../../utils/governance.js';
+import { dbSyncDRepToCIP129, getCommitteeCredentialId } from '../../../../../utils/governance.js';
 import { isUnpaged } from '../../../../../utils/routes.js';
 
 export const proposalVotesHandler = async (
@@ -38,8 +38,15 @@ export const proposalVotesHandler = async (
     gracefulRelease(clientDbSync);
 
     for (const row of rows) {
+      if (row.voter_role === 'constitutional_committee') {
+        // db-sync stores the raw hot credential hash which does not distinguish
+        // key hashes from script hashes; encode it as a CIP-129 cc_hot id
+        row.voter = getCommitteeCredentialId('hot', row.voter, row.cc_voter_has_script ?? false);
+        continue;
+      }
+
       if (!row.voter.startsWith('drep')) {
-        // Keep non-DRep voter unmodified
+        // Keep SPO voter unmodified
         continue;
       }
 
