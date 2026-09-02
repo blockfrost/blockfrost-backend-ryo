@@ -180,6 +180,7 @@ export interface ProposalsProposalVotes {
   voter_role: 'constitutional_committee' | 'drep' | 'spo';
   voter: string;
   voter_has_script: boolean;
+  cc_voter_has_script: boolean | null;
   vote: 'yes' | 'no' | 'abstain';
 }
 
