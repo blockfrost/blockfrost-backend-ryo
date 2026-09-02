@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.8.0] - 2026-09-02
+
+### Added
+
+- New `counted` field in `/governance/proposals/:tx_hash/:cert_index/votes`, indicating whether the vote counts toward the proposal's tally: only the voter's latest vote counts, and a DRep vote stops counting if the DRep deregisters while the proposal is still live (blockfrost/openapi#466)
+
+### Changed
+
+- Constitutional committee voters in `/governance/proposals/:tx_hash/:cert_index/votes` are now CIP-129 `cc_hot1...` ids instead of raw hex (blockfrost/openapi#465)
+- Updated `@blockfrost/openapi` to 0.1.93
+
 ## [6.7.2] - 2026-08-05
 
 ### Added
