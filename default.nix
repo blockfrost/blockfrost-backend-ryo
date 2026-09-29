@@ -137,6 +137,7 @@
   };
 
   commonTestConfig = {
+    networking.search = [ "blockfrost.io" ];
     nix.settings = {
       substituters = [
         (builtins.getEnv "BINARY_CACHE")
