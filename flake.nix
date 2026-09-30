@@ -34,7 +34,7 @@
           in
           legacyPkgs.${system}.dockerTools.buildLayeredImage {
             name = "backend-ryo";
-            copyToRoot = [ configs ];
+            contents = [ configs ];
             config = {
               Cmd = [ "${self.packages.${system}.blockfrost-backend-ryo}/bin/blockfrost-backend-ryo" ];
               WorkingDir = "/app";
