@@ -1,7 +1,7 @@
 {
   description = "Blockfrost API backend";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
   outputs = { self, nixpkgs }:
     let
@@ -34,7 +34,7 @@
           in
           legacyPkgs.${system}.dockerTools.buildLayeredImage {
             name = "backend-ryo";
-            copyToRoot = [ configs ];
+            contents = [ configs ];
             config = {
               Cmd = [ "${self.packages.${system}.blockfrost-backend-ryo}/bin/blockfrost-backend-ryo" ];
               WorkingDir = "/app";

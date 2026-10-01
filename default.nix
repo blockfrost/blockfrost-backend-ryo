@@ -17,7 +17,6 @@
 }: let
   inherit (pkgs) lib;
   nodejs = pkgs.nodejs_24;
-  nodePackages = nodejs.pkgs;
   testing = import (pkgs.path + "/nixos/lib/testing-python.nix") {inherit system;};
   packageJSON = builtins.fromJSON (builtins.readFile ./package.json);
 
@@ -104,7 +103,7 @@
         mkdir -p $out/bin
         cat <<EOF > $out/bin/${pname}
         #!${pkgs.runtimeShell}
-        export PATH=${nodePackages.pm2}/bin:${pkgs.nodejs}/bin:\$PATH
+        export PATH=${pkgs.pm2}/bin:${pkgs.nodejs}/bin:\$PATH
 
         echo "Starting ${pname}...";
         pm2 delete all
@@ -122,7 +121,7 @@
 
   blockfrost-backend-ryo-wrapper = (pkgs.writeShellApplication {
     name = "blockfrost-backend-ryo";
-    runtimeInputs = [ nodePackages.pm2 nodejs ] ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.glibc.bin ];
+    runtimeInputs = [ pkgs.pm2 nodejs ] ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.glibc.bin ];
     text = ''
       set -x
       echo "Starting blockfrost-backend-ryo...";
@@ -138,6 +137,7 @@
   };
 
   commonTestConfig = {
+    networking.search = [ "blockfrost.io" ];
     nix.settings = {
       substituters = [
         (builtins.getEnv "BINARY_CACHE")
