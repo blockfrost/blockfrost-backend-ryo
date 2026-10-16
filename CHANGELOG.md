@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Prometheus latency summaries are disabled by default; enable with `server.prometheusMetricsSummaries` or `BLOCKFROST_CONFIG_SERVER_PROMETHEUS_METRICS_SUMMARIES=true`.
 
+### Fixed
+
+- Clear slow-request timers on client disconnect to release request state promptly.
+- Bound PM2 metrics collection and IPC sends, and remove metrics listeners when the server closes.
+- Release shutdown listeners on server close and avoid creating an unused app on import.
+
 ## [6.8.0] - 2026-09-02
 
 ### Added

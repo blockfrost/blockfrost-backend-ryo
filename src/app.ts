@@ -9,7 +9,7 @@ import { errorHandler, notFoundHandler } from './utils/error-handler.js';
 import { createRequire } from 'module';
 import { registerMithrilProxy } from './proxies/mithril.js';
 import fastifyMetrics from 'fastify-metrics';
-import { initMetrics } from 'pm2-prom-module-client';
+import { initMetrics } from './utils/metrics.js';
 
 const esmRequire = createRequire(import.meta.url);
 const packageJson = esmRequire('../package.json');
@@ -59,15 +59,12 @@ const start = (options = {}): FastifyInstance => {
   }
 
   app.after(() => {
-    // Initialize PM2 metrics aggregation after fastify-metrics is registered.
-    // This uses app.after() to ensure the metrics plugin is fully loaded before
-    // exposing the Prometheus registry to pm2-prom-module. When running in PM2
-    // cluster mode, pm2-prom-module-client will send metrics from this instance
-    // to pm2-prom-module (listening on port 9988 by default), which aggregates metrics across
-    // all cluster instances and exposes them at http://localhost:9988/metrics.
-    // See: https://github.com/VeXell/pm2-prom-module
+    // Expose the registry to pm2-prom-module after the metrics plugin loads.
+    // The exporter on port 9988 collects metrics from all PM2 workers.
     if (config.server.prometheusMetrics) {
-      initMetrics(app.metrics.client.register);
+      const stopMetrics = initMetrics(app.metrics.client.register);
+
+      app.addHook('onClose', async () => stopMetrics());
       if (process.env.NODE_APP_INSTANCE !== undefined) {
         // hack to deal with pm2 not doing metrics right
         app.metrics.client.register.setDefaultLabels({
@@ -110,12 +107,14 @@ const start = (options = {}): FastifyInstance => {
   if (config.server.slowRequestThresholdMs !== undefined) {
     const threshold = config.server.slowRequestThresholdMs;
 
-    app.addHook('onRequest', (request, _reply, done) => {
+    app.addHook('onRequest', (request, reply, done) => {
       request.slowTimer = setTimeout(() => {
         console.warn(
           `Slow request detected: ${request.method} ${request.url} — no response after ${threshold}ms`,
         );
       }, threshold);
+      // A disconnect can happen while the handler is still waiting on the database.
+      reply.raw.once('close', () => clearSlowTimer(request));
       done();
     });
 
@@ -306,16 +305,19 @@ const start = (options = {}): FastifyInstance => {
   // utils
   registerRoute(app, import('./routes/utils/addresses/xpub/xpub/role/index.js'));
 
-  process.on('SIGINT', () => {
+  const stop = () => {
     app.close();
 
     console.info('Server stopped');
     process.exit(0);
+  };
+
+  process.on('SIGINT', stop);
+  app.addHook('onClose', async () => {
+    process.off('SIGINT', stop);
   });
 
   return app;
 };
-
-start();
 
 export default start;
