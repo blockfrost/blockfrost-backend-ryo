@@ -46,11 +46,12 @@ const start = (options = {}): FastifyInstance => {
   if (config.server.prometheusMetrics) {
     app.register(fastifyMetrics, {
       endpoint: '/prometheus',
-      // routeMetrics: {
-      //   enabled: true,
-      //   registeredRoutesOnly: true,
-      //   groupStatusCodes: true,
-      // },
+      routeMetrics: {
+        enabled: {
+          histogram: true,
+          summary: config.server.prometheusMetricsSummaries,
+        },
+      },
       defaultMetrics: {
         enabled: true,
       },

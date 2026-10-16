@@ -50,6 +50,8 @@ If you are using an authenticated db connection that requires a password, you'd 
     debug: true
     # Whether to expose /prometheus endpoint
     prometheusMetrics: false
+    # Collect latency percentiles per worker; requires prometheusMetrics. Uses additional memory.
+    prometheusMetricsSummaries: false
   # Cardano DB Sync SQL connection
   dbSync:
     host: 'cdbsync-dev.mydomain.com'
@@ -80,7 +82,7 @@ If you are using an authenticated db connection that requires a password, you'd 
 <details>
 <summary>:bulb: All config variables can be also set via environment variables which take precedence over values from a config file.</summary>
 
-These values are `BLOCKFROST_CONFIG_SERVER_PORT`, `BLOCKFROST_CONFIG_SERVER_DEBUG`, `BLOCKFROST_CONFIG_SERVER_PROMETHEUS_METRICS`, `BLOCKFROST_CONFIG_DBSYNC_HOST`, `BLOCKFROST_CONFIG_DBSYNC_USER`, `BLOCKFROST_CONFIG_DBSYNC_DATABASE`, `BLOCKFROST_CONFIG_DBSYNC_MAX_CONN`, `BLOCKFROST_CONFIG_DBSYNC_ADDRESS_TOTALS_TX_OUT_LIMIT`, `BLOCKFROST_CONFIG_NETWORK`, `BLOCKFROST_CONFIG_GENESIS_DATA_FOLDER`, `BLOCKFROST_CONFIG_TOKEN_REGISTRY_URL`.
+These values are `BLOCKFROST_CONFIG_SERVER_PORT`, `BLOCKFROST_CONFIG_SERVER_DEBUG`, `BLOCKFROST_CONFIG_SERVER_PROMETHEUS_METRICS`, `BLOCKFROST_CONFIG_SERVER_PROMETHEUS_METRICS_SUMMARIES`, `BLOCKFROST_CONFIG_DBSYNC_HOST`, `BLOCKFROST_CONFIG_DBSYNC_USER`, `BLOCKFROST_CONFIG_DBSYNC_DATABASE`, `BLOCKFROST_CONFIG_DBSYNC_MAX_CONN`, `BLOCKFROST_CONFIG_DBSYNC_ADDRESS_TOTALS_TX_OUT_LIMIT`, `BLOCKFROST_CONFIG_NETWORK`, `BLOCKFROST_CONFIG_GENESIS_DATA_FOLDER`, `BLOCKFROST_CONFIG_TOKEN_REGISTRY_URL`.
 
 </details>
 

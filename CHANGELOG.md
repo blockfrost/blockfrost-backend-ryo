@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Prometheus latency summaries are disabled by default; enable with `server.prometheusMetricsSummaries` or `BLOCKFROST_CONFIG_SERVER_PROMETHEUS_METRICS_SUMMARIES=true`.
+
 ## [6.8.0] - 2026-09-02
 
 ### Added
