@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.0.0] - 2026-10-22
+
+### Changed
+
+- Node.js 24 or newer is required.
+- Bump dependencies, including Sentry 11, fastify-metrics 14 (`@prometheus-io/client`), config 5 and TypeScript 6.
+
 ## [6.8.1] - 2026-10-16
 
 ### Changed
