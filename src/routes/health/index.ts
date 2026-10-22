@@ -1,7 +1,7 @@
 import { getSchemaForEndpoint } from '@blockfrost/openapi';
 import { FastifyInstance } from 'fastify';
 import fs from 'fs';
-import { Counter } from 'prom-client';
+import { Counter } from '@prometheus-io/client';
 import * as ResponseTypes from '../../types/responses/health.js';
 import { getDbSync } from '../../utils/database.js';
 import { getConfig } from '../../config.js';
