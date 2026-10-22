@@ -28,6 +28,23 @@ const start = (options = {}): FastifyInstance => {
       release: `blockfrost-backend@${packageJson.version}`,
       serverName: os.hostname(),
       sampleRate: 0.01,
+      // Sentry 11 collects request data by default, keep the v10 baseline.
+      dataCollection: {
+        userInfo: false,
+        cookies: false,
+        httpHeaders: {
+          request: { deny: ['forwarded', '-ip', 'remote-', 'via', '-user'] },
+          response: { deny: ['forwarded', '-ip', 'remote-', 'via', '-user'] },
+        },
+        httpBodies: [],
+        urlQueryParams: { deny: ['forwarded', '-ip', 'remote-', 'via', '-user'] },
+        databaseQueryData: false,
+        queues: false,
+      },
+      integrations: [
+        // Sentry 11 captures Fastify handler errors automatically, ryo never reported them.
+        Sentry.fastifyIntegration({ shouldHandleError: () => false }),
+      ],
     });
   }
 
