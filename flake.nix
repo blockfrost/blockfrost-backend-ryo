@@ -10,9 +10,18 @@
         "x86_64-linux"
         "x86_64-darwin"
       ];
+      overlay = self: super: {
+        nodejs_24 = super.nodejs_24.overrideAttrs (_old: rec {
+          version = "24.22.1";
+          src = self.fetchurl {
+            url = "https://nodejs.org/dist/v${version}/node-v${version}.tar.xz";
+            sha256 = "4f5379796280cdaeb0c2f358fd04b6a16cc4fb7dfa83b5a8c91a9d963b435231";
+          };
+        });
+      };
       forAllSystems = f: lib.genAttrs supportedSystems (system: f system);
       legacyPkgs = nixpkgs.legacyPackages;
-      default = lib.genAttrs supportedSystems (system: legacyPkgs.${system}.callPackage ./default.nix {});
+      default = lib.genAttrs supportedSystems (system: (legacyPkgs.${system}.extend overlay).callPackage ./default.nix {});
       shell = lib.genAttrs supportedSystems (system: import ./shell.nix {
         inherit system;
         pkgs = legacyPkgs.${system};
