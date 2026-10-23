@@ -12,10 +12,7 @@
       ];
       forAllSystems = f: lib.genAttrs supportedSystems (system: f system);
       legacyPkgs = nixpkgs.legacyPackages;
-      default = lib.genAttrs supportedSystems (system: import ./default.nix {
-        inherit system;
-        pkgs = legacyPkgs.${system};
-      });
+      default = lib.genAttrs supportedSystems (system: legacyPkgs.${system}.callPackage ./default.nix {});
       shell = lib.genAttrs supportedSystems (system: import ./shell.nix {
         inherit system;
         pkgs = legacyPkgs.${system};

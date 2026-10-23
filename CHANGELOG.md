@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.8.2] - 2026-10-23
+
+### Changed
+
+- Nix: build and run with Node.js 24.22.1 instead of the nixpkgs default, and update the pinned nixpkgs to 26.05.
+
 ## [6.8.1] - 2026-10-16
 
 ### Changed

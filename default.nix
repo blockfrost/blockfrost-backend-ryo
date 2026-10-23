@@ -1,22 +1,23 @@
 {
-  nixpkgs ? let
-    lockfile = builtins.fromJSON (builtins.readFile ./flake.lock);
-    nixpkgs = lockfile.nodes.nixpkgs.locked;
-  in (builtins.fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/${nixpkgs.rev}.tar.gz";
-    sha256 = nixpkgs.narHash;
-  }),
-  pkgs ? import nixpkgs {},
+  pkgs,
   blockfrost-tests ? (builtins.fetchGit {
     url = "ssh://git@github.com/blockfrost/blockfrost-tests-internal.git";
     rev = "73d2404b795e07701622fd2071b26a2d33aaaaf8";
     submodules = true;
     allRefs = true;
   }),
-  system ? builtins.currentSystem,
+  system,
+  fetchurl,
 }: let
   inherit (pkgs) lib;
   nodejs = pkgs.nodejs_24;
+  nodejs' = nodejs.overrideAttrs (_old: rec {
+    version = "24.22.1";
+    src = fetchurl {
+      url = "https://nodejs.org/dist/v${version}/node-v${version}.tar.xz";
+      sha256 = "4f5379796280cdaeb0c2f358fd04b6a16cc4fb7dfa83b5a8c91a9d963b435231";
+    };
+  });
   testing = import (pkgs.path + "/nixos/lib/testing-python.nix") {inherit system;};
   packageJSON = builtins.fromJSON (builtins.readFile ./package.json);
 
@@ -83,7 +84,7 @@
     src = lib.cleanSourceWith { filter = excludeNixFiles; src = (lib.cleanSource ./.); };
     project =
       pkgs.callPackage ./yarn-project.nix
-      {inherit nodejs;}
+      { nodejs = nodejs'; }
       {inherit src;};
   in
     project.overrideAttrs (oldAttrs: rec {
@@ -92,9 +93,9 @@
       name = "${pname}-${version}";
 
       buildInputs = [
-        nodejs
+        nodejs'
         pkgs.python3 # due to node-gyp
-        (pkgs.yarn.override {inherit nodejs;})
+        (pkgs.yarn.override { nodejs = nodejs'; })
       ];
 
       buildPhase = ''
@@ -103,12 +104,12 @@
         mkdir -p $out/bin
         cat <<EOF > $out/bin/${pname}
         #!${pkgs.runtimeShell}
-        export PATH=${pkgs.pm2}/bin:${pkgs.nodejs}/bin:\$PATH
+        export PATH=${pkgs.pm2}/bin:${nodejs'}/bin:\$PATH
 
         echo "Starting ${pname}...";
         pm2 delete all
         pm2 start $out/libexec/source/dist/server.js \
-           --interpreter=${nodejs}/bin/node --node-args="\''${BLOCKFROST_NODE_ARGS:-"--max-http-header-size=32768"}" \
+           --interpreter=${nodejs'}/bin/node --node-args="\''${BLOCKFROST_NODE_ARGS:-"--max-http-header-size=32768"}" \
            --max-memory-restart \''${BLOCKFROST_MAX_MEMORY_RESTART:-"1500M"} \
            -i \''${BLOCKFROST_PM2_INSTANCE_COUNT:-"max"} --time --no-daemon
         EOF
@@ -121,14 +122,14 @@
 
   blockfrost-backend-ryo-wrapper = (pkgs.writeShellApplication {
     name = "blockfrost-backend-ryo";
-    runtimeInputs = [ pkgs.pm2 nodejs ] ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.glibc.bin ];
+    runtimeInputs = [ pkgs.pm2 nodejs' ] ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.glibc.bin ];
     text = ''
       set -x
       echo "Starting blockfrost-backend-ryo...";
       pm2 delete all || true
       pm2 install ${pm2-prom-module}
       exec pm2 start ${blockfrost-backend-ryo}/libexec/source/dist/server.js \
-         --interpreter=${nodejs}/bin/node --node-args="''${BLOCKFROST_NODE_ARGS:-"--max-http-header-size=32768"}" \
+         --interpreter=${nodejs'}/bin/node --node-args="''${BLOCKFROST_NODE_ARGS:-"--max-http-header-size=32768"}" \
          --max-memory-restart "''${BLOCKFROST_MAX_MEMORY_RESTART:-"1500M"}" \
          -i "''${BLOCKFROST_PM2_INSTANCE_COUNT:-"max"}" --time --no-daemon
     '';
