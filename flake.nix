@@ -20,7 +20,7 @@
     in
     {
       packages = forAllSystems (system: {
-        inherit (default.${system}) blockfrost-backend-ryo blockfrost-backend-ryo-wrapper;
+        inherit (default.${system}) blockfrost-backend-ryo blockfrost-backend-ryo-wrapper blockfrost-backend-ryo-test-mainnet blockfrost-backend-ryo-test-preview blockfrost-backend-ryo-test-preprod;
         dockerImage =
           let
             configs = legacyPkgs.${system}.runCommand "app-configs" { }
