@@ -18,25 +18,25 @@ Nix build:
   needs:
     - Lint, Typescript
   script:
-    - nix-build -A blockfrost-backend-ryo
+    - nix build .#blockfrost-backend-ryo
 
 Integration tests - mainnet:
   stage: integration tests
   needs:
     - Nix build
   script:
-    - nix-build -A blockfrost-backend-ryo-test-mainnet --option sandbox false
+    - nix build .#blockfrost-backend-ryo-test-mainnet --option sandbox false
 
 Integration tests - preview:
   stage: integration tests
   needs:
     - Nix build
   script:
-    - nix-build -A blockfrost-backend-ryo-test-preview --option sandbox false
+    - nix build .#blockfrost-backend-ryo-test-preview --option sandbox false
 
 Integration tests - preprod:
   stage: integration tests
   needs:
     - Nix build
   script:
-    - nix-build -A blockfrost-backend-ryo-test-preprod --option sandbox false
+    - nix build .#blockfrost-backend-ryo-test-preprod --option sandbox false
