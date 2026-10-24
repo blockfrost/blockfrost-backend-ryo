@@ -11,7 +11,16 @@
         "x86_64-darwin"
       ];
       overlay = self: super: {
-        nodejs_24 = super.nodejs_24.overrideAttrs (_old: rec {
+        brotli = super.brotli.overrideAttrs (_old: rec {
+          version = "1.2.1";
+          src = self.fetchFromGitHub {
+            owner = "google";
+            repo = "brotli";
+            rev = "v${version}";
+            sha256 = "sha256-llY72cYffDv0ugsH0p89xIPEbElV4L8u7U/Fe8hT3gI=";
+          };
+        });
+        nodejs-slim_24 = super.nodejs-slim_24.overrideAttrs (_old: rec {
           version = "24.22.1";
           src = self.fetchurl {
             url = "https://nodejs.org/dist/v${version}/node-v${version}.tar.xz";

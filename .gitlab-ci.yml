@@ -25,18 +25,18 @@ Integration tests - mainnet:
   needs:
     - Nix build
   script:
-    - nix build .#blockfrost-backend-ryo-test-mainnet --option sandbox false
+    - nix build .#blockfrost-backend-ryo-test-mainnet --option sandbox false --impure -L
 
 Integration tests - preview:
   stage: integration tests
   needs:
     - Nix build
   script:
-    - nix build .#blockfrost-backend-ryo-test-preview --option sandbox false
+    - nix build .#blockfrost-backend-ryo-test-preview --option sandbox false --impure -L
 
 Integration tests - preprod:
   stage: integration tests
   needs:
     - Nix build
   script:
-    - nix build .#blockfrost-backend-ryo-test-preprod --option sandbox false
+    - nix build .#blockfrost-backend-ryo-test-preprod --option sandbox false --impure -L
