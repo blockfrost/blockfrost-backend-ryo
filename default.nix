@@ -10,7 +10,7 @@
   fetchurl,
 }: let
   inherit (pkgs) lib;
-  nodejs = pkgs.nodejs_24;
+  nodejs = pkgs.nodejs-slim_24;
   testing = import (pkgs.path + "/nixos/lib/testing-python.nix") {inherit system;};
   packageJSON = builtins.fromJSON (builtins.readFile ./package.json);
 
