@@ -1,6 +1,6 @@
 import nodeConfig from 'config';
 import { FastifyInstance } from 'fastify';
-import { register } from 'prom-client';
+import { register } from '@prometheus-io/client';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import buildFastify from '../../../../src/app.js';
 import { loadConfig, mainConfig } from '../../../../src/config.js';
@@ -29,11 +29,13 @@ describe('Prometheus summaries configuration', () => {
   ])('loads file=$configured, env=$env as $expected', ({ configured, env, expected }) => {
     const has = nodeConfig.has.bind(nodeConfig);
     const get = nodeConfig.get.bind(nodeConfig);
+    // config 5 makes the instance non-extensible, so spy on its prototype methods.
+    const configPrototype: typeof nodeConfig = Object.getPrototypeOf(nodeConfig);
 
-    vi.spyOn(nodeConfig, 'has').mockImplementation(key =>
+    vi.spyOn(configPrototype, 'has').mockImplementation(key =>
       key === 'server.prometheusMetricsSummaries' ? configured !== undefined : has(key),
     );
-    vi.spyOn(nodeConfig, 'get').mockImplementation(key =>
+    vi.spyOn(configPrototype, 'get').mockImplementation(key =>
       key === 'server.prometheusMetricsSummaries' ? configured : get(key),
     );
     vi.stubEnv('BLOCKFROST_CONFIG_SERVER_PROMETHEUS_METRICS_SUMMARIES', env);

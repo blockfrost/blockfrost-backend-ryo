@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.0.0] - 2026-11-09
+
 ### Changed
 
+- Node.js 24 or newer is required.
+- Bump dependencies, including Sentry 11, fastify-metrics 14 (`@prometheus-io/client`), config 5 and TypeScript 6.
 - Nix: bump nixpkgs, which now ships Node.js 24.22.1 and brotli 1.2.1, and drop the overlay that built them from source
 
 ## [6.8.3] - 2026-10-25
