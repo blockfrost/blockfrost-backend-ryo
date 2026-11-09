@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Nix: bump nixpkgs, which now ships Node.js 24.22.1 and brotli 1.2.1, and drop the overlay that built them from source
+
 ## [6.8.3] - 2026-10-25
 
 ### Changed
