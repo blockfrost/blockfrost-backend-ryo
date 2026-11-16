@@ -1036,11 +1036,19 @@ const plutusV3Names: Array<string> = [
   'scaleValue-memory-arguments-slope',
 ];
 
+const mappedPlutusVersions = new Set(['PlutusV1', 'PlutusV2', 'PlutusV3']);
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const costModelsMap = (costModels: any) => {
   if (costModels === null || typeof costModels !== 'object') return null;
 
   costModels = sortKeysInObject(costModels);
+
+  // cost_models is deprecated, Plutus versions without a name mapping (V4+) are only served in cost_models_raw
+  for (const version of Object.keys(costModels)) {
+    if (/^PlutusV\d+$/.test(version) && !mappedPlutusVersions.has(version))
+      delete costModels[version];
+  }
 
   if ('PlutusV1' in costModels && Object.keys(costModels.PlutusV1).length !== plutusV1Names.length)
     console.warn(

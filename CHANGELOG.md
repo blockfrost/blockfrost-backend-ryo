@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `/network/eras` no longer returns HTTP 500 once the chain reaches protocol version 12 (Dijkstra), and ignores unknown protocol versions.
+- Deprecated `cost_models` in `/epochs/{number}/parameters` and `/epochs/latest/parameters` no longer lists Plutus versions without a name mapping (PlutusV4), use `cost_models_raw`.
+
 ## [7.0.0] - 2026-11-09
 
 ### Changed
