@@ -7,9 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.0.1] - 2026-11-16
+
 ### Fixed
 
 - Handle stake deregistration and re-registration in one transaction when listing pool delegators and calculating live stake and live pledge (#367).
+- Exclude delegations cleared by pool retirement from pool delegators, live stake, live pledge and account pool associations (#366).
+
+### Changed
+
+- `/pools/{pool_id}` sums the live stake of all pools from unspent outputs and one reward index lookup per account (#366).
 
 ## [7.0.0] - 2026-11-09
 

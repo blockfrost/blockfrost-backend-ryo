@@ -3,6 +3,35 @@ WITH current_epoch AS (
   FROM block b
   ORDER BY b.id DESC
   LIMIT 1
+), retired_at AS (
+  -- the epoch at which the pool's last retirement took effect
+  SELECT MAX(pr.retiring_epoch) AS "epoch_no"
+  FROM pool_retire pr
+    JOIN pool_hash ph ON (ph.id = pr.hash_id)
+  WHERE ph.view = $4
+    AND pr.retiring_epoch <= (
+      SELECT epoch_no
+      FROM current_epoch
+    )
+    -- a later certificate of the pool before the retiring epoch cancels the retirement
+    AND NOT EXISTS (
+      SELECT 1
+      FROM (
+          SELECT pu.registered_tx_id AS "tx_id",
+            pu.cert_index
+          FROM pool_update pu
+          WHERE pu.hash_id = pr.hash_id
+          UNION ALL
+          SELECT pr_next.announced_tx_id,
+            pr_next.cert_index
+          FROM pool_retire pr_next
+          WHERE pr_next.hash_id = pr.hash_id
+        ) cert
+        JOIN tx ON (tx.id = cert.tx_id)
+        JOIN block b ON (b.id = tx.block_id)
+      WHERE ROW(cert.tx_id, cert.cert_index) > ROW(pr.announced_tx_id, pr.cert_index)
+        AND b.epoch_no < pr.retiring_epoch
+    )
 )
 SELECT "address" AS "address",
   (
@@ -58,6 +87,12 @@ FROM (
         WHERE sd.addr_id = d.addr_id
           AND ROW(sd.tx_id, sd.cert_index) > ROW(d.tx_id, d.cert_index)
       )
+      -- skip a delegation made before its pool's last retirement took effect:
+      -- the ledger removed it then (active_epoch_no is the delegation epoch + 2)
+      AND d.active_epoch_no >= COALESCE((
+        SELECT epoch_no
+        FROM retired_at
+      ), 0) + 2
     GROUP BY sa.view,
       d.pool_hash_id,
       d.addr_id,

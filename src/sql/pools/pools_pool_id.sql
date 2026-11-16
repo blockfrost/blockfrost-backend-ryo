@@ -4,6 +4,35 @@ WITH current_epoch AS (
   FROM block b
   ORDER BY b.id DESC
   LIMIT 1
+), retired_at AS (
+  -- the epoch at which each pool's last retirement took effect
+  SELECT pr.hash_id,
+    MAX(pr.retiring_epoch) AS "epoch_no"
+  FROM pool_retire pr
+  WHERE pr.retiring_epoch <= (
+      SELECT epoch_no
+      FROM current_epoch
+    )
+    -- a later certificate of the pool before the retiring epoch cancels the retirement
+    AND NOT EXISTS (
+      SELECT 1
+      FROM (
+          SELECT pu.registered_tx_id AS "tx_id",
+            pu.cert_index
+          FROM pool_update pu
+          WHERE pu.hash_id = pr.hash_id
+          UNION ALL
+          SELECT pr_next.announced_tx_id,
+            pr_next.cert_index
+          FROM pool_retire pr_next
+          WHERE pr_next.hash_id = pr.hash_id
+        ) cert
+        JOIN tx ON (tx.id = cert.tx_id)
+        JOIN block b ON (b.id = tx.block_id)
+      WHERE ROW(cert.tx_id, cert.cert_index) > ROW(pr.announced_tx_id, pr.cert_index)
+        AND b.epoch_no < pr.retiring_epoch
+    )
+  GROUP BY pr.hash_id
 ), queried_pool AS (
   SELECT MAX(pu.id) AS "update_id",
     ph.id AS "pool_id"
@@ -51,6 +80,7 @@ total_supply AS (
           JOIN pool_owner po ON (po.pool_update_id = pu.id)
           JOIN stake_address sa ON (sa.id = po.addr_id)
           JOIN delegation d ON (d.addr_id = sa.id)
+          LEFT JOIN retired_at ra ON (ra.hash_id = d.pool_hash_id)
         WHERE ph.view = $1
           AND po.pool_update_id = (
             SELECT MAX(id)
@@ -72,6 +102,12 @@ total_supply AS (
             FROM stake_deregistration sd
             WHERE sd.addr_id = d.addr_id
               AND ROW(sd.tx_id, sd.cert_index) > ROW(d.tx_id, d.cert_index)
+          )
+          -- skip a delegation made before its pool's last retirement took effect:
+          -- the ledger removed it then (active_epoch_no is the delegation epoch + 2)
+          AND (
+            ra.epoch_no IS NULL
+            OR d.active_epoch_no >= ra.epoch_no + 2
           )
       )
     ) AS "addresses"
@@ -131,25 +167,39 @@ all_pools AS (
         AND (prmax.tempmax = pr.announced_tx_id)
     ) pr ON (pr.hash_id = ph.id)
 ),
+-- each account's latest delegation, in one sorted pass over delegation
+latest_delegation AS (
+  SELECT DISTINCT ON (d.addr_id) d.addr_id,
+    d.pool_hash_id,
+    d.tx_id,
+    d.cert_index,
+    d.active_epoch_no
+  FROM delegation d
+  ORDER BY d.addr_id,
+    d.id DESC
+),
 live_stake_accounts AS (
   SELECT d.addr_id AS "stake_address_id",
     d.pool_hash_id AS "pool_id"
-  FROM delegation d
+  FROM latest_delegation d
+    LEFT JOIN retired_at ra ON (ra.hash_id = d.pool_hash_id)
     JOIN all_pools ap ON (d.pool_hash_id = ap.pool_hash_id)
-  WHERE d.id = (
-      SELECT MAX(id)
-      FROM delegation
-      WHERE addr_id = d.addr_id
-    )
+  WHERE
     -- d is the account's latest delegation. A delegation needs a registered
     -- account, so the account is still delegated unless it deregistered later.
     -- A later registration does not bring the delegation back.
     -- Compare cert_index when both certificates are in the same transaction.
-    AND NOT EXISTS (
+    NOT EXISTS (
       SELECT 1
       FROM stake_deregistration sd
       WHERE sd.addr_id = d.addr_id
         AND ROW(sd.tx_id, sd.cert_index) > ROW(d.tx_id, d.cert_index)
+    )
+    -- skip a delegation made before its pool's last retirement took effect:
+    -- the ledger removed it then (active_epoch_no is the delegation epoch + 2)
+    AND (
+      ra.epoch_no IS NULL
+      OR d.active_epoch_no >= ra.epoch_no + 2
     )
     AND ap.state = 'active'
 ),
@@ -169,9 +219,8 @@ live_stake_accounts_amounts AS (
     ) AS "amounts_pool"
   FROM live_stake_accounts lsa
     JOIN tx_out txo USING (stake_address_id)
-    LEFT JOIN tx_in txi ON (txo.tx_id = txi.tx_out_id)
-    AND (txo.index = txi.tx_out_index)
-  WHERE txi IS NULL
+  -- unspent outputs only: reads bf_idx_tx_out_unspent_covering, not all of tx_out and tx_in
+  WHERE txo.consumed_by_tx_id IS NULL
 ),
 live_stake_accounts_rewards AS (
   SELECT (COALESCE(SUM(r.amount), 0)) AS "amount_rewards",
@@ -188,11 +237,17 @@ live_stake_accounts_rewards AS (
       0
     ) AS "amount_rewards_pool"
   FROM live_stake_accounts lsa
-    JOIN reward r ON (lsa.stake_address_id = r.addr_id)
-  WHERE r.spendable_epoch <= (
-      SELECT epoch_no
-      FROM current_epoch
-    )
+    -- sum each account's rewards with one lookup in bf_idx_reward_addr_epoch_covering,
+    -- instead of joining all reward rows
+    CROSS JOIN LATERAL (
+      SELECT SUM(rw.amount) AS "amount"
+      FROM reward rw
+      WHERE rw.addr_id = lsa.stake_address_id
+        AND rw.spendable_epoch <= (
+          SELECT epoch_no
+          FROM current_epoch
+        )
+    ) r
 ),
 live_stake_accounts_instant_rewards AS (
   SELECT (COALESCE(SUM(rr.amount), 0)) AS "amount_instant_rewards"
@@ -371,6 +426,7 @@ SELECT ph.view AS "pool_id",
   (
     SELECT COUNT(DISTINCT d.id)
     FROM delegation d
+      LEFT JOIN retired_at ra ON (ra.hash_id = d.pool_hash_id)
       JOIN pool_hash ph ON (ph.id = d.pool_hash_id)
       JOIN stake_address sa ON (sa.id = d.addr_id)
     WHERE ph.view = $1
@@ -388,6 +444,12 @@ SELECT ph.view AS "pool_id",
         FROM stake_deregistration sd
         WHERE sd.addr_id = d.addr_id
           AND ROW(sd.tx_id, sd.cert_index) > ROW(d.tx_id, d.cert_index)
+      )
+      -- skip a delegation made before its pool's last retirement took effect:
+      -- the ledger removed it then (active_epoch_no is the delegation epoch + 2)
+      AND (
+        ra.epoch_no IS NULL
+        OR d.active_epoch_no >= ra.epoch_no + 2
       )
   ) AS "live_delegators",
   pu.pledge::TEXT AS "declared_pledge",
