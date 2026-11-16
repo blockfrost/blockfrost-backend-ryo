@@ -73,6 +73,41 @@ total_supply AS (
             WHERE sd.addr_id = d.addr_id
               AND ROW(sd.tx_id, sd.cert_index) > ROW(d.tx_id, d.cert_index)
           )
+          -- a pool retirement that took effect after the delegation cleared it
+          AND NOT EXISTS (
+            SELECT 1
+            FROM pool_retire pr
+            WHERE pr.hash_id = d.pool_hash_id
+              AND pr.retiring_epoch <= (
+                SELECT epoch_no
+                FROM current_epoch
+              )
+              AND pr.retiring_epoch > (
+                SELECT b.epoch_no
+                FROM tx
+                  JOIN block b ON (b.id = tx.block_id)
+                WHERE tx.id = d.tx_id
+              )
+              -- a later certificate of the pool before the retiring epoch cancels the retirement
+              AND NOT EXISTS (
+                SELECT 1
+                FROM (
+                    SELECT pu.registered_tx_id AS "tx_id",
+                      pu.cert_index
+                    FROM pool_update pu
+                    WHERE pu.hash_id = pr.hash_id
+                    UNION ALL
+                    SELECT pr_next.announced_tx_id,
+                      pr_next.cert_index
+                    FROM pool_retire pr_next
+                    WHERE pr_next.hash_id = pr.hash_id
+                  ) cert
+                  JOIN tx ON (tx.id = cert.tx_id)
+                  JOIN block b ON (b.id = tx.block_id)
+                WHERE ROW(cert.tx_id, cert.cert_index) > ROW(pr.announced_tx_id, pr.cert_index)
+                  AND b.epoch_no < pr.retiring_epoch
+              )
+          )
       )
     ) AS "addresses"
 ),
@@ -150,6 +185,41 @@ live_stake_accounts AS (
       FROM stake_deregistration sd
       WHERE sd.addr_id = d.addr_id
         AND ROW(sd.tx_id, sd.cert_index) > ROW(d.tx_id, d.cert_index)
+    )
+    -- a pool retirement that took effect after the delegation cleared it
+    AND NOT EXISTS (
+      SELECT 1
+      FROM pool_retire pr
+      WHERE pr.hash_id = d.pool_hash_id
+        AND pr.retiring_epoch <= (
+          SELECT epoch_no
+          FROM current_epoch
+        )
+        AND pr.retiring_epoch > (
+          SELECT b.epoch_no
+          FROM tx
+            JOIN block b ON (b.id = tx.block_id)
+          WHERE tx.id = d.tx_id
+        )
+        -- a later certificate of the pool before the retiring epoch cancels the retirement
+        AND NOT EXISTS (
+          SELECT 1
+          FROM (
+              SELECT pu.registered_tx_id AS "tx_id",
+                pu.cert_index
+              FROM pool_update pu
+              WHERE pu.hash_id = pr.hash_id
+              UNION ALL
+              SELECT pr_next.announced_tx_id,
+                pr_next.cert_index
+              FROM pool_retire pr_next
+              WHERE pr_next.hash_id = pr.hash_id
+            ) cert
+            JOIN tx ON (tx.id = cert.tx_id)
+            JOIN block b ON (b.id = tx.block_id)
+          WHERE ROW(cert.tx_id, cert.cert_index) > ROW(pr.announced_tx_id, pr.cert_index)
+            AND b.epoch_no < pr.retiring_epoch
+        )
     )
     AND ap.state = 'active'
 ),
@@ -388,6 +458,41 @@ SELECT ph.view AS "pool_id",
         FROM stake_deregistration sd
         WHERE sd.addr_id = d.addr_id
           AND ROW(sd.tx_id, sd.cert_index) > ROW(d.tx_id, d.cert_index)
+      )
+      -- a pool retirement that took effect after the delegation cleared it
+      AND NOT EXISTS (
+        SELECT 1
+        FROM pool_retire pr
+        WHERE pr.hash_id = d.pool_hash_id
+          AND pr.retiring_epoch <= (
+            SELECT epoch_no
+            FROM current_epoch
+          )
+          AND pr.retiring_epoch > (
+            SELECT b.epoch_no
+            FROM tx
+              JOIN block b ON (b.id = tx.block_id)
+            WHERE tx.id = d.tx_id
+          )
+          -- a later certificate of the pool before the retiring epoch cancels the retirement
+          AND NOT EXISTS (
+            SELECT 1
+            FROM (
+                SELECT pu.registered_tx_id AS "tx_id",
+                  pu.cert_index
+                FROM pool_update pu
+                WHERE pu.hash_id = pr.hash_id
+                UNION ALL
+                SELECT pr_next.announced_tx_id,
+                  pr_next.cert_index
+                FROM pool_retire pr_next
+                WHERE pr_next.hash_id = pr.hash_id
+              ) cert
+              JOIN tx ON (tx.id = cert.tx_id)
+              JOIN block b ON (b.id = tx.block_id)
+            WHERE ROW(cert.tx_id, cert.cert_index) > ROW(pr.announced_tx_id, pr.cert_index)
+              AND b.epoch_no < pr.retiring_epoch
+          )
       )
   ) AS "live_delegators",
   pu.pledge::TEXT AS "declared_pledge",

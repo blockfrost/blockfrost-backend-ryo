@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Handle stake deregistration and re-registration in one transaction when listing pool delegators and calculating live stake and live pledge (#367).
+- `/pools/{pool_id}/delegators`, `/pools/{pool_id}`, `/pools/extended`, `/network` and `/accounts/{stake_address}` no longer count a delegation that a later retirement of its pool removed, as the ledger does
 
 ## [7.0.0] - 2026-11-09
 
