@@ -148,8 +148,8 @@ live_stake_accounts AS (
       FROM delegation
       WHERE addr_id = d.addr_id
     )
-    -- A delegation implies registration; reject any later deregistration.
-    -- Compare cert_index for certificates in the same transaction.
+    -- A deregistration after the delegation removes it; skip such a delegation.
+    -- Compare cert_index when both certificates are in the same transaction.
     AND NOT EXISTS (
       SELECT 1
       FROM stake_deregistration sd
