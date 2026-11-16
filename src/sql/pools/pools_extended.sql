@@ -142,34 +142,19 @@ live_stake_accounts AS (
   SELECT d.addr_id AS "stake_address_id",
     d.pool_hash_id AS "pool_hash_id"
   FROM delegation d
-    JOIN stake_registration sr ON (sr.addr_id = d.addr_id)
-    LEFT JOIN (
-      SELECT addr_id,
-        MAX(tx_id) AS tempmax
-      FROM stake_deregistration
-      GROUP BY addr_id
-    ) deregmax ON (deregmax.addr_id = d.addr_id)
     JOIN queried_pools qp ON (qp.pool_hash_id = d.pool_hash_id)
   WHERE d.id = (
       SELECT MAX(id)
       FROM delegation
       WHERE addr_id = d.addr_id
     )
-    AND sr.tx_id = (
-      SELECT MAX(tx_id)
-      FROM stake_registration
-      WHERE addr_id = d.addr_id
-    )
-    AND (
-      (
-        deregmax.tempmax IS NOT NULL
-        AND sr.tx_id > (
-          SELECT MAX(tx_id)
-          FROM stake_deregistration
-          WHERE addr_id = d.addr_id
-        )
-      )
-      OR (deregmax.tempmax IS NULL)
+    -- A delegation implies registration; reject any later deregistration.
+    -- Compare cert_index for certificates in the same transaction.
+    AND NOT EXISTS (
+      SELECT 1
+      FROM stake_deregistration sd
+      WHERE sd.addr_id = d.addr_id
+        AND ROW(sd.tx_id, sd.cert_index) > ROW(d.tx_id, d.cert_index)
     )
 ),
 live_stake_accounts_amounts AS (

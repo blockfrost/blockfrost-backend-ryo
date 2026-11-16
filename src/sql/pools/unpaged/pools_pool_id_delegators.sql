@@ -34,36 +34,24 @@ FROM (
     FROM delegation d
       JOIN pool_hash ph ON (ph.id = d.pool_hash_id)
       JOIN stake_address sa ON (sa.id = d.addr_id)
-      JOIN stake_registration sr ON (sr.addr_id = d.addr_id)
-      LEFT JOIN (
-        SELECT addr_id,
-          MAX(tx_id) AS tempmax
-        FROM stake_deregistration
-        GROUP BY addr_id
-      ) deregmax ON (deregmax.addr_id = d.addr_id)
     WHERE ph.view = $2
       AND d.id = (
         SELECT MAX(id)
         FROM delegation
         WHERE addr_id = d.addr_id
       )
-      AND sr.tx_id = (
-        SELECT MAX(tx_id)
-        FROM stake_registration
-        WHERE addr_id = d.addr_id
-      )
-      AND (
-        (
-          deregmax.tempmax IS NOT NULL
-          AND sr.tx_id > deregmax.tempmax
-        )
-        OR (deregmax.tempmax IS NULL)
+      -- A delegation implies registration; reject any later deregistration.
+      -- Compare cert_index for certificates in the same transaction.
+      AND NOT EXISTS (
+        SELECT 1
+        FROM stake_deregistration sd
+        WHERE sd.addr_id = d.addr_id
+          AND ROW(sd.tx_id, sd.cert_index) > ROW(d.tx_id, d.cert_index)
       )
     GROUP BY sa.view,
       d.pool_hash_id,
       d.addr_id,
-      d.id,
-      sr.tx_id
+      d.id
     ORDER BY CASE
         WHEN LOWER($1) = 'desc' THEN d.id
       END DESC,
