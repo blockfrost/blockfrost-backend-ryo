@@ -364,7 +364,7 @@ const response_eras_preview = [
   },
 ];
 
-// Conway, both intra era hard forks, Dijkstra and an unknown future protocol major
+// Conway, both intra era hard forks and Dijkstra
 const query_last_epoch_preview_dijkstra = [{ epoch: 35, epoch_slot: 1 }];
 const query_param_proposal_preview_dijkstra = [
   ...query_param_proposal_preview,
@@ -372,7 +372,6 @@ const query_param_proposal_preview_dijkstra = [
   { epoch: 31, protocol_major: 10 },
   { epoch: 32, protocol_major: 11 },
   { epoch: 33, protocol_major: 12 },
-  { epoch: 34, protocol_major: 13 },
 ];
 
 const response_eras_preview_dijkstra = [
