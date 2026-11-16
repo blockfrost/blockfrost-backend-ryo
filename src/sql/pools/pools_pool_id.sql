@@ -63,6 +63,14 @@ total_supply AS (
             FROM delegation
             WHERE addr_id = sa.id
           )
+          -- A delegation implies registration; reject any later deregistration.
+          -- Compare cert_index for certificates in the same transaction.
+          AND NOT EXISTS (
+            SELECT 1
+            FROM stake_deregistration sd
+            WHERE sd.addr_id = d.addr_id
+              AND ROW(sd.tx_id, sd.cert_index) > ROW(d.tx_id, d.cert_index)
+          )
       )
     ) AS "addresses"
 ),
