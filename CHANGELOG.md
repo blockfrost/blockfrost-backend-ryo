@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Handle stake deregistration and re-registration in one transaction when listing pool delegators and calculating live stake and live pledge (#367).
+
 ## [7.0.0] - 2026-11-09
 
 ### Changed
