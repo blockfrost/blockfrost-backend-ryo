@@ -80,7 +80,8 @@ async function route(fastify: FastifyInstance) {
         let previous = first;
 
         for (const epochProto of protocols.rows) {
-          if (PROTOCOL_VERSIONS[epochProto.protocol_major].is_era_hardfork) {
+          // Unknown (future) protocol majors don't split the summary instead of failing the request
+          if (PROTOCOL_VERSIONS[epochProto.protocol_major]?.is_era_hardfork) {
             const effectiveEpoch = epochProto.epoch;
             const duration = effectiveEpoch - previous.end.epoch;
             const next = {
