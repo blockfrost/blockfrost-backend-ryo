@@ -63,7 +63,9 @@ total_supply AS (
             FROM delegation
             WHERE addr_id = sa.id
           )
-          -- A deregistration after the delegation removes it; skip such a delegation.
+          -- d is the account's latest delegation. A delegation needs a registered
+          -- account, so the account is still delegated unless it deregistered later.
+          -- A later registration does not bring the delegation back.
           -- Compare cert_index when both certificates are in the same transaction.
           AND NOT EXISTS (
             SELECT 1
@@ -139,7 +141,9 @@ live_stake_accounts AS (
       FROM delegation
       WHERE addr_id = d.addr_id
     )
-    -- A deregistration after the delegation removes it; skip such a delegation.
+    -- d is the account's latest delegation. A delegation needs a registered
+    -- account, so the account is still delegated unless it deregistered later.
+    -- A later registration does not bring the delegation back.
     -- Compare cert_index when both certificates are in the same transaction.
     AND NOT EXISTS (
       SELECT 1
@@ -375,7 +379,9 @@ SELECT ph.view AS "pool_id",
         FROM delegation
         WHERE addr_id = d.addr_id
       )
-      -- A deregistration after the delegation removes it; skip such a delegation.
+      -- d is the account's latest delegation. A delegation needs a registered
+      -- account, so the account is still delegated unless it deregistered later.
+      -- A later registration does not bring the delegation back.
       -- Compare cert_index when both certificates are in the same transaction.
       AND NOT EXISTS (
         SELECT 1

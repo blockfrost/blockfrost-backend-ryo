@@ -48,7 +48,9 @@ FROM (
         FROM delegation
         WHERE addr_id = d.addr_id
       )
-      -- A deregistration after the delegation removes it; skip such a delegation.
+      -- d is the account's latest delegation. A delegation needs a registered
+      -- account, so the account is still delegated unless it deregistered later.
+      -- A later registration does not bring the delegation back.
       -- Compare cert_index when both certificates are in the same transaction.
       AND NOT EXISTS (
         SELECT 1
