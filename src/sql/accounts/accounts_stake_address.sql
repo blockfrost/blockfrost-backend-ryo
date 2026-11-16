@@ -47,20 +47,15 @@ queried_pool AS (
         LIMIT 1
       ), ROW(-1::bigint, -1::integer))
     )
-    -- a pool retirement that took effect after the delegation cleared it
-    AND NOT EXISTS (
-      SELECT 1
+    -- skip a delegation made before its pool's last retirement took effect:
+    -- the ledger removed it then (active_epoch_no is the delegation epoch + 2)
+    AND d.active_epoch_no >= COALESCE((
+      SELECT MAX(pr.retiring_epoch)
       FROM pool_retire pr
       WHERE pr.hash_id = d.pool_hash_id
         AND pr.retiring_epoch <= (
           SELECT epoch_no
           FROM current_epoch
-        )
-        AND pr.retiring_epoch > (
-          SELECT b.epoch_no
-          FROM tx
-            JOIN block b ON (b.id = tx.block_id)
-          WHERE tx.id = d.tx_id
         )
         -- a later certificate of the pool before the retiring epoch cancels the retirement
         AND NOT EXISTS (
@@ -81,7 +76,7 @@ queried_pool AS (
           WHERE ROW(cert.tx_id, cert.cert_index) > ROW(pr.announced_tx_id, pr.cert_index)
             AND b.epoch_no < pr.retiring_epoch
         )
-    )
+    ), 0) + 2
 ),
 queried_drep AS (
   SELECT 

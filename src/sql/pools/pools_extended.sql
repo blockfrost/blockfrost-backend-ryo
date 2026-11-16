@@ -4,6 +4,35 @@ WITH current_epoch AS (
   FROM block b
   ORDER BY b.id DESC
   LIMIT 1
+), retired_at AS (
+  -- the epoch at which each pool's last retirement took effect
+  SELECT pr.hash_id,
+    MAX(pr.retiring_epoch) AS "epoch_no"
+  FROM pool_retire pr
+  WHERE pr.retiring_epoch <= (
+      SELECT epoch_no
+      FROM current_epoch
+    )
+    -- a later certificate of the pool before the retiring epoch cancels the retirement
+    AND NOT EXISTS (
+      SELECT 1
+      FROM (
+          SELECT pu.registered_tx_id AS "tx_id",
+            pu.cert_index
+          FROM pool_update pu
+          WHERE pu.hash_id = pr.hash_id
+          UNION ALL
+          SELECT pr_next.announced_tx_id,
+            pr_next.cert_index
+          FROM pool_retire pr_next
+          WHERE pr_next.hash_id = pr.hash_id
+        ) cert
+        JOIN tx ON (tx.id = cert.tx_id)
+        JOIN block b ON (b.id = tx.block_id)
+      WHERE ROW(cert.tx_id, cert.cert_index) > ROW(pr.announced_tx_id, pr.cert_index)
+        AND b.epoch_no < pr.retiring_epoch
+    )
+  GROUP BY pr.hash_id
 ), 
 -- although it's called circulation in the ledger code, we actually need total_supply instead for the calculations
 total_supply AS (
@@ -142,6 +171,7 @@ live_stake_accounts AS (
   SELECT d.addr_id AS "stake_address_id",
     d.pool_hash_id AS "pool_hash_id"
   FROM delegation d
+    LEFT JOIN retired_at ra ON (ra.hash_id = d.pool_hash_id)
     JOIN queried_pools qp ON (qp.pool_hash_id = d.pool_hash_id)
   WHERE d.id = (
       SELECT MAX(id)
@@ -158,40 +188,11 @@ live_stake_accounts AS (
       WHERE sd.addr_id = d.addr_id
         AND ROW(sd.tx_id, sd.cert_index) > ROW(d.tx_id, d.cert_index)
     )
-    -- a pool retirement that took effect after the delegation cleared it
-    AND NOT EXISTS (
-      SELECT 1
-      FROM pool_retire pr
-      WHERE pr.hash_id = d.pool_hash_id
-        AND pr.retiring_epoch <= (
-          SELECT epoch_no
-          FROM current_epoch
-        )
-        AND pr.retiring_epoch > (
-          SELECT b.epoch_no
-          FROM tx
-            JOIN block b ON (b.id = tx.block_id)
-          WHERE tx.id = d.tx_id
-        )
-        -- a later certificate of the pool before the retiring epoch cancels the retirement
-        AND NOT EXISTS (
-          SELECT 1
-          FROM (
-              SELECT pu.registered_tx_id AS "tx_id",
-                pu.cert_index
-              FROM pool_update pu
-              WHERE pu.hash_id = pr.hash_id
-              UNION ALL
-              SELECT pr_next.announced_tx_id,
-                pr_next.cert_index
-              FROM pool_retire pr_next
-              WHERE pr_next.hash_id = pr.hash_id
-            ) cert
-            JOIN tx ON (tx.id = cert.tx_id)
-            JOIN block b ON (b.id = tx.block_id)
-          WHERE ROW(cert.tx_id, cert.cert_index) > ROW(pr.announced_tx_id, pr.cert_index)
-            AND b.epoch_no < pr.retiring_epoch
-        )
+    -- skip a delegation made before its pool's last retirement took effect:
+    -- the ledger removed it then (active_epoch_no is the delegation epoch + 2)
+    AND (
+      ra.epoch_no IS NULL
+      OR d.active_epoch_no >= ra.epoch_no + 2
     )
 ),
 live_stake_accounts_amounts AS (
