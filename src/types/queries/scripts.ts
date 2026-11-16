@@ -45,7 +45,7 @@ export interface Scripts {
   script_hash: string;
 }
 
-type ScriptType = 'timelock' | 'plutusV1' | 'plutusV2';
+type ScriptType = 'timelock' | 'plutusV1' | 'plutusV2' | 'plutusV3';
 
 export interface ScriptHash {
   script_hash: string;
@@ -53,7 +53,7 @@ export interface ScriptHash {
   serialised_size: number;
 }
 
-type PurposeType = 'spend' | 'mint' | 'cert' | 'reward';
+type PurposeType = 'spend' | 'mint' | 'cert' | 'reward' | 'vote' | 'propose';
 
 export interface ScriptHashRedeemers {
   tx_hash: string;

@@ -364,6 +364,71 @@ const response_eras_preview = [
   },
 ];
 
+// Conway, both intra era hard forks and Dijkstra
+const query_last_epoch_preview_dijkstra = [{ epoch: 35, epoch_slot: 1 }];
+const query_param_proposal_preview_dijkstra = [
+  ...query_param_proposal_preview,
+  { epoch: 30, protocol_major: 9 },
+  { epoch: 31, protocol_major: 10 },
+  { epoch: 32, protocol_major: 11 },
+  { epoch: 33, protocol_major: 12 },
+];
+
+const response_eras_preview_dijkstra = [
+  ...response_eras_preview.slice(0, 5),
+  {
+    start: {
+      time: 259200,
+      slot: 259200,
+      epoch: 3,
+    },
+    end: {
+      time: 2592000,
+      slot: 2592000,
+      epoch: 30,
+    },
+    parameters: {
+      epoch_length: 86400,
+      slot_length: 1,
+      safe_zone: 25920,
+    },
+  },
+  {
+    start: {
+      time: 2592000,
+      slot: 2592000,
+      epoch: 30,
+    },
+    end: {
+      time: 2851200,
+      slot: 2851200,
+      epoch: 33,
+    },
+    parameters: {
+      epoch_length: 86400,
+      slot_length: 1,
+      safe_zone: 25920,
+    },
+  },
+  {
+    start: {
+      time: 2851200,
+      slot: 2851200,
+      epoch: 33,
+    },
+    end: {
+      time: 3110400,
+      slot: 3110400,
+      epoch: 36,
+    },
+    parameters: {
+      epoch_length: 86400,
+      slot_length: 1,
+      safe_zone: 25920,
+    },
+  },
+];
+
 // within safe zone
 const query_last_epoch_preview_safe = [{ epoch: 70, epoch_slot: 65536 }];
 
@@ -545,6 +610,19 @@ export default [
     },
     network: 'preview',
     response: response_eras_preview_safe,
+  },
+
+  {
+    name: 'PREVIEW: respond with success and data on /network/eras after the Dijkstra hard fork',
+    endpoint: '/network/eras',
+    sqlQueryMock: {
+      rows: query_last_epoch_preview_dijkstra,
+    },
+    sqlQueryMock2: {
+      rows: query_param_proposal_preview_dijkstra,
+    },
+    network: 'preview',
+    response: response_eras_preview_dijkstra,
   },
 
   /*

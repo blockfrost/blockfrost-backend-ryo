@@ -2092,4 +2092,20 @@ export const costModelsMapFixture = [
     },
   },
 },
+ { 
+  name: 'epoch with PlutusV4 costModels from db-sync (not mapped, served only in cost_models_raw)',
+  costModels: {
+    PlutusV1: {
+      'addInteger-cpu-arguments-intercept': 100788,
+      'addInteger-cpu-arguments-slope': 420,
+    },
+    PlutusV4: [100788, 420, 1],
+  },
+  result: {
+    PlutusV1: {
+      'addInteger-cpu-arguments-intercept': 100788,
+      'addInteger-cpu-arguments-slope': 420,
+    },
+  },
+},
 ];
